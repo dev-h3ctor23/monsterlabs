@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Aseguramos que el valor de nombre_tipo esté en minúsculas para la comparación
     $nombre_tipo = strtolower(trim($row["nombre_tipo"]));
     if ($nombre_tipo === "padre") {
-        $redirectUrl = "/monsterlabs/mvc/views/tutor..html";
+        $redirectUrl = "/monsterlabs/mvc/views/tutor.html";
     } elseif ($nombre_tipo === "admin") {
         $redirectUrl = "/monsterlabs/mvc/views/administrator.html";
     } elseif ($nombre_tipo === "monitor") {
