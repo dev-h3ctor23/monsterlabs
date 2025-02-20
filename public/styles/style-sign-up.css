@@ -1,0 +1,258 @@
+/* Google Fonts - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+:root {
+    --color-primary-bg: #56B848;
+    --color-form-bg: #FFF;
+    --color-text: #232836;
+    --color-border: #CACACA;
+    --color-muted: #8b8b8b;
+    --color-button-bg: #0171d3;
+    --color-button-hover-bg: #016dcb;
+    --color-line-bg: #d4d4d4;
+    --color-facebook-bg: #4267b2;
+    --color-google-bg: #db4437;
+    --color-facebook-icon: #0171d3;
+    --color-icon-bg: #FFF; /* fondo para iconos en Facebook y Google */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+.container-sign-up {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary-bg);
+  column-gap: 30px;
+}
+
+.form {
+  position: absolute;
+  max-width: 430px;
+  width: 100%;
+  padding: 30px;
+  border-radius: 6px;
+  background: var(--color-form-bg);
+}
+
+header {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--color-text);
+  text-align: center;
+}
+
+form {
+  margin-top: 30px;
+}
+
+.form .field {
+  position: relative;
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 6px;
+}
+
+.field input,
+.field button {
+  width: 100%;
+  border: none;
+  font-size: 16px;
+  font-weight: 400;
+  border-radius: 6px;
+}
+
+.field input {
+  outline: none;
+  padding: 10px 15px;
+  border: 1px solid var(--color-border);
+}
+
+.field input:focus {
+  border-color: red; /* Cambiar el color del borde a rojo */
+  border-bottom-width: 2px;
+}
+
+.field input.input-error {
+  border-color: red; /* Mantener el borde rojo cuando hay un error */
+}
+
+.eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: var(--color-muted);
+  cursor: pointer;
+  padding: 5px;
+}
+
+.field button {
+  color: var(--color-icon-bg);
+  background-color: var(--color-button-bg);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 12px 0; /* Añadir padding arriba y abajo */
+}
+
+.field button:hover {
+  background-color: var(--color-button-hover-bg);
+}
+
+.form-link {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.form-link span,
+.form-link a {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text);
+}
+
+.form a {
+  color: var(--color-button-bg);
+  text-decoration: none;
+}
+
+.form-content a:hover {
+  text-decoration: underline;
+}
+
+.line {
+  position: relative;
+  height: 1px;
+  width: 100%;
+  margin: 36px 0;
+  background-color: var(--color-line-bg);
+}
+
+.line::before {
+  content: 'O utilizar';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--color-form-bg);
+  color: var(--color-muted);
+  padding: 0 15px;
+}
+
+.media-options a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0; /* Añadir padding arriba y abajo */
+}
+
+a.facebook {
+  color: var(--color-icon-bg);
+  background-color: var(--color-facebook-bg);
+}
+
+a.facebook .facebook-icon {
+  height: 28px;
+  width: 28px;
+  color: var(--color-facebook-icon);
+  font-size: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-icon-bg);
+}
+
+.facebook-icon,
+img.google-img {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+}
+
+a.google {
+  color: var(--color-icon-bg);
+  background-color: var(--color-google-bg);
+}
+
+a.google .google-icon {
+  height: 28px;
+  width: 28px;
+  color: var(--color-google-bg);
+  font-size: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-icon-bg);
+}
+
+/* Se mantiene la primera definición y se elimina la duplicada */
+
+/* Definición de ícono de Google */
+.google-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+}
+
+/* Estilos para los mensajes de error */
+.error-message {
+  color: red;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  margin-top: 4px;
+  display: none;
+}
+
+/* Campo de entrada y mensajes de error internos */
+.input-field {
+  position: relative;
+  margin-bottom: 20px;
+  min-height: 36px; /* Ajustar la altura mínima para acomodar el campo de entrada y los mensajes de error */
+}
+
+.input-field .input, 
+.input-field .password {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.input-field .error-message {
+  margin-top: 5px;
+  position: static;
+}
+
+.input-field .eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: var(--color-muted);
+  cursor: pointer;
+  padding: 5px;
+}
+
+@media screen and (max-width: 400px) {
+  .form {
+    padding: 20px 10px;
+  }
+}
+
+.button-enviando {
+    background-color: #7fadd4; /* Color más opaco */
+    cursor: not-allowed; /* Cambiar el cursor para indicar que está deshabilitado */
+    color: white; /* Asegurarse de que el texto sea visible */
+}

@@ -1,0 +1,375 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #E1E6EA;
+}
+
+/* Estilos para el navbar */
+.navbar {
+    position: fixed;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    background: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Grupos del navbar */
+.left-group,
+.right-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.left-group {
+    display: flex;
+    align-items: center;
+    margin-left: 24px; /* El logo estará a 24px del borde del navbar */
+}
+
+/* Nuevo grupo central que se centrará en el navbar */
+.center-group {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0; /* Sin espacio extra entre los dos elementos, para que queden pegados */
+}
+
+/* Contenedor verde para los enlaces */
+.navbar .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 44px; /* separación de 44px entre enlaces */
+    margin: 0;
+    border-radius: 4px;
+    padding: 10px 80px; /* 40px de padding en izquierda y derecha */
+    background-color: #28a745; /* Contenedor verde */
+}
+
+.navbar .nav-links li {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .nav-links li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 500;
+    padding: 10px 20px; /* Ajustar el padding para aumentar el tamaño del cuadro verde */
+    display: block; /* Asegurar que el área de hover cubra todo el espacio del enlace */
+}
+
+/* Estilos para los botones de autenticación */
+.navbar .auth-buttons a {
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.navbar .auth-buttons a.log-in {
+    background: #9A4E9E;
+    color: #fff;
+    margin-right: 15px;
+}
+
+.navbar .auth-buttons a.sign-up {
+    background: #F89728;
+    color: #fff;
+    border: none;
+}
+
+/* Desplegable de idioma (fuera del cuadrado verde, pegado al contenedor verde) */
+.language-dropdown {
+    position: relative;
+    cursor: pointer;
+    margin-left: 80px; /* Ajusta este valor si es necesario */
+}
+
+/* Alinea la palabra "Idioma" e iconos en línea y ajusta el icono */
+.language-dropdown span {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    color: #232836;
+}
+
+/* Ajuste de tamaño y transición para los iconos */
+.language-dropdown .dropdown-icon,
+.explore-dropdown .dropdown-icon {
+    font-size: 20px;              /* Tamaño de 20px */
+    margin-left: -4px;             /* 4px a la derecha de la palabra */
+    vertical-align: middle;
+    transition: transform 0.3s ease; /* Efecto de giro dinámico */
+}
+
+/* Actualizamos el dropdown para usar opacity y visibility con transición */
+.language-dropdown .dropdown-content,
+.explore-dropdown .dropdown-content {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    position: absolute;
+    top: calc(100% + 4px); /* Posiciona el dropdown 4px más abajo */
+    left: 50%;             /* Posiciona el dropdown a la mitad del contenedor */
+    transform: translateX(-50%); /* Centra horizontalmente respecto a la palabra */
+    background: #28a745; /* Fondo verde */
+    min-width: 120px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    margin-top: 2px;
+    padding: 8px 0;
+    z-index: 1000;
+}
+
+/* El dropdown se mostrará en hover y cuando el contenedor tenga foco */
+.language-dropdown:hover .dropdown-content,
+.language-dropdown:focus-within .dropdown-content,
+.explore-dropdown:hover .dropdown-content,
+.explore-dropdown:focus-within .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s; /* Sin retraso al mostrar */
+}
+
+.language-dropdown .dropdown-content li,
+.explore-dropdown .dropdown-content li {
+    list-style: none;
+    padding: 8px 16px;
+}
+
+.language-dropdown .dropdown-content li a,
+.explore-dropdown .dropdown-content li a {
+    text-decoration: none;
+    color: #ffffff; /* Color del texto blanco */
+    font-weight: 500;
+    display: block;
+}
+
+/* Añadir efecto hover para oscurecer el fondo */
+.language-dropdown .dropdown-content li:hover,
+.explore-dropdown .dropdown-content li:hover {
+    background-color: #1e7e34; /* Fondo verde oscuro */
+}
+
+/* Ajuste de tamaño y transición de los iconos para el dropdown */
+.language-dropdown .dropdown-icon,
+.explore-dropdown .dropdown-icon {
+    font-size: 24px;              /* Iconos de 24px */
+    transition: transform 0.3s ease; /* Animación de giro dinámica */
+}
+
+/* Usaremos solo el icono hacia abajo para el giro, ocultando el de arriba */
+.language-dropdown .dropdown-icon.up,
+.explore-dropdown .dropdown-icon.up {
+    display: none;
+}
+
+/* El icono hacia abajo se muestra inicialmente sin rotación */
+.language-dropdown .bx-chevron-down,
+.explore-dropdown .bx-chevron-down {
+    display: inline;
+    transform: rotate(0deg);
+}
+
+/* Al abrir el dropdown (por hover o foco), el icono rota 180 grados */
+.language-dropdown:hover .bx-chevron-down,
+.language-dropdown:focus-within .bx-chevron-down,
+.explore-dropdown:hover .bx-chevron-down,
+.explore-dropdown:focus-within .bx-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* Por defecto, se muestra el icono hacia abajo y se oculta el de arriba */
+.language-dropdown .dropdown-icon.up,
+.explore-dropdown .dropdown-icon.up {
+    display: none;
+}
+.language-dropdown .bx-chevron-down,
+.explore-dropdown .bx-chevron-down {
+    display: inline;
+    transform: rotate(0deg);
+}
+
+/* Al abrir el dropdown (por hover o foco), se oculta el icono hacia abajo con efecto de giro y se muestra el de arriba */
+.language-dropdown:hover .dropdown-icon.up,
+.language-dropdown:focus-within .dropdown-icon.up,
+.explore-dropdown:hover .dropdown-icon.up,
+.explore-dropdown:focus-within .dropdown-icon.up {
+    display: inline;
+    transform: rotate(0deg);
+}
+.language-dropdown:hover .bx-chevron-down,
+.language-dropdown:focus-within .bx-chevron-down,
+.explore-dropdown:hover .bx-chevron-down,
+.explore-dropdown:focus-within .bx-chevron-down {
+    display: none;
+    transform: rotate(180deg);
+}
+
+/* Por defecto, se muestra el icono hacia abajo y se oculta el de arriba */
+.language-dropdown .dropdown-icon.up,
+.explore-dropdown .dropdown-icon.up {
+    display: none;
+}
+.language-dropdown .bx-chevron-down,
+.explore-dropdown .bx-chevron-down {
+    display: inline;
+}
+/* Al pasar el mouse o cuando el contenedor tiene foco (dropdown abierto),
+   se oculta el icono hacia abajo y se muestra el icono hacia arriba */
+.language-dropdown:hover .dropdown-icon.up,
+.language-dropdown:focus-within .dropdown-icon.up,
+.explore-dropdown:hover .dropdown-icon.up,
+.explore-dropdown:focus-within .dropdown-icon.up {
+    display: inline;
+}
+.language-dropdown:hover .bx-chevron-down,
+.language-dropdown:focus-within .bx-chevron-down,
+.explore-dropdown:hover .bx-chevron-down,
+.explore-dropdown:focus-within .bx-chevron-down {
+    display: none;
+}
+
+.navbar .logo img {
+    height: 24px;
+}
+
+.left-group,
+.center-group,
+.right-group {
+    display: flex;
+    align-items: center; /* Asegura el centrado vertical de elementos internos */
+}
+
+/* Estilos para el dropdown de Explora */
+.explore-dropdown {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.explore-dropdown a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 500;
+  padding: 10px 0;
+}
+
+.explore-dropdown .dropdown-content {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  position: absolute;
+  background-color: #28a745; /* Contenedor verde */
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  top: calc(100% + 4px); /* Posicionar el dropdown 4px más abajo */
+  left: 50%; /* Centrar el dropdown horizontalmente */
+  transform: translateX(-50%); /* Centrar el dropdown horizontalmente */
+  padding: 0; /* Eliminar padding */
+  margin: 0; /* Eliminar margen */
+  text-align: center; /* Alinear el texto al centro */
+}
+
+.explore-dropdown:hover .dropdown-content,
+.explore-dropdown:focus-within .dropdown-content {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s; /* Sin retraso al mostrar */
+}
+
+.explore-dropdown .dropdown-content {
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  transition-delay: 0.5s; /* Retraso en la desaparición */
+}
+
+.explore-dropdown .dropdown-content li {
+    list-style: none;
+    padding: 8px 16px;
+    text-align: center; /* Alinear el texto al centro */
+}
+
+.explore-dropdown .dropdown-content a {
+  color: #ffffff; /* Color del texto blanco */
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: center; /* Alinear el texto al centro */
+}
+
+/* Eliminar los puntos de las listas */
+.navbar .nav-links,
+.language-dropdown .dropdown-content,
+.explore-dropdown .dropdown-content {
+    list-style: none;
+    padding: 0; /* Eliminar padding */
+    margin: 0; /* Eliminar margen */
+}
+
+/* Asegurarse de que el texto sea visible y blanco */
+.navbar .nav-links li a,
+.language-dropdown .dropdown-content li a,
+.explore-dropdown .dropdown-content a {
+    color: #ffffff; /* Cambia el color del texto a blanco */
+    text-decoration: none;
+    display: block;
+    text-align: center; /* Alinear el texto al centro */
+}
+
+/* Mostrar solo una flecha a la vez en el dropdown de idioma */
+.language-dropdown .dropdown-icon.up,
+.explore-dropdown .dropdown-icon.up {
+    display: none;
+}
+
+.language-dropdown:hover .dropdown-icon.up,
+.language-dropdown:focus-within .dropdown-icon.up,
+.explore-dropdown:hover .dropdown-icon.up,
+.explore-dropdown:focus-within .dropdown-icon.up {
+    display: inline;
+}
+
+.language-dropdown:hover .bx-chevron-down,
+.language-dropdown:focus-within .bx-chevron-down,
+.explore-dropdown:hover .bx-chevron-down,
+.explore-dropdown:focus-within .bx-chevron-down {
+    display: none;
+}
+
+/* Mostrar solo una flecha a la vez en el dropdown de Explora */
+.explore-dropdown .dropdown-icon.up {
+    display: none;
+}
+
+.explore-dropdown:hover .dropdown-icon.up,
+.explore-dropdown:focus-within .dropdown-icon.up {
+    display: inline;
+}
+
+.explore-dropdown:hover .bx-chevron-down,
+.explore-dropdown:focus-within .bx-chevron-down {
+    display: none;
+}
+
+/* Añadir retraso en la desaparición del dropdown */
+.language-dropdown .dropdown-content {
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transition-delay: 0.5s; /* Retraso en la desaparición */
+}

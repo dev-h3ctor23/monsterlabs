@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Enlace al fichero CSS -->
+    <link rel="stylesheet" href="/monsterlabs/public/styles/style-navbar.css">
+    <!-- Enlace a la librería de iconos de Boxicons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+    <!-- Título de la página -->
+    <title>Navbar</title>
+</head>
+<body>
+    <!-- Contenedor semántico del Navbar -->
+    <nav class="navbar">
+        <!-- Grupo de elementos a la izquierda del Navbar -->
+        <div class="left-group">
+          <div class="logo">
+            <a href="#">
+              <img src="/monsterlabs/assets/images/logo-monsterlabs.png" alt="Logo">
+            </a>
+          </div>
+        </div>
+        <!-- Grupo de elementos al centro del Navbar -->
+        <div class="center-group">
+          <ul class="nav-links">
+            <li><a href="#">Inicio</a></li>
+            <li class="explore-dropdown" tabindex="0">
+              <a href="#">Explora 
+                <i class='bx bx-chevron-down dropdown-icon down'></i>
+                <i class='bx bx-chevron-up dropdown-icon up'></i>
+              </a>
+              <ul class="dropdown-content">
+                <li><a href="#">Instalaciones</a></li>
+                <li><a href="#">Actividades</a></li>
+                <li><a href="#">Horarios</a></li>
+                <li><a href="#">Precios</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Acerca de nosotros</a></li>
+            <li><a href="#">Contacto</a></li>
+            <li><a href="#">Empresas</a></li>
+          </ul>
+          <div class="language-dropdown" tabindex="0">
+            <span>
+              Idioma 
+              <i class='bx bx-chevron-down dropdown-icon down'></i>
+              <i class='bx bx-chevron-up dropdown-icon up'></i>
+            </span>
+            <ul class="dropdown-content">
+              <li><a href="#">Español</a></li>
+              <li><a href="#">Inglés</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- Grupo de elementos a la derecha del Navbar -->
+        <div class="right-group">
+          <div class="auth-buttons">
+            <a href="/monsterlabs/mvc/views/log-in.html" class="log-in">Iniciar Sesión</a>
+            <a href="/monsterlabs/mvc/views/sign-up.html" class="sign-up">Registrate</a>
+          </div>
+        </div>
+    </nav>
+</body>
+</html>
