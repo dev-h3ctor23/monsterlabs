@@ -35,6 +35,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
         passwordError.style.display = 'none';
         passwordField.classList.remove('input-error');
     }
+    console.log("Usuario enviado:", usernameValue);
     
     if (valid) {
         // Suponiendo que usamos fetch para enviar datos al endpoint de login (por ejemplo, login.php)

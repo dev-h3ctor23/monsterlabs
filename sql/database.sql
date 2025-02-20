@@ -128,3 +128,11 @@ CREATE TABLE IF NOT EXISTS FichaMedica (
     id_nino INT NOT NULL,
     FOREIGN KEY (id_nino) REFERENCES Nino(id_nino)
 );
+
+CREATE TABLE IF NOT EXISTS Grupos (
+    id_grupo INT AUTO_INCREMENT PRIMARY KEY,
+    id_monitor INT NOT NULL,
+    id_nino INT NOT NULL,
+    FOREIGN KEY (id_monitor) REFERENCES Monitor(id_monitor),
+    FOREIGN KEY (id_nino) REFERENCES Nino(id_nino)
+);
