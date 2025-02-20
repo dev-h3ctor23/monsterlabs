@@ -1,11 +1,11 @@
 // Componente sidebar
-fetch('/alpacode/monsterlabs/components/sidebar-tutor.html')
+fetch('/monsterlabs/components/sidebar-tutor.html')
         .then(response => response.text())
         .then(data => {
         document.getElementById('sidebar-component').innerHTML = data;
         // Aqui se carga el script del sidebar de forma manual.
         const script = document.createElement('script');
-        script.src = '/alpacode/monsterlabs/public/scripts/script-sidebar.js';
+        script.src = '/monsterlabs/public/scripts/script-sidebar.js';
         document.body.appendChild(script);
 
         //DOM para actualizar al dar clic en las opciones del sidebar
