@@ -1,6 +1,14 @@
 <?php
+session_start(); // Iniciar sesión
 header("Content-Type: application/json");
 require_once '../../config/conn.php';
+
+if (!$conn) {
+    http_response_code(500);
+    echo json_encode(["error" => "Error de conexión a la base de datos."]);
+    exit;
+}
+
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $data = json_decode(file_get_contents("php://input"), true);
@@ -11,11 +19,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
     
+    
     $nombre_usuario = trim($data['nombre_usuario']);
     $contrasena = trim($data['contrasena']);
-    
+    error_log("Usuario recibido: " . $nombre_usuario);
+
     // Preparar la consulta para buscar el usuario, obteniendo la contraseña y el nombre_tipo
-    $stmt = $conn->prepare("SELECT contrasena, nombre_tipo FROM Usuario WHERE nombre_usuario = ?");
+    $stmt = $conn->prepare("SELECT id_usuario, contrasena, nombre_tipo FROM Usuario WHERE nombre_usuario = ?");
     if (!$stmt) {
         http_response_code(500);
         echo json_encode(["error" => "Error al preparar la consulta."]);
@@ -51,10 +61,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
     
+    // Guardar datos en la sesión
+        $_SESSION['id_usuario'] = $row['id_usuario'];
+        $_SESSION['nombre_usuario'] = $nombre_usuario;
+        $_SESSION['tipo_usuario'] = strtolower(trim($row["nombre_tipo"]));
+
     // Aseguramos que el valor de nombre_tipo esté en minúsculas para la comparación
     $nombre_tipo = strtolower(trim($row["nombre_tipo"]));
     if ($nombre_tipo === "padre") {
-        $redirectUrl = "/monsterlabs/mvc/views/tutor.html";
+        $redirectUrl = "/monsterlabs/mvc/views/tutor..html";
     } elseif ($nombre_tipo === "admin") {
         $redirectUrl = "/monsterlabs/mvc/views/administrator.html";
     } elseif ($nombre_tipo === "monitor") {
@@ -66,7 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     http_response_code(200);
     echo json_encode([
         "message"  => "Inicio de sesión exitoso.",
-        "redirect" => $redirectUrl
+        "redirect" => $redirectUrl,
+        "id_usuario" => $row['id_usuario'],
+        "tipo_usuario" => strtolower(trim($row["nombre_tipo"]))
     ]);
     
     $stmt->close();
