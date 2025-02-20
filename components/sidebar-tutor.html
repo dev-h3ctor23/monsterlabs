@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- ! ===== Enlace a la hoja de estilos del CSS. =====-->
+    <link rel="stylesheet" href="/alpacode/monsterlabs/public/styles/style-sidebar.css"/>
+    <!-- ! ===== Enlace a los iconos de Boxicons. =====-->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+    <!-- ! ===== Nombre de la página del componente. =====-->
+    <title>Sidebar-Tutor</title>
+  </head>
+  <body>
+    <!-- ? ===== Barra lateral de la pagina. =====-->
+    <nav class="sidebar close">
+      <!-- ? ===== Encabezado de la pagina que contiene el logo y el nombre del rol del panel. =====-->
+      <header>
+        <div class="image-text">
+          <span class="image">
+            <img src="/alpacode/monsterlabs/assets/images/mini-logo-monsterlabs.png" alt="logo-monsterlabs"/>
+          </span>
+          <div class="text logo-text">
+            <span class="name">Monsterlabs</span>
+            <span class="profession">Tutor</span>
+          </div>
+        </div>
+        <i class="bx bx-chevron-right toggle"></i>
+      </header>
+      <!-- ? ===== Barra de menú de la página. =====-->
+      <div class="menu-bar">
+        <div class="menu">
+          <!-- ? ===== Enlaces de navegacion. =====-->
+          <ul class="menu-links">
+            <li class="nav-link" data-section="section-inicio">
+              <a href="#">
+                <i class='bx bxs-home icon' ></i>
+                <span class="text nav-text">Ir a Inicio</span>
+              </a>
+            </li>
+            <li class="nav-link" data-section="section-perfil">
+              <a href="#">
+                <i class='bx bxs-user icon' ></i>
+                <span class="text nav-text">Perfil</span>
+              </a>
+            </li>
+            <li class="nav-link" data-section="section-actividades">
+              <a href="#">
+                <i class='bx bxs-universal-access icon' ></i>
+                <span class="text nav-text">Actividades</span>
+              </a>
+            </li>
+            <li class="nav-link" data-section="section-editar-datos">
+              <a href="#">
+                <i class='bx bxs-group icon' ></i>
+                <span class="text nav-text">Editar datos</span>
+              </a>
+            </li>
+            <li class="nav-link" data-section="section-inscripcion">
+              <a href="#">
+                <i class='bx bxs-archive icon'></i>
+                <span class="text nav-text">Inscripción</span>
+              </a>
+            </li>
+            <li class="nav-link" data-section="section-mensajes">
+              <a href="#">
+                <i class='bx bxs-message-dots icon'></i>
+                <span class="text nav-text">Mensajes</span>
+              </a>
+            </li>
+            <li class="nav-link" data-section="section-cronograma">
+                <a href="#">
+                  <i class='bx bxs-stopwatch icon'></i>
+                  <span class="text nav-text">Cronograma</span>
+                </a>
+              </li>
+          </ul>
+        </div>
+        <!-- ? ===== Barra de navegacion inferior. =====-->
+        <div class="bottom-content">
+          <ul>
+            <li>
+              <a href="#">
+                <i class="bx bx-log-out icon"></i>
+                <span class="text nav-text">Salir</span>
+              </a>
+            </li>
+            <!-- ! NO TOCAR HASTA NUEVO AVISO :D ===== Interruptor del modo oscuro/claro. =====-->
+            <!-- <li class="mode">
+              <div class="sun-moon">
+                <i class="bx bx-moon icon moon"></i>
+                <i class="bx bx-sun icon sun"></i>
+              </div>
+              <span class="mode-text text">Dark mode</span>
+              <div class="toggle-switch">
+                <span class="switch"></span>
+              </div>
+            </li> -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- ! ===== Enlace a los scripts de JavaScript =====-->
+    <script src="/alpacode/monsterlabs/public/scripts/script-sidebar.js"></script>
+  </body>
+</html>
