@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modal con Formulario y Popup Estilo Apple</title>
+  <style>
+    /* Estilos Globales */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f2f2f7;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    
+    /* Popup de notificación */
+    .popup {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      z-index: 1000;
+    }
+    
+    .popup.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    /* Botón para abrir el modal */
+    .open-modal-btn {
+      padding: 12px 24px;
+      background-color: #007aff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .open-modal-btn:hover {
+      background-color: #005bb5;
+    }
+    
+    /* Fondo del Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    .modal.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    /* Contenido del Modal */
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      padding: 20px 30px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+      transform: translateY(-20px);
+      transition: transform 0.3s ease;
+    }
+    
+    .modal.show .modal-content {
+      transform: translateY(0);
+    }
+    
+    /* Encabezado del Modal */
+    .modal-header {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .modal-header h2 {
+      margin: 0;
+      font-size: 22px;
+      color: #333;
+    }
+    
+    /* Estilos del Formulario */
+    .modal-form label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #555;
+    }
+    
+    .modal-form input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+    
+    .modal-form input:focus {
+      border-color: #007aff;
+      outline: none;
+    }
+    
+    .modal-form .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background-color: #007aff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .modal-form .btn-submit:hover {
+      background-color: #005bb5;
+    }
+    
+    /* Botón de Cerrar Modal */
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #aaa;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    
+    .modal-close:hover {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <!-- Popup de Notificación -->
+  <div class="popup" id="popup">Cambios guardados con éxito</div>
+  
+  <!-- Botón para abrir el Modal -->
+  <button class="open-modal-btn" id="openModal">Abrir Formulario</button>
+  
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal">&times;</button>
+      <div class="modal-header">
+        <h2>Iniciar Sesión</h2>
+      </div>
+      <form class="modal-form">
+        <label for="email">Correo Electrónico</label>
+        <input type="email" id="email" placeholder="tu@ejemplo.com" required>
+        
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" placeholder="Contraseña" required>
+        
+        <button type="submit" class="btn-submit">Entrar</button>
+      </form>
+    </div>
+  </div>
+  
+  <script>
+    // Obtener elementos del DOM
+    const openModalBtn = document.getElementById("openModal");
+    const closeModalBtn = document.getElementById("closeModal");
+    const modal = document.getElementById("modal");
+    const popup = document.getElementById("popup");
+    
+    // Abrir el modal
+    openModalBtn.addEventListener("click", () => {
+      modal.classList.add("show");
+    });
+    
+    // Cerrar el modal con el botón de cerrar
+    closeModalBtn.addEventListener("click", () => {
+      modal.classList.remove("show");
+    });
+    
+    // Cerrar el modal al hacer clic fuera del contenido
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.remove("show");
+      }
+    });
+    
+    // Función para mostrar el popup
+    function showPopup(message) {
+      popup.textContent = message;
+      popup.classList.add("show");
+      setTimeout(() => {
+        popup.classList.remove("show");
+      }, 3000); // Se oculta después de 3 segundos
+    }
+    
+    // Manejar envío del formulario
+    document.querySelector(".modal-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      // Aquí puedes agregar la lógica de autenticación
+      modal.classList.remove("show");
+      showPopup("Cambios guardados con éxito");
+    });
+  </script>
+</body>
+</html>
