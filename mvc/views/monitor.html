@@ -25,111 +25,257 @@
             <h1>BIENVENIDO MONITOR</h1>
          </section>
 
+         <!------------------- SECCION PERFIL ---------------------->
         <section id="section-perfil" class="section">
+            <h2>Perfil</h2>
             <div class="perfil-container" id="perfilContainer">
+                
                 <!-- Foto de perfil con botón para subir imagen -->
-                <div class="perfil-foto">
-                    <img id="profileImage" src="/monsterlabs/assets/images/monitor-perfil.jpg" alt="Foto de Perfil">
-                </div>
+                 <div class="container-photo">
+                    <div class="perfil-foto">
+                        <img id="profileImage" src="/monsterlabs/assets/images/monitor-perfil.jpg" alt="Foto de Perfil">
+                    </div>
+                    <div class="editPhoto">
+                        <button class="btn" id="editPhoto">Cambiar Foto</button>
+                    </div>
+                 </div>
+                
         
                 <!-- Información personal -->
                 <div class="perfil-info" id="perfilInfo">
-                    <h2><span id="name-monitor">Ana Lopez</span> <span id="lastname"></span> </h2>
-                    <p><strong>Usuario</strong> <br><span id="user-monitor">analopez</span></p> <br><hr>
-                    <p><strong>DNI</strong> <br> <span id="dni-monitor">01234567A</span></p> <hr>
-                    <p><strong>Correo</strong> <br> <span id="email-monitor">analopez@example.com</span></p> <hr>
-                    <p><strong>Teléfono</strong> <br> <span id="phone-monitor">675 67 34 06</span></p>
+                    <div class="dates-monitor">
+                        <strong>Nombre:</strong> <span id="name-monitor">Ana Lopez</span> <span id="lastname"></span>
+                    </div>
+                    <div class="dates-monitor">
+                        <strong>Usuario:</strong> <span id="user-monitor">analopez</span>
+                    </div>
+                    <div class="dates-monitor">
+                        <strong>DNI:</strong> <span id="dni-monitor">01234567A</span>
+                    </div>
+                    <div class="dates-monitor">
+                        <strong>Correo:</strong> <span id="email-monitor">analopez@example.com</span>
+                    </div>
+                    <div class="dates-monitor">
+                        <strong>Teléfono:</strong><span id="phone-monitor">675 67 34 06</span>
+                    </div>
+                     <!-- Botones de acciones -->
+                    <div class="perfil-opcions">
+                        <button class="btn" id="editProfileBtn"><i class="bx bx-edit"></i> Editar Perfil</button>
+                        <button class="btn" id="changePasswordBtn"><i class="bx bx-lock"></i> Cambiar Contraseña</button>
+                    </div>
                 </div>
         
-                <!-- Botones de acciones -->
-                <div class="perfil-opcions">
-                    <button class="btn" id="editProfileBtn"><i class="bx bx-edit"></i> Editar Perfil</button>
-                    <button class="btn" id="changePasswordBtn"><i class="bx bx-lock"></i> Cambiar Contraseña</button>
-                </div>
+               
             </div>
 
-            <!-- Formulario de edición (oculto inicialmente) -->
-            <div id="editProfileSection" class="edit-profile-section" style="display: none;">
-                <h3>Editar Perfil</h3>
-                <form id="editProfileForm">
-                    <label for="email">Correo electrónico:</label>
-                    <input type="email" id="editEmail" name="email" value="" required><br><br>
+            <!-- Formulario de edición para correo y telefono (oculto inicialmente) -->
+            <form id="editProfileForm">
+                <div id="editProfileSection" class="edit-profile-section" style="display: none;">
+                    <div class="subtitulo">
+                        <h3>Editar Perfil</h3>
+                    </div>
+                    
+                        <div class="container-email">
+                            <label for="email">Correo electrónico:</label>
+                            <input type="email" id="editEmail" name="email" value="" required>
+                            <span id="email-error" class="error-message"></span>
+                        </div>
+                        
+                        <div class="container-phone">
+                            <label for="phone">Teléfono:</label>
+                            <input type="text" id="editPhone" name="phone" value="" required>
+                            <span id="phone-error" class="error-message"></span>
+                        </div>
+                        
+                        <div class="message">
+                            <span id="message-edit-profile"></span>
+                        </div>
+                        
+                        <div class="button-edit">
+                            <button type="submit" class="btn" >Guardar Cambios</button>
+                            <button type="button" class="btn" id="cancelEditBtn">Volver</button>
+                        </div>
+                </div>
+            </form>
+
+            <!-- Formulario de edición para contraseña(oculto inicialmente) -->
             
-                    <label for="phone">Teléfono:</label>
-                    <input type="text" id="editPhone" name="phone" value="" required><br><br>
+                <div id="changePasswordSection" class="change-password-section" style="display: none;">
+                    <div class="subtitulo">
+                        <h2>Cambiar Contraseña</h2>
+                    </div>
+                    <form id="changePasswordForm"></form>
+                        <div class="container-password-actual">
+                            <label for="currentPassword">Contraseña actual:</label>
+                            <div class="field input-field">
+                                <input type="password" id="currentPassword" name="currentPassword" class="password" required >
+                                <i class="bx bx-hide eye-icon"></i>
+                                <span id="password-actual-error" class="error-message"></span>
+                            </div>
+                            
+                        </div>
+
+                        <div class="container-password-new">
+                            <label for="newPassword">Nueva contraseña:</label>
+                            <div class="field input-field" >
+                                <input type="password" id="newPassword" name="newPassword" class="password" required>
+                                <i class="bx bx-hide eye-icon"></i>
+                                <span id="password-new-error" class="error-message"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="message">
+                            <span id="message-validate-password"></span>
+                        </div>
+                        
+                        <div class="container-password-new">
+                            <label for="confirmPassword">Confirmar nueva contraseña:</label>
+                            <div class="field">
+                                <input type="password" id="confirmPassword" name="confirmPassword" class="password" required>
+                                <i class="bx bx-hide eye-icon"></i>
+                                <span id="password-confirm-error" class="error-message"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="message">
+                            <span id="message-edit-password"></span>
+                        </div>
+                        <div class="button-edit">
+                            <button type="submit" class="btn">Guardar cambios</button>
+                            <button type="button" class="btn" id="cancelChangePasswordBtn">Volver</button>
+                        </div>
+                    </form>
+                </div>
             
-                    <button type="submit" class="btn">Guardar Cambios</button>
-                    <button type="button" class="btn" id="cancelEditBtn">Cancelar</button>
-                </form>
-            </div>
-            <!-- Formulario de edición (oculto inicialmente) -->
-            <div id="changePasswordSection" class="change-password-section" style="display: none;">
-                <h2>Cambiar Contraseña</h2>
-                <form id="changePasswordForm">
-                    <label for="currentPassword">Contraseña actual:</label>
-                    <input type="password" id="currentPassword" name="currentPassword" required><br>
-        
-                    <label for="newPassword">Nueva contraseña:</label>
-                    <input type="password" id="newPassword" name="newPassword" required><br>
-        
-                    <label for="confirmPassword">Confirmar nueva contraseña:</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" required><br>
-        
-                    <button type="submit" class="btn">Guardar cambios</button>
-                    <button type="button" class="btn" id="cancelChangePasswordBtn">Cancelar</button>
-                </form>
-            </div>
         </section>
         
 
+        <!-- SECCION ASISTENCIA -->
         <section id="section-attendance" class="section">
+            
             <div class="header-section">
-                <div class="text">Registro de Asistencia</div>
+                <div class="text">Asistencia</div>
             </div>
-            <div class="selection-attendance">
+
+            <div class="outer-container">
+                <div class="button-attendance">
+                    <button id="register-attendance-btn" class="btn">Registrar Asistencia</button>
+                    <button id="view-attendance-btn" class="btn">Ver Asistencia</button>
+                </div>
+
+                <div class="image-attendance" id="image-attendance">
+                    <img src="/monsterlabs/assets/images/imagen-lista-asistencia.png" alt="Imagen de asistencia">
+                </div>
+            </div>
+
+            <div class="attendance" id="selection-attendance" style="display: none;">
                 <form id="attendanceForm" action="" method="post">
                     <div class="form-group">
                         <div class="calendar">
-
+                            <calendar-date id="calendar">
+                                <svg
+                                    aria-label="Previous"
+                                    slot="previous"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+                                </svg>
+                                <svg
+                                    aria-label="Next"
+                                    slot="next"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+                                </svg>
+                                <calendar-month></calendar-month>
+                            </calendar-date>
                         </div>
-                        <div class="group">
-                            <label for="group">Grupo</label>
-                            <select name="group" id="group" required>
-                                <option value="1">Grupo 1</option>
-                                <option value="2">Grupo 2</option>
-                                <option value="3">Grupo 3</option>
-                            </select>
-                        </div>
+                        
                     </div>
             
                     <!-- Tabla de asistencia -->
-                    <table id="attendanceTable">
+                     <div class="table-attendance">
+                        <table id="attendanceTable">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Asistió</th>
+                                    <th>Ausente</th>
+                                </tr>
+                            </thead>
+                            <tbody id="groupMembers">
+                                <!-- Aquí se llenarán los nombres de los integrantes del grupo -->
+                            </tbody>
+                        </table>
+                     </div>
+                     <div class="message">
+                        <span id="message-envio-asistencia"></span>
+                    </div>
+                    <div class="button-attendance">
+                        <button type="submit" class="btn">Guardar asistencia</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="attendance" id="view-attendance">
+                <div class="calendar">
+                    <calendar-date id="calendar-view-attendance">
+                        <svg aria-label="Previous" slot="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+                        </svg>
+                        <svg aria-label="Next" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+                        </svg>
+                        <calendar-month></calendar-month>
+                    </calendar-date>
+                </div>
+                <div class="table-view-attendance">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Asistió</th>
-                                <th>Ausente</th>
+                                <th>Apellido</th>
+                                <th>Estado</th>
                             </tr>
                         </thead>
-                        <tbody id="groupMembers">
+                        <tbody id="tablaAsistencia">
                             <!-- Aquí se llenarán los nombres de los integrantes del grupo -->
                         </tbody>
                     </table>
-            
-                    <button type="submit">Guardar asistencia</button>
-                </form>
+                </div>
+                <div class="message">
+                    <span id="message-envio-asistencia"></span>
+                </div>
             </div>
           
         </section>
 
+        <!-- SECCION INFORMACION DEL GRUPO -->
         <section id="section-group" class="section">
             <div class="outer-container">
                 <div class="header-section">
                     <div class="text">Información Grupo</div>
                 </div>
+                <div class="table-grupo">
+                    <table id="viewInfoTable">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Información</th>
+                            </tr>
+                        </thead>
+                        <tbody id="viewGroupMembers">
+                                
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
 
+        <!-- SECCION CRONOGRAMA -->
         <section id="section-cronogram" class="section">
             <div class="outer-container">
                 <div class="header-section">
@@ -137,17 +283,21 @@
                 </div>
             </div>
         </section>
-        <section id="section-message" class="section">
+
+        <!-- SECCION MENSAJES -->
+        <!-- <section id="section-message" class="section">
             <div class="outer-container">
                 <div class="header-section">
                     <div class="text">Mensajes</div>
                 </div>
             </div>
-        </section>
+        </section> -->
     </div>
 </div>
 
+<script src="/monsterlabs/public/scripts/script-form.js"></script>
 <script src="/monsterlabs/public/scripts/monitor.js"></script>
+<script type="module" src="https://unpkg.com/cally"></script>
 </script>
 </body>
 </html>
