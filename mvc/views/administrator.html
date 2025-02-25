@@ -3,9 +3,444 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Panel de Administrador</title>
+    <link rel="stylesheet" href="../../public/styles/style-administrator.css"> <!-- Ruta relativa -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
-    
+    <!-- TODO : Secciones de contenido a mostrar según la navegación -->
+    <main id="main-content">
+
+        <!-- ? : Seccion de Inicio -->
+        <section id="home" class="section-content active">
+            <h1>Inicio</h1>
+            <p>Contenido de inicio.</p>
+        </section>
+        <!-- ? : Seccion de Perfil -->
+        <section id="profile" class="section-content">
+            <h1>Perfil</h1>
+            <div class="profile-grid">
+                <!-- * Card con foto y botón para cambiarla -->
+                <div class="profile-card photo-card">
+                    <div class="photo-container">
+                        <img src="" alt="Foto de usuario"> <!-- Ruta relativa -->
+                    </div>
+                    <button class="open-modal-btn">Cambiar foto</button>
+                </div>
+                <!-- * Card con información de usuario y botón para editar -->
+                <div class="profile-card info-card">
+                    <div class="user-info">
+                        <p><strong>Nombre de usuario:</strong> usuario123</p>
+                        <p><strong>Nombre:</strong> Juan Pérez</p>
+                        <p><strong>Correo:</strong> juan.perez@mail.com</p>
+                        <p><strong>Teléfono:</strong> +1 555-5555</p>
+                    </div>
+                    <button id="edit-profile-btn" class="open-modal-btn">Editar perfil</button>
+                </div>
+            </div>
+        </section>
+        <!-- ? : Seccion de Actividades -->
+        <section id="activities" class="section-content">
+            <h1>Actividades</h1>
+            <p>Contenido de actividades.</p>
+        </section>
+        <!-- ? : Seccion de Grupos -->
+        <section id="groups" class="section-content">
+            <div class="groups-tables" style="display: flex; gap: 20px;">
+                <div class="table-container">
+                    <h2>Niños</h2>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="name">
+                                    Pedro Pérez
+                                    <div class="actions">
+                                        <button class="btn-action btn-yellow"></button> <!-- Botón para ver información -->
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="name">
+                                    Ana López
+                                    <div class="actions">
+                                        <button class="btn-action btn-yellow"></button> <!-- Botón para ver información -->
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-container">
+                    <h2>Grupos</h2>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="name">
+                                    Grupo A
+                                    <div class="actions">
+                                        <button class="btn-action btn-delete-group"></button> <!-- Botón para eliminar grupo -->
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="name">
+                                    Grupo B
+                                    <div class="actions">
+                                        <button class="btn-action btn-delete-group"></button> <!-- Botón para eliminar grupo -->
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="add-btn" id="add-group-btn">Añadir Grupo</button>
+                </div>
+                <div class="table-container">
+                    <h2>Monitores</h2>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="name">
+                                    Laura García
+                                    <div class="actions">
+                                        <button class="btn-action btn-delete-monitor"></button> <!-- Botón para eliminar monitor -->
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="name">
+                                    Carlos Martínez
+                                    <div class="actions">
+                                        <button class="btn-action btn-delete-monitor"></button> <!-- Botón para eliminar monitor -->
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="add-btn" id="add-monitor-btn">Añadir Monitor</button>
+                </div>
+            </div>
+        </section>
+        <!-- ? : Seccion de Gestiones -->
+        <section id="management" class="section-content">
+            <h1>Gestiones</h1>
+            <div class="management-tables" style="display: flex; gap: 20px;">
+                <div class="table-container">
+                    <h2>Niños Activos</h2>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="name">
+                                    Pedro Pérez
+                                    <div class="actions">
+                                        <button class="btn-action btn-yellow"></button>
+                                        <button class="btn-action btn-baja"></button> <!-- Botón para dar de baja -->
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="name">
+                                    Ana López
+                                    <div class="actions">
+                                        <button class="btn-action btn-yellow"></button>
+                                        <button class="btn-action btn-baja"></button> <!-- Botón para dar de baja -->
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-container">
+                    <h2>Niños Inactivos</h2>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="name">
+                                    Juan García
+                                    <div class="actions">
+                                        <button class="btn-action btn-green"></button>
+                                        <button class="btn-action btn-delete"></button> <!-- Botón para eliminar -->
+                                        <button class="btn-action btn-yellow"></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="name">
+                                    María Fernández
+                                    <div class="actions">
+                                        <button class="btn-action btn-green"></button>
+                                        <button class="btn-action btn-delete"></button> <!-- Botón para eliminar -->
+                                        <button class="btn-action btn-yellow"></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- TODO: Modals de Aministrador -->
+         <!-- * Modal de confirmación de logout -->
+    <div id="logout-modal" class="modal">
+        <div class="modal-content">
+            <p>¿Seguro quieres salir?</p>
+            <div class="modal-buttons">
+                <button id="confirm-logout" class="btn logout">Confirmar</button>
+                <button id="cancel-logout" class="btn cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <!-- * Modal de editar perfil -->
+    <div id="edit-profile-modal" class="modal">
+        <div class="modal-content">
+            <h2>Editar Perfil</h2>
+            <form class="modal-form">
+                <label for="username">Nombre de usuario</label>
+                <input type="text" id="username" name="username" placeholder="usuario123">
+                <span id="username-error" class="error-message"></span>
+                
+                <label for="name">Nombre</label>
+                <input type="text" id="name" name="name" placeholder="Juan">
+                <span id="name-error" class="error-message"></span>
+                
+                <label for="surname">Apellido</label>
+                <input type="text" id="surname" name="surname" placeholder="Pérez">
+                <span id="surname-error" class="error-message"></span>
+                
+                <label for="dni">DNI</label>
+                <input type="text" id="dni" name="dni" placeholder="12345678">
+                <span id="dni-error" class="error-message"></span>
+                
+                <label for="phone">Número de Teléfono</label>
+                <input type="tel" id="phone" name="phone" placeholder="+1 555-5555">
+                <span id="phone-error" class="error-message"></span>
+                
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="tu@ejemplo.com">
+                <span id="email-error" class="error-message"></span>
+                
+                <div class="modal-buttons">
+                    <button type="button" id="cancel-edit" class="btn cancel">Cancelar</button>
+                    <button type="submit" id="save-edit" class="btn save">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- * Modal de subir foto -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <button id="closeModal" class="modal-close">&times;</button>
+        <h2>Subir Foto</h2>
+        <div id="dropZone" class="drop-zone">
+          <div class="dz-icon">
+            <i class="bx bx-cloud-upload"></i>
+          </div>
+          <div class="dz-text">Arrastra y suelta tu foto o haz clic para seleccionar</div>
+          <input type="file" id="fileInput" accept="image/*">
+        </div>
+        <img id="preview" class="preview" alt="Vista previa de la foto">
+        <!-- Botón pequeño para abrir el explorador -->
+        <button id="uploadPhoto" class="btn-submit small">Subir Foto</button>
+        <!-- Contenedor de botones para guardar o cancelar -->
+        <div class="modal-buttons">
+          <button type="button" id="cancel-photo" class="btn cancel">Cancelar</button>
+          <button type="button" id="save-photo" class="btn save">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+    <!-- * Modal de añadir monitor -->
+    <div id="add-monitor-modal" class="modal">
+        <div class="modal-content">
+            <h2>Añadir Monitor</h2>
+            <form id="add-monitor-form" class="modal-form">
+                <label for="monitor-username">Nombre de usuario</label>
+                <input type="text" id="monitor-username" name="monitor-username" placeholder="usuario123">
+                <span id="monitor-username-error" class="error-message"></span>
+                
+                <label for="monitor-name">Nombre</label>
+                <input type="text" id="monitor-name" name="monitor-name" placeholder="Juan">
+                <span id="monitor-name-error" class="error-message"></span>
+                
+                <label for="monitor-surname">Apellido</label>
+                <input type="text" id="monitor-surname" name="monitor-surname" placeholder="Pérez">
+                <span id="monitor-surname-error" class="error-message"></span>
+                
+                <label for="monitor-dni">DNI</label>
+                <input type="text" id="monitor-dni" name="monitor-dni" placeholder="12345678">
+                <span id="monitor-dni-error" class="error-message"></span>
+                
+                <label for="monitor-phone">Número de Teléfono</label>
+                <input type="tel" id="monitor-phone" name="monitor-phone" placeholder="+1 555-5555">
+                <span id="monitor-phone-error" class="error-message"></span>
+                
+                <label for="monitor-password">Contraseña</label>
+                <input type="password" id="monitor-password" name="monitor-password" placeholder="Contraseña">
+                <span id="monitor-password-error" class="error-message"></span>
+                
+                <label for="monitor-confirm-password">Confirmar Contraseña</label>
+                <input type="password" id="monitor-confirm-password" name="monitor-confirm-password" placeholder="Confirmar Contraseña">
+                <span id="monitor-confirm-password-error" class="error-message"></span>
+                
+                <div class="modal-buttons">
+                    <button type="button" id="cancel-add-monitor" class="btn cancel">Cancelar</button>
+                    <button type="submit" id="save-add-monitor" class="btn save">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- * Modal de añadir grupo -->
+    <div id="add-group-modal" class="modal">
+        <div class="modal-content">
+            <h2>Añadir Grupo</h2>
+            <form id="add-group-form" class="modal-form">
+                <label for="group-name">Nombre del Grupo</label>
+                <input type="text" id="group-name" name="group-name" placeholder="Nombre del Grupo">
+                <span id="group-name-error" class="error-message"></span>
+                
+                <label for="monitor-select">Seleccionar Monitor</label>
+                <select id="monitor-select" name="monitor-select">
+                    <!-- Opciones de monitores -->
+                </select>
+                <button type="button" id="add-monitor-to-group" class="btn add">Añadir Monitor</button>
+                <div id="selected-monitors" class="selected-items">
+                    <!-- Monitores añadidos -->
+                </div>
+                
+                <label for="child-select">Seleccionar Niño</label>
+                <select id="child-select" name="child-select">
+                    <!-- Opciones de niños -->
+                </select>
+                <button type="button" id="add-child-to-group" class="btn add">Añadir Niño</button>
+                <div id="selected-children" class="selected-items">
+                    <!-- Niños añadidos -->
+                </div>
+                
+                <div class="modal-buttons">
+                    <button type="button" id="cancel-add-group" class="btn cancel">Cancelar</button>
+                    <button type="submit" id="save-add-group" class="btn save">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- * Modal de confirmación para dar de alta -->
+    <div id="confirm-alta-modal" class="modal">
+        <div class="modal-content">
+            <p>¿Quieres dar de alta a este participante?</p>
+            <div class="modal-buttons">
+                <button id="confirm-alta" class="btn save">Dar de alta</button>
+                <button id="cancel-alta" class="btn cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <!-- * Modal de confirmación para eliminar -->
+    <div id="confirm-delete-modal" class="modal">
+        <div class="modal-content">
+            <p>¿Seguro que quieres eliminar a este participante?</p>
+            <div class="modal-buttons">
+                <button id="confirm-delete" class="btn save">Eliminar</button>
+                <button id="cancel-delete" class="btn cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <!-- * Modal de confirmación para eliminar monitor -->
+    <div id="confirm-delete-monitor-modal" class="modal">
+        <div class="modal-content">
+            <p>¿Seguro que quieres eliminar a este monitor?</p>
+            <div class="modal-buttons">
+                <button id="confirm-delete-monitor" class="btn save">Eliminar</button>
+                <button id="cancel-delete-monitor" class="btn cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <!-- * Modal de confirmación para eliminar grupo -->
+    <div id="confirm-delete-group-modal" class="modal">
+        <div class="modal-content">
+            <p>¿Seguro que quieres eliminar este grupo?</p>
+            <div class="modal-buttons">
+                <button id="confirm-delete-group" class="btn save">Eliminar</button>
+                <button id="cancel-delete-group" class="btn cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <!-- * Modal de confirmación para dar de baja -->
+    <div id="confirm-baja-modal" class="modal">
+        <div class="modal-content">
+            <p>¿Seguro que quieres dar de baja a este participante?</p>
+            <div class="modal-buttons">
+                <button id="confirm-baja" class="btn save">Dar de baja</button>
+                <button id="cancel-baja" class="btn cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <!-- * Modal para mostrar los datos del niño -->
+    <div id="view-child-modal" class="modal">
+        <div class="modal-content">
+            <h3>Datos del Niño</h3>
+            <div class="child-info">
+                <p><strong>Nombre:</strong> <span id="child-name"></span></p>
+                <p><strong>Apellido:</strong> <span id="child-surname"></span></p>
+                <p><strong>Fecha de Nacimiento:</strong> <span id="child-dob"></span></p>
+                <br>
+                <h3>Datos del Padre</h3>
+                <p><strong>Nombre:</strong> <span id="parent-name"></span></p>
+                <p><strong>Apellido:</strong> <span id="parent-surname"></span></p>
+                <p><strong>Correo Electrónico:</strong> <span id="parent-email"></span></p>
+                <br>
+                <h3>Ficha Médica</h3>
+                <p><strong>Alimentos Alérgicos:</strong> <span id="allergic-foods"></span></p>
+                <p><strong>Medicamentos Alérgicos:</strong> <span id="allergic-medicines"></span></p>
+                <p><strong>Medicamentos Actuales:</strong> <span id="current-medicines"></span></p>
+                <br>
+                <h3>Contacto de Emergencia</h3>
+                <p><strong>Nombre:</strong> <span id="emergency-name"></span></p>
+                <p><strong>Teléfono:</strong> <span id="emergency-phone"></span></p>
+                <br>
+                <h3>Persona Responsable</h3>
+                <p><strong>Nombre:</strong> <span id="responsible-name"></span></p>
+                <p><strong>Apellido:</strong> <span id="responsible-surname"></span></p>
+                <p><strong>Teléfono:</strong> <span id="responsible-phone"></span></p>
+            </div>
+            <div class="modal-buttons">
+                <button id="close-view-child" class="btn cancel">Cerrar</button>
+            </div>
+        </div>
+    </div>
+    <!-- TODO : Popups de notificación de Perfil -->
+    <div id="popup" class="popup popup-success"></div>
+    <div id="popup-error-edit" class="popup popup-error-edit"></div>
+    <div id="popup-error-add" class="popup popup-error-add"></div>
+
+    <!-- TODO : Código para cargar el sidebar con su script. -->
+    <script> 
+        fetch('../../components/sidebar-administrator.html') <!-- Ruta relativa -->
+            .then(response => response.text()) 
+            .then(data => {
+                document.querySelector('body').insertAdjacentHTML('afterbegin', data);
+                const script = document.createElement('script');
+                script.src = '../../public/scripts/components-administrator/script-sidebar-administrator.js'; // Ruta relativa
+                document.body.appendChild(script);
+            });
+    </script>
+
+    <!-- TODO : Enlace a los Scripts de navegación -->
+    <script src="../../public/scripts/components-administrator/script-navigation-sections.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/modals-administrator/modal-log-out.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/modals-administrator/modal-edit-profile.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/validations-administrator/validations-edit.profile.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/modals-administrator/modal-edit-photo.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/validations-administrator/validations-edit-photo.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/modals-administrator/modal-add-monitor.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/validations-administrator/validations-add-monitor.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/modals-administrator/modal-add-group.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/validations-administrator/validations-add-group.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/modals-administrator/modal-confirm-alta.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/modals-administrator/modal-confirm-delete.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/modals-administrator/modal-view-child.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/modals-administrator/modal-confirm-baja.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/modals-administrator/modal-confirm-delete-monitor.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/modals-administrator/modal-confirm-delete-group.js"></script> <!-- Ruta relativa -->
 </body>
 </html>

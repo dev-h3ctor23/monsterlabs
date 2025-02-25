@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
     nombre_usuario VARCHAR(100) UNIQUE NOT NULL,
     correo VARCHAR(100) UNIQUE NOT NULL,
     contrasena VARCHAR(255) NOT NULL,
-    tipo_usuario ENUM('padre', 'monitor', 'admin') NOT NULL
+    nombre_tipo ENUM('padre', 'monitor', 'admin') NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Grupo (
@@ -110,19 +110,6 @@ CREATE TABLE IF NOT EXISTS Cronograma (
     FOREIGN KEY (id_grupo) REFERENCES Grupo(id_grupo) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS Conversacion (
-    id_conversacion INT AUTO_INCREMENT PRIMARY KEY,
-    fecha_creacion DATE NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS ParticipantesConversacion (
-    id_conversacion INT NOT NULL,
-    id_usuario INT NOT NULL,
-    PRIMARY KEY (id_conversacion, id_usuario),
-    FOREIGN KEY (id_conversacion) REFERENCES Conversacion(id_conversacion) ON DELETE CASCADE,
-    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE
-);
-
 CREATE TABLE IF NOT EXISTS FichaMedica (
     id_ficha INT AUTO_INCREMENT PRIMARY KEY,
     alimentos_alergico TEXT,
@@ -137,37 +124,6 @@ CREATE TABLE IF NOT EXISTS Notificaciones (
     asunto VARCHAR(100) NOT NULL,
     descripcion VARCHAR(300) NOT NULL,
     fecha DATE NOT NULL,
-    id_usuario INT NOT NULL, --Para que puedan ser notificaciones de usuarios: padre, monitor, admin
+    id_usuario INT NOT NULL, 
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE
 );
-
--- Relaciones muchos a muchos eliminadas porque no se usan
-
--- Actividad - Niño
---CREATE TABLE IF NOT EXISTS ActividadNino (
-    --id_actividad INT NOT NULL,
-    --id_nino INT NOT NULL,
-    --PRIMARY KEY (id_actividad, id_nino),
-    --FOREIGN KEY (id_actividad) REFERENCES Actividad(id_actividad) ON DELETE CASCADE,
-    --FOREIGN KEY (id_nino) REFERENCES Nino(id_nino) ON DELETE CASCADE
---);
-
--- Cronograma - Actividad
---CREATE TABLE IF NOT EXISTS CronogramaActividad (
-    --id_cronograma INT NOT NULL,
-    --id_actividad INT NOT NULL,
-    --hora_asignada TIME NOT NULL,
-    --duracion INT NOT NULL,
-    --PRIMARY KEY (id_cronograma, id_actividad),
-    --FOREIGN KEY (id_cronograma) REFERENCES Cronograma(id_cronograma) ON DELETE CASCADE,
-    --FOREIGN KEY (id_actividad) REFERENCES Actividad(id_actividad) ON DELETE CASCADE
---);
-
--- Cronograma - Grupo
---CREATE TABLE IF NOT EXISTS CronogramaGrupo (
-    --id_cronograma INT NOT NULL,
-    --id_grupo INT NOT NULL,
-    --PRIMARY KEY (id_cronograma, id_grupo),
-    --FOREIGN KEY (id_cronograma) REFERENCES Cronograma(id_cronograma) ON DELETE CASCADE,
-    --FOREIGN KEY (id_grupo) REFERENCES Grupo(id_grupo) ON DELETE CASCADE
---);
