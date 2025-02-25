@@ -1,6 +1,9 @@
-/* Google Font Import - Poppins */
+/* TODO: Estilos para el sidebar del administrador */
+
+/* ? Importar la fuente de Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+/* ? Estilos generales */
 * {
     margin: 0;
     padding: 0;
@@ -8,8 +11,8 @@
     font-family: 'Poppins', sans-serif;
 }
 
+/* ? Variables CSS */
 :root {
-    /* ===== Colores ===== */
     --body-color: #E1E6EA;
     --sidebar-color: #F8F8F8;
     --primary-color: #56B848;
@@ -17,13 +20,13 @@
     --toggle-color: #9A4E9E;
     --text-color: #44464D;
 
-    /* ====== Transiciones ====== */
     --tran-03: all 0.2s ease;
     --tran-03: all 0.3s ease;
-    --tran-04: all 0.3s ease;
-    --tran-05: all 0.3s ease;
+    --tran-04: all 0.4s ease;
+    --tran-05: all 0.5s ease;
 }
 
+/* ? Estilos generales del body */
 body {
     overflow-x: hidden;
     min-height: 100vh;
@@ -36,33 +39,19 @@ body {
     color: #fff;
 }
 
-body.dark {
-    --body-color: #18191a;
-    --sidebar-color: #242526;
-    --primary-color: #56B848;
-    --primary-color-light: #3a3b3c;
-    --toggle-color: #9A4E9E;
-    --text-color: #F8F8F8;
-}
-
-/* ===== Sidebar ===== */
 .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 250px;
+    position: relative; /* Cambiado de fixed a relative */
+    height: 100vh; /* Conserva la altura completa */
+    width: var(--sidebar-width); /* Usa la variable para el ancho */
     padding: 10px 14px;
     background: var(--sidebar-color);
     transition: var(--tran-05);
-    z-index: 100;
+    /* Se elimina z-index y las propiedades top/left */
 }
 
 .sidebar.close {
-    width: 88px;
+    width: 88px; /* O bien: width: var(--sidebar-width-collapsed); si prefieres usar la variable */
 }
-
-/* ===== Codigo reutilizable ===== */
 
 .sidebar li {
     height: 50px;
@@ -105,8 +94,6 @@ body.dark {
     opacity: 0;
 }
 
-/* =========================== */
-
 .sidebar header {
     position: relative;
 }
@@ -140,7 +127,7 @@ header .image-text .profession {
 }
 
 .sidebar header .image img {
-    width: 40px;
+    width: 36px; /* ! Tamaño del icono del Header */
     border-radius: 6px;
 }
 
@@ -174,26 +161,6 @@ body.dark .sidebar header .toggle {
     margin-top: 40px;
 }
 
-.sidebar li.search-box {
-    border-radius: 6px;
-    background-color: var(--primary-color-light);
-    cursor: pointer;
-    transition: var(--tran-05);
-}
-
-.sidebar li.search-box input {
-    height: 100%;
-    width: 100%;
-    outline: none;
-    border: none;
-    background-color: var(--primary-color-light);
-    color: var(--text-color);
-    border-radius: 6px;
-    font-size: 17px;
-    font-weight: 500;
-    transition: var(--tran-05);
-}
-
 .sidebar li a {
     list-style: none;
     height: 100%;
@@ -204,7 +171,7 @@ body.dark .sidebar header .toggle {
     width: 100%;
     border-radius: 6px;
     text-decoration: none;
-    transition: var(--tran-03);
+    transition: background-color 0.15s ease-in-out;
 }
 
 .sidebar li a:hover {
@@ -233,71 +200,9 @@ body.dark .sidebar li a:hover .text {
     display: none;
 }
 
-.sidebar .menu-bar .mode {
-    border-radius: 6px;
-    background-color: var(--primary-color-light);
-    position: relative;
-    transition: var(--tran-05);
+.sidebar .bottom-content a#logout-btn:hover {
+    background-color: #EF5948;
 }
-
-/* .menu-bar .mode .sun-moon {
-    height: 50px;
-    width: 60px;
-}
-
-.mode .sun-moon i {
-    position: absolute;
-}
-
-.mode .sun-moon i.sun {
-    opacity: 0;
-}
-
-body.dark .mode .sun-moon i.sun {
-    opacity: 1;
-}
-
-body.dark .mode .sun-moon i.moon {
-    opacity: 0;
-}
-
-.menu-bar .bottom-content .toggle-switch {
-    position: absolute;
-    right: 0;
-    height: 100%;
-    min-width: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.toggle-switch .switch {
-    position: relative;
-    height: 22px;
-    width: 40px;
-    border-radius: 25px;
-    background-color: var(--toggle-color);
-    transition: var(--tran-05);
-}
-
-.switch::before {
-    content: '';
-    position: absolute;
-    height: 15px;
-    width: 15px;
-    border-radius: 50%;
-    top: 50%;
-    left: 5px;
-    transform: translateY(-50%);
-    background-color: var(--sidebar-color);
-    transition: var(--tran-04);
-}
-
-body.dark .switch::before {
-    left: 20px;
-} */
 
 .home {
     position: absolute;
@@ -321,8 +226,4 @@ body.dark .switch::before {
     left: 78px;
     height: 100vh;
     width: calc(100% - 78px);
-}
-
-body.dark .home .text {
-    color: var(--text-color);
 }

@@ -82,19 +82,6 @@ INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, id_actividad, id_gr
 INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, id_actividad, id_grupo) VALUES ('2023-06-11', '11:00:00', '12:00:00', 5, 5);
 INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, id_actividad, id_grupo) VALUES ('2023-06-11', '12:00:00', '13:00:00', 6, 1);
 
-INSERT IGNORE INTO Conversacion (fecha_creacion) VALUES ('2023-06-10');
-INSERT IGNORE INTO Conversacion (fecha_creacion) VALUES ('2023-06-10');
-INSERT IGNORE INTO Conversacion (fecha_creacion) VALUES ('2023-06-11');
-INSERT IGNORE INTO Conversacion (fecha_creacion) VALUES ('2023-06-11');
-INSERT IGNORE INTO Conversacion (fecha_creacion) VALUES ('2023-06-12');
-
-INSERT IGNORE INTO ParticipantesConversacion (id_conversacion, id_usuario) VALUES (1, 1);
-INSERT IGNORE INTO ParticipantesConversacion (id_conversacion, id_usuario) VALUES (1, 3);
-INSERT IGNORE INTO ParticipantesConversacion (id_conversacion, id_usuario) VALUES (2, 2);
-INSERT IGNORE INTO ParticipantesConversacion (id_conversacion, id_usuario) VALUES (3, 4);
-INSERT IGNORE INTO ParticipantesConversacion (id_conversacion, id_usuario) VALUES (4, 5);
-INSERT IGNORE INTO ParticipantesConversacion (id_conversacion, id_usuario) VALUES (5, 6);
-
 INSERT IGNORE INTO FichaMedica (alimentos_alergico, medicamentos_alergico, medicamentos_actuales, id_nino) VALUES ('Maní', 'Ninguno', 'Vitamina C', 1);
 INSERT IGNORE INTO FichaMedica (alimentos_alergico, medicamentos_alergico, medicamentos_actuales, id_nino) VALUES ('Lactosa', 'Ibuprofeno', 'Paracetamol', 2);
 INSERT IGNORE INTO FichaMedica (alimentos_alergico, medicamentos_alergico, medicamentos_actuales, id_nino) VALUES ('Gluten', 'Penicilina', 'Multivitamínico', 3);
