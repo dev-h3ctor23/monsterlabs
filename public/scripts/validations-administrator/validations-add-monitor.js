@@ -5,6 +5,7 @@ const monitorFirstName = document.getElementById('monitor-name');
 const monitorLastName = document.getElementById('monitor-surname');
 const monitorDni = document.getElementById('monitor-dni');
 const monitorPhone = document.getElementById('monitor-phone');
+const monitorEmail = document.getElementById('monitor-email');
 const monitorPassword = document.getElementById('monitor-password');
 const monitorConfirmPassword = document.getElementById('monitor-confirm-password');
 
@@ -14,6 +15,7 @@ const monitorFirstNameError = document.getElementById('monitor-name-error');
 const monitorLastNameError = document.getElementById('monitor-surname-error');
 const monitorDniError = document.getElementById('monitor-dni-error');
 const monitorPhoneError = document.getElementById('monitor-phone-error');
+const monitorEmailError = document.getElementById('monitor-email-error');
 const monitorPasswordError = document.getElementById('monitor-password-error');
 const monitorConfirmPasswordError = document.getElementById('monitor-confirm-password-error');
 
@@ -172,6 +174,27 @@ function validatePhone() {
     return true;
 }
 
+// Función para validar el correo electrónico
+function validateEmail() {
+    const email = monitorEmail.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email === '') {
+        monitorEmailError.textContent = 'El correo electrónico no puede estar vacío.';
+        monitorEmailError.style.display = 'block';
+        monitorEmail.style.borderColor = 'red';
+        return false;
+    }
+    if (!emailRegex.test(email)) {
+        monitorEmailError.textContent = 'El formato del correo electrónico no es válido.';
+        monitorEmailError.style.display = 'block';
+        monitorEmail.style.borderColor = 'red';
+        return false;
+    }
+    monitorEmailError.style.display = 'none';
+    monitorEmail.style.borderColor = '';
+    return true;
+}
+
 // Función para validar la contraseña
 function validatePassword() {
     const password = monitorPassword.value.trim();
@@ -240,6 +263,7 @@ function validateAddMonitorForm() {
            validateLastName() &&
            validateDni() &&
            validatePhone() &&
+           validateEmail() &&
            validatePassword() &&
            validateConfirmPassword();
 }
@@ -250,6 +274,7 @@ monitorFirstName.onblur = validateFirstName;
 monitorLastName.onblur = validateLastName;
 monitorDni.onblur = validateDni;
 monitorPhone.onblur = validatePhone;
+monitorEmail.onblur = validateEmail;
 monitorPassword.onblur = validatePassword;
 monitorConfirmPassword.onblur = validateConfirmPassword;
 

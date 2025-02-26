@@ -552,7 +552,7 @@ border-radius: 6px;
   padding: 4px 8px; /* Reduce el padding para filas de poca altura */
   text-align: left;
   background: #E1E6EA; /* Color de fondo para la celda */
-  border-radius: 8px; /* Ajusta el border-radius */
+  border-radius: 4px; /* Ajusta el border-radius */
   height: 32px; /* Ajusta la altura de las filas */
 }
 
@@ -665,6 +665,9 @@ border-radius: 6px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añadimos la transición para el efecto de hover */
   box-shadow: -3px -3px 0.5px 0px rgba(0, 0, 0, 0.25) inset; /* Sombra para el efecto 3D */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-action:hover {
@@ -678,10 +681,6 @@ border-radius: 6px;
 
 .btn-red, .btn-baja, .btn-delete, .btn-delete-monitor, .btn-delete-group {
   background-color: #dc3545;
-}
-
-.btn-yellow {
-  background-color: #ffc107;
 }
 
 /* Alineación de los botones de acción en la misma fila */
@@ -720,6 +719,35 @@ border-radius: 6px;
 /* Centrar el mensaje de la pregunta en el modal de confirmación para eliminar grupo */
 #confirm-delete-group-modal .modal-content p {
   text-align: center;
+}
+
+/* Animación de desvanecimiento */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Clase para aplicar la animación de desvanecimiento al añadir */
+.fade-in {
+  animation: fadeIn 0.5s forwards;
+}
+
+/* Clase para aplicar la animación de desvanecimiento al eliminar */
+.fade-out {
+  animation: fadeOut 0.5s forwards;
 }
 
 
