@@ -721,7 +721,7 @@ border-radius: 6px;
   text-align: center;
 }
 
-/* Animación de desvanecimiento */
+/* Animación de aparición */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -731,6 +731,7 @@ border-radius: 6px;
   }
 }
 
+/* Animación de desaparición */
 @keyframes fadeOut {
   from {
     opacity: 1;
@@ -740,14 +741,15 @@ border-radius: 6px;
   }
 }
 
-/* Clase para aplicar la animación de desvanecimiento al añadir */
+/* Clase para aplicar la animación de aparición */
 .fade-in {
-  animation: fadeIn 0.5s forwards;
+  animation: fadeIn 0.32s forwards;
 }
 
-/* Clase para aplicar la animación de desvanecimiento al eliminar */
+/* Clase para aplicar la animación de desaparición */
 .fade-out {
-  animation: fadeOut 0.5s forwards;
+  animation: fadeOut 0.32s forwards;
 }
+
 
 
