@@ -226,14 +226,38 @@ editProfileForm.addEventListener('submit', function(event) {
         return;
     } else {
         event.preventDefault();
-        const editProfileModal = document.getElementById('edit-profile-modal');
-        editProfileModal.classList.remove("show");
-        const popup = document.getElementById('popup');
-        popup.textContent = "Cambios guardados con éxito";
-        popup.style.background = "#28A745";
-        popup.classList.add("show");
-        setTimeout(() => {
-            popup.classList.remove("show");
-        }, 1000);
+        const updatedData = {
+            username: document.getElementById('username').value,
+            name: document.getElementById('name').value,
+            surname: document.getElementById('surname').value,
+            dni: document.getElementById('dni').value,
+            phone: document.getElementById('phone').value,
+            email: document.getElementById('email').value
+        };
+
+        fetch('../../mvc/controllers/administrator/update_administrador.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                const editProfileModal = document.getElementById('edit-profile-modal');
+                editProfileModal.classList.remove("show");
+                const popup = document.getElementById('popup');
+                popup.textContent = "Cambios guardados con éxito";
+                popup.style.background = "#28A745";
+                popup.classList.add("show");
+                setTimeout(() => {
+                    popup.classList.remove("show");
+                }, 1000);
+            } else {
+                console.error(data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 });
