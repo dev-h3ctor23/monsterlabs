@@ -51,70 +51,26 @@
                 <div class="table-container">
                     <h2>Niños</h2>
                     <table>
-                        <tbody>
-                            <tr>
-                                <td class="name">
-                                    Pedro Pérez
-                                    <div class="actions">
-                                        <button class="btn-action btn-yellow"></button> <!-- Botón para ver información -->
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="name">
-                                    Ana López
-                                    <div class="actions">
-                                        <button class="btn-action btn-yellow"></button> <!-- Botón para ver información -->
-                                    </div>
-                                </td>
-                            </tr>
+                        <tbody id="children-table-body">
+                            <!-- Filas dinámicas de niños -->
                         </tbody>
                     </table>
                 </div>
                 <div class="table-container">
                     <h2>Grupos</h2>
                     <table>
-                        <tbody>
-                            <tr>
-                                <td class="name">
-                                    Grupo A
-                                    <div class="actions">
-                                        <button class="btn-action btn-delete-group"></button> <!-- Botón para eliminar grupo -->
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="name">
-                                    Grupo B
-                                    <div class="actions">
-                                        <button class="btn-action btn-delete-group"></button> <!-- Botón para eliminar grupo -->
-                                    </div>
-                                </td>
-                            </tr>
+                        <tbody id="groups-table-body">
+                            <!-- Filas dinámicas de grupos -->
                         </tbody>
                     </table>
                     <button class="add-btn" id="add-group-btn">Añadir Grupo</button>
                 </div>
+                <!-- Tabla de monitores -->
                 <div class="table-container">
                     <h2>Monitores</h2>
                     <table>
-                        <tbody>
-                            <tr>
-                                <td class="name">
-                                    Laura García
-                                    <div class="actions">
-                                        <button class="btn-action btn-delete-monitor"></button> <!-- Botón para eliminar monitor -->
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="name">
-                                    Carlos Martínez
-                                    <div class="actions">
-                                        <button class="btn-action btn-delete-monitor"></button> <!-- Botón para eliminar monitor -->
-                                    </div>
-                                </td>
-                            </tr>
+                        <tbody id="monitors-table-body">
+                            <!-- Filas dinámicas de monitores -->
                         </tbody>
                     </table>
                     <button class="add-btn" id="add-monitor-btn">Añadir Monitor</button>
@@ -128,52 +84,16 @@
                 <div class="table-container">
                     <h2>Niños Activos</h2>
                     <table>
-                        <tbody>
-                            <tr>
-                                <td class="name">
-                                    Pedro Pérez
-                                    <div class="actions">
-                                        <button class="btn-action btn-yellow"></button>
-                                        <button class="btn-action btn-baja"></button> <!-- Botón para dar de baja -->
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="name">
-                                    Ana López
-                                    <div class="actions">
-                                        <button class="btn-action btn-yellow"></button>
-                                        <button class="btn-action btn-baja"></button> <!-- Botón para dar de baja -->
-                                    </div>
-                                </td>
-                            </tr>
+                        <tbody id="active-children-table-body">
+                            <!-- Filas dinámicas de niños activos -->
                         </tbody>
                     </table>
                 </div>
                 <div class="table-container">
                     <h2>Niños Inactivos</h2>
                     <table>
-                        <tbody>
-                            <tr>
-                                <td class="name">
-                                    Juan García
-                                    <div class="actions">
-                                        <button class="btn-action btn-green"></button>
-                                        <button class="btn-action btn-delete"></button> <!-- Botón para eliminar -->
-                                        <button class="btn-action btn-yellow"></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="name">
-                                    María Fernández
-                                    <div class="actions">
-                                        <button class="btn-action btn-green"></button>
-                                        <button class="btn-action btn-delete"></button> <!-- Botón para eliminar -->
-                                        <button class="btn-action btn-yellow"></button>
-                                    </div>
-                                </td>
-                            </tr>
+                        <tbody id="inactive-children-table-body">
+                            <!-- Filas dinámicas de niños inactivos -->
                         </tbody>
                     </table>
                 </div>
@@ -274,6 +194,10 @@
                 <label for="monitor-phone">Número de Teléfono</label>
                 <input type="tel" id="monitor-phone" name="monitor-phone" placeholder="+1 555-5555">
                 <span id="monitor-phone-error" class="error-message"></span>
+                
+                <label for="monitor-email">Correo Electrónico</label>
+                <input type="email" id="monitor-email" name="monitor-email" placeholder="correo@ejemplo.com">
+                <span id="monitor-email-error" class="error-message"></span>
                 
                 <label for="monitor-password">Contraseña</label>
                 <input type="password" id="monitor-password" name="monitor-password" placeholder="Contraseña">
