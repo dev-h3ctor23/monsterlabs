@@ -384,6 +384,23 @@ body:has(.sidebar.close) {
     background: #4da63d;
 }
 
+/* Estilo para el botón cuadrado amarillo */
+.btn-yellow {
+    background-color: yellow;
+    border: none;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 10px; /* Espacio entre el nombre/apellido y el botón */
+    transition: transform 0.3s ease; /* Transición suave para el efecto de escala */
+}
+
+.btn-yellow:hover {
+    transform: scale(1.1); /* Efecto de escala al hacer hover */
+}
+
 /* TODO: Seccion de perfil -> Estilos para la sección de perfil */
 
 /* Contenedor de grid para la sección de perfil */
@@ -707,6 +724,13 @@ border-radius: 6px;
   justify-content: space-between;
   gap: 10px; /* Espacio entre el nombre/apellido y los botones */
   height: 32px; /* Ajusta la altura de las filas */
+}
+
+/* Estilo para la celda que contiene el nombre, apellido y botón */
+.child-cell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .name {
