@@ -44,19 +44,19 @@
                 <!-- Información personal -->
                 <div class="perfil-info" id="perfilInfo">
                     <div class="dates-monitor">
-                        <strong>Nombre:</strong> <span id="name-monitor">Ana Lopez</span> <span id="lastname"></span>
+                        <strong>Nombre:</strong> <span id="name-monitor"></span> <span id="lastname"></span>
                     </div>
                     <div class="dates-monitor">
-                        <strong>Usuario:</strong> <span id="user-monitor">analopez</span>
+                        <strong>Usuario:</strong> <span id="user-monitor"></span>
                     </div>
                     <div class="dates-monitor">
-                        <strong>DNI:</strong> <span id="dni-monitor">01234567A</span>
+                        <strong>DNI:</strong> <span id="dni-monitor"></span>
                     </div>
                     <div class="dates-monitor">
-                        <strong>Correo:</strong> <span id="email-monitor">analopez@example.com</span>
+                        <strong>Correo:</strong> <span id="email-monitor"></span>
                     </div>
                     <div class="dates-monitor">
-                        <strong>Teléfono:</strong><span id="phone-monitor">675 67 34 06</span>
+                        <strong>Teléfono:</strong><span id="phone-monitor"></span>
                     </div>
                      <!-- Botones de acciones -->
                     <div class="perfil-opcions">
@@ -219,7 +219,7 @@
                 </form>
             </div>
 
-            <div class="attendance" id="view-attendance">
+            <div class="attendance" id="view-attendance" style="display: none;">
                 <div class="calendar">
                     <calendar-date id="calendar-view-attendance">
                         <svg aria-label="Previous" slot="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -264,13 +264,29 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>Apellido</th>
-                                <th>Información</th>
+                                <th>Datos Tutor</th>
+                                <th>DNI</th>
+                                <th>Teléfono</th>
+                                <th>Más Información</th>
                             </tr>
                         </thead>
                         <tbody id="viewGroupMembers">
                                 
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Modal para mostrar más información -->
+                <div id="infoModal" class="modal">
+                    <div class="modal-content">
+                        <button class="modal-close" id="closeModal">&times;</button>
+                        <div class="modal-header">
+                            <h2>Indormación Adicional</h2>
+                          </div>
+                        <div id="modalContent">
+                            <!-- Aquí se mostrará la información adicional -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -280,6 +296,30 @@
             <div class="outer-container">
                 <div class="header-section">
                     <div class="text">Cronograma</div>
+                </div>
+                <div class="container-cronogram">
+                    <div class="calendar-cronogram">
+                        <div class="header">
+                            <button id="prevWeek">← Semana Anterior</button>
+                            <h2 id="weekRange"></h2>
+                            <button id="nextWeek">Siguiente Semana →</button>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Hora</th>
+                                    <th>Lunes</th>
+                                    <th>Martes</th>
+                                    <th>Miércoles</th>
+                                    <th>Jueves</th>
+                                    <th>Viernes</th>
+                                </tr>
+                            </thead>
+                            <tbody id="calendarBody">
+                                <!-- info por js -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>

@@ -33,12 +33,10 @@ fetch('/monsterlabs/components/sidebar-monitor.html')
     menuLinks.forEach(link => {
         link.addEventListener("click", (event) => {
             event.preventDefault(); 
-
             // Primero, ocultamos todas las secciones
             sections.forEach(section => {
                 section.classList.remove("active");
             });
-
             // Ahora mostramos solo la sección correspondiente
             const sectionId = link.getAttribute("data-section");
             const activeSection = document.getElementById(sectionId);
@@ -47,7 +45,6 @@ fetch('/monsterlabs/components/sidebar-monitor.html')
             }
         });
     });
-
         console.log("Sidebar y eventos cargados correctamente.");
     })
     .catch(error => console.error('Error al cargar el componente:', error));
@@ -75,8 +72,11 @@ function obtenerDatosMonitor() {
 
             document.getElementById('editEmail').value = data.usuario.email;
             document.getElementById('editPhone').value = data.monitor.telefono;
+        } else if (data.redirect) {
+            // Redirigir al usuario si la respuesta indica una redirección
+            window.location.href = data.redirect;
         } else {
-            alert(data.message);
+            alert(data.message); // Mostrar el mensaje de error del servidor
         }
     })
     .catch(error => {
@@ -412,7 +412,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Actualizar la tabla de asistencia con la fecha seleccionada
             updateAttendanceTable(selectedDate);
-            viewAttendanceTable(selectedDate);
         } else {
             console.error('No se pudo obtener la fecha seleccionada.');
         }
@@ -575,20 +574,19 @@ document.addEventListener("DOMContentLoaded", function () {
     // });
     // }
 
-});
-
- /* ***************RELLENAR TABLA DE VER ASISTENCIA************* */
-document.addEventListener("DOMContentLoaded", function () {
-    const calendar = document.querySelector('#calendar-view-attendance'); // Referencia al componente del calendario
-    const messageAsistencia = document.getElementById('message-envio-asistencia');
+    const calendarViewAttendance = document.querySelector('#calendar-view-attendance'); // Referencia al componente del calendario
+    // const messageAsistencia = document.getElementById('message-envio-asistencia');
+    const tablaAsistencia = document.getElementById('tablaAsistencia');
 
     // Escuchar el evento 'change' para obtener la fecha seleccionada
-    calendar.addEventListener('change', function () {
-        const selectedDate = calendar.value; // Obtener la fecha seleccionada
+    calendarViewAttendance.addEventListener('change', function () {
+        const selectedDate = calendarViewAttendance.value; // Obtener la fecha seleccionada
         if (selectedDate) {
+            console.log('Fecha seleccionada: ', selectedDate); 
             viewAttendanceTable(selectedDate); // Llamar a la función para rellenar la tabla
         } else {
             console.error('No se pudo obtener la fecha seleccionada.');
+            messageAsistencia.textContent = 'Fecha no válida proporcionada.';
         }
     });
 
@@ -599,14 +597,22 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // Limpiar la tabla antes de llenarla
+        tablaAsistencia.innerHTML = '<tr><td colspan="3">Cargando asistencia...</td></tr>';
+
         // Llamar al backend para obtener la asistencia
         fetch(`/monsterlabs/mvc/controllers/monitor/obtener-asistencia.php?fecha=${fecha}`)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.json();
+            })
             .then(data => {
-                const tablaAsistencia = document.getElementById('tablaAsistencia');
-                tablaAsistencia.innerHTML = ''; // Limpiar la tabla antes de llenarla
+                if (data.status === 'success' && data.asistencia.length > 0) {
+                    // Limpiar la tabla antes de llenarla
+                    tablaAsistencia.innerHTML = '';
 
-                if (data.status === 'success') {
                     // Rellenar la tabla con los datos de asistencia
                     data.asistencia.forEach(nino => {
                         const row = document.createElement('tr');
@@ -623,23 +629,156 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(error => {
                 console.error('Error al obtener la asistencia:', error);
+                tablaAsistencia.innerHTML = '<tr><td colspan="3">Error al cargar la asistencia. Inténtelo de nuevo más tarde.</td></tr>';
+                messageAsistencia.textContent = 'Error al cargar la asistencia.';
             });
     }
+
+    
+
+
+    /*******RELLENAR TABLA CON LA INFORMACION DE CADA NIÑO DEL GRUPO*/
+        // Obtener el modal y el botón de cierre
+        const modal = document.getElementById("infoModal");
+        const closeModalBtn = document.getElementById("closeModal");
+    
+        // Cerrar el modal cuando se hace clic en la "X"
+        closeModalBtn.addEventListener("click", function () {
+            modal.classList.remove("show");
+        });
+    
+        // Cerrar el modal cuando se hace clic fuera del contenido
+        window.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                modal.classList.remove("show");
+            }
+        });
+    
+        // Obtener datos de los niños desde el backend
+        fetch(`/monsterlabs/mvc/controllers/monitor/info-grupos.php`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Respuesta del servidor:", data); // Depuración
+                const viewGroupMembers = document.getElementById('viewGroupMembers');
+                viewGroupMembers.innerHTML = ''; // Limpiar la tabla antes de llenarla
+    
+                if (data.status === 'success') {
+                    data.ninos.forEach(nino => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${nino.nino.nombre_nino}</td>
+                            <td>${nino.nino.apellido_nino}</td>
+                            <td>${nino.padre.nombre_padre} ${nino.padre.apellido_padre}</td>
+                            <td>${nino.padre.dni_padre}</td>
+                            <td>${nino.padre.telefono}</td>
+                            <td><i class='bx bxs-notepad icon' data-nino='${JSON.stringify(nino)}'></i></td>
+                        `;
+                        viewGroupMembers.appendChild(row);
+                    });
+    
+                    // Agregar manejador de eventos a cada ícono
+                    document.querySelectorAll('.icon').forEach(icon => {
+                        icon.addEventListener('click', function () {
+                            const nino = JSON.parse(this.getAttribute('data-nino'));
+    
+                            // Mostrar la información adicional en el modal
+                            document.getElementById("modalContent").innerHTML = `
+                            <p><strong>Nombre del Niño:</strong> ${nino.nino.nombre_nino} ${nino.nino.apellido_nino}</p>
+                            <p><strong>Fecha de Nacimiento:</strong> ${nino.nino.fecha_nacimiento}</p>
+                            <p><strong>Periodo:</strong> ${nino.nino.periodo}</p>
+                            ${nino.guardian.dni_guardian === "No disponible" ?
+                                `<p>El niño no tiene agregado ninguna persona de confianza.</p>` :
+                                `<p><strong>Nombre de la persona de Confianza:</strong> ${nino.guardian.nombre_guardian} ${nino.guardian.apellido_guardian}</p>
+                                <p><strong>DNI de la persona de Confianza:</strong> ${nino.guardian.dni_guardian}</p>
+                                <p><strong>Teléfono de la persona de Confianza:</strong> ${nino.guardian.telefono_guardian}</p>`
+                            }
+                            <p><strong>Alergias a Alimentos:</strong> ${nino.ficha_medica.alimentos_alergico}</p>
+                            <p><strong>Alergias a Medicamentos:</strong> ${nino.ficha_medica.medicamentos_alergico}</p>
+                            <p><strong>Medicamentos Actuales:</strong> ${nino.ficha_medica.medicamentos_actuales}</p>
+                        `;
+                            // Mostrar el modal
+                            modal.classList.add("show");
+                        });
+                    });
+                } else {
+                    viewGroupMembers.innerHTML = '<tr><td colspan="8">No se encontraron participantes</td></tr>';
+                }
+            })
+            .catch(error => {
+                console.error('Error al obtener los estudiantes:', error);
+            });
+
+
+    /************CRONOGRAMA**************/
+    const calendarBody = document.getElementById('calendarBody');
+    const weekRange = document.getElementById('weekRange');
+    const prevWeekButton = document.getElementById('prevWeek');
+    const nextWeekButton = document.getElementById('nextWeek');
+
+    // Inicializar la fecha actual al 2 de junio de 2024
+    let currentDate = new Date(2024, 5, 2); // Los meses en JavaScript van de 0 (enero) a 11 (diciembre)
+
+    function renderCalendar() {
+        calendarBody.innerHTML = '';
+        const startOfWeek = new Date(currentDate);
+        startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + 1); // Lunes de la semana actual
+
+        weekRange.textContent = `Semana del ${formatDate(startOfWeek)} al ${formatDate(new Date(startOfWeek.getTime() + 4 * 24 * 60 * 60 * 1000))}`;
+
+        // Generar filas de horas (de 8:30 a 16:30)
+        for (let hour = 8; hour <= 16; hour++) {
+            for (let minute = 0; minute < 60; minute += 30) {
+                const row = document.createElement('tr');
+                const timeCell = document.createElement('td');
+                timeCell.textContent = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+                row.appendChild(timeCell);
+
+                // Generar celdas para cada día (Lunes a Viernes)
+                for (let day = 0; day < 5; day++) {
+                    const cell = document.createElement('td');
+                    cell.textContent = ''; // Puedes agregar contenido dinámico aquí
+                    row.appendChild(cell);
+                }
+
+                calendarBody.appendChild(row);
+            }
+        }
+    }
+
+    function formatDate(date) {
+        return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+
+    prevWeekButton.addEventListener('click', function() {
+        currentDate.setDate(currentDate.getDate() - 7);
+        renderCalendar();
+    });
+
+    nextWeekButton.addEventListener('click', function() {
+        currentDate.setDate(currentDate.getDate() + 7);
+        renderCalendar();
+    });
+
+    renderCalendar();
 });
 
 
 
 
 // --------------------------CERRAR SESION----------------------------
-document.addEventListener("click", function(event) {
+document.addEventListener("click", function (event) {
     // Detectar si se hizo clic en el botón de salir
     let logoutBtn = event.target.closest("#logoutBtn");
     if (logoutBtn) {
         event.preventDefault();
-        
+
         fetch("/monsterlabs/mvc/controllers/logout.php")
-            .then(() => {
-                window.location.href = "/monsterlabs/index.php"; // Redirigir tras cerrar sesión
+            .then(response => response.json()) // Parsear la respuesta como JSON
+            .then(data => {
+                if (data.redirect) {
+                    // Redirigir al usuario si la respuesta indica una redirección
+                    window.location.href = data.redirect;
+                }
             })
             .catch(error => console.error("Error al cerrar sesión:", error));
     }

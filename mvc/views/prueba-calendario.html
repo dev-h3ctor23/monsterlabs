@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario Semanal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="calendar">
+        <div class="header">
+            <button id="prevWeek">← Semana Anterior</button>
+            <h2 id="weekRange"></h2>
+            <button id="nextWeek">Siguiente Semana →</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Hora</th>
+                    <th>Lunes</th>
+                    <th>Martes</th>
+                    <th>Miércoles</th>
+                    <th>Jueves</th>
+                    <th>Viernes</th>
+                </tr>
+            </thead>
+            <tbody id="calendarBody">
+                <!-- Las filas se generarán dinámicamente con JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <script src="script.js"></script>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.calendar {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f8f9fa;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const calendarBody = document.getElementById('calendarBody');
+    const weekRange = document.getElementById('weekRange');
+    const prevWeekButton = document.getElementById('prevWeek');
+    const nextWeekButton = document.getElementById('nextWeek');
+
+    let currentDate = new Date();
+
+    function renderCalendar() {
+        calendarBody.innerHTML = '';
+        const startOfWeek = new Date(currentDate);
+        startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + 1); // Lunes de la semana actual
+
+        weekRange.textContent = `Semana del ${formatDate(startOfWeek)} al ${formatDate(new Date(startOfWeek.getTime() + 4 * 24 * 60 * 60 * 1000))}`;
+
+        // Generar filas de horas (de 8:30 a 16:30)
+        for (let hour = 8; hour <= 16; hour++) {
+            for (let minute = 0; minute < 60; minute += 30) {
+                const row = document.createElement('tr');
+                const timeCell = document.createElement('td');
+                timeCell.textContent = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+                row.appendChild(timeCell);
+
+                // Generar celdas para cada día (Lunes a Viernes)
+                for (let day = 0; day < 5; day++) {
+                    const cell = document.createElement('td');
+                    cell.textContent = ''; // Puedes agregar contenido dinámico aquí
+                    row.appendChild(cell);
+                }
+
+                calendarBody.appendChild(row);
+            }
+        }
+    }
+
+    function formatDate(date) {
+        return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+
+    prevWeekButton.addEventListener('click', function() {
+        currentDate.setDate(currentDate.getDate() - 7);
+        renderCalendar();
+    });
+
+    nextWeekButton.addEventListener('click', function() {
+        currentDate.setDate(currentDate.getDate() + 7);
+        renderCalendar();
+    });
+
+    renderCalendar();
+});
+    </script>
+</body>
+</html>

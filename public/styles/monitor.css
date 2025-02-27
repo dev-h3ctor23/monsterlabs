@@ -417,3 +417,124 @@ calendar-month {
     gap: 0;
 }
 
+
+/**********************MODAL DE INFORMACIÓN DE NIÑO *********************/
+
+/* Fondo del Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  
+  .modal.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  /* Contenido del Modal */
+  .modal-content {
+    background: white;
+    border-radius: 12px;
+    padding: 20px 30px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+  }
+  
+  .modal.show .modal-content {
+    transform: translateY(0);
+  }
+  
+  /* Encabezado del Modal */
+  .modal-header {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .modal-header h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #333;
+  }
+
+  /* Botón de Cerrar Modal */
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .modal-close:hover {
+    color: #333;
+  }
+
+
+  /************CRONOGRAMA**************/
+
+
+.calendar-cronogram {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #9A4E9E;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #98429c;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f8f9fa;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}

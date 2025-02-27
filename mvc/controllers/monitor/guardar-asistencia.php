@@ -12,7 +12,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] !== 'monitor') 
     exit;
 }
 
-include(__DIR__ . '/../../../config/conn.php');
+require_once(__DIR__ . '/../../../config/conn.php');
 
 // Leer los datos JSON enviados desde Fetch
 $data = json_decode(file_get_contents("php://input"), true);
