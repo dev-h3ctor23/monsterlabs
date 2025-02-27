@@ -700,17 +700,20 @@ border-radius: 6px;
 }
 
 /* Estilo para la celda que contiene el nombre, apellido y botones */
-.inactive-child-cell {
+.inactive-child-cell,
+.active-child-cell {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px; /* Espacio entre el nombre/apellido y los botones */
+  height: 32px; /* Ajusta la altura de las filas */
 }
 
 .name {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-grow: 1; /* Permite que el nombre ocupe el espacio disponible */
 }
 
 /* Centrar el mensaje de la pregunta en el modal */
