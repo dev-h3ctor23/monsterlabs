@@ -19,7 +19,6 @@
         </section>
         <!-- ? : Seccion de Perfil -->
         <section id="profile" class="section-content">
-            <h1>Perfil</h1>
             <div class="profile-grid">
                 <!-- * Card con foto y botón para cambiarla -->
                 <div class="profile-card photo-card">
@@ -35,8 +34,16 @@
                         <p><strong>Nombre:</strong> <span id="name-display"></span></p>
                         <p><strong>Correo:</strong> <span id="email-display"></span></p>
                         <p><strong>Teléfono:</strong> <span id="phone-display"></span></p>
+                        <p><strong>DNI:</strong> <span id="dni-display"></span></p>
                     </div>
                     <button id="edit-profile-btn" class="open-modal-btn">Editar perfil</button>
+                </div>
+                <!-- * Card de notificaciones -->
+                <div class="profile-card notifications-card">
+                    <h2>Notificaciones</h2>
+                    <div class="notifications-container">
+                        <!-- Aquí se mostrarán las notificaciones -->
+                    </div>
                 </div>
             </div>
         </section>
@@ -332,6 +339,29 @@
             </div>
         </div>
     </div>
+    <!-- * Modal de confirmación para eliminar notificación -->
+    <div id="confirm-delete-notification-modal" class="modal">
+        <div class="modal-content">
+            <p>¿Seguro que quieres eliminar esta notificación?</p>
+            <div class="modal-buttons">
+                <button id="confirm-delete-notification" class="btn save">Eliminar</button>
+                <button id="cancel-delete-notification" class="btn cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <!-- * Modal para mostrar la información completa de la notificación -->
+    <div id="view-notification-modal" class="modal">
+        <div class="modal-content">
+            <h3>Información de la Notificación</h3>
+            <p><strong>Asunto:</strong> <span id="notification-subject"></span></p>
+            <p><strong>Fecha:</strong> <span id="notification-date"></span></p>
+            <p><strong>Emisor:</strong> <span id="notification-sender"></span></p>
+            <p><strong>Descripción:</strong> <span id="notification-description"></span></p>
+            <div class="modal-buttons">
+                <button id="close-view-notification" class="btn cancel">Cerrar</button>
+            </div>
+        </div>
+    </div>
     <!-- TODO : Popups de notificación de Perfil -->
     <div id="popup" class="popup popup-success"></div>
     <div id="popup-error-edit" class="popup popup-error-edit"></div>
@@ -339,7 +369,7 @@
 
     <!-- TODO : Código para cargar el sidebar con su script. -->
     <script> 
-        fetch('../../components/sidebar-administrator.html') <!-- Ruta relativa -->
+        fetch('../../components/sidebar-administrator.html') 
             .then(response => response.text()) 
             .then(data => {
                 document.querySelector('body').insertAdjacentHTML('afterbegin', data);
@@ -369,5 +399,7 @@
     <script src="../../public/scripts/administrator/profile.js"></script>
     <script src="../../public/scripts/administrator/load_inactive_children.js"></script> <!-- Ruta relativa -->
     <script src="../../public/scripts/administrator/load_active_children.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/administrator/load_active_children_group.js"></script>
+    <script src="../../public/scripts/administrator/load_notifications.js"></script> <!-- Incluir el archivo JavaScript -->
 </body>
 </html>

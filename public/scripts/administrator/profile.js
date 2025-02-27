@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById("name-display").textContent = `${adminInfo.nombre} ${adminInfo.apellido}`;
                 document.getElementById("email-display").textContent = userInfo.email;
                 document.getElementById("phone-display").textContent = adminInfo.telefono;
+                document.getElementById("dni-display").textContent = adminInfo.dni;
             } else {
                 console.error(data.message);
             }

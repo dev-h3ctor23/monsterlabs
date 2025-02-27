@@ -384,15 +384,33 @@ body:has(.sidebar.close) {
     background: #4da63d;
 }
 
+/* Estilo para el botón cuadrado amarillo */
+.btn-yellow {
+    background-color: yellow;
+    border: none;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 10px; /* Espacio entre el nombre/apellido y el botón */
+    transition: transform 0.3s ease; /* Transición suave para el efecto de escala */
+}
+
+.btn-yellow:hover {
+    transform: scale(1.1); /* Efecto de escala al hacer hover */
+}
+
 /* TODO: Seccion de perfil -> Estilos para la sección de perfil */
 
 /* Contenedor de grid para la sección de perfil */
 .profile-grid {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 3fr; /* La primera columna será más pequeña y la segunda ocupará el resto */
     gap: 20px;
     align-items: stretch; /* Se estiran para tener la misma altura */
     margin-top: 20px;
+    width: 100%; /* Asegura que el grid ocupe toda la anchura */
 }
 
 /* Estilos generales para las cards */
@@ -409,6 +427,10 @@ body:has(.sidebar.close) {
 /* Card para la foto del usuario */
 .photo-card {
     text-align: center;
+    height: 100%; /* Asegura que la tarjeta de la foto tenga la misma altura que la tarjeta de información */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Contenedor de foto: cuadrado perfecto */
@@ -430,6 +452,23 @@ body:has(.sidebar.close) {
     object-fit: cover;
 }
 
+.photo-card .photo-container {
+    width: 100%;
+    height: 100%;
+    max-width: 200px; /* Limita el ancho máximo */
+    max-height: 200px; /* Limita la altura máxima */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
 /* Card para la información del usuario */
 .info-card .user-info {
     margin-bottom: 15px;
@@ -440,6 +479,11 @@ body:has(.sidebar.close) {
     background: #E1E6EA; /* Color de fondo para la celda */
     padding: 10px;
     border-radius: 4px;
+}
+
+.info-card {
+    grid-column: span 1; /* Ocupa una columna del grid */
+    height: 100%; /* Asegura que la tarjeta de información ocupe toda la altura disponible */
 }
 
 /* Estilo reutilizado para botones en la sección de perfil */
@@ -709,6 +753,13 @@ border-radius: 6px;
   height: 32px; /* Ajusta la altura de las filas */
 }
 
+/* Estilo para la celda que contiene el nombre, apellido y botón */
+.child-cell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .name {
   display: flex;
   align-items: center;
@@ -741,6 +792,11 @@ border-radius: 6px;
   text-align: center;
 }
 
+/* Estilos para el modal de confirmación para eliminar notificación */
+#confirm-delete-notification-modal .modal-content p {
+    text-align: center;
+}
+
 /* Animación de aparición */
 @keyframes fadeIn {
   from {
@@ -769,6 +825,82 @@ border-radius: 6px;
 /* Clase para aplicar la animación de desaparición */
 .fade-out {
   animation: fadeOut 0.32s forwards;
+}
+
+/* Estilos para la sección de perfil */
+.notifications-card {
+    grid-column: 1 / -1; /* Ocupa todas las columnas del grid */
+    height: 420px;
+    width: 100%; /* Ocupa toda la anchura de la pantalla */
+    overflow: hidden; /* Evita que aparezca el scroll */
+}
+
+/* Estilos para las notificaciones */
+.notifications-container {
+    height: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f9f9f9;
+    overflow-y: auto;
+}
+
+.notification-row {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 5px 0;
+    justify-content: space-between; /* Distribuir los elementos por toda la fila */
+}
+
+.notification-item {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.notification-column {
+    display: flex;
+    flex-direction: row; /* Alinear encabezado y contenido en una fila */
+    align-items: center; /* Alinear verticalmente */
+    margin-right: 10px; /* Espaciado entre las columnas */
+}
+
+.notification-header {
+    font-weight: 600; /* Semibold */
+    margin-right: 5px; /* Espaciado entre el encabezado y el contenido */
+}
+
+.notification-item span {
+    font-size: 14px; /* Mismo tamaño de letra para todos los elementos */
+}
+
+.notification-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centrar los botones */
+}
+
+.noti-btn {
+    width: 24px;
+    height: 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 10px; /* Espacio entre los botones */
+    transition: transform 0.3s ease; /* Transición suave para el efecto de escala */
+}
+
+.noti-btn:hover {
+    transform: scale(1.1); /* Efecto de escala al hacer hover */
+}
+
+.btn-yellow {
+    background-color: yellow;
+}
+
+.btn-red {
+    background-color: red;
 }
 
 
