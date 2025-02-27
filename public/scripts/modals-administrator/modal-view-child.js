@@ -66,5 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+    //Hola
     observer.observe(document.getElementById('inactive-children-table-body'), { childList: true, subtree: true });
 });
