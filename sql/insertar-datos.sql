@@ -1,152 +1,81 @@
--- Insertar en la tabla Usuario
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('rgomez', 'rgomez@gmail.com', 'Pass123', 'padre');
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('hchango', 'hchango@hotmail.com', 'Hc1234', 'padre');
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('mhuamani', 'mhuamani@gmail.com', 'Mir123', 'padre');
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('nchile', 'natalia.chile@gmail.com', 'Nat123', 'monitor');
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('mperu', 'melissa.peru@hotmail.com', 'Mel456', 'monitor');
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('svillanueva', 'sara.villanueva@gmail.com', 'Sara789', 'monitor');
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('irinconbello', 'irene.rincon@hotmail.com', 'Irene123', 'monitor');
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('admin', 'admin@gmail.com', 'Admin1', 'admin');
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('sruiz', 'padre3@monsterlabs.com', 'password3', 'padre');
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('ifernandez', 'padre4@monsterlabs.com', 'password4', 'padre');
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('rsantos', 'padre5@monsterlabs.com', 'password5', 'padre');
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('sramirez', 'padre6@monsterlabs.com', 'password6', 'padre');
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('ahernandez', 'padre7@monsterlabs.com', 'password7', 'padre');
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('mnavarro', 'padre8@monsterlabs.com', 'password8', 'padre');
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('gcastro', 'padre9@monsterlabs.com', 'password9', 'padre');
-INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('lmendoza', 'padre10@monsterlabs.com', 'password10', 'padre');
+INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('juanp', 'juanp@example.com', 'password123', 'padre');
+INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('maria.m', 'maria.m@example.com', 'password123', 'padre');
+INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('luism', 'luism@example.com', 'password123', 'monitor');
+INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('carlosa', 'carlosa@example.com', 'password123', 'monitor');
+INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('admin1', 'admin1@example.com', 'password123', 'admin');
+INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('admin2', 'admin2@example.com', 'password123', 'admin');
+INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('pedro.l', 'pedro.l@example.com', 'password123', 'padre');
+INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('lucia.g', 'lucia.g@example.com', 'password123', 'monitor');
+INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('andres.m', 'andres.m@example.com', 'password123', 'monitor');
+INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('sofia.r', 'sofia.r@example.com', 'password123', 'monitor');
+INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('andrea.p', 'andrea.p@example.com', 'password123', 'padre');
+INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('miguel.p', 'miguel.p@example.com', 'password123', 'padre');
+INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('admin3', 'admin3@example.com', 'password123', 'admin');
+INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('admin4', 'admin4@example.com', 'password123', 'admin');
+INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('admin5', 'admin5@example.com', 'password123', 'admin');
 
--- Insertar en la tabla Padre
-INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) VALUES ('12345678A', 'Ricardo', 'Gomez', '999888777', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'rgomez'));
-INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) VALUES ('87654321B', 'Hector', 'Chango', '999888776', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'hchango'));
-INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) VALUES ('56781234C', 'Miryam', 'Huamani', '999888775', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'mhuamani'));
+INSERT IGNORE INTO Grupo (nombre_grupo) VALUES ('Grupo A');
+INSERT IGNORE INTO Grupo (nombre_grupo) VALUES ('Grupo B');
+INSERT IGNORE INTO Grupo (nombre_grupo) VALUES ('Grupo C');
+INSERT IGNORE INTO Grupo (nombre_grupo) VALUES ('Grupo D');
+INSERT IGNORE INTO Grupo (nombre_grupo) VALUES ('Grupo E');
 
-INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) 
-VALUES ('12398745D', 'Santiago', 'Ruiz', '600888777', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'sruiz'));
+INSERT IGNORE INTO Monitor (dni_monitor, nombre, apellido, numero_telefono, id_usuario, id_grupo) VALUES ('12345678A', 'Luis', 'Martinez', '600123456', 3, 1);
+INSERT IGNORE INTO Monitor (dni_monitor, nombre, apellido, numero_telefono, id_usuario, id_grupo) VALUES ('23456789B', 'Carlos', 'Garcia', '600234567', 4, 2);
+INSERT IGNORE INTO Monitor (dni_monitor, nombre, apellido, numero_telefono, id_usuario, id_grupo) VALUES ('34567890C', 'Lucia', 'Gomez', '600345678', 8, 3);
+INSERT IGNORE INTO Monitor (dni_monitor, nombre, apellido, numero_telefono, id_usuario, id_grupo) VALUES ('45678901D', 'Andres', 'Lopez', '600456789', 9, 4);
+INSERT IGNORE INTO Monitor (dni_monitor, nombre, apellido, numero_telefono, id_usuario, id_grupo) VALUES ('56789012E', 'Sofia', 'Rodriguez', '600567890', 10, 5);
 
-INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) 
-VALUES ('32178954E', 'Isabel', 'Fernández', '600222333', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'ifernandez'));
+INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) VALUES ('87654321Z', 'Juan', 'Perez', '611111111', 1);
+INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) VALUES ('76543210Y', 'Maria', 'Lopez', '622222222', 2);
+INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) VALUES ('65432109X', 'Pedro', 'Gonzalez', '633333333', 7);
+INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) VALUES ('54321098W', 'Andrea', 'Ramirez', '644444444', 11);
+INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) VALUES ('43210987V', 'Miguel', 'Sanchez', '655555555', 12);
 
-INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) 
-VALUES ('78965412F', 'Ricardo', 'Santos', '600444555', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'rsantos'));
+INSERT IGNORE INTO Administrador (dni_admin, nombre, apellido, numero_telefono, id_usuario) VALUES ('11111111A', 'Carlos', 'Martinez', '700111111', 5);
+INSERT IGNORE INTO Administrador (dni_admin, nombre, apellido, numero_telefono, id_usuario) VALUES ('22222222B', 'Elena', 'Garcia', '700222222', 6);
+INSERT IGNORE INTO Administrador (dni_admin, nombre, apellido, numero_telefono, id_usuario) VALUES ('33333333C', 'Roberto', 'Fernandez', '700333333', 13);
+INSERT IGNORE INTO Administrador (dni_admin, nombre, apellido, numero_telefono, id_usuario) VALUES ('44444444D', 'Lucia', 'Torres', '700444444', 14);
+INSERT IGNORE INTO Administrador (dni_admin, nombre, apellido, numero_telefono, id_usuario) VALUES ('55555555E', 'Sergio', 'Lopez', '700555555', 15);
 
-INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) 
-VALUES ('45632187G', 'Sofía', 'Ramírez', '600666777', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'sramirez'));
+INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, fecha_inicio, fecha_fin, periodo, estado, id_grupo, id_padre) VALUES ('Ana', 'Perez', '2015-03-15', '2023-06-01', '2023-12-01', 'mensual', 'activo', 1, 1);
+INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, fecha_inicio, fecha_fin, periodo, estado, id_grupo, id_padre) VALUES ('Luis', 'Sanchez', '2014-07-22', '2023-06-01', '2023-12-01', 'semanal', 'activo', 2, 2);
+INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, fecha_inicio, fecha_fin, periodo, estado, id_grupo, id_padre) VALUES ('Marta', 'Lopez', '2016-01-10', '2023-06-01', '2023-12-01', 'trimestral', 'activo', 3, 3);
+INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, fecha_inicio, fecha_fin, periodo, estado, id_grupo, id_padre) VALUES ('Diego', 'Garcia', '2015-09-30', '2023-06-01', '2023-12-01', 'mensual', 'activo', 4, 4);
+INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, fecha_inicio, fecha_fin, periodo, estado, id_grupo, id_padre) VALUES ('Sofia', 'Martinez', '2014-12-05', '2023-06-01', '2023-12-01', 'semanal', 'activo', 5, 5);
+INSERT IGNORE INTO Asistencia (fecha, id_nino, estado) VALUES ('2023-06-10', 1, 'asistio');
+INSERT IGNORE INTO Asistencia (fecha, id_nino, estado) VALUES ('2023-06-10', 2, 'ausente');
+INSERT IGNORE INTO Asistencia (fecha, id_nino, estado) VALUES ('2023-06-10', 3, 'asistio');
+INSERT IGNORE INTO Asistencia (fecha, id_nino, estado) VALUES ('2023-06-10', 4, 'asistio');
+INSERT IGNORE INTO Asistencia (fecha, id_nino, estado) VALUES ('2023-06-10', 5, 'ausente');
 
-INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) 
-VALUES ('98712365H', 'Andrés', 'Hernández', '600999888', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'ahernandez'));
+INSERT IGNORE INTO Pago (nombre_tipo, id_padre) VALUES ('transferencia', 1);
+INSERT IGNORE INTO Pago (nombre_tipo, id_padre) VALUES ('bizum', 2);
+INSERT IGNORE INTO Pago (nombre_tipo, id_padre) VALUES ('pagoCentro', 3);
+INSERT IGNORE INTO Pago (nombre_tipo, id_padre) VALUES ('transferencia', 4);
+INSERT IGNORE INTO Pago (nombre_tipo, id_padre) VALUES ('bizum', 5);
 
-INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) 
-VALUES ('56473829I', 'Mónica', 'Navarro', '600111999', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'mnavarro'));
+INSERT IGNORE INTO Guardian (dni_guardian, nombre, apellido, telefono) VALUES ('98765432K', 'Rosa', 'Vega', '600111222');
+INSERT IGNORE INTO Guardian (dni_guardian, nombre, apellido, telefono) VALUES ('87654321L', 'Jorge', 'Marin', '600222333');
+INSERT IGNORE INTO Guardian (dni_guardian, nombre, apellido, telefono) VALUES ('76543210M', 'Laura', 'Ortega', '600333444');
+INSERT IGNORE INTO Guardian (dni_guardian, nombre, apellido, telefono) VALUES ('65432109N', 'Fernando', 'Diaz', '600444555');
+INSERT IGNORE INTO Guardian (dni_guardian, nombre, apellido, telefono) VALUES ('54321098O', 'Carmen', 'Soto', '600555666');
 
-INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) 
-VALUES ('29183746J', 'Gabriel', 'Castro', '600555111', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'gcastro'));
+INSERT IGNORE INTO GuardianNino (relacion, id_nino, id_guardian) VALUES ('tio', 1, 1);
+INSERT IGNORE INTO GuardianNino (relacion, id_nino, id_guardian) VALUES ('abuelo', 2, 2);
+INSERT IGNORE INTO GuardianNino (relacion, id_nino, id_guardian) VALUES ('amigo', 3, 3);
+INSERT IGNORE INTO GuardianNino (relacion, id_nino, id_guardian) VALUES ('primo', 4, 4);
+INSERT IGNORE INTO GuardianNino (relacion, id_nino, id_guardian) VALUES ('vecino', 5, 5);
 
-INSERT IGNORE INTO Padre (dni_padre, nombre, apellido, numero_telefono, id_usuario) 
-VALUES ('83746591K', 'Laura', 'Mendoza', '600777000', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'lmendoza'));
+INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Presentacion Monster', 'Introducción a la temática Monster con dinámicas grupales.');
+INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Super Burbujas de Colores', 'Actividad creativa con burbujas y colorantes para experimentos visuales.');
+INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Pasta Monster', 'Elaboración de pasta comestible con formas monstruosas.');
+INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Super Slime', 'Creación de slime con texturas variadas y colores brillantes.');
+INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Actividad Pasivo Monter', 'Actividad de relajación y creatividad en silencio con temática Monster.');
+INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Circuito Activo Monster', 'Circuito deportivo inspirado en desafíos del mundo Monster.');
 
-
-
--- Insertar en la tabla Monitor
-INSERT IGNORE INTO Monitor (dni_monitor, nombre, apellido, numero_telefono, id_usuario) VALUES ('11111111A', 'Natalia', 'Chile', '987654321', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'nchile'));
-INSERT IGNORE INTO Monitor (dni_monitor, nombre, apellido, numero_telefono, id_usuario) VALUES ('11111112B', 'Melissa', 'Peru', '987654322', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'mperu'));
-INSERT IGNORE INTO Monitor (dni_monitor, nombre, apellido, numero_telefono, id_usuario) VALUES ('11111113C', 'Sara', 'Villanueva', '987654323', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'svillanueva'));
-INSERT IGNORE INTO Monitor (dni_monitor, nombre, apellido, numero_telefono, id_usuario) VALUES ('11111114D', 'IRENE DEL RINCON', 'BELLO', '987654324', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'irinconbello'));
-
--- Insertar en la tabla Administrador
-INSERT IGNORE INTO Administrador (dni_admin, id_usuario) VALUES ('99999999Z', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'admin'));
-
--- Insertar en la tabla Niño
-INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, nombre_estado, dni_padre) VALUES ('Lucas', 'Gomez', '2015-05-10', 'activo', '12345678A');
-INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, nombre_estado, dni_padre) VALUES ('Mia', 'Gomez', '2017-03-22', 'activo', '12345678A');
-INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, nombre_estado, dni_padre) VALUES ('Juan', 'Chango', '2014-08-15', 'activo', '87654321B');
-INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, nombre_estado, dni_padre) VALUES ('Sofia', 'Chango', '2016-09-30', 'activo', '87654321B');
-INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, nombre_estado, dni_padre) VALUES ('Pedro', 'Huamani', '2013-12-01', 'activo', '56781234C');
-INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, nombre_estado, dni_padre) VALUES ('Valeria', 'Huamani', '2018-02-11', 'activo', '56781234C');
-
--- Insertar en la tabla Guardian
-INSERT IGNORE INTO Guardian (dni_guardian, nombre, apellido, telefono) VALUES ('77777777A', 'Carlos', 'Fernandez', '666555444');
-INSERT IGNORE INTO Guardian (dni_guardian, nombre, apellido, telefono) VALUES ('77777777B', 'Ana', 'Martinez', '666555445');
-
--- Insertar en la tabla GuardianNino
-INSERT IGNORE INTO GuardianNino (relacion, dni_nino, dni_guardian) VALUES ('tio', '55555555A', '77777777A');
-INSERT IGNORE INTO GuardianNino (relacion, dni_nino, dni_guardian) VALUES ('abuela', '55555555A', '77777777B');
-INSERT IGNORE INTO GuardianNino (relacion, dni_nino, dni_guardian) VALUES ('tio', '55555556A', '77777777A');
-INSERT IGNORE INTO GuardianNino (relacion, dni_nino, dni_guardian) VALUES ('tia', '55555557A', '77777777B');
-
-
--- Insertar en la tabla Cronograma
--- Inserta el primer cronograma SOLO SI la tabla está vacía
-INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, descripcion, id_usuario)
-SELECT '2025-01-10', '09:00:00', '12:00:00', 'Actividades matutinas para niños',
-       (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'rgomez')
-FROM DUAL
-WHERE NOT EXISTS (SELECT 1 FROM Cronograma LIMIT 1);
-
--- Inserta el segundo cronograma SOLO SI la tabla sigue vacía (o sea, si no se insertó nada antes)
-INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, descripcion, id_usuario)
-SELECT '2025-01-11', '15:00:00', '17:00:00', 'Clase de danza',
-       (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'nchile')
-FROM DUAL
-WHERE NOT EXISTS (SELECT 1 FROM Cronograma LIMIT 1);
-
--- Inserta el tercer cronograma SOLO SI la tabla sigue vacía
-INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, descripcion, id_usuario)
-SELECT '2025-01-12', '10:00:00', '13:00:00', 'Manualidades y arte',
-       (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'mperu')
-FROM DUAL
-WHERE NOT EXISTS (SELECT 1 FROM Cronograma LIMIT 1);
-
--- Insertar en la tabla Actividad-- Insertar en la tabla Actividad (solo si no hay NINGUNA fila)
-INSERT IGNORE INTO Actividad (nombre_actividad, dni_monitor)
-SELECT 'Danza Moderna', '11111111A'
-FROM DUAL
-WHERE NOT EXISTS (SELECT 1 FROM Actividad LIMIT 1);
-
-INSERT IGNORE INTO Actividad (nombre_actividad, dni_monitor)
-SELECT 'Pintura Infantil', '11111112B'
-FROM DUAL
-WHERE NOT EXISTS (SELECT 1 FROM Actividad LIMIT 1);
-
-INSERT IGNORE INTO Actividad (nombre_actividad, dni_monitor)
-SELECT 'Teatro Infantil', '11111113C'
-FROM DUAL
-WHERE NOT EXISTS (SELECT 1 FROM Actividad LIMIT 1);
-
--- Insertar en la tabla ActividadNino
-INSERT IGNORE INTO ActividadNino (id_actividad, dni_nino) VALUES (1, '55555555A'); 
-INSERT IGNORE INTO ActividadNino (id_actividad, dni_nino) VALUES (1, '55555556A'); 
-INSERT IGNORE INTO ActividadNino (id_actividad, dni_nino) VALUES (2, '55555557A'); 
-INSERT IGNORE INTO ActividadNino (id_actividad, dni_nino) VALUES (3, '55555555B'); 
-
--- Insertar en la tabla CronogramaActividad
-INSERT IGNORE INTO CronogramaActividad (id_cronograma, id_actividad, hora_asignada, duracion) 
-VALUES (1, 1, '09:30:00', 60);  
-INSERT IGNORE INTO CronogramaActividad (id_cronograma, id_actividad, hora_asignada, duracion) 
-VALUES (1, 2, '10:30:00', 90); 
-INSERT IGNORE INTO CronogramaActividad (id_cronograma, id_actividad, hora_asignada, duracion) 
-VALUES (2, 1, '15:30:00', 90);  
-INSERT IGNORE INTO CronogramaActividad (id_cronograma, id_actividad, hora_asignada, duracion) 
-VALUES (3, 3, '11:00:00', 120); 
-
--- Insertar en la tabla Conversacion
-INSERT IGNORE INTO Conversacion (fecha_creacion) VALUES ('2025-01-10');
-INSERT IGNORE INTO Conversacion (fecha_creacion) VALUES ('2025-01-11');
-
--- Insertar en la tabla ParticipantesConversacion
-INSERT IGNORE INTO ParticipantesConversacion (id_conversacion, id_usuario) 
-VALUES (1, (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'rgomez'));
-INSERT IGNORE INTO ParticipantesConversacion (id_conversacion, id_usuario) 
-VALUES (1, (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'nchile'));
-INSERT IGNORE INTO ParticipantesConversacion (id_conversacion, id_usuario) 
-VALUES (2, (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'mperu'));
-INSERT IGNORE INTO ParticipantesConversacion (id_conversacion, id_usuario) 
-VALUES (2, (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'svillanueva'));
-
--- Insertar en la tabla FichaMedica
-INSERT IGNORE INTO FichaMedica (alimentos_alergico, medicamentos_alergico, medicamentos_actuales, nombre_emergencia, telefono_emergencia, dni_nino) 
-VALUES ('Ninguna', 'Penicilina', 'Ibuprofeno', 'Maria Gomez', '555123456', '55555555A');
-INSERT IGNORE INTO FichaMedica (alimentos_alergico, medicamentos_alergico, medicamentos_actuales, nombre_emergencia, telefono_emergencia, dni_nino) 
-VALUES ('Huevo, Leche', 'Ninguna', 'Antihistamínico', 'Juan Gomez', '555123457', '55555556A');
-INSERT IGNORE INTO FichaMedica (alimentos_alergico, medicamentos_alergico, medicamentos_actuales, nombre_emergencia, telefono_emergencia, dni_nino) 
-VALUES ('Fresas', 'Penicilina', 'Amoxicilina', 'Luisa Huamani', '555123458', '55555557A');
+INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, id_actividad, id_grupo) VALUES ('2025-03-01', '10:00:00', '11:30:00', 1, 1);
+INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES ('2025-03-02', '14:00:00', '15:30:00', 2, 2);
+INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES ('2025-03-03', '09:30:00', '11:00:00', 3, 3);
+INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES ('2025-03-04', '13:00:00', '14:30:00', 4, 4);
+INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES ('2025-03-05', '16:00:00', '17:30:00', 5, 5);

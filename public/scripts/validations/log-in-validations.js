@@ -2,7 +2,8 @@ document.querySelector('form').addEventListener('submit', function(event) {
     event.preventDefault();
     
     const usernameField = document.querySelector('input[type="text"]');
-    const passwordField = document.querySelector('input[type="password"]');
+    //const passwordField = document.querySelector('input[type="password"]');
+    const passwordField = document.querySelector('.password');
     const emailError = document.getElementById('email-error');
     const passwordError = document.getElementById('password-error');
     let valid = true;
