@@ -8,7 +8,7 @@ session_start();
 
 // Verificar que el usuario esté logueado y sea monitor
 if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] !== 'monitor') {
-    echo json_encode(["status" => "error", "message" => "Acceso denegado"]);
+    echo json_encode(["status" => "error", "message" => "Acceso denegado", "redirect" => "/monsterlabs/index.php"]);
     exit;
 }
 
@@ -45,10 +45,10 @@ $stmt1->close();
 
 // Se consultan los niños que estén en el grupo del monitor y cuyo rango (fecha_inicio - fecha_fin) incluya la fecha seleccionada
 $query = "SELECT n.id_nino, n.nombre, n.apellido, a.estado
-          FROM Nino n
-          LEFT JOIN Asistencia a ON n.id_nino = a.id_nino AND a.fecha = ?
-          WHERE ? BETWEEN n.fecha_inicio AND n.fecha_fin
-          AND n.id_grupo = ?";
+        FROM Nino n
+        LEFT JOIN Asistencia a ON n.id_nino = a.id_nino AND a.fecha = ?
+        WHERE ? BETWEEN n.fecha_inicio AND n.fecha_fin
+        AND n.id_grupo = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("ssi", $date, $date, $grupo_id);
 $stmt->execute();

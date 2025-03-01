@@ -671,6 +671,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <td>${nino.padre.nombre_padre} ${nino.padre.apellido_padre}</td>
                             <td>${nino.padre.dni_padre}</td>
                             <td>${nino.padre.telefono}</td>
+                            <td>${nino.observaciones.map(observacion => observacion.observacion).join('<br>')}</td>
                             <td><i class='bx bxs-notepad icon' data-nino='${JSON.stringify(nino)}'></i></td>
                         `;
                         viewGroupMembers.appendChild(row);
@@ -710,76 +711,199 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /************CRONOGRAMA**************/
-    const calendarBody = document.getElementById('calendarBody');
-    const weekRange = document.getElementById('weekRange');
-    const prevWeekButton = document.getElementById('prevWeek');
-    const nextWeekButton = document.getElementById('nextWeek');
-
-    // Inicializar la fecha actual al 2 de junio de 2024
-    let currentDate = new Date(2024, 5, 2); // Los meses en JavaScript van de 0 (enero) a 11 (diciembre)
-
-    function renderCalendar() {
-        calendarBody.innerHTML = '';
-        const startOfWeek = new Date(currentDate);
-        startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + 1); // Lunes de la semana actual
-
-        weekRange.textContent = `Semana del ${formatDate(startOfWeek)} al ${formatDate(new Date(startOfWeek.getTime() + 4 * 24 * 60 * 60 * 1000))}`;
-
-        // Generar filas de horas (de 8:30 a 16:30)
-        for (let hour = 8; hour <= 16; hour++) {
-            for (let minute = 0; minute < 60; minute += 30) {
-                const row = document.createElement('tr');
-                const timeCell = document.createElement('td');
-                timeCell.textContent = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-                row.appendChild(timeCell);
-
-                // Generar celdas para cada día (Lunes a Viernes)
-                for (let day = 0; day < 5; day++) {
-                    const cell = document.createElement('td');
-                    cell.textContent = ''; // Puedes agregar contenido dinámico aquí
-                    row.appendChild(cell);
-                }
-
-                calendarBody.appendChild(row);
-            }
+        const calendarBody = document.getElementById('calendarBody');
+        const calendarHeader = document.getElementById('calendarHeader');
+        const weekRange = document.getElementById('weekRange');
+        const prevWeekButton = document.getElementById('prevWeek');
+        const nextWeekButton = document.getElementById('nextWeek');
+    
+        // Inicializar la fecha actual al 2 de junio de 2024
+        let currentDate = new Date(2024, 5, 2); // Los meses en JavaScript van de 0 (enero) a 11 (diciembre)
+    
+        function renderCalendar() {
+            calendarBody.innerHTML = '';
+            const startOfWeek = new Date(currentDate);
+            startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + 1); // Lunes de la semana actual
+    
+            // Mostrar el rango de la semana
+            weekRange.textContent = `Semana del ${formatDate(startOfWeek)} al ${formatDate(new Date(startOfWeek.getTime() + 4 * 24 * 60 * 60 * 1000))}`;
+    
+            // Obtener los datos del cronograma
+            fetch('/monsterlabs/mvc/controllers/monitor/obtener-cronograma.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        renderActivities(data.data, startOfWeek);
+                    } else {
+                        console.error('Error al obtener los datos:', data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         }
-    }
+    
+        function renderActivities(actividades, startOfWeek) {
+            // Crear la fila de encabezados (días de la semana)
+            const headerRow = document.createElement('tr');
+            ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'].forEach(day => {
+                const th = document.createElement('th');
+                th.textContent = day;
+                headerRow.appendChild(th);
+            });
+            calendarHeader.innerHTML = ''; // Limpiar encabezados anteriores
+            calendarHeader.appendChild(headerRow);
+    
+            // Crear una fila para las actividades
+            const row = document.createElement('tr');
+    
+            // Generar celdas para cada día de la semana
+            for (let day = 0; day < 5; day++) {
+                const cell = document.createElement('td');
+                const currentDay = new Date(startOfWeek);
+                currentDay.setDate(startOfWeek.getDate() + day);
+    
+                // Filtrar actividades para el día actual
+                const actividadesDia = actividades.filter(actividad => {
+                    const actividadFecha = new Date(actividad.fecha);
+                    return actividadFecha.toDateString() === currentDay.toDateString();
+                });
+                
 
-    function formatDate(date) {
-        return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    }
+                
+                // Mostrar actividades como tarjetas
+                const modal = document.getElementById("infoModalCronogram");
+                const closeModalBtn = document.getElementById("closeModalCronogram");
+            
+                // Cerrar el modal cuando se hace clic en la "X"
+                closeModalBtn.addEventListener("click", function () {
+                    modal.classList.remove("show");
+                });
+            
+                // Cerrar el modal cuando se hace clic fuera del contenido
+                window.addEventListener("click", function (event) {
+                    if (event.target === modal) {
+                        modal.classList.remove("show");
+                    }
+                });
 
-    prevWeekButton.addEventListener('click', function() {
-        currentDate.setDate(currentDate.getDate() - 7);
+                actividadesDia.forEach(actividad => {
+                    const tarjeta = document.createElement('div');
+                    tarjeta.className = 'tarjeta-actividad';
+                    tarjeta.innerHTML = `
+                        <strong>${actividad.nombre_actividad}</strong>
+                        <p>${actividad.hora_inicio} - ${actividad.hora_fin}</p>
+                    `;
+                    tarjeta.addEventListener('click', function () {
+                        document.getElementById("modalContentCronogram").innerHTML = `
+                        <div class="modal-contenido">
+                            <h2>${actividad.nombre_actividad}</h2>
+                            <p><strong>Horario:</strong> ${actividad.hora_inicio} - ${actividad.hora_fin}</p>
+                            <p><strong>Descripción:</strong> ${actividad.descripcion}</p>
+                        </div>
+                        `;
+            
+                        modal.classList.add("show");
+                        
+                    });     
+                    cell.appendChild(tarjeta);
+                });
+
+                row.appendChild(cell);
+            }
+    
+            calendarBody.appendChild(row);
+        }
+    
+        // function mostrarModal(actividad) {
+        //     const modalCronograma= document.createElement('div');
+            
+        //     modalCronograma.id = 'infoModal';
+        //     modalCronograma.className = 'modal';
+        //     modalCronograma.innerHTML = `
+        //         <div class="modal-contenido">
+        //             <h2>${actividad.nombre_actividad}</h2>
+        //             <p><strong>Horario:</strong> ${actividad.hora_inicio} - ${actividad.hora_fin}</p>
+        //             <p><strong>Descripción:</strong> ${actividad.descripcion}</p>
+        //             <button id="closeModal">Cerrar</button>
+        //         </div>
+        //     `;
+        //     // document.body.appendChild(modalCronograma);
+        //     modalCronograma.classList.add("show");
+        // }
+        
+
+        function formatDate(date) {
+            return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+    
+        prevWeekButton.addEventListener('click', function () {
+            currentDate.setDate(currentDate.getDate() - 7);
+            renderCalendar();
+        });
+    
+        nextWeekButton.addEventListener('click', function () {
+            currentDate.setDate(currentDate.getDate() + 7);
+            renderCalendar();
+        });
+    
         renderCalendar();
-    });
-
-    nextWeekButton.addEventListener('click', function() {
-        currentDate.setDate(currentDate.getDate() + 7);
-        renderCalendar();
-    });
-
-    renderCalendar();
-});
 
 
 
 
-// --------------------------CERRAR SESION----------------------------
-document.addEventListener("click", function (event) {
-    // Detectar si se hizo clic en el botón de salir
-    let logoutBtn = event.target.closest("#logoutBtn");
-    if (logoutBtn) {
+
+    //----------------------------CONTACTO - MENSAJES --------------------------
+    const formContact = document.getElementById('form-notificaciones');
+
+    formContact.addEventListener("submit", function (event) {
         event.preventDefault();
+        const asunto = document.getElementById('asunto').value;
+        const descripcion = document.getElementById('descripcion').value;
+        const messageContact = document.getElementById('message-contact');
 
-        fetch("/monsterlabs/mvc/controllers/logout.php")
-            .then(response => response.json()) // Parsear la respuesta como JSON
+        fetch("/monsterlabs/mvc/controllers/monitor/envio-mensaje.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                asunto: asunto,
+                descripcion: descripcion
+            })
+        })
+            .then(response => response.json())
             .then(data => {
-                if (data.redirect) {
-                    // Redirigir al usuario si la respuesta indica una redirección
-                    window.location.href = data.redirect;
+                if (data.status === "success") {
+                    messageContact.textContent = data.message;
+                    messageContact.style.color = "green";
+                } else {
+                    messageContact.textContent = data.message;
+                    messageContact.style.color = "red";
                 }
             })
-            .catch(error => console.error("Error al cerrar sesión:", error));
-    }
+            .catch(error => {
+                console.error("Error:", error);
+                messageContact.textContent = "Error de conexión";
+                messageContact.style.color = "red";
+            });
+
+    });
+
+    // --------------------------CERRAR SESION----------------------------
+    document.addEventListener("click", function (event) {
+        // Detectar si se hizo clic en el botón de salir
+        let logoutBtn = event.target.closest("#logoutBtn");
+        if (logoutBtn) {
+            event.preventDefault();
+
+            fetch("/monsterlabs/mvc/controllers/logout.php")
+                .then(response => response.json()) // Parsear la respuesta como JSON
+                .then(data => {
+                    if (data.redirect) {
+                        // Redirigir al usuario si la respuesta indica una redirección
+                        window.location.href = data.redirect;
+                    }
+                })
+                .catch(error => console.error("Error al cerrar sesión:", error));
+        }
+    });
 });

@@ -8,7 +8,7 @@ session_start();
 
 // Verificar que el usuario esté logueado y sea monitor
 if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] !== 'monitor') {
-    echo json_encode(["status" => "error", "message" => "Acceso denegado"]);
+    echo json_encode(["status" => "error", "message" => "Acceso denegado", "redirect" => "/monsterlabs/index.php"]);
     exit;
 }
 

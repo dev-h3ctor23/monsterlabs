@@ -79,10 +79,10 @@ INSERT INTO GuardianNino (relacion, id_nino, id_guardian) VALUES
 ('tutor', 4, 2);
 
 
-INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Presentacion Monster', 'Introducción a la temática Monster con dinámicas grupales.');
+INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Presentacion Monster', 'Esta actividad se realizará en el aula, donde los monitores darán la bienvenida a los niños y niñas. Se les invita a acomodarse en semicírculo en el suelo, junto al narrador de cuentos. El narrador contará la historia de la creación de Monster a los niños y niñas.');
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Super Burbujas de Colores', 'Actividad creativa con burbujas y colorantes para experimentos visuales.');
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Pasta Monster', 'Elaboración de pasta comestible con formas monstruosas.');
-INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Super Slime', 'Creación de slime con texturas variadas y colores brillantes.');
+INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Super Slime', 'La actividad se llevará a cabo en el patio central, brindando a los niños y niñas un espacio amplio y cómodo para expresarse libremente. Antes de comenzar, se presentarán los materiales y se formularán preguntas para activar sus conocimientos previos. Luego, se les animará a crear un slime gigante de manera colaborativa, asegurando que todos participen. Al finalizar, se pondrá música para enriquecer la experiencia, permitiendo que los niños y niñas manipulen el slime mientras realizan movimientos con sus extremidades.');
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Actividad Pasivo Monter', 'Actividad de relajación y creatividad en silencio con temática Monster.');
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Circuito Activo Monster', 'Circuito deportivo inspirado en desafíos del mundo Monster.')
 
@@ -92,3 +92,46 @@ INSERT INTO FichaMedica (alimentos_alergico, medicamentos_alergico, medicamentos
 ('Gluten', 'Ninguno', 'Ibuprofeno', 2),
 ('Lactosa', 'Ninguno', 'Paracetamol', 3),
 ('Ninguno', 'Ninguno', 'Ninguno', 4);
+
+
+-- Insertar actividades en el cronograma para la primera semana (2 de junio de 2024 al 8 de junio de 2024)
+INSERT INTO Cronograma (fecha, hora_inicio, hora_fin, id_actividad, id_grupo) VALUES
+-- Lunes 3 de junio de 2024
+('2024-06-03', '09:00:00', '10:00:00', 1, 1), -- Presentacion Monster para Grupo A
+('2024-06-03', '10:00:00', '11:00:00', 2, 2), -- Super Burbujas de Colores para Grupo B
+('2024-06-03', '11:00:00', '12:00:00', 3, 3), -- Pasta Monster para Grupo C
+('2024-06-03', '12:00:00', '13:00:00', 4, 4), -- Super Slime para Grupo D
+('2024-06-03', '13:00:00', '14:00:00', 5, 5), -- Actividad Pasivo Monster para Grupo E
+('2024-06-03', '14:00:00', '15:00:00', 6, 1), -- Circuito Activo Monster para Grupo A
+
+-- Martes 4 de junio de 2024
+('2024-06-04', '09:00:00', '10:00:00', 2, 1), -- Super Burbujas de Colores para Grupo A
+('2024-06-04', '10:00:00', '11:00:00', 3, 2), -- Pasta Monster para Grupo B
+('2024-06-04', '11:00:00', '12:00:00', 4, 3), -- Super Slime para Grupo C
+('2024-06-04', '12:00:00', '13:00:00', 5, 4), -- Actividad Pasivo Monster para Grupo D
+('2024-06-04', '13:00:00', '14:00:00', 6, 5), -- Circuito Activo Monster para Grupo E
+('2024-06-04', '14:00:00', '15:00:00', 1, 2), -- Presentacion Monster para Grupo B
+
+-- Miércoles 5 de junio de 2024
+('2024-06-05', '09:00:00', '10:00:00', 3, 1), -- Pasta Monster para Grupo A
+('2024-06-05', '10:00:00', '11:00:00', 4, 2), -- Super Slime para Grupo B
+('2024-06-05', '11:00:00', '12:00:00', 5, 3), -- Actividad Pasivo Monster para Grupo C
+('2024-06-05', '12:00:00', '13:00:00', 6, 4), -- Circuito Activo Monster para Grupo D
+('2024-06-05', '13:00:00', '14:00:00', 1, 5), -- Presentacion Monster para Grupo E
+('2024-06-05', '14:00:00', '15:00:00', 2, 3), -- Super Burbujas de Colores para Grupo C
+
+-- Jueves 6 de junio de 2024
+('2024-06-06', '09:00:00', '10:00:00', 4, 1), -- Super Slime para Grupo A
+('2024-06-06', '10:00:00', '11:00:00', 5, 2), -- Actividad Pasivo Monster para Grupo B
+('2024-06-06', '11:00:00', '12:00:00', 6, 3), -- Circuito Activo Monster para Grupo C
+('2024-06-06', '12:00:00', '13:00:00', 1, 4), -- Presentacion Monster para Grupo D
+('2024-06-06', '13:00:00', '14:00:00', 2, 5), -- Super Burbujas de Colores para Grupo E
+('2024-06-06', '14:00:00', '15:00:00', 3, 4), -- Pasta Monster para Grupo D
+
+-- Viernes 7 de junio de 2024
+('2024-06-07', '09:00:00', '10:00:00', 5, 1), -- Actividad Pasivo Monster para Grupo A
+('2024-06-07', '10:00:00', '11:00:00', 6, 2), -- Circuito Activo Monster para Grupo B
+('2024-06-07', '11:00:00', '12:00:00', 1, 3), -- Presentacion Monster para Grupo C
+('2024-06-07', '12:00:00', '13:00:00', 2, 4), -- Super Burbujas de Colores para Grupo D
+('2024-06-07', '13:00:00', '14:00:00', 3, 5), -- Pasta Monster para Grupo E
+('2024-06-07', '14:00:00', '15:00:00', 4, 1); -- Super Slime para Grupo A

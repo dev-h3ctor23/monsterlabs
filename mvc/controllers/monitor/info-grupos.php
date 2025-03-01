@@ -52,9 +52,9 @@ while ($stmt1->fetch()) {
 
     // Obtener los datos del guardián
     $stmt3 = $conn->prepare("SELECT g.nombre, g.apellido, g.dni_guardian, g.telefono 
-                             FROM Guardian g
-                             INNER JOIN GuardianNino gn ON g.id_guardian = gn.id_guardian
-                             WHERE gn.id_nino = ?");
+                            FROM Guardian g
+                            INNER JOIN GuardianNino gn ON g.id_guardian = gn.id_guardian
+                            WHERE gn.id_nino = ?");
     $stmt3->bind_param("i", $id_nino);
     $stmt3->execute();
     $stmt3->store_result();
@@ -81,6 +81,22 @@ while ($stmt1->fetch()) {
     }
     $stmt4->close();
 
+     // Obtener los datos de observaciones
+    $stmt5 = $conn->prepare("SELECT id_observacion, observacion FROM Observaciones WHERE id_nino = ?");
+    $stmt5->bind_param("i", $id_nino);
+    $stmt5->execute();
+    $stmt5->store_result();
+    $stmt5->bind_result($id_observacion, $observacion);
+
+    $observaciones = [];
+    while ($stmt5->fetch()) {
+        $observaciones[] = [
+            "id_observacion" => $id_observacion,
+            "observacion" => $observacion
+        ];
+    }
+    $stmt5->close();
+
     // Almacenar los datos del niño, padre, guardián y ficha médica
     $ninos[] = [
         "nino" => [
@@ -105,7 +121,8 @@ while ($stmt1->fetch()) {
             "alimentos_alergico" => $alimentos_alergico,
             "medicamentos_alergico" => $medicamentos_alergico,
             "medicamentos_actuales" => $medicamentos_actuales
-        ]
+        ],
+        "observaciones" => $observaciones 
     ];
 }
 

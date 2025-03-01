@@ -9,28 +9,39 @@
 
     /* ====== Transiciones ====== */
     --tran-03: all 0.2s ease;
-    --tran-03: all 0.3s ease;
     --tran-04: all 0.3s ease;
     --tran-05: all 0.3s ease;
 }
+
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--body-color);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
     display: flex;
-    height: 100vh;
-    position: absolute;
+    flex-grow: 1;
+    position: relative;
     width: 100%;
+    height: 100%;
 }
 
 /* ====== SIDEBAR ====== */
 #sidebar-component {
     width: 88px;
     transition: width 0.3s ease;
-    min-height: 100vh;
-    background-color: #F8F8F8; /* Color del sidebar */
+    background-color: var(--sidebar-color);
     position: relative;
+    height: 100vh; /* Altura completa */
 }
 
 /* Sidebar expandido */
@@ -41,18 +52,17 @@
 /* ====== CONTENIDO ====== */
 .content {
     flex-grow: 1;
-    /* margin-left: 88px; */
     width: calc(100% - 88px);
-    transition: margin-left 0.3s ease, width 0.3s ease;
+    transition: width 0.3s ease;
     position: relative;
+    height: 100vh; /* Altura completa */
+    overflow-y: auto; /* Permite el desplazamiento vertical */
 }
 
 /* Ajuste cuando el sidebar está expandido */
 .sidebar-expanded .content {
-    /* margin-left: 250px; */
     width: calc(100% - 250px);
 }
-
 
 /******************* SECCIONES DEL MENÚ ***********************/
 .section {
@@ -60,13 +70,15 @@
     position: relative;
     padding: 15px;
     background-color: #c7c7c7;
-    height: 100vh;
+    height: 100%;
     flex-wrap: wrap;
     padding-left: 50px;
+    height: 100%; /* Ocupar el 100% de la altura de .content */
+    overflow-y: auto; /* Desplazamiento vertical si el contenido es muy largo */
 }
 
 .section.active {
-    display:block;
+    display: block;
     animation: slideIn 0.5s ease-in-out;
 }
 
@@ -507,8 +519,9 @@ calendar-month {
     margin-bottom: 20px;
 }
 
-button {
-    padding: 10px 20px;
+#prevWeek, #nextWeek {
+    padding: 10px 1px;
+    min-width: 200px;
     border: none;
     background-color: #9A4E9E;
     color: white;
@@ -535,6 +548,64 @@ th {
     background-color: #f8f9fa;
 }
 
-tbody tr:hover {
-    background-color: #f1f1f1;
+
+/***tarjetas del cronograma y modal del cronograma***/
+
+/* Estilos para las tarjetas de actividad */
+.tarjeta-actividad {
+    background-color:#55b848b9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tarjeta-actividad:hover {
+    background-color: #e0e0e0;
+}
+
+
+
+.modal-contenido {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/**************************SECCION CONTACTO***************************/
+
+.form-container{
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto; /* Centrar el formulario */
+}
+
+.form-contact label {
+    color: #44464D;
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+    text-align: left;
+}
+
+.form-contact input,
+.form-contact textarea,
+.form-contact select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #44464D;
+    border-radius: 4px;
 }

@@ -21,7 +21,7 @@
     <div class="content" id="content">
 
         <!-- Sections -->
-         <section id="section-home" class="section active">
+         <section id="section-home" class="section">
             <h1>BIENVENIDO MONITOR</h1>
          </section>
 
@@ -151,7 +151,7 @@
         
 
         <!-- SECCION ASISTENCIA -->
-        <section id="section-attendance" class="section">
+        <section id="section-attendance" class="section active">
             
             <div class="header-section">
                 <div class="text">Asistencia</div>
@@ -267,7 +267,9 @@
                                 <th>Datos Tutor</th>
                                 <th>DNI</th>
                                 <th>Teléfono</th>
+                                <th>Observaciones</th>
                                 <th>Más Información</th>
+                                
                             </tr>
                         </thead>
                         <tbody id="viewGroupMembers">
@@ -281,7 +283,7 @@
                     <div class="modal-content">
                         <button class="modal-close" id="closeModal">&times;</button>
                         <div class="modal-header">
-                            <h2>Indormación Adicional</h2>
+                            <h2>Información Adicional</h2>
                           </div>
                         <div id="modalContent">
                             <!-- Aquí se mostrará la información adicional -->
@@ -305,33 +307,53 @@
                             <button id="nextWeek">Siguiente Semana →</button>
                         </div>
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>Hora</th>
-                                    <th>Lunes</th>
-                                    <th>Martes</th>
-                                    <th>Miércoles</th>
-                                    <th>Jueves</th>
-                                    <th>Viernes</th>
-                                </tr>
+                            <thead id="calendarHeader">
+
                             </thead>
                             <tbody id="calendarBody">
-                                <!-- info por js -->
+
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div id="infoModalCronogram" class="modal">
+                    <div class="modal-content">
+                        <button class="modal-close" id="closeModalCronogram">&times;</button>
+                        <div class="modal-header">
+                            <h2>Información Actividad</h2>
+                          </div>
+                        <div id="modalContentCronogram">
+                            <!-- Aquí se mostrará la información adicional -->
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECCION MENSAJES -->
-        <!-- <section id="section-message" class="section">
+        <!-- SECCION CONTACTO -->
+        <section id="section-contact" class="section">
             <div class="outer-container">
                 <div class="header-section">
-                    <div class="text">Mensajes</div>
+                    <div class="text">Contacto</div>
+                </div>
+                <div class="form-container">
+                    <!-- Formulario de notificaciones -->
+                    <form id="form-notificaciones" class="form-contact">
+                        <label for="asunto">Asunto:</label>
+                        <input type="text" id="asunto" name="asunto" maxlength="100"/>
+
+                        <label for="descripcion">Descripción:</label>
+                        <textarea id="descripcion" name="descripcion" maxlength="300"></textarea>
+                        <div class="message">
+                            <span id="message-contact"></span>
+                        </div>
+                        <div class="buttton-message">
+                            <button type="submit" class="btn">Enviar</button>
+                        </div>   
+                    </form>
                 </div>
             </div>
-        </section> -->
+        </section>
     </div>
 </div>
 

@@ -140,3 +140,10 @@ CREATE TABLE IF NOT EXISTS Notificaciones (
     id_usuario INT NOT NULL, 
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS Observaciones (
+    id_observacion INT AUTO_INCREMENT PRIMARY KEY,
+    observacion TEXT NOT NULL,
+    id_nino INT NOT NULL, 
+    FOREIGN KEY (id_nino) REFERENCES Nino(id_nino) ON DELETE CASCADE
+);
