@@ -4,7 +4,7 @@ header("Content-Type: application/json");
 
 if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] !== 'monitor') {
     
-    echo json_encode(["status" => "error", "message" => "Acceso denegado", "redirect" => "/monsterlabs/index.php"]);
+    echo json_encode(["status" => "error", "message" => "Acceso denegado", "redirect" => "/monsterlabs/mvc/views/log-in.html"]);
     exit;
 }
 
@@ -13,11 +13,11 @@ require_once(__DIR__ . '/../../../config/conn.php');
 
 $user_id = $_SESSION['id_usuario'];
 
-$stmt = $conn->prepare("SELECT nombre_usuario, correo, nombre_tipo FROM Usuario WHERE id_usuario = ?");
+$stmt = $conn->prepare("SELECT nombre_usuario, correo, nombre_tipo, foto FROM Usuario WHERE id_usuario = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $stmt->store_result();
-$stmt->bind_result($username, $email, $user_type);
+$stmt->bind_result($username, $email, $user_type, $foto);
 
 if ($stmt->num_rows > 0) {
     $stmt->fetch();
@@ -31,7 +31,7 @@ if ($stmt->num_rows > 0) {
         $stmt2->fetch();
         echo json_encode([
             "status" => "success",
-            "usuario" => ["username" => $username, "email" => $email, "user_type" => $user_type],
+            "usuario" => ["username" => $username, "email" => $email, "user_type" => $user_type, "foto" => $foto],
             "monitor" => ["dni" => $dni, "nombre" => $nombre, "apellido" => $apellido, "telefono" => $telefono]
         ]);
     } else {

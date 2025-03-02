@@ -35,9 +35,12 @@
                 <!-- Foto de perfil con botón para subir imagen -->
                  <div class="container-photo">
                     <div class="perfil-foto">
-                        <img id="profileImage" src="/monsterlabs/assets/images/monitor-perfil.jpg" alt="Foto de Perfil">
+                        <img id="profileImage" src="" alt="Foto de Perfil">
                     </div>
                     <div class="editPhoto">
+                        <!-- Input oculto para seleccionar archivo -->
+                        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                        <!-- Botón para abrir el selector de archivos -->
                         <button class="btn" id="editPhoto">Cambiar Foto</button>
                     </div>
                  </div>

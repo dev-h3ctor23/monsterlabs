@@ -1,0 +1,1 @@
+{"version":1,"defects":{"MonitorTest::testAccesoDenegado":4,"MonitorTest::testInformacionUsuarioYMonitor":4,"MonitorTest::testErrorEnBaseDeDatos":4},"times":{"MonitorTest::testAccesoDenegado":0.006,"MonitorTest::testInformacionUsuarioYMonitor":0,"MonitorTest::testErrorEnBaseDeDatos":0}}
