@@ -146,91 +146,115 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Validación del formulario de edición de usuario
-    const formEditarUsuario = document.getElementById('formularioEditarUsario');
-    if (formEditarUsuario) {
-        formEditarUsuario.addEventListener('submit', function(event) {
-            event.preventDefault();
-            validarFormularioEditarUsuario();
-        });
+const formEditarUsuario = document.getElementById('formularioEditarUsario');
+if (formEditarUsuario) {
+    const submitButton = formEditarUsuario.querySelector('button[type="submit"]');
+    submitButton.disabled = true; // Deshabilita el botón inicialmente
 
-        const inputsEditarUsuario = ['inputUsuario', 'inputNombre', 'inputApellidos', 'inputDni', 'inputTelefono'];
-        const errorMessage = document.getElementById('form-error');
+    // IDs de los inputs según el HTML
+    const inputsEditarUsuario = [
+        'inputUsuario',
+        'inputNombrePadre',
+        'inputApellidosPadre',
+        'inputDniPadre',
+        'inputTelefonoPadre'
+    ];
+    const errorMessage = document.getElementById('form-error');
 
+    // Configuración de eventos en cada input
+    inputsEditarUsuario.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            const errorDiv = document.createElement('div');
+            errorDiv.id = `${id}-error`;
+            errorDiv.style.color = 'red';
+            errorDiv.style.fontSize = '12px';
+            errorDiv.style.marginTop = '5px';
+            errorDiv.style.display = 'none';
+            input.insertAdjacentElement('afterend', errorDiv);
+
+            input.addEventListener('blur', () => {
+                validarInputEditarUsuario(input);
+                updateSubmitButtonStatus();
+            });
+            input.addEventListener('input', () => {
+                validarInputEditarUsuario(input);
+                updateSubmitButtonStatus();
+            });
+        }
+    });
+
+    // Evento submit del formulario
+    formEditarUsuario.addEventListener('submit', function(event) {
+        event.preventDefault();
+        if (isFormValid()) {
+            errorMessage.style.display = 'none';
+            // Aquí puedes llamar a la función para enviar el formulario, por ejemplo:
+            // enviarFormularioEditarUsuario();
+        } else {
+            errorMessage.textContent = 'Por favor, llene todos los campos correctamente';
+            errorMessage.style.display = 'inline';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000);
+        }
+    });
+
+    // Función que revisa si todos los inputs son válidos
+    function isFormValid() {
+        let valid = true;
         inputsEditarUsuario.forEach(id => {
             const input = document.getElementById(id);
-            if (input) {
-                const errorDiv = document.createElement('div');
-                errorDiv.id = `${id}-error`;
-                errorDiv.style.color = 'red';
-                errorDiv.style.fontSize = '12px';
-                errorDiv.style.marginTop = '5px';
-                errorDiv.style.display = 'none';
-                input.insertAdjacentElement('afterend', errorDiv);
-
-                input.addEventListener('blur', () => validarInputEditarUsuario(input));
-                input.addEventListener('input', () => validarInputEditarUsuario(input));
+            if (input && !validarInputEditarUsuario(input)) {
+                valid = false;
             }
         });
-
-        function validarFormularioEditarUsuario() {
-            let isValid = true;
-            inputsEditarUsuario.forEach(id => {
-                const input = document.getElementById(id);
-                if (input && !validarInputEditarUsuario(input)) {
-                    isValid = false;
-                }
-            });
-
-            if (!isValid) {
-                errorMessage.textContent = 'Por favor, llene todos los campos correctamente';
-                errorMessage.style.display = 'inline';
-                setTimeout(() => {
-                    errorMessage.style.display = 'none';
-                }, 3000); // Oculta el mensaje después de 3 segundos
-            } else {
-                errorMessage.style.display = 'none';
-                //enviarFormularioEditarUsuario();
-            }
-        }
-
-        function validarInputEditarUsuario(input) {
-            const value = input.value.trim();
-            const errorDiv = document.getElementById(`${input.id}-error`);
-            const nombreApellidoRegex = /^[A-Za-záéíóúÁÉÍÓÚñÑ\s]+$/;
-
-            if (!value) {
-                errorDiv.textContent = 'Este campo es obligatorio.';
-                errorDiv.style.display = 'block';
-                return false;
-            }
-
-            if (input.id === 'inputUsuario' && value.length < 5) {
-                errorDiv.textContent = 'El nombre de usuario debe tener al menos 5 caracteres.';
-                errorDiv.style.display = 'block';
-                return false;
-            } else if (input.id === 'inputNombre' && !nombreApellidoRegex.test(value)) {
-                errorDiv.textContent = 'El nombre solo puede contener letras y espacios.';
-                errorDiv.style.display = 'block';
-                return false;
-            } else if (input.id === 'inputApellidos' && !nombreApellidoRegex.test(value)) {
-                errorDiv.textContent = 'Los apellidos solo pueden contener letras y espacios.';
-                errorDiv.style.display = 'block';
-                return false;
-            } else if (input.id === 'inputDni' && !/^[0-9]{8}[A-Za-z]$/.test(value)) {
-                errorDiv.textContent = 'El DNI debe tener 8 dígitos seguidos de una letra (ej. 12345678A).';
-                errorDiv.style.display = 'block';
-                return false;
-            } else if (input.id === 'inputTelefono' && !/^[0-9]{9}$/.test(value)) {
-                errorDiv.textContent = 'El teléfono debe tener exactamente 9 dígitos.';
-                errorDiv.style.display = 'block';
-                return false;
-            }
-            errorDiv.style.display = 'none';
-            return true;
-        }
-
-    
+        return valid;
     }
+
+    // Actualiza el estado (habilitado/deshabilitado) del botón de envío
+    function updateSubmitButtonStatus() {
+        submitButton.disabled = !isFormValid();
+    }
+
+    // Función de validación individual para cada input
+    function validarInputEditarUsuario(input) {
+        const value = input.value.trim();
+        const errorDiv = document.getElementById(`${input.id}-error`);
+        const nombreApellidoRegex = /^[A-Za-záéíóúÁÉÍÓÚñÑ\s]+$/;
+
+        if (!value) {
+            errorDiv.textContent = 'Este campo es obligatorio.';
+            errorDiv.style.display = 'block';
+            return false;
+        }
+
+        if (input.id === 'inputUsuario' && value.length < 5) {
+            errorDiv.textContent = 'El nombre de usuario debe tener al menos 5 caracteres.';
+            errorDiv.style.display = 'block';
+            return false;
+        } else if (input.id === 'inputNombrePadre' && !nombreApellidoRegex.test(value)) {
+            errorDiv.textContent = 'El nombre solo puede contener letras y espacios.';
+            errorDiv.style.display = 'block';
+            return false;
+        } else if (input.id === 'inputApellidosPadre' && !nombreApellidoRegex.test(value)) {
+            errorDiv.textContent = 'Los apellidos solo pueden contener letras y espacios.';
+            errorDiv.style.display = 'block';
+            return false;
+        } else if (input.id === 'inputDniPadre' && !/^[0-9]{8}[A-Za-z]$/.test(value)) {
+            errorDiv.textContent = 'El DNI debe tener 8 dígitos seguidos de una letra (ej. 12345678A).';
+            errorDiv.style.display = 'block';
+            return false;
+        } else if (input.id === 'inputTelefonoPadre' && !/^[0-9]{9}$/.test(value)) {
+            errorDiv.textContent = 'El teléfono debe tener exactamente 9 dígitos.';
+            errorDiv.style.display = 'block';
+            return false;
+        }
+        errorDiv.style.display = 'none';
+        return true;
+    }
+}
+
 
     // VALIDACIÓN DEL FORMULARIO DE INSCRIPCIÓN
   const formInscripcion = document.getElementById('form-inscripcion');
