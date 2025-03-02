@@ -93,4 +93,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     http_response_code(405);
     echo json_encode(["error" => "Método no permitido."]);
 }
+//Eliminar la posibilidad de no poder hacer para atras cuando hacemos log out
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 ?>

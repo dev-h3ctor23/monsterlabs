@@ -4,12 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="/monsterlabs/public/styles/home.css">
     <!-- Enlace a la librería de iconos de Boxicons -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
 </head>
 <body>
     <div id="navbar-container"></div>
     <!-- Resto del contenido de home.html -->
+
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="card">
+                    <div class="image-container">
+                        <img src="/placeholder.svg?height=300&width=300" alt="Ana García" class="monitor-image">
+                    </div>
+                    <div class="content">
+                        <h2>Ana García</h2>
+                        <p>Experta en actividades al aire libre y primeros auxilios. Ana tiene 5 años de experiencia en campamentos y es una apasionada de la naturaleza.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="card">
+                    <div class="image-container">
+                        <img src="/placeholder.svg?height=300&width=300" alt="Carlos Rodríguez" class="monitor-image">
+                    </div>
+                    <div class="content">
+                        <h2>Carlos Rodríguez</h2>
+                        <p>Especialista en deportes de equipo y dinámicas de grupo. Ex atleta profesional con un don para motivar a los jóvenes.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="card">
+                    <div class="image-container">
+                        <img src="/placeholder.svg?height=300&width=300" alt="Laura Martínez" class="monitor-image">
+                    </div>
+                    <div class="content">
+                        <h2>Laura Martínez</h2>
+                        <p>Monitora de manualidades y talleres creativos. Artista multidisciplinar que estimula la imaginación de los campistas.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="card">
+                    <div class="image-container">
+                        <img src="/placeholder.svg?height=300&width=300" alt="David Sánchez" class="monitor-image">
+                    </div>
+                    <div class="content">
+                        <h2>David Sánchez</h2>
+                        <p>Encargado de actividades acuáticas y seguridad. Socorrista certificado y entrenador de natación con amplia experiencia.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <script>
         // Cargar el contenido de navbar.html en el contenedor
@@ -26,5 +82,16 @@
             })
             .catch(error => console.error('Error al cargar el navbar:', error));
     </script>
+    <script src="/monsterlabs/public/scripts/home.js"></script>
+    <script src="/monsterlabs/public/scripts/database.js"></script>
+
+    <!--Seccion para no ir para atras-->
+
+    <script>
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+          history.go(1);
+        };
+      </script>
 </body>
 </html>
