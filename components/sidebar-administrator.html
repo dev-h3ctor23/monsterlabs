@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- ! ===== Enlace a la hoja de estilos del CSS. =====-->
-    <link rel="stylesheet" href="/monsterlabs/public/styles/style-sidebar-administrator.css"/>
-    <!-- ! ===== Enlace a los iconos de Boxicons. =====-->
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
-    <!-- ! ===== Nombre de la página del componente. =====-->
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+    <link rel="stylesheet" href="../../public/styles/style-sidebar-administrator.css"/> <!-- TODO : Enlace al CSS del Sidebar de Administrador (style-sidebar-administrator.css)-->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/> <!-- TODO : Enlace a la libreria de iconos Boxicons -->
     <title>Sidebar-Administrator</title>
   </head>
   <body>
-    <!-- ? ===== Barra lateral de la pagina. =====-->
+    <!-- ? : Contenedor principal del Sidebar de Administrador. -->
     <nav class="sidebar close">
-      <!-- ? ===== Encabezado de la pagina que contiene el logo y el nombre del rol del panel. =====-->
+
+        <!-- ? : Encabezado del Sidebar de Administrador. -->
       <header>
         <div class="image-text">
           <span class="image">
-            <img src="/monsterlabs/assets/images/mini-logo-monsterlabs.png" alt="logo-monsterlabs"/>
+            <img src="../../assets/images/mini-logo-monsterlabs.png" alt="Logo del Sidebar de Monsterlabs"/> <!-- * Logo del encabezado del Sidebar. -->
           </span>
           <div class="text logo-text">
             <span class="name">Monsterlabs</span>
@@ -26,60 +24,60 @@
         </div>
         <i class="bx bx-chevron-right toggle"></i>
       </header>
-      <!-- ? ===== Barra de menú de la página. =====-->
+
+        <!-- ? : Contenedor de los enlaces de navegacion. -->
       <div class="menu-bar">
         <div class="menu">
-          <!-- ? ===== Enlaces de navegacion. =====-->
+          <!-- ? : Enlaces de navegacion.-->
           <ul class="menu-links">
-            <!-- * ===== Enlace para volver a la pagina de Inicio =====-->
+
+            <!-- * : Enlace para volver a la pagina de Inicio. -->
             <li class="nav-link">
-              <a href="#">
-                <i class='bx bxs-home icon' ></i>
+              <a href="#home">
+                <i class='bx bxs-home icon'></i>
                 <span class="text nav-text">Ir a Inicio</span>
               </a>
             </li>
-            <!-- * ===== Enlace para ir al perfil del administrador =====-->
+
+            <!-- * : Enlace para ir al perfil del Administrador. -->
             <li class="nav-link">
-              <a href="#">
+              <a href="#profile">
                 <i class='bx bxs-user icon'></i>
                 <span class="text nav-text">Perfil</span>
               </a>
             </li>
-            <!-- * ===== Enlace para ir al apartado de actividades =====-->
+
+            <!-- * : Enlace para ir al apartado de Actividades. -->
             <li class="nav-link">
-              <a href="#">
-                <i class='bx bxs-universal-access icon' ></i>
+              <a href="#activities">
+                <i class='bx bxs-universal-access icon'></i>
                 <span class="text nav-text">Actividades</span>
               </a>
             </li>
-            <!-- * ===== Enlace para ir al apartado de grupos =====-->
+
+            <!-- * : Enlace para ir al apartado de Grupos. -->
             <li class="nav-link">
-              <a href="#">
-                <i class='bx bxs-group icon' ></i>
+              <a href="#groups">
+                <i class='bx bxs-group icon'></i>
                 <span class="text nav-text">Grupos</span>
               </a>
             </li>
-            <!-- * ===== Enlace para ir al apartado de gestiones =====-->
+
+            <!-- * : Enlace para ir al apartado de Gestiones. -->
             <li class="nav-link">
-              <a href="#">
+              <a href="#management">
                 <i class='bx bxs-archive icon'></i>
                 <span class="text nav-text">Gestiones</span>
               </a>
             </li>
-            <!-- * ===== Enlace para ir al apartado de mensajes =====-->
-            <li class="nav-link">
-              <a href="#">
-                <i class='bx bxs-message-dots icon'></i>
-                <span class="text nav-text">Mensajes</span>
-              </a>
-            </li>
           </ul>
         </div>
+
         <!-- ? ===== Boton para cerrar sesion. =====-->
         <div class="bottom-content">
           <ul>
             <li>
-              <a href="#">
+              <a href="#" id="logout-btn">
                 <i class="bx bx-log-out icon"></i>
                 <span class="text nav-text">Salir</span>
               </a>
@@ -88,7 +86,9 @@
         </div>
       </div>
     </nav>
-    <!-- ! ===== Enlace a los scripts de JavaScript =====-->
-    <script src="/monsterlabs/public/scripts/script-sidebar.js"></script>
+
+    <!-- TODO : Enlace a los scripts de Componentes del Sidebar. -->
+    <script src="../../public/scripts/components-administrator/script-sidebar-administrator.js"></script>
+    <script src="../../public/scripts/components-administrator/script-navigation-sections.js"></script>
   </body>
 </html>

@@ -3,7 +3,7 @@
 $servername = "localhost";  // Cambia esto si tu servidor de base de datos es diferente
 $username = "root";         // Nombre de usuario para la base de datos
 $password = "";             // Contraseña de la base de datos
-$dbname = "monsterlab";    // Nombre de tu base de datos
+$dbname = "monsterlabs";    // Nombre de tu base de datos
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
