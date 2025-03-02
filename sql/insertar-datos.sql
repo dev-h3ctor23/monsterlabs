@@ -51,21 +51,22 @@ INSERT INTO Administrador (dni_admin, nombre, apellido, numero_telefono, id_usua
 ('11111111A', 'Carlos', 'Martinez', '700111111', (SELECT id_usuario FROM Usuario WHERE nombre_usuario = 'admin'));
 
 -- Insertar en la tabla Niño
-INSERT INTO Nino (nombre, apellido, fecha_nacimiento, fecha_inicio, fecha_fin, periodo, estado, id_grupo, id_padre) VALUES
-('Lucas', 'Gomez', '2015-05-10', '2025-06-02', '2025-06-08', 'semanal', 'activo', 1, 1),
-('Mia', 'Gomez', '2017-03-22', '2025-06-02', '2025-06-29', 'mensual', 'activo', 2, 1),
-('Juan', 'Chango', '2014-08-15', '2025-06-02', '2025-08-31', 'trimestral', 'activo', 3, 2),
-('Sofia', 'Chango', '2016-09-30', '2025-06-02', '2025-06-29', 'mensual', 'activo', 4, 2),
-('Pedro', 'Huamani', '2013-12-01', '2025-06-02', '2025-06-08', 'semanal', 'activo', 5, 3),
-('Valeria', 'Huamani', '2018-02-11', '2025-06-02', '2025-06-29', 'mensual', 'activo', 1, 3),
-('Carlos', 'Ruiz', '2015-06-15', '2025-06-02', '2025-08-31', 'trimestral', 'activo', 2, 4),
-('Ana', 'Fernández', '2014-03-22', '2025-06-02', '2025-06-29', 'mensual', 'activo', 3, 5),
-('Juan', 'Santos', '2016-07-10', '2025-06-02', '2025-06-08', 'semanal', 'activo', 4, 6),
-('Maria', 'Ramírez', '2017-02-28', '2025-06-02', '2025-06-29', 'mensual', 'activo', 5, 7),
-('Pedro', 'Hernández', '2016-11-05', '2025-06-02', '2025-08-31', 'trimestral', 'activo', 1, 8),
-('Lucia', 'Navarro', '2018-09-11', '2025-06-02', '2025-06-29', 'mensual', 'activo', 2, 9),
-('Diego', 'Castro', '2015-04-05', '2025-06-02', '2025-06-08', 'semanal', 'activo', 3, 10),
-('Sofia', 'Mendoza', '2017-01-20', '2025-06-02', '2025-06-29', 'mensual', 'activo', 4, 11);
+-- Insertar en la tabla Niño
+INSERT INTO Nino (nombre, apellido, fecha_nacimiento, periodo, estado, id_grupo, id_padre) VALUES
+('Lucas', 'Gomez', '2015-05-10', 'semanal', 'activo', 1, 1),
+('Mia', 'Gomez', '2017-03-22', 'mensual', 'activo', 2, 1),
+('Juan', 'Chango', '2014-08-15', 'trimestral', 'activo', 3, 2),
+('Sofia', 'Chango', '2016-09-30', 'mensual', 'activo', 4, 2),
+('Pedro', 'Huamani', '2013-12-01', 'semanal', 'activo', 5, 3),
+('Valeria', 'Huamani', '2018-02-11', 'mensual', 'activo', 1, 3),
+('Carlos', 'Ruiz', '2015-06-15', 'trimestral', 'activo', 2, 4),
+('Ana', 'Fernández', '2014-03-22', 'mensual', 'activo', 3, 5),
+('Juan', 'Santos', '2016-07-10', 'semanal', 'activo', 4, 6),
+('Maria', 'Ramírez', '2017-02-28', 'mensual', 'activo', 5, 7),
+('Pedro', 'Hernández', '2016-11-05', 'trimestral', 'activo', 1, 8),
+('Lucia', 'Navarro', '2018-09-11', 'mensual', 'activo', 2, 9),
+('Diego', 'Castro', '2015-04-05', 'semanal', 'activo', 3, 10),
+('Sofia', 'Mendoza', '2017-01-20', 'mensual', 'activo', 4, 11);
 
 INSERT INTO Guardian (dni_guardian, nombre, apellido, telefono) VALUES
 ('11223344D', 'Elena', 'Sanchez', '600777888'),
@@ -84,14 +85,14 @@ INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Super Burb
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Pasta Monster', 'Elaboración de pasta comestible con formas monstruosas.');
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Super Slime', 'La actividad se llevará a cabo en el patio central, brindando a los niños y niñas un espacio amplio y cómodo para expresarse libremente. Antes de comenzar, se presentarán los materiales y se formularán preguntas para activar sus conocimientos previos. Luego, se les animará a crear un slime gigante de manera colaborativa, asegurando que todos participen. Al finalizar, se pondrá música para enriquecer la experiencia, permitiendo que los niños y niñas manipulen el slime mientras realizan movimientos con sus extremidades.');
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Actividad Pasivo Monter', 'Actividad de relajación y creatividad en silencio con temática Monster.');
-INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Circuito Activo Monster', 'Circuito deportivo inspirado en desafíos del mundo Monster.')
+INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Circuito Activo Monster', 'Circuito deportivo inspirado en desafíos del mundo Monster.');
 
 
-INSERT INTO FichaMedica (alimentos_alergico, medicamentos_alergico, medicamentos_actuales, id_nino) VALUES
-('Maní', 'Penicilina', 'Ninguno', 1),
-('Gluten', 'Ninguno', 'Ibuprofeno', 2),
-('Lactosa', 'Ninguno', 'Paracetamol', 3),
-('Ninguno', 'Ninguno', 'Ninguno', 4);
+    INSERT INTO FichaMedica (alimentos_alergico, medicamentos_alergico, medicamentos_actuales, id_nino) VALUES
+    ('Maní', 'Penicilina', 'Ninguno', 1),
+    ('Gluten', 'Ninguno', 'Ibuprofeno', 2),
+    ('Lactosa', 'Ninguno', 'Paracetamol', 3),
+    ('Ninguno', 'Ninguno', 'Ninguno', 4);
 
 
 -- Insertar actividades en el cronograma para la primera semana (2 de junio de 2024 al 8 de junio de 2024)
@@ -135,3 +136,20 @@ INSERT INTO Cronograma (fecha, hora_inicio, hora_fin, id_actividad, id_grupo) VA
 ('2024-06-07', '12:00:00', '13:00:00', 2, 4), -- Super Burbujas de Colores para Grupo D
 ('2024-06-07', '13:00:00', '14:00:00', 3, 5), -- Pasta Monster para Grupo E
 ('2024-06-07', '14:00:00', '15:00:00', 4, 1); -- Super Slime para Grupo A
+
+-- Insertar en la tabla PeriodoNino
+INSERT INTO PeriodoNino (fecha_inicio_periodo, fecha_fin_periodo, id_nino) VALUES
+('2025-06-02', '2025-06-08', 1),  -- Lucas Gomez
+('2025-06-02', '2025-06-29', 2),  -- Mia Gomez
+('2025-06-02', '2025-08-31', 3),  -- Juan Chango
+('2025-06-02', '2025-06-29', 4),  -- Sofia Chango
+('2025-06-02', '2025-06-08', 5),  -- Pedro Huamani
+('2025-06-02', '2025-06-29', 6),  -- Valeria Huamani
+('2025-06-02', '2025-08-31', 7),  -- Carlos Ruiz
+('2025-06-02', '2025-06-29', 8),  -- Ana Fernández
+('2025-06-02', '2025-06-08', 9),  -- Juan Santos
+('2025-06-02', '2025-06-29', 10), -- Maria Ramírez
+('2025-06-02', '2025-08-31', 11), -- Pedro Hernández
+('2025-06-02', '2025-06-29', 12), -- Lucia Navarro
+('2025-06-02', '2025-06-08', 13), -- Diego Castro
+('2025-06-02', '2025-06-29', 14); -- Sofia Mendoza

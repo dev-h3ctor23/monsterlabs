@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS Administrador (
     id_admin INT AUTO_INCREMENT PRIMARY KEY,
     dni_admin VARCHAR(9) UNIQUE NOT NULL,
     nombre VARCHAR(100) NOT NULL,
-    apellido VARCHAR(100) NOT NULL, --v
+    apellido VARCHAR(100) NOT NULL,
     numero_telefono VARCHAR(13),
     id_usuario INT NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE
@@ -51,8 +51,6 @@ CREATE TABLE IF NOT EXISTS Nino (
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
     fecha_nacimiento DATE NOT NULL,
-    fecha_inicio DATE,
-    fecha_fin DATE,
     periodo ENUM('semanal', 'mensual', 'trimestral') NOT NULL,
     estado ENUM('activo', 'inactivo') NOT NULL,
     id_grupo INT,
@@ -146,4 +144,12 @@ CREATE TABLE IF NOT EXISTS Observaciones (
     observacion TEXT NOT NULL,
     id_nino INT NOT NULL, 
     FOREIGN KEY (id_nino) REFERENCES Nino(id_nino) ON DELETE CASCADE
+);
+
+CREATE TABLE  IF NOT EXISTS PeriodoNino (
+    id_periodo INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_inicio_periodo DATE NOT NULL,
+    fecha_fin_periodo DATE NOT NULL,
+    id_nino INT NOT NULL,
+    FOREIGN KEY (id_nino) REFERENCES Nino(id_nino) ON DELETE CASCADE
 );

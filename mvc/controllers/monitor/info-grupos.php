@@ -81,18 +81,23 @@ while ($stmt1->fetch()) {
     }
     $stmt4->close();
 
-     // Obtener los datos de observaciones
+    // Obtener los datos de observaciones
     $stmt5 = $conn->prepare("SELECT id_observacion, observacion FROM Observaciones WHERE id_nino = ?");
     $stmt5->bind_param("i", $id_nino);
     $stmt5->execute();
     $stmt5->store_result();
     $stmt5->bind_result($id_observacion, $observacion);
 
-    $observaciones = [];
-    while ($stmt5->fetch()) {
-        $observaciones[] = [
+    if ($stmt5->num_rows > 0) {
+        $stmt5->fetch();
+        $observacion = [
             "id_observacion" => $id_observacion,
             "observacion" => $observacion
+        ];
+    } else {
+        $observacion = [
+            "id_observacion" => null,
+            "observacion" => "Sin observación"
         ];
     }
     $stmt5->close();
@@ -100,6 +105,7 @@ while ($stmt1->fetch()) {
     // Almacenar los datos del niño, padre, guardián y ficha médica
     $ninos[] = [
         "nino" => [
+            "id_nino" => $id_nino,
             "nombre_nino" => $nombre_nino,
             "apellido_nino" => $apellido_nino,
             "fecha_nacimiento" => $fecha_nacimiento,
@@ -122,7 +128,7 @@ while ($stmt1->fetch()) {
             "medicamentos_alergico" => $medicamentos_alergico,
             "medicamentos_actuales" => $medicamentos_actuales
         ],
-        "observaciones" => $observaciones 
+        "observaciones" => $observacion
     ];
 }
 

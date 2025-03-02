@@ -20,16 +20,14 @@
     </div>
     <div class="content" id="content">
 
-        <!-- Sections -->
-         <section id="section-home" class="section">
-            <h1>BIENVENIDO MONITOR</h1>
-         </section>
 
          <!------------------- SECCION PERFIL ---------------------->
         <section id="section-perfil" class="section">
-            <h2>Perfil</h2>
-            <div class="perfil-container" id="perfilContainer">
-                
+            
+            <!-- <div class="perfil-container" id="perfilContainer"> -->
+                <div class="title">
+                    <h2>Perfil</h2>
+                </div>
                 <!-- Foto de perfil con botón para subir imagen -->
                  <div class="container-photo">
                     <div class="perfil-foto">
@@ -43,19 +41,19 @@
         
                 <!-- Información personal -->
                 <div class="perfil-info" id="perfilInfo">
-                    <div class="dates-monitor">
+                    <div class="dates-monitor name">
                         <strong>Nombre:</strong> <span id="name-monitor"></span> <span id="lastname"></span>
                     </div>
-                    <div class="dates-monitor">
+                    <div class="dates-monitor username">
                         <strong>Usuario:</strong> <span id="user-monitor"></span>
                     </div>
-                    <div class="dates-monitor">
+                    <div class="dates-monitor dni">
                         <strong>DNI:</strong> <span id="dni-monitor"></span>
                     </div>
-                    <div class="dates-monitor">
+                    <div class="dates-monitor email">
                         <strong>Correo:</strong> <span id="email-monitor"></span>
                     </div>
-                    <div class="dates-monitor">
+                    <div class="dates-monitor phone">
                         <strong>Teléfono:</strong><span id="phone-monitor"></span>
                     </div>
                      <!-- Botones de acciones -->
@@ -63,8 +61,8 @@
                         <button class="btn" id="editProfileBtn"><i class="bx bx-edit"></i> Editar Perfil</button>
                         <button class="btn" id="changePasswordBtn"><i class="bx bx-lock"></i> Cambiar Contraseña</button>
                     </div>
-                </div>
-        
+                <!-- </div> -->
+                
                
             </div>
 
@@ -246,7 +244,7 @@
                     </table>
                 </div>
                 <div class="message">
-                    <span id="message-envio-asistencia"></span>
+                    <span id="message-view-attendance"></span>
                 </div>
             </div>
           
@@ -268,6 +266,7 @@
                                 <th>DNI</th>
                                 <th>Teléfono</th>
                                 <th>Observaciones</th>
+                                <th>Editar Observaciones</th>
                                 <th>Más Información</th>
                                 
                             </tr>

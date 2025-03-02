@@ -47,7 +47,8 @@ $stmt1->close();
 $query = "SELECT n.id_nino, n.nombre, n.apellido, a.estado
         FROM Nino n
         LEFT JOIN Asistencia a ON n.id_nino = a.id_nino AND a.fecha = ?
-        WHERE ? BETWEEN n.fecha_inicio AND n.fecha_fin
+        INNER JOIN PeriodoNino p ON n.id_nino = p.id_nino
+        WHERE ? BETWEEN p.fecha_inicio_periodo AND p.fecha_fin_periodo
         AND n.id_grupo = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("ssi", $date, $date, $grupo_id);
