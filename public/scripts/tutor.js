@@ -574,11 +574,9 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
   
-document.getElementById('btnCerrarNotificacion').addEventListener('click', function() {
-  document.getElementById('modal-notificacion').style.display = 'none';
-});
   
-document.querySelectorAll('.btn-volver').forEach(function(btn) {
+// Función que asigna el listener a un botón "btn-volver"
+function agregarEventoBtnVolver(btn) {
   btn.addEventListener('click', function() {
     const currentSection = this.closest('.section');
     if (currentSection) {
@@ -586,7 +584,38 @@ document.querySelectorAll('.btn-volver').forEach(function(btn) {
     }
     document.getElementById('section-inicio').classList.add('active');
   });
+}
+
+// Observador de mutaciones para detectar la inserción de elementos "btn-volver"
+const observer = new MutationObserver((mutationsList) => {
+  mutationsList.forEach((mutation) => {
+    if (mutation.type === 'childList') {
+      mutation.addedNodes.forEach((node) => {
+        // Asegurarnos de que el nodo es un elemento
+        if (node.nodeType === 1) {
+          // Si el nodo agregado es un botón con clase "btn-volver", asignarle el listener
+          if (node.classList.contains('btn-volver')) {
+            agregarEventoBtnVolver(node);
+          }
+          // Si el nodo contiene elementos con la clase "btn-volver" (por ejemplo, un contenedor)
+          const btns = node.querySelectorAll('.btn-volver');
+          btns.forEach((btn) => {
+            agregarEventoBtnVolver(btn);
+          });
+        }
+      });
+    }
+  });
 });
+
+// Configuración del observador: observa cambios en todo el documento
+observer.observe(document.body, { childList: true, subtree: true });
+
+// (Opcional) Si el botón ya existe en el DOM, asignarle el listener inicialmente
+document.querySelectorAll('.btn-volver').forEach((btn) => {
+  agregarEventoBtnVolver(btn);
+});
+
 
 document.getElementById("btn-agregar-hijo").addEventListener("click", (event) => {
     event.preventDefault();

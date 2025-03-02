@@ -102,7 +102,6 @@
 
       <!--SECCION PERFIL-->
       <section id="section-perfil" class="section">
-        <button class="btn-volver" id="btn-volver-perfil">Volver</button>
         <div id="infoUsuario">
           <p><strong>Nombre de usuario:</strong> <span id="usuario"></span></p>
           <p><strong>Nombre:</strong> <span id="nombre"></span></p>
@@ -179,15 +178,16 @@
               <span id="form-error" class="error-message"></span>
             </div>
           </form>
-        </div>
+        </div><br>
+        <button class="btn-volver" id="btn-volver-perfil">Volver</button>
       </section>
+      
 
 
 
 
 <!-- Notificaciones -->
 <section id="section-notificaciones" class="section">
-  <button class="btn-volver" id="btn-volver-perfil">Volver</button>
   <h1 class="welcome-title">Contacto</h1>
 
   <!-- Formulario de notificaciones -->
@@ -198,14 +198,13 @@
     <label for="descripcion">Descripción:</label>
     <textarea id="descripcion" name="descripcion" maxlength="300"></textarea>
 
-    <button type="submit">Enviar</button>
+    <button type="submit">Enviar</button><span>  </span><button class="btn-volver" id="btn-volver-perfil">Volver</button>
   </form>
 </section>
 
 
       <!--SECCION INSCRIPCION-->
       <section id="section-inscripcion" class="section">
-        <button class="btn-volver" id="btn-volver-perfil">Volver</button>
         <div class="form-container">
           <h2>Inscripción al Campamento</h2>
           <form id="form-inscripcion">
@@ -274,7 +273,8 @@
       
             <button type="submit">Enviar Inscripción</button>
           </form>
-        </div>
+        </div><br>
+        <button class="btn-volver" id="btn-volver-perfil">Volver</button>
       </section>
       
 
@@ -294,24 +294,6 @@
           </div>
           </div>
           <button class="btn-volver" id="btn-volver-perfil">Volver</button>
-        </div>
-        <div id="modal-actividad-calendar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="modalTitle">Título del Evento</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" id="modalBody">
-                <!-- Aquí se mostrará la descripción del evento -->
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
     </div>
