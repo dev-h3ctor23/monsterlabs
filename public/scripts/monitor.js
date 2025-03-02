@@ -33,12 +33,10 @@ fetch('/monsterlabs/components/sidebar-monitor.html')
     menuLinks.forEach(link => {
         link.addEventListener("click", (event) => {
             event.preventDefault(); 
-
             // Primero, ocultamos todas las secciones
             sections.forEach(section => {
                 section.classList.remove("active");
             });
-
             // Ahora mostramos solo la sección correspondiente
             const sectionId = link.getAttribute("data-section");
             const activeSection = document.getElementById(sectionId);
@@ -47,7 +45,6 @@ fetch('/monsterlabs/components/sidebar-monitor.html')
             }
         });
     });
-
         console.log("Sidebar y eventos cargados correctamente.");
     })
     .catch(error => console.error('Error al cargar el componente:', error));
@@ -75,8 +72,11 @@ function obtenerDatosMonitor() {
 
             document.getElementById('editEmail').value = data.usuario.email;
             document.getElementById('editPhone').value = data.monitor.telefono;
+        } else if (data.redirect) {
+            // Redirigir al usuario si la respuesta indica una redirección
+            window.location.href = data.redirect;
         } else {
-            alert(data.message);
+            alert(data.message); // Mostrar el mensaje de error del servidor
         }
     })
     .catch(error => {
@@ -403,59 +403,112 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const calendar = document.querySelector('#calendar'); // Referencia al componente del calendario
     const messageAsistencia = document.getElementById('message-envio-asistencia');
-    // Escuchar el evento 'change' para obtener la fecha seleccionada
-    calendar.addEventListener('change', function() {
-        const selectedDate = calendar.value; // La fecha seleccionada está en el atributo 'value'
 
-        if (selectedDate) {
-            console.log('Fecha seleccionada: ', selectedDate);  // Mostrar la fecha seleccionada en la consola
-
-            // Actualizar la tabla de asistencia con la fecha seleccionada
-            updateAttendanceTable(selectedDate);
-            viewAttendanceTable(selectedDate);
-        } else {
-            console.error('No se pudo obtener la fecha seleccionada.');
-        }
-    });
-
-    // Función para actualizar la tabla de asistencia
-    function updateAttendanceTable(date) {
-    if (!date) {
-        messageAsistencia.textContent = 'Fecha no válida proporcionada.';
-        return;
+    function configurarCalendario(selectorCalendario, selectorMensaje, fechaMinima, fechaMaxima, funcionActualizacion) {
+        const calendar = document.querySelector(selectorCalendario); // Referencia al componente del calendario
+        const messageAsistencia = document.querySelector(selectorMensaje);
+    
+        // Configurar el calendario con las fechas mínima y máxima
+        calendar.min = fechaMinima.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+        calendar.max = fechaMaxima.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+    
+        calendar.addEventListener('change', function () {
+            const selectedDate = calendar.value; // Obtener la fecha en formato YYYY-MM-DD
+            console.log('Fecha seleccionada:', selectedDate); // Verificar en la consola
+    
+            // Convertir la fecha seleccionada a objeto Date para validar el rango
+            const selectedDateObj = new Date(selectedDate);
+    
+            // Validar que la fecha esté dentro del rango permitido
+            if (selectedDateObj >= fechaMinima && selectedDateObj <= fechaMaxima) {
+                // Verificar si la fecha seleccionada es un fin de semana
+                const dayOfWeek = selectedDateObj.getDay(); // 0 (Domingo) a 6 (Sábado)
+                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                    console.error('No se pueden seleccionar fines de semana.');
+                    messageAsistencia.textContent = 'Por favor, selecciona un día entre semana (lunes a viernes).';
+                    messageAsistencia.style.color = 'red';
+                    calendar.value = ''; // Limpiar la selección
+                    groupMembers.innerHTML = '';
+                    tablaAsistencia.innerHTML = '';
+                } else {
+                    console.log('Fecha válida. Actualizando tabla...');
+                    funcionActualizacion(selectedDate); // Llamar a la función de actualización
+                    messageAsistencia.textContent = '';
+                }
+            } else {
+                console.error('Fecha fuera del rango permitido.');
+                messageAsistencia.textContent = `Por favor, selecciona una fecha entre ${fechaMinima.toLocaleDateString()} y ${fechaMaxima.toLocaleDateString()}.`;
+                messageAsistencia.style.color = 'red';
+                calendar.value = ''; // Limpiar la selección
+            }
+        });
     }
 
-    fetch(`/monsterlabs/mvc/controllers/monitor/obtener-estudiantes.php?date=${date}`)
-        .then(response => response.json())
-        .then(data => {
-            const groupMembers = document.getElementById('groupMembers');
-            groupMembers.innerHTML = ''; // Limpiar la tabla antes de llenarla
+    // Definir fechas mínima y máxima
+    const fechaMinima = new Date(2025, 5, 16); // 16 de junio de 2025
+    const fechaMaxima = new Date(2025, 7, 16); // 16 de agosto de 2025
 
-            if (data.status === 'success') {
-                data.ninos.forEach(nino => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${nino.nombre} ${nino.apellido}</td>	
-                        <td>
-                            <input type="radio" name="attendance_${nino.id_nino}" value="asistio" 
-                                   ${nino.estado === 'asistio' ? 'checked' : ''}> Asistió
-                        </td>
-                        <td>
-                            <input type="radio" name="attendance_${nino.id_nino}" value="ausente" 
-                                   ${nino.estado === 'ausente' ? 'checked' : ''}> Ausente
-                        </td>
-                    `;
-                    groupMembers.appendChild(row);
-                });
-            } else {
-                groupMembers.innerHTML = '<tr><td colspan="3">No se encontraron estudiantes para esta fecha.</td></tr>';
-            }
-        })
-        .catch(error => {
-            console.error('Error al obtener los estudiantes:', error);
-        });
-}
+    // Configurar el calendario
+    configurarCalendario(
+        '#calendar', // Selector del calendario
+        '#message-envio-asistencia', // Selector del mensaje de asistencia
+        fechaMinima, // Fecha mínima
+        fechaMaxima, // Fecha máxima
+        updateAttendanceTable // Función de actualización
+    );
 
+    /***************FUNCION PARA ACTUALIZAR LA TABLA DE TOMA DE ASISTENCIA********************* */
+    function updateAttendanceTable(date) {
+        if (!date) {
+            messageAsistencia.textContent = 'Fecha no válida proporcionada.';
+            return;
+        }
+    
+        console.log('Actualizando tabla para la fecha:', date); // Verificar en la consola
+    
+        fetch(`/monsterlabs/mvc/controllers/monitor/obtener-estudiantes.php?date=${date}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta de la API');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Datos recibidos:', data); // Verificar en la consola
+                const groupMembers = document.getElementById('groupMembers');
+                groupMembers.innerHTML = ''; // Limpiar la tabla antes de llenarla
+    
+                if (data.status === 'success') {
+                    console.log('Número de niños recibidos:', data.ninos.length); // Verificar en la consola
+                    data.ninos.forEach(nino => {
+                        console.log('Procesando niño:', nino); // Verificar en la consola
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${nino.nombre} ${nino.apellido}</td>	
+                            <td>
+                                <input type="radio" name="attendance_${nino.id_nino}" value="asistio" 
+                                    ${nino.estado === 'asistio' ? 'checked' : ''}> Asistió
+                            </td>
+                            <td>
+                                <input type="radio" name="attendance_${nino.id_nino}" value="ausente" 
+                                    ${nino.estado === 'ausente' ? 'checked' : ''}> Ausente
+                            </td>
+                        `;
+                        groupMembers.appendChild(row);
+                    });
+                } else {
+                    console.error('No se encontraron estudiantes para esta fecha.');
+                    groupMembers.innerHTML = '<tr><td colspan="3">No se encontraron estudiantes para esta fecha.</td></tr>';
+                }
+            })
+            .catch(error => {
+                console.error('Error al obtener los estudiantes:', error);
+                messageAsistencia.textContent = 'Error al cargar la lista de estudiantes.';
+            });
+    }
+
+
+    //*********FORMULARIO DE ENVIO DE ASISTENCIA***********
     const form = document.getElementById("attendanceForm");
     form.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -529,68 +582,31 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    /* ***************RELLENAR TABLA DE VER ASISTENCIA************* */
-    // function viewAttendanceTable(fecha) {
-    //     if (!fecha) {
-    //         messageAsistencia.textContent = 'Fecha no válida proporcionada.';
-    //         return;
-    //     }
+    /************************************* */
 
-    //     // Llamar al backend para obtener la asistencia
-    // fetch(`/monsterlabs/mvc/controllers/monitor/obtener-asistencia.php?fecha=${fecha}`)
-    // .then(response => response.json())
-    // .then(data => {
-    //     const tablaAsistencia = document.getElementById('tablaAsistencia');
-    //     tablaAsistencia.innerHTML = ''; // Limpiar la tabla antes de llenarla
+    /****************VER ASISTENCIA************** */ 
+    const tablaAsistencia = document.getElementById('tablaAsistencia');
 
-    //     if (data.status === 'success') {
-    //         // Crear la tabla con los datos de asistencia
-    //         const tabla = document.createElement('table');
-    //         tabla.className = 'table';
-    //         tabla.innerHTML = `
-    //             <thead>
-    //                 <tr>
-    //                     <th>Nombre</th>
-    //                     <th>Apellido</th>
-    //                     <th>Estado</th>
-    //                 </tr>
-    //             </thead>
-    //             <tbody>
-    //                 ${data.asistencia.map(nino => `
-    //                     <tr>
-    //                         <td>${nino.nombre}</td>
-    //                         <td>${nino.apellido}</td>
-    //                         <td>${nino.estado || 'No registrado'}</td>
-    //                     </tr>
-    //                 `).join('')}
-    //             </tbody>
-    //         `;
-    //         tablaAsistencia.appendChild(tabla);
+    // // Escuchar el evento 'change' para obtener la fecha seleccionada
+    // calendarViewAttendance.addEventListener('change', function () {
+    //     const selectedDate = calendarViewAttendance.value; // Obtener la fecha seleccionada
+    //     if (selectedDate) {
+    //         console.log('Fecha seleccionada: ', selectedDate); 
+    //         viewAttendanceTable(selectedDate); // Llamar a la función para rellenar la tabla
     //     } else {
-    //         tablaAsistencia.innerHTML = '<p>No se encontraron registros de asistencia para esta fecha.</p>';
+    //         console.error('No se pudo obtener la fecha seleccionada.');
+    //         messageAsistencia.textContent = 'Fecha no válida proporcionada.';
     //     }
-    // })
-    // .catch(error => {
-    //     console.error('Error al obtener la asistencia:', error);
     // });
-    // }
 
-});
-
- /* ***************RELLENAR TABLA DE VER ASISTENCIA************* */
-document.addEventListener("DOMContentLoaded", function () {
-    const calendar = document.querySelector('#calendar-view-attendance'); // Referencia al componente del calendario
-    const messageAsistencia = document.getElementById('message-envio-asistencia');
-
-    // Escuchar el evento 'change' para obtener la fecha seleccionada
-    calendar.addEventListener('change', function () {
-        const selectedDate = calendar.value; // Obtener la fecha seleccionada
-        if (selectedDate) {
-            viewAttendanceTable(selectedDate); // Llamar a la función para rellenar la tabla
-        } else {
-            console.error('No se pudo obtener la fecha seleccionada.');
-        }
-    });
+    // Configurar el calendario
+    configurarCalendario(
+        '#calendar-view-attendance', // Selector del calendario
+        '#message-view-attendance', // Selector del mensaje de asistencia
+        fechaMinima, // Fecha mínima
+        fechaMaxima, // Fecha máxima
+        viewAttendanceTable // Función de actualización
+    );
 
     // Función para rellenar la tabla de asistencia
     function viewAttendanceTable(fecha) {
@@ -599,14 +615,22 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // Limpiar la tabla antes de llenarla
+        tablaAsistencia.innerHTML = '<tr><td colspan="3">Cargando asistencia...</td></tr>';
+
         // Llamar al backend para obtener la asistencia
         fetch(`/monsterlabs/mvc/controllers/monitor/obtener-asistencia.php?fecha=${fecha}`)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.json();
+            })
             .then(data => {
-                const tablaAsistencia = document.getElementById('tablaAsistencia');
-                tablaAsistencia.innerHTML = ''; // Limpiar la tabla antes de llenarla
+                if (data.status === 'success' && data.asistencia.length > 0) {
+                    // Limpiar la tabla antes de llenarla
+                    tablaAsistencia.innerHTML = '';
 
-                if (data.status === 'success') {
                     // Rellenar la tabla con los datos de asistencia
                     data.asistencia.forEach(nino => {
                         const row = document.createElement('tr');
@@ -623,24 +647,326 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(error => {
                 console.error('Error al obtener la asistencia:', error);
+                tablaAsistencia.innerHTML = '<tr><td colspan="3">Error al cargar la asistencia. Inténtelo de nuevo más tarde.</td></tr>';
+                messageAsistencia.textContent = 'Error al cargar la asistencia.';
             });
     }
-});
+
+    
 
 
+    /*******RELLENAR TABLA CON LA INFORMACION DE CADA NIÑO DEL GRUPO*/
+        // Obtener el modal y el botón de cierre
+        const modal = document.getElementById("infoModal");
+        const closeModalBtn = document.getElementById("closeModal");
+    
+        // Cerrar el modal cuando se hace clic en la "X"
+        closeModalBtn.addEventListener("click", function () {
+            modal.classList.remove("show");
+        });
+    
+        // Cerrar el modal cuando se hace clic fuera del contenido
+        window.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                modal.classList.remove("show");
+            }
+        });
+    
+        // Obtener datos de los niños desde el backend
+        fetch(`/monsterlabs/mvc/controllers/monitor/info-grupos.php`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Respuesta del servidor:", data); // Depuración
+                const viewGroupMembers = document.getElementById('viewGroupMembers');
+                viewGroupMembers.innerHTML = ''; // Limpiar la tabla antes de llenarla
+    
+                if (data.status === 'success') {
+                    data.ninos.forEach(nino => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${nino.nino.nombre_nino}</td>
+                            <td>${nino.nino.apellido_nino}</td>
+                            <td>${nino.padre.nombre_padre} ${nino.padre.apellido_padre}</td>
+                            <td>${nino.padre.dni_padre}</td>
+                            <td>${nino.padre.telefono}</td>
+                            <td>${nino.observaciones.observacion}</td>
+                            
+                            <td><i class='bx bx-edit icon' id='editarObservaciones' data-nino='${JSON.stringify(nino)}'></i></td>
+                            <td><i class='bx bxs-notepad icon' id= 'infoNino' data-nino='${JSON.stringify(nino)}'></i></td>
+                        `;
+                        viewGroupMembers.appendChild(row);
+                        console.log(nino.observaciones.observacion);
+                    });
+                    
+                      //Agregar manejador de eventos a cada ícono de editar observaciones
+                    document.querySelectorAll('#editarObservaciones').forEach(icon => {
+                        icon.addEventListener('click', function () {
+                            const nino = JSON.parse(this.getAttribute('data-nino'));
+                            const row = this.closest('tr'); // Obtener la fila actual
 
+                            // Mostrar formulario para editar en el modal
+                            document.getElementById("modalContent").innerHTML = `
+                            <form id="editObservacionesForm">
+                                <div class="form-group">
+                                    <label for="observaciones">Observaciones:</label>
+                                    <textarea id="observaciones" name="observaciones" class="form-control" rows="4">${nino.observaciones.observacion}</textarea>
+                                </div>
+                                <div class="button-edit">
+                                    <button type="submit" class="btn">Guardar</button>
+                                    <button type="button" class="btn" id="cancelEditObservaciones">Volver</button>
+                                </div>
+                            </form>
+                        `;
 
-// --------------------------CERRAR SESION----------------------------
-document.addEventListener("click", function(event) {
-    // Detectar si se hizo clic en el botón de salir
-    let logoutBtn = event.target.closest("#logoutBtn");
-    if (logoutBtn) {
-        event.preventDefault();
-        
-        fetch("/monsterlabs/mvc/controllers/logout.php")
-            .then(() => {
-                window.location.href = "/monsterlabs/index.php"; // Redirigir tras cerrar sesión
+                        // Mostrar el modal
+                        modal.classList.add("show");
+
+                        // Evento para guardar los cambios en la observaciones
+                        document.getElementById("editObservacionesForm").addEventListener("submit", function (event) {
+                            event.preventDefault();
+                            const observaciones = document.getElementById("observaciones").value;
+                            // Actualizar la observaciones en la base de datos
+                            fetch('/monsterlabs/mvc/controllers/monitor/editar-observaciones.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    observaciones: observaciones,
+                                    id_nino: nino.nino.id_nino
+                                })
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.status === 'success') {
+                                        // Actualizarel objeto de observaciones
+                                        nino.observaciones.observacion = observaciones;
+
+                                        //Actualizar el atributo `data-nino` del ícono de editar
+                                        const icon = row.querySelector('#editarObservaciones');
+                                        icon.setAttribute('data-nino', JSON.stringify(nino));
+                                        
+                                        // Actualizar la tabla con las nuevas observaciones
+                                        const observacionesCell = row.querySelector('td:nth-child(6)');
+                                        observacionesCell.innerHTML = observaciones;
+                                    } else {
+                                        console.error('Error al actualizar las observaciones:', data.message);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                });
+                                modal.classList.remove("show");
+                        });
+                    });
+                });
+
+                    // Agregar manejador de eventos a cada ícono de ver informaciópn
+                    document.querySelectorAll('#infoNino').forEach(icon => {
+                        icon.addEventListener('click', function () {
+                            const nino = JSON.parse(this.getAttribute('data-nino'));
+    
+                            // Mostrar la información adicional en el modal
+                            document.getElementById("modalContent").innerHTML = `
+                            <p><strong>Nombre del Niño:</strong> ${nino.nino.nombre_nino} ${nino.nino.apellido_nino}</p>
+                            <p><strong>Fecha de Nacimiento:</strong> ${nino.nino.fecha_nacimiento}</p>
+                            <p><strong>Periodo:</strong> ${nino.nino.periodo}</p>
+                            ${nino.guardian.dni_guardian === "No disponible" ?
+                                `<p>El niño no tiene agregado ninguna persona de confianza.</p>` :
+                                `<p><strong>Nombre de la persona de Confianza:</strong> ${nino.guardian.nombre_guardian} ${nino.guardian.apellido_guardian}</p>
+                                <p><strong>DNI de la persona de Confianza:</strong> ${nino.guardian.dni_guardian}</p>
+                                <p><strong>Teléfono de la persona de Confianza:</strong> ${nino.guardian.telefono_guardian}</p>`
+                            }
+                            <p><strong>Alergias a Alimentos:</strong> ${nino.ficha_medica.alimentos_alergico}</p>
+                            <p><strong>Alergias a Medicamentos:</strong> ${nino.ficha_medica.medicamentos_alergico}</p>
+                            <p><strong>Medicamentos Actuales:</strong> ${nino.ficha_medica.medicamentos_actuales}</p>
+                        `;
+                            // Mostrar el modal
+                            modal.classList.add("show");
+                        });
+                    });
+                } else {
+                    viewGroupMembers.innerHTML = '<tr><td colspan="8">No se encontraron participantes</td></tr>';
+                }
             })
-            .catch(error => console.error("Error al cerrar sesión:", error));
-    }
+            .catch(error => {
+                console.error('Error al obtener los estudiantes:', error);
+        });
+
+
+    /************CRONOGRAMA**************/
+        const calendarBody = document.getElementById('calendarBody');
+        const calendarHeader = document.getElementById('calendarHeader');
+        const weekRange = document.getElementById('weekRange');
+        const prevWeekButton = document.getElementById('prevWeek');
+        const nextWeekButton = document.getElementById('nextWeek');
+    
+        // Inicializar la fecha actual al 2 de junio de 2024
+        let currentDate = new Date(2024, 5, 2); // Los meses en JavaScript van de 0 (enero) a 11 (diciembre)
+    
+        function renderCalendar() {
+            calendarBody.innerHTML = '';
+            const startOfWeek = new Date(currentDate);
+            startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + 1); // Lunes de la semana actual
+    
+            // Mostrar el rango de la semana
+            weekRange.textContent = `Semana del ${formatDate(startOfWeek)} al ${formatDate(new Date(startOfWeek.getTime() + 4 * 24 * 60 * 60 * 1000))}`;
+    
+            // Obtener los datos del cronograma
+            fetch('/monsterlabs/mvc/controllers/monitor/obtener-cronograma.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        renderActivities(data.data, startOfWeek);
+                    } else {
+                        console.error('Error al obtener los datos:', data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    
+        function renderActivities(actividades, startOfWeek) {
+            // Crear la fila de encabezados (días de la semana)
+            const headerRow = document.createElement('tr');
+            ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'].forEach(day => {
+                const th = document.createElement('th');
+                th.textContent = day;
+                headerRow.appendChild(th);
+            });
+            calendarHeader.innerHTML = ''; // Limpiar encabezados anteriores
+            calendarHeader.appendChild(headerRow);
+    
+            // Crear una fila para las actividades
+            const row = document.createElement('tr');
+    
+            // Generar celdas para cada día de la semana
+            for (let day = 0; day < 5; day++) {
+                const cell = document.createElement('td');
+                const currentDay = new Date(startOfWeek);
+                currentDay.setDate(startOfWeek.getDate() + day);
+    
+                // Filtrar actividades para el día actual
+                const actividadesDia = actividades.filter(actividad => {
+                    const actividadFecha = new Date(actividad.fecha);
+                    return actividadFecha.toDateString() === currentDay.toDateString();
+                });
+                
+
+                
+                // Mostrar actividades como tarjetas
+                const modal = document.getElementById("infoModalCronogram");
+                const closeModalBtn = document.getElementById("closeModalCronogram");
+            
+                // Cerrar el modal cuando se hace clic en la "X"
+                closeModalBtn.addEventListener("click", function () {
+                    modal.classList.remove("show");
+                });
+            
+                // Cerrar el modal cuando se hace clic fuera del contenido
+                window.addEventListener("click", function (event) {
+                    if (event.target === modal) {
+                        modal.classList.remove("show");
+                    }
+                });
+
+                actividadesDia.forEach(actividad => {
+                    const tarjeta = document.createElement('div');
+                    tarjeta.className = 'tarjeta-actividad';
+                    tarjeta.innerHTML = `
+                        <strong>${actividad.nombre_actividad}</strong>
+                        <p>${actividad.hora_inicio} - ${actividad.hora_fin}</p>
+                    `;
+                    tarjeta.addEventListener('click', function () {
+                        document.getElementById("modalContentCronogram").innerHTML = `
+                        <div class="modal-contenido">
+                            <h2>${actividad.nombre_actividad}</h2>
+                            <p><strong>Horario:</strong> ${actividad.hora_inicio} - ${actividad.hora_fin}</p>
+                            <p><strong>Descripción:</strong> ${actividad.descripcion}</p>
+                        </div>
+                        `;
+            
+                        modal.classList.add("show");
+                        
+                    });     
+                    cell.appendChild(tarjeta);
+                });
+
+                row.appendChild(cell);
+            }
+    
+            calendarBody.appendChild(row);
+        }
+
+        function formatDate(date) {
+            return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+    
+        prevWeekButton.addEventListener('click', function () {
+            currentDate.setDate(currentDate.getDate() - 7);
+            renderCalendar();
+        });
+    
+        nextWeekButton.addEventListener('click', function () {
+            currentDate.setDate(currentDate.getDate() + 7);
+            renderCalendar();
+        });
+    
+        renderCalendar();
+
+
+    //----------------------------CONTACTO - MENSAJES --------------------------
+    const formContact = document.getElementById('form-notificaciones');
+
+    formContact.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const asunto = document.getElementById('asunto').value;
+        const descripcion = document.getElementById('descripcion').value;
+        const messageContact = document.getElementById('message-contact');
+
+        fetch("/monsterlabs/mvc/controllers/monitor/envio-mensaje.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                asunto: asunto,
+                descripcion: descripcion
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    messageContact.textContent = data.message;
+                    messageContact.style.color = "green";
+                } else {
+                    messageContact.textContent = data.message;
+                    messageContact.style.color = "red";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                messageContact.textContent = "Error de conexión";
+                messageContact.style.color = "red";
+            });
+
+    });
+
+    // --------------------------CERRAR SESION----------------------------
+    document.addEventListener("click", function (event) {
+        // Detectar si se hizo clic en el botón de salir
+        let logoutBtn = event.target.closest("#logoutBtn");
+        if (logoutBtn) {
+            event.preventDefault();
+
+            fetch("/monsterlabs/mvc/controllers/logout.php")
+                .then(response => response.json()) // Parsear la respuesta como JSON
+                .then(data => {
+                    if (data.redirect) {
+                        // Redirigir al usuario si la respuesta indica una redirección
+                        window.location.href = data.redirect;
+                    }
+                })
+                .catch(error => console.error("Error al cerrar sesión:", error));
+        }
+    });
 });

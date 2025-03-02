@@ -1,4 +1,5 @@
 
+
 INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('juanp', 'juanp@example.com', 'password123', 'padre');
 INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('maria.m', 'maria.m@example.com', 'password123', 'padre');
 INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('luism', 'luism@example.com', 'password123', 'monitor');
@@ -78,8 +79,9 @@ INSERT IGNORE INTO GuardianNino (relacion, id_nino, id_guardian) VALUES ('vecino
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Presentacion Monster', 'Introducción a la temática Monster con dinámicas grupales.');
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Super Burbujas de Colores', 'Actividad creativa con burbujas y colorantes para experimentos visuales.');
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Pasta Monster', 'Elaboración de pasta comestible con formas monstruosas.');
-INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Super Slime', 'Creación de slime con texturas variadas y colores brillantes.');
+INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Super Slime', 'La actividad se llevará a cabo en el patio central, brindando a los niños y niñas un espacio amplio y cómodo para expresarse libremente. Antes de comenzar, se presentarán los materiales y se formularán preguntas para activar sus conocimientos previos. Luego, se les animará a crear un slime gigante de manera colaborativa, asegurando que todos participen. Al finalizar, se pondrá música para enriquecer la experiencia, permitiendo que los niños y niñas manipulen el slime mientras realizan movimientos con sus extremidades.');
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Actividad Pasivo Monter', 'Actividad de relajación y creatividad en silencio con temática Monster.');
+
 
 INSERT IGNORE INTO Cronograma (id_cronograma, fecha, hora_inicio, hora_fin, id_actividad, id_grupo) VALUES (1,'2025-03-01', '10:00:00', '11:30:00', 1, 1);
 INSERT IGNORE INTO Cronograma (id_cronograma, fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES (2,'2025-03-02', '14:00:00', '15:30:00', 2, 2);

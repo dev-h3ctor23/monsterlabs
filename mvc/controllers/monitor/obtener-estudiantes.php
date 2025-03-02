@@ -8,11 +8,11 @@ session_start();
 
 // Verificar que el usuario esté logueado y sea monitor
 if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] !== 'monitor') {
-    echo json_encode(["status" => "error", "message" => "Acceso denegado"]);
+    echo json_encode(["status" => "error", "message" => "Acceso denegado", "redirect" => "/monsterlabs/index.php"]);
     exit;
 }
 
-include(__DIR__ . '/../../../config/conn.php');
+require_once(__DIR__ . '/../../../config/conn.php');
 
 // Obtener la fecha enviada por GET (se espera en formato YYYY-MM-DD)
 $date = isset($_GET['date']) ? $_GET['date'] : '';
@@ -30,11 +30,11 @@ if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
 $user_id = $_SESSION['id_usuario'];
 
 // Primero, obtenemos el id_monitor del monitor en sesión
-$stmt1 = $conn->prepare("SELECT id_monitor FROM Monitor WHERE id_usuario = ?");
+$stmt1 = $conn->prepare("SELECT id_monitor, id_grupo FROM Monitor WHERE id_usuario = ?");
 $stmt1->bind_param("i", $user_id);
 $stmt1->execute();
 $stmt1->store_result();
-$stmt1->bind_result($monitor_id);
+$stmt1->bind_result($monitor_id, $grupo_id);
 if ($stmt1->num_rows > 0) {
     $stmt1->fetch();
 } else {
@@ -44,14 +44,14 @@ if ($stmt1->num_rows > 0) {
 $stmt1->close();
 
 // Se consultan los niños que estén en el grupo del monitor y cuyo rango (fecha_inicio - fecha_fin) incluya la fecha seleccionada
-$query = "SELECT DISTINCT n.id_nino, n.nombre, n.apellido, a.estado
-          FROM Nino n
-          JOIN Grupos g ON n.id_nino = g.id_nino
-          LEFT JOIN Asistencia a ON n.id_nino = a.id_nino AND a.fecha = ?
-          WHERE ? BETWEEN n.fecha_inicio AND n.fecha_fin
-          AND g.id_monitor = ?";
+$query = "SELECT n.id_nino, n.nombre, n.apellido, a.estado
+        FROM Nino n
+        LEFT JOIN Asistencia a ON n.id_nino = a.id_nino AND a.fecha = ?
+        INNER JOIN PeriodoNino p ON n.id_nino = p.id_nino
+        WHERE ? BETWEEN p.fecha_inicio_periodo AND p.fecha_fin_periodo
+        AND n.id_grupo = ?";
 $stmt = $conn->prepare($query);
-$stmt->bind_param("ssi", $date, $date, $monitor_id);
+$stmt->bind_param("ssi", $date, $date, $grupo_id);
 $stmt->execute();
 $result = $stmt->get_result();
 

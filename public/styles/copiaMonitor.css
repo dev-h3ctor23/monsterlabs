@@ -41,7 +41,7 @@ body {
     transition: width 0.3s ease;
     background-color: var(--sidebar-color);
     position: relative;
-    height: 100vh;
+    height: 100vh; /* Altura completa */
 }
 
 /* Sidebar expandido */

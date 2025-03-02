@@ -128,11 +128,20 @@ CREATE TABLE IF NOT EXISTS Notificaciones (
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE
 );
 
+
+CREATE TABLE IF NOT EXISTS Observaciones (
+    id_observacion INT AUTO_INCREMENT PRIMARY KEY,
+    observacion TEXT NOT NULL,
+    id_nino INT NOT NULL, 
+    FOREIGN KEY (id_nino) REFERENCES Nino(id_nino) ON DELETE CASCADE
+);
+
+
 CREATE TABLE  IF NOT EXISTS PeriodoNino (
     id_periodo INT AUTO_INCREMENT PRIMARY KEY,
     fecha_inicio_periodo DATE NOT NULL,
     fecha_fin_periodo DATE NOT NULL,
     id_nino INT NOT NULL,
-    FOREIGN KEY (id_nino) REFERENCES Nino(id_nino) ON DELETE CASCADE
-    );
+    FOREIGN KEY (id_nino) REFERENCES Nino(id_nino) ON DELETE CASCADE
 );
+
