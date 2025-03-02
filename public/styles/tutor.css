@@ -38,6 +38,126 @@ h1, h2, h3 {
     display: block;
 }
 
+/* Sección de inicio mejorada para #section-inicio (solo afecta esta sección) */
+#section-inicio {
+  background-color: #ffffff; /* Fondo blanco para mantener los colores originales */
+  padding: 60px 30px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  position: relative;
+  animation: slideInUp 0.8s ease-out;
+}
+
+/* Animación de entrada */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Título de bienvenida con sugerencia de lenguaje inclusivo */
+/* Puedes actualizar el contenido HTML a: "¡Bienvenides, Tutores!" */
+#section-inicio .welcome-title {
+  text-align: center;
+  font-size: 3em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+  color: #56B848;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Contenedor de la galería */
+#section-inicio .gallery-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  margin: 30px auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Carril de imágenes */
+#section-inicio .gallery-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Imágenes de la galería con efecto más impactante */
+#section-inicio .gallery-image {
+  width: 320px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 15px;
+  flex-shrink: 0;
+  border: 3px solid #9A4E9E; /* Color original de borde */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#section-inicio .gallery-image:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+/* Botones de navegación de la galería */
+#section-inicio .gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+#section-inicio .gallery-nav:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+#section-inicio .gallery-nav.prev {
+  left: 20px;
+}
+
+#section-inicio .gallery-nav.next {
+  right: 20px;
+}
+
+/* Mensaje de bienvenida */
+#section-inicio .welcome-message {
+  max-width: 700px;
+  margin: 40px auto 0;
+  font-size: 1.2em;
+  line-height: 1.6;
+  color: #444;
+  background-color: #F8F8F8;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+#section-inicio .welcome-message:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilo para resaltar texto sin usar gradientes */
+#section-inicio .highlight {
+  color: #56B848;
+  font-weight: bold;
+}
+
+
 .welcome-title {
     text-align: center;
     padding: 40px 0;
