@@ -21,7 +21,7 @@ INSERT IGNORE INTO Grupo (nombre_grupo) VALUES ('Grupo D');
 INSERT IGNORE INTO Grupo (nombre_grupo) VALUES ('Grupo E');
 
 INSERT IGNORE INTO Monitor (dni_monitor, nombre, apellido, numero_telefono, id_usuario, id_grupo) VALUES ('12345678A', 'Luis', 'Martinez', '600123456', 3, 1);
-INSERT IGNORE INTO Monitor (dni_monitor, nombre, apellido, numero_telefono, id_usuario, id_grupo) VALUES ('23456789B', 'Carlos', 'Garcia', '600234567', 4, 2);
+INSERT IGNORE INTO Monitor (dni_mo  nitor, nombre, apellido, numero_telefono, id_usuario, id_grupo) VALUES ('23456789B', 'Carlos', 'Garcia', '600234567', 4, 2);
 INSERT IGNORE INTO Monitor (dni_monitor, nombre, apellido, numero_telefono, id_usuario, id_grupo) VALUES ('34567890C', 'Lucia', 'Gomez', '600345678', 8, 3);
 INSERT IGNORE INTO Monitor (dni_monitor, nombre, apellido, numero_telefono, id_usuario, id_grupo) VALUES ('45678901D', 'Andres', 'Lopez', '600456789', 9, 4);
 INSERT IGNORE INTO Monitor (dni_monitor, nombre, apellido, numero_telefono, id_usuario, id_grupo) VALUES ('56789012E', 'Sofia', 'Rodriguez', '600567890', 10, 5);

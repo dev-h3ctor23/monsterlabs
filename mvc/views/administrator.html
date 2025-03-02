@@ -50,7 +50,26 @@
         <!-- ? : Seccion de Actividades -->
         <section id="activities" class="section-content">
             <h1>Actividades</h1>
-            <p>Contenido de actividades.</p>
+            <div class="activities-tables">
+                <div class="table-container">
+                    <h2>Actividades</h2>
+                    <table id="activities-table">
+                        <tbody id="activities-table-body">
+                            <!-- Filas dinámicas de actividades -->
+                        </tbody>
+                    </table>
+                    <button class="add-btn" id="add-activity-btn">Añadir Actividad</button>
+                </div>
+                <div class="table-container">
+                    <h2>Cronograma</h2>
+                    <table id="schedule-table">
+                        <tbody id="schedule-table-body">
+                            <!-- Filas dinámicas de cronograma -->
+                        </tbody>
+                    </table>
+                    <button class="add-btn" id="add-schedule-btn">Añadir Cronograma</button>
+                </div>
+            </div>
         </section>
         <!-- ? : Seccion de Grupos -->
         <section id="groups" class="section-content">
@@ -230,25 +249,6 @@
                 <label for="group-name">Nombre del Grupo</label>
                 <input type="text" id="group-name" name="group-name" placeholder="Nombre del Grupo">
                 <span id="group-name-error" class="error-message"></span>
-                
-                <label for="monitor-select">Seleccionar Monitor</label>
-                <select id="monitor-select" name="monitor-select">
-                    <!-- Opciones de monitores -->
-                </select>
-                <button type="button" id="add-monitor-to-group" class="btn add">Añadir Monitor</button>
-                <div id="selected-monitors" class="selected-items">
-                    <!-- Monitores añadidos -->
-                </div>
-                
-                <label for="child-select">Seleccionar Niño</label>
-                <select id="child-select" name="child-select">
-                    <!-- Opciones de niños -->
-                </select>
-                <button type="button" id="add-child-to-group" class="btn add">Añadir Niño</button>
-                <div id="selected-children" class="selected-items">
-                    <!-- Niños añadidos -->
-                </div>
-                
                 <div class="modal-buttons">
                     <button type="button" id="cancel-add-group" class="btn cancel">Cancelar</button>
                     <button type="submit" id="save-add-group" class="btn save">Guardar</button>
@@ -362,6 +362,22 @@
             </div>
         </div>
     </div>
+        <!-- Modal para añadir actividad -->
+        <div id="add-activity-modal" class="modal">
+            <div class="modal-content">
+                <form id="add-activity-form" class="modal-form">
+                    <h2>Añadir Actividad</h2>
+                    <label for="activity-name">Nombre de la Actividad:</label>
+                    <input type="text" id="activity-name" name="activity-name" required>
+                    <label for="activity-description">Descripción:</label>
+                    <textarea id="activity-description" name="activity-description" required></textarea>
+                    <div class="modal-buttons">
+                        <button type="submit" class="btn save">Guardar</button>
+                        <button type="button" class="btn cancel" id="cancel-add-activity">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     <!-- TODO : Popups de notificación de Perfil -->
     <div id="popup" class="popup popup-success"></div>
     <div id="popup-error-edit" class="popup popup-error-edit"></div>
@@ -389,7 +405,6 @@
     <script src="../../public/scripts/modals-administrator/modal-add-monitor.js"></script> <!-- Ruta relativa -->
     <script src="../../public/scripts/validations-administrator/validations-add-monitor.js"></script> <!-- Ruta relativa -->
     <script src="../../public/scripts/modals-administrator/modal-add-group.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/validations-administrator/validations-add-group.js"></script> <!-- Ruta relativa -->
     <script src="../../public/scripts/modals-administrator/modal-confirm-alta.js"></script> <!-- Ruta relativa -->
     <script src="../../public/scripts/modals-administrator/modal-confirm-delete.js"></script> <!-- Ruta relativa -->
     <script src="../../public/scripts/modals-administrator/modal-view-child.js"></script> <!-- Ruta relativa -->
@@ -401,5 +416,8 @@
     <script src="../../public/scripts/administrator/load_active_children.js"></script> <!-- Ruta relativa -->
     <script src="../../public/scripts/administrator/load_active_children_group.js"></script>
     <script src="../../public/scripts/administrator/load_notifications.js"></script> <!-- Incluir el archivo JavaScript -->
+    <script src="../../public/scripts/administrator/load_groups.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/modals-administrator/modal-add-activity.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/administrator/load_activities.js"></script> <!-- Ruta relativa -->
 </body>
 </html>

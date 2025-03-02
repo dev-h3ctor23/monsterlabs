@@ -8,6 +8,76 @@
     display: block;
 }
 
+/* Estilos para la sección de actividades */
+.section-content {
+    padding: 20px;
+}
+
+.activities-tables {
+    display: flex;
+    gap: 20px;
+    height: calc(100vh - 100px); /* Ajusta el alto de la pantalla menos el espacio del encabezado */
+}
+
+.table-container {
+    flex: 1 1 300px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: -4px -4px 1px 0px rgba(0, 0, 0, 0.16) inset;
+    height: calc(100vh - 150px);  /* Ajusta el 150px según el espacio ocupado en la web */
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.table-container h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    flex: 1; /* Permite que la tabla ocupe todo el espacio disponible */
+}
+
+.table-container th, .table-container td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.table-container th {
+    background-color: #f2f2f2;
+}
+
+.table-container tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table-container tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.add-btn {
+    display: block;
+    width: 150px; /* Ajusta el ancho del botón */
+    padding: 5px;
+    margin: 10px auto 0; /* Centra el botón y añade margen superior */
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: -3px -3px 0.5px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.add-btn:hover {
+    background-color: #45a049;
+}
+
 /* TODO : Define variables para los anchos del sidebar */
 :root {
     --sidebar-width: 250px;
@@ -182,6 +252,27 @@ body:has(.sidebar.close) {
 
 .btn.save:hover {
   background: #4da63d;
+}
+
+/* Botón de eliminación */
+.btn-delete {
+    background-color: red;
+    border: none;
+    height: 32px; /* Ajusta la altura del botón para que coincida con la altura de las filas */
+    width: 32px; /* Ajusta el ancho del botón */
+    border-radius: 4px;
+    margin-left: 4px; /* Espacio a la derecha del grupo */
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añadimos la transición para el efecto de hover */
+    box-shadow: -3px -3px 0.5px 0px rgba(0, 0, 0, 0.25) inset; /* Sombra para el efecto 3D */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-delete:hover {
+    transform: scale(1.1); /* Efecto de hover para escalar a 1.1 */
+    box-shadow: -3px -3px 0.5px 0px rgba(0, 0, 0, 0.25) inset; /* Sombra más intensa al hacer hover */
 }
 
 /* Mensajes de error */
@@ -902,6 +993,7 @@ border-radius: 6px;
 .btn-red {
     background-color: red;
 }
+
 
 
 

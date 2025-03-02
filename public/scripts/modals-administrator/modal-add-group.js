@@ -1,74 +1,124 @@
-document.getElementById('add-group-btn').addEventListener('click', function() {
-    fetch('../../mvc/controllers/administrator/get_children_and_monitors.php')
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "success") {
-                const monitorSelect = document.getElementById('monitor-select');
-                const childSelect = document.getElementById('child-select');
+document.addEventListener('DOMContentLoaded', function() {
+    const addGroupBtn = document.getElementById('add-group-btn');
+    const addGroupModal = document.getElementById('add-group-modal');
+    const cancelAddGroupBtn = document.getElementById('cancel-add-group');
+    const addGroupForm = document.getElementById('add-group-form');
+    const groupNameInput = document.getElementById('group-name');
+    const groupNameError = document.getElementById('group-name-error');
+    const confirmDeleteGroupModal = document.getElementById('confirm-delete-group-modal');
+    const confirmDeleteGroupBtn = document.getElementById('confirm-delete-group');
+    let groupIdToDelete = null;
+    let rowToDelete = null;
 
-                // Limpiar los select
-                monitorSelect.innerHTML = '';
-                childSelect.innerHTML = '';
+    if (addGroupBtn && addGroupModal && cancelAddGroupBtn && addGroupForm && groupNameInput && groupNameError) {
+        addGroupBtn.addEventListener('click', function() {
+            addGroupModal.classList.add('show');
+        });
 
-                // Llenar el select de monitores
-                data.monitors.forEach(monitor => {
-                    const option = document.createElement('option');
-                    option.value = monitor.id_monitor;
-                    option.textContent = `${monitor.nombre} ${monitor.apellido}`;
-                    monitorSelect.appendChild(option);
-                });
+        cancelAddGroupBtn.addEventListener('click', function() {
+            addGroupModal.classList.remove('show');
+            addGroupForm.reset(); // Restaurar el formulario
+            groupNameError.textContent = ''; // Limpiar mensajes de error
+            groupNameInput.style.borderColor = ''; // Restaurar el estilo del borde
+        });
 
-                // Llenar el select de niños
-                data.children.forEach(child => {
-                    const option = document.createElement('option');
-                    option.value = child.id_nino;
-                    option.textContent = `${child.nombre} ${child.apellido}`;
-                    childSelect.appendChild(option);
-                });
+        addGroupForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const groupName = groupNameInput.value.trim();
 
-                // Mostrar el modal
-                document.getElementById('add-group-modal').classList.add('show');
+            if (groupName === '') {
+                groupNameError.textContent = 'El nombre del grupo no puede estar vacío.';
+                groupNameError.style.display = 'block';
+                groupNameInput.style.borderColor = 'red';
             } else {
-                console.error('Error al cargar los datos:', data.message);
+                groupNameError.style.display = 'none';
+                groupNameInput.style.borderColor = '';
+
+                // Enviar el nombre del grupo al servidor
+                fetch('../../mvc/controllers/administrator/add_group.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `group_name=${encodeURIComponent(groupName)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        // Añadir el grupo a la tabla
+                        const groupsTableBody = document.getElementById('groups-table-body');
+                        const newRow = document.createElement('tr');
+                        const newCell = document.createElement('td');
+                        newCell.textContent = groupName;
+                        newRow.appendChild(newCell);
+
+                        // Crear botón de eliminación
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.textContent = 'Eliminar';
+                        deleteBtn.classList.add('btn', 'btn-delete');
+                        deleteBtn.style.backgroundColor = 'red';
+                        deleteBtn.addEventListener('click', function() {
+                            groupIdToDelete = data.group_id; // Asigna el ID del grupo a eliminar
+                            rowToDelete = newRow; // Asigna la fila a eliminar
+                            confirmDeleteGroupModal.classList.add('show');
+                        });
+                        newRow.appendChild(deleteBtn);
+
+                        groupsTableBody.appendChild(newRow);
+
+                        // Cerrar el modal
+                        addGroupModal.classList.remove('show');
+
+                        // Restaurar el formulario
+                        addGroupForm.reset();
+                        groupNameError.textContent = '';
+                        groupNameInput.style.borderColor = '';
+                    } else {
+                        // Mostrar mensaje de error
+                        groupNameError.textContent = data.message;
+                        groupNameError.style.display = 'block';
+                        groupNameInput.style.borderColor = 'red';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    groupNameError.textContent = 'Error al añadir el grupo';
+                    groupNameError.style.display = 'block';
+                    groupNameInput.style.borderColor = 'red';
+                });
             }
-        })
-        .catch(error => console.error('Error al cargar los datos:', error));
-});
+        });
 
-document.getElementById('cancel-add-group').addEventListener('click', function() {
-    document.getElementById('add-group-modal').classList.remove('show');
-    document.getElementById('add-group-form').reset(); // Restaurar el formulario
-    document.getElementById('selected-monitors').innerHTML = ''; // Limpiar la lista de monitores seleccionados
-    document.getElementById('selected-children').innerHTML = ''; // Limpiar la lista de niños seleccionados
+        confirmDeleteGroupBtn.addEventListener('click', function() {
+            if (groupIdToDelete) {
+                // Enviar solicitud para eliminar el grupo
+                fetch(`../../mvc/controllers/administrator/delete_group.php?id=${groupIdToDelete}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        // Eliminar la fila del grupo de la tabla
+                        rowToDelete.remove();
 
-    // Restaurar las validaciones
-    document.querySelectorAll('.error-message').forEach(error => {
-        error.textContent = '';
-    });
-});
+                        // Cerrar el modal de confirmación
+                        confirmDeleteGroupModal.classList.remove('show');
+                        groupIdToDelete = null;
+                        rowToDelete = null;
+                    } else {
+                        console.error('Error al eliminar el grupo');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        });
 
-document.getElementById('add-monitor-to-group').addEventListener('click', function() {
-    const monitorSelect = document.getElementById('monitor-select');
-    const selectedMonitors = document.getElementById('selected-monitors');
-    const monitor = monitorSelect.options[monitorSelect.selectedIndex].text;
-
-    // Verificar si el monitor ya está en la lista
-    if (!Array.from(selectedMonitors.children).some(item => item.textContent === monitor)) {
-        const monitorItem = document.createElement('div');
-        monitorItem.textContent = monitor;
-        selectedMonitors.appendChild(monitorItem);
-    }
-});
-
-document.getElementById('add-child-to-group').addEventListener('click', function() {
-    const childSelect = document.getElementById('child-select');
-    const selectedChildren = document.getElementById('selected-children');
-    const child = childSelect.options[childSelect.selectedIndex].text;
-
-    // Verificar si el niño ya está en la lista
-    if (!Array.from(selectedChildren.children).some(item => item.textContent === child)) {
-        const childItem = document.createElement('div');
-        childItem.textContent = child;
-        selectedChildren.appendChild(childItem);
+        document.getElementById('cancel-delete-group').addEventListener('click', function() {
+            confirmDeleteGroupModal.classList.remove('show');
+            groupIdToDelete = null;
+            rowToDelete = null;
+        });
     }
 });
