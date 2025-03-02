@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <!-- Metaetiquetas para evitar el caché del navegador -->
+     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+     <meta http-equiv="Pragma" content="no-cache" />
+     <meta http-equiv="Expires" content="0" />
     <!-- ! ===== Enlace a la hoja de estilos del CSS. =====-->
     <link rel="stylesheet" href="/monsterlabs/public/styles/style-sidebar-tutor.css"/>
     <!-- ! ===== Enlace a los iconos de Boxicons. =====-->
@@ -91,5 +95,12 @@
     </nav>
     <!-- ! ===== Enlace a los scripts de JavaScript =====-->
     <script src="/monsterlabs/public/scripts/script-sidebar.js"></script>
+    <script>
+      window.onpageshow = function(event) {
+        if (event.persisted) {
+          window.location.reload();
+        }
+      };
+    </script>
   </body>
 </html>
