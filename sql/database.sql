@@ -70,18 +70,16 @@ CREATE TABLE IF NOT EXISTS Asistencia (
 CREATE TABLE IF NOT EXISTS Pago (
     id_pago INT AUTO_INCREMENT PRIMARY KEY,
     nombre_tipo ENUM('transferencia', 'bizum', 'pagoCentro') NOT NULL,
-    tipo_pago ENUM('transferencia', 'bizum', 'pagoCentro') NOT NULL,
     id_padre INT NOT NULL,
-    FOREIGN KEY (id_padre) REFERENCES Padre(id_padre) ON DELETE CASCADE
+    FOREIGN KEY (id_padre) REFERENCES Padre(id_padre) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Guardian (
     id_guardian INT AUTO_INCREMENT PRIMARY KEY,
     dni_guardian VARCHAR(9) NOT NULL,
-    dni_guardian VARCHAR(9) UNIQUE NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
-    telefono VARCHAR(13)
+    telefono VARCHAR(13)
 );
 
 CREATE TABLE IF NOT EXISTS GuardianNino (
@@ -128,7 +126,6 @@ CREATE TABLE IF NOT EXISTS Notificaciones (
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE
 );
 
-
 CREATE TABLE IF NOT EXISTS Observaciones (
     id_observacion INT AUTO_INCREMENT PRIMARY KEY,
     observacion TEXT NOT NULL,
@@ -136,12 +133,10 @@ CREATE TABLE IF NOT EXISTS Observaciones (
     FOREIGN KEY (id_nino) REFERENCES Nino(id_nino) ON DELETE CASCADE
 );
 
-
-CREATE TABLE  IF NOT EXISTS PeriodoNino (
+CREATE TABLE IF NOT EXISTS PeriodoNino (
     id_periodo INT AUTO_INCREMENT PRIMARY KEY,
     fecha_inicio_periodo DATE NOT NULL,
     fecha_fin_periodo DATE NOT NULL,
     id_nino INT NOT NULL,
-    FOREIGN KEY (id_nino) REFERENCES Nino(id_nino) ON DELETE CASCADE
+    FOREIGN KEY (id_nino) REFERENCES Nino(id_nino) ON DELETE CASCADE
 );
-

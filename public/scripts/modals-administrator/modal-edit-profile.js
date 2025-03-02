@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById("name-display").textContent = `${updatedData.name} ${updatedData.surname}`;
                 document.getElementById("email-display").textContent = updatedData.email;
                 document.getElementById("phone-display").textContent = updatedData.phone;
+                document.getElementById("dni-display").textContent = updatedData.dni;
 
                 editProfileModal.classList.remove('show');
                 const popup = document.getElementById('popup');
