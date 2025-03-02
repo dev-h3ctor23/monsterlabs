@@ -835,3 +835,64 @@ body.form-page {
     align-items: center; /* Centra verticalmente el texto */
   }
   
+/* Estilos para #infoUsuario */
+#infoUsuario {
+  /* Centra el contenedor y define un ancho máximo */
+  margin: 40px auto;
+  max-width: 600px;
+
+  /* Apariencia */
+  background-color: #F8F8F8;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+  /* Centra todo el contenido por defecto */
+  text-align: center;
+}
+
+/* Estilo para el texto principal (Información del Tutor) */
+#infoUsuario > strong {
+  display: block;
+  font-size: 1.4em;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+/* Ajusta los párrafos internos */
+#infoUsuario p {
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  text-align: left; /* Si prefieres centrarlo, cámbialo a 'center' */
+}
+
+/* Centra y estiliza el subtítulo "Hijos" */
+#infoUsuario h3 {
+  margin-top: 30px;
+  font-size: 1.8em;
+  color: #444;
+  text-align: center;
+}
+
+/* Botones (Editar y Agregar Hijo) */
+#infoUsuario #btnEditar,
+#infoUsuario .btn-agregar-hijo {
+  display: inline-flex;       /* Permite centrar icono y texto en la misma línea */
+  align-items: center;
+  gap: 5px;                   /* Espacio entre el icono y el texto */
+  background-color: #56B848;  /* Color principal */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+/* Efecto hover en los botones */
+#infoUsuario #btnEditar:hover,
+#infoUsuario .btn-agregar-hijo:hover {
+  background-color: #45a037;
+}

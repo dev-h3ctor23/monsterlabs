@@ -7,7 +7,7 @@ $sqlFile = 'sql/database.sql';
 
 $conn = new mysqli($servername, $username, $password);
 if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
+    die("Conexión fallida: " . $conn->connect_error);
 }
 $sql = file_get_contents($sqlFile);
 if ($sql === false) {
