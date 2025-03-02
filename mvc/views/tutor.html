@@ -1,205 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/monsterlabs/public/styles/tutor.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/monsterlabs/public/styles/tutor.css" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+
     <title>Tutor</title>
-</head>
-<body>
+  </head>
+  <body>
     <div id="sidebar-component"></div>
 
-    <!-- Sections -->
+    <div id="modal-overlay" class="modal-overlay">
+      <div class="modal">
+        <div class="form-container">
+          <h2>Finalizar registro del tutor</h2>
+          <form id="form-inscripcion-padre">
+            <label for="nombre-padre">Nombre:</label>
+            <input type="text" id="nombre-padre" name="nombre-padre" />
+
+            <label for="apellidos-padre">Apellidos:</label>
+            <input type="text" id="apellidos-padre" name="apellidos-padre" />
+
+            <label for="dni-padre">DNI:</label>
+            <input type="text" id="dni-padre" name="dni-padre" />
+
+            <label for="telefono-padre">Teléfono:</label>
+            <input type="text" id="telefono-padre" name="telefono-padre" />
+
+            <button type="submit">Finalizar registro</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- -Sections -->
 
     <!-- Section-inicio -->
     <div class="container">
-        <!--SECCION INICIO-->
-        <section id="section-inicio" class="section active">
-            <h1 class="welcome-title">¡Bienvenidos, Tutores!</h1>
-        
+      <!--SECCION INICIO-->
+      <section id="section-inicio" class="section active">
+        <h1 class="welcome-title">¡Bienvenidos, Tutores!</h1>
 
-            <div class="gallery-container">
-                <button class="gallery-nav prev">&lt;</button>
-                <div class="gallery-track">
-                    <img src="/monsterlabs/assets/images/imagen1.jpg" alt="Actividad del Campamento 1" class="gallery-image">
-                    <img src="/monsterlabs/assets/images/imagen2.jpg" alt="Actividad del Campamento 2" class="gallery-image">
-                    <img src="/monsterlabs/assets/images/imagen3.jpg" alt="Actividad del Campamento 3" class="gallery-image">
-                    <img src="/monsterlabs/assets/images/imagen4.jpg" alt="Actividad del Campamento 4" class="gallery-image">
-                    <img src="/monsterlabs/assets/images/imagen5.jpg" alt="Actividad del Campamento 5" class="gallery-image">
-                    <img src="/monsterlabs/assets/images/imagen6.jpg" alt="Actividad del Campamento 6" class="gallery-image">
-                    <img src="/monsterlabs/assets/images/imagen7.jpg" alt="Actividad del Campamento 7" class="gallery-image">
-                    <img src="/monsterlabs/assets/images/imagen8.jpg" alt="Actividad del Campamento 8" class="gallery-image">
-                </div>
-                <button class="gallery-nav next">&gt;</button>
+        <div class="gallery-container">
+          <button class="gallery-nav prev">&lt;</button>
+          <div class="gallery-track">
+            <img
+              src="/monsterlabs/assets/images/imagen1.jpg"
+              alt="Actividad del Campamento 1"
+              class="gallery-image"
+            />
+            <img
+              src="/monsterlabs/assets/images/imagen2.jpg"
+              alt="Actividad del Campamento 2"
+              class="gallery-image"
+            />
+            <img
+              src="/monsterlabs/assets/images/imagen3.jpg"
+              alt="Actividad del Campamento 3"
+              class="gallery-image"
+            />
+            <img
+              src="/monsterlabs/assets/images/imagen4.jpg"
+              alt="Actividad del Campamento 4"
+              class="gallery-image"
+            />
+            <img
+              src="/monsterlabs/assets/images/imagen5.jpg"
+              alt="Actividad del Campamento 5"
+              class="gallery-image"
+            />
+            <img
+              src="/monsterlabs/assets/images/imagen6.jpg"
+              alt="Actividad del Campamento 6"
+              class="gallery-image"
+            />
+            <img
+              src="/monsterlabs/assets/images/imagen7.jpg"
+              alt="Actividad del Campamento 7"
+              class="gallery-image"
+            />
+            <img
+              src="/monsterlabs/assets/images/imagen8.jpg"
+              alt="Actividad del Campamento 8"
+              class="gallery-image"
+            />
+          </div>
+          <button class="gallery-nav next">&gt;</button>
+        </div>
+
+        <p class="welcome-message">
+          ¡Estamos encantados de dar la bienvenida a su hijo a nuestro
+          <span class="highlight">Campamento MonsterLabs</span>! Prepárense para
+          una experiencia inolvidable llena de diversión, amistad y crecimiento
+          personal. ¡Nuestro dedicado equipo está emocionado por crear recuerdos
+          duraderos con su joven campista!
+        </p>
+      </section>
+
+      <!--SECCION PERFIL-->
+      <section id="section-perfil" class="section">
+        <div id="infoUsuario">
+          <p><strong>Nombre de usuario:</strong> <span id="usuario"></span></p>
+          <p><strong>Nombre:</strong> <span id="nombre"></span></p>
+          <p><strong>Apellidos:</strong> <span id="apellidos"></span></p>
+          <p><strong>DNI:</strong> <span id="dni"></span></p>
+          <p>
+            <strong>Número de teléfono:</strong> <span id="telefono"></span>
+          </p>
+          <button id="btnEditar">Editar Mi información</button>
+          <!-- Nueva sección para mostrar hijos -->
+          <h3>Hijos</h3>
+          <button class="btn-agregar-hijo" id="btn-agregar-hijo">
+            <i class="bx bx-user-plus"></i> Agregar Hijo
+         </button>
+          <table id="infoHijos">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Fecha de nacimiento</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Aquí se inyectarán las filas con los datos de cada hijo -->
+            </tbody>
+          </table>
+          <!-- Contenedor para cargar los formularios de edición de hijos -->
+          <div id="hijos" style="display:none;"></div>
+
+          <!-- Plantilla oculta para el formulario de edición de un hijo -->
+          <div id="hijoModelo" class="hijo modelo" style="display:none;">
+            <div class="child-info">
+              <p class="nombre"></p>
+              <p class="apellidos"></p>
+              <p class="fecha"></p>
             </div>
-        
-            <p class="welcome-message">
-                ¡Estamos encantados de dar la bienvenida a su hijo a nuestro <span class="highlight">Campamento MonsterLabs</span>! Prepárense para una experiencia inolvidable llena de diversión, amistad y crecimiento personal. ¡Nuestro dedicado equipo está emocionado por crear recuerdos duraderos con su joven campista!
-            </p>
+            <!-- Formulario de edición -->
+            <form class="formulario" style="display:none;">
+              <label>
+                Nombre:
+                <input type="text" class="inputNombre" placeholder="Nuevo nombre" />
+              </label>
+              <label>
+                Apellidos:
+                <input type="text" class="inputApellidos" placeholder="Nuevos apellidos" />
+              </label>
+              <label>
+                Fecha de nacimiento:
+                <input type="date" class="inputFecha" />
+              </label>
+              <button type="button" class="btnGuardar">Guardar</button>
+            </form>
+            <!-- Botones para mostrar/ocultar el formulario y eliminar -->
+            <button type="button" class="btnEditar">Abrir Formulario</button>
+             <!--<button type="button" class="btnEliminar">Eliminar</button>-->
+          </div>
 
-            <button class="register-button">Finalizar Registro</button>
-        </section>
+        </div>
 
-        <!--SECCION PERFIL-->
-        <section id="section-perfil" class="section">
-            <div id="infoUsuario">
-                <p><strong>Nombre de usuario:</strong> <span id="usuario">JuanPerez</span></p>
-                <p><strong>Nombre:</strong> <span id="nombre">Juan</span></p>
-                <p><strong>Apellidos:</strong> <span id="apellidos">Pérez González</span></p>
-                <p><strong>DNI:</strong> <span id="dni">12345678A</span></p>
-                <p><strong>Número de teléfono:</strong> <span id="telefono">600123456</span></p>
-                <button id="btnEditar">Editar información</button>
+        <div id="formularioUsuario" style="display: none">
+          <form id="formularioEditarUsario">
+            <label
+              >Nombre de usuario: <input type="text" id="inputUsuario"
+            /></label>
+            <label>Nombre: <input type="text" id="inputNombrePadre" /></label>
+            <label>Apellidos: <input type="text" id="inputApellidosPadre" /></label>
+            <label>DNI: <input type="text" id="inputDniPadre" /></label>
+            <label
+              >Número de teléfono: <input type="text" id="inputTelefonoPadre"
+            /></label>
+            <div class="button-container">
+              <button type="submit">Guardar</button>
+              <span id="form-error" class="error-message"></span>
             </div>
-            
-            <div id="formularioUsuario" style="display:none;">
-                <form id="formulario">
-                    <label>Nombre de usuario: <input type="text" id="inputUsuario"></label>
-                    <label>Nombre: <input type="text" id="inputNombre"></label>
-                    <label>Apellidos: <input type="text" id="inputApellidos"></label>
-                    <label>DNI: <input type="text" id="inputDni"></label>
-                    <label>Número de teléfono: <input type="text" id="inputTelefono"></label>
-                    <button type="submit">Guardar</button>
-                </form>
+          </form>
+        </div><br>
+        <button class="btn-volver" id="btn-volver-perfil">Volver</button>
+      </section>
+      
+
+
+
+
+<!-- Notificaciones -->
+<section id="section-notificaciones" class="section">
+  <h1 class="welcome-title">Contacto</h1>
+
+  <!-- Formulario de notificaciones -->
+  <form id="form-notificaciones" class="form-container">
+    <label for="asunto">Asunto:</label>
+    <input type="text" id="asunto" name="asunto" maxlength="100"/>
+
+    <label for="descripcion">Descripción:</label>
+    <textarea id="descripcion" name="descripcion" maxlength="300"></textarea>
+
+    <button type="submit">Enviar</button><span>  </span><button class="btn-volver" id="btn-volver-perfil">Volver</button>
+  </form>
+</section>
+
+
+      <!--SECCION INSCRIPCION-->
+      <section id="section-inscripcion" class="section">
+        <div class="form-container">
+          <h2>Inscripción al Campamento</h2>
+          <form id="form-inscripcion">
+            <label for="nombre-nino">*Nombre:</label>
+            <input type="text" id="nombre-nino" name="nombre-nino" />
+      
+            <label for="apellidos-nino">*Apellidos:</label>
+            <input type="text" id="apellidos-nino" name="apellidos-nino" />
+      
+            <label for="fecha-nacimiento">*Fecha de nacimiento:</label>
+            <input type="date" id="fecha-nacimiento" name="fecha-nacimiento" />
+      
+            <!-- Selección del período -->
+            <p>*Seleccione Periodo:</p>
+            <div id="periodo-options">
+              <input type="radio" name="periodo" id="semanal" value="semanal" />
+              <label for="semanal">Semanal</label>
+              <input type="radio" name="periodo" id="mensual" value="mensual" />
+              <label for="mensual">Mensual</label>
+              <input type="radio" name="periodo" id="trimestral" value="trimestral" />
+              <label for="trimestral">Trimestral</label>
             </div>
-        </section>
-
-
-        <!--SECCION ACTIVIDADES-->
-        <section id="section-actividades" class="section">
-            <h1>Actividades</h1>
-        </section>
-
-        <!--SECCION EDITAR DATOS-->
-        <section id="section-editar-datos" class="section">
-            <div id="hijos">
-                <div class="hijo modelo" id="hijoModelo" style="display: none;">
-                    <h3>Hijo</h3>
-                    <p><strong>Nombre:</strong> <span class="nombre">Nombre</span></p>
-                    <p><strong>Apellidos:</strong> <span class="apellidos">Apellidos</span></p>
-                    <p><strong>Fecha de nacimiento:</strong> <span class="fecha">01/01/2015</span></p>
-                    <p><strong>Número de teléfono:</strong> <span class="telefono">600000000</span></p>
-                    <button class="btnEditar">Editar</button>
-                    <button class="btnEliminar">Eliminar</button>
-                    <div class="formulario" style="display:none;">
-                        <label>Nombre: <input type="text" class="inputNombre"></label>
-                        <label>Apellidos: <input type="text" class="inputApellidos"></label>
-                        <label>Fecha de nacimiento: <input type="date" class="inputFecha"></label>
-                        <label>Número de teléfono: <input type="text" class="inputTelefono"></label>
-                        <button class="btnGuardar">Guardar</button>
-                    </div>
-                </div>
+      
+            <!-- Contenedor para los checkbox que aparecerán dinámicamente -->
+            <div id="check-container"></div>
+      
+            <label for="forma-pago">*Forma de pago:</label>
+            <select id="forma-pago" name="forma-pago">
+              <option value="bizum">Bizum</option>
+              <option value="transferencia">Transferencia bancaria</option>
+              <option value="pago-centro">Pago en Centro</option>
+            </select>
+      
+            <label for="alergia-alimentos">Alérgico a alimentos:</label>
+            <textarea id="alergia-alimentos" name="alergia-alimentos" maxlength="100"></textarea>
+      
+            <label for="alergia-medicamentos">Alérgico a medicamentos:</label>
+            <textarea id="alergia-medicamentos" name="alergia-medicamentos" maxlength="100"></textarea>
+      
+            <label for="medicamento-actual">Medicamento actual:</label>
+            <textarea id="medicamento-actual" name="medicamento-actual" maxlength="100"></textarea>
+      
+            <label for="responsable-adicional">¿Requiere un responsable adicional en caso de emergencia?</label>
+            <select id="responsable-adicional" name="responsable-adicional">
+              <option value="no">No</option>
+              <option value="si">Sí</option>
+            </select>
+      
+            <div id="responsable-info" class="hidden">
+              <h3>Responsable adicional</h3>
+              <label for="nombre-responsable">Nombre:</label>
+              <input type="text" id="nombre-responsable" name="nombre-responsable" />
+      
+              <label for="apellidos-responsable">Apellidos:</label>
+              <input type="text" id="apellidos-responsable" name="apellidos-responsable" />
+      
+              <label for="dni-responsable">DNI:</label>
+              <input type="text" id="dni-responsable" name="dni-responsable" />
+      
+              <label for="telefono-responsable">Teléfono:</label>
+              <input type="text" id="telefono-responsable" name="telefono-responsable" />
+      
+              <label for="relacion-responsable">Relación con el niño:</label>
+              <input type="text" id="relacion-responsable" name="relacion-responsable" />
             </div>
-            <button id="btnAgregar">Agregar hijo</button>
-        </section>
+      
+            <button type="submit">Enviar Inscripción</button>
+          </form>
+        </div><br>
+        <button class="btn-volver" id="btn-volver-perfil">Volver</button>
+      </section>
+      
 
-        <!--SECCION INSCRIPCION-->
-        <section id="section-inscripcion" class="section">
-            <div class="form-container">
-                <h2>Inscripción al Campamento</h2>
-                <form id="form-inscripcion">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" required>
-        
-                    <label for="apellidos">Apellidos:</label>
-                    <input type="text" id="apellidos" name="apellidos" required>
-        
-                    <label for="fecha-nacimiento">Fecha de nacimiento:</label>
-                    <input type="date" id="fecha-nacimiento" name="fecha-nacimiento" required>
-        
-                    <label for="forma-pago">Forma de pago:</label>
-                    <select id="forma-pago" name="forma-pago" required>
-                        <option value="bizum">Bizum</option>
-                        <option value="transferencia">Transferencia bancaria</option>
-                        <option value="pago-centro">Pago en Centro</option>
-                    </select>
-        
-                    <label for="alergia-alimentos">Alérgico a alimentos:</label>
-                    <textarea id="alergia-alimentos" name="alergia-alimentos" maxlength="100"></textarea>
-        
-                    <label for="alergia-medicamentos">Alérgico a medicamentos:</label>
-                    <textarea id="alergia-medicamentos" name="alergia-medicamentos" maxlength="100"></textarea>
-        
-                    <label for="medicamento-actual">Medicamento actual:</label>
-                    <textarea id="medicamento-actual" name="medicamento-actual" maxlength="100"></textarea>
-        
-                    <label for="responsable-adicional">¿Requiere un responsable adicional en caso de emergencia?</label>
-                    <select id="responsable-adicional" name="responsable-adicional" required>
-                        <option value="no">No</option>
-                        <option value="si">Sí</option>
-                    </select>
-        
-                    <div id="responsable-info" class="hidden">
-                        <h3>Responsable adicional</h3>
-                        <label for="nombre-responsable">Nombre:</label>
-                        <input type="text" id="nombre-responsable" name="nombre-responsable">
-        
-                        <label for="apellidos-responsable">Apellidos:</label>
-                        <input type="text" id="apellidos-responsable" name="apellidos-responsable">
-        
-                        <label for="dni-responsable">DNI:</label>
-                        <input type="text" id="dni-responsable" name="dni-responsable">
-        
-                        <label for="telefono-responsable">Teléfono:</label>
-                        <input type="text" id="telefono-responsable" name="telefono-responsable">
-        
-                        <label for="relacion-responsable">Relación con el niño:</label>
-                        <input type="text" id="relacion-responsable" name="relacion-responsable">
-                    </div>
-        
-                    <button type="submit">Enviar Inscripción</button>
-                </form>
+      <!--SECCION CRONOGRAMA-->
+      <section id="section-cronograma" class="section">
+        <div class="container2">
+          <div class="welcome-section">
+            <h1 class="welcome-title">Cronograma</h1>
+          </div>
+
+          <div class="content-section">
+            <h2>Calendarios de Actividades de Hijos</h2>
+            <div class="container">
+            <div id="childCalendars">
+              <!-- Aquí se inyectará dinámicamente el calendario de cada hijo -->
             </div>
-        </section>
-
-
-        <!--SECCION MENSAJES-->
-        <section id="section-mensajes" class="section">
-            <div class="container3">
-                <h1>Chat con Bot de Administrador</h1>
-                <div class="chat-container">
-                    <div id="chat-box" class="chat-box">
-                        <!-- Mensajes del chat aparecerán aquí -->
-                        <div class="message bot-message">
-                            <p>¡Hola! Soy el bot de administrador. ¿En qué puedo ayudarte?</p>
-                        </div>
-                    </div>
-                    <div class="chat-input">
-                        <input type="text" id="user-input" placeholder="Escribe tu mensaje..." />
-                        <button id="send-btn">Enviar</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!--SECCION CRONOGRAMA-->
-        <section id="section-cronograma" class="section">
-            <div class="container2">
-                <div class="welcome-section">
-                    <h1 class="welcome-title">Actividades Monster</h1>
-                </div>
-        
-                <div class="content-section">
-                    <h2>Actividades</h2>
-                    <ul id="activities-list" class="activities-list">
-                        <!-- Las actividades se cargarán dinámicamente con JavaScript -->
-                    </ul>
-        
-                    <h2>Horario de la Semana</h2>
-                    <table id="schedule-table" class="schedule-table">
-                        <!-- El horario se cargará dinámicamente con JavaScript -->
-                    </table>
-        
-                    <h2>Información del Padre y del Hijo</h2>
-                    <div class="info-section">
-                        <p><strong>Nombre del Padre:</strong> <span id="father-name">Juan Pérez</span></p>
-                        <p><strong>Nombre del Hijo:</strong> <span id="child-name">Luis Pérez</span></p>
-                    </div>
-                </div>
-            </div>
-        </section>
+          </div>
+          </div>
+          <button class="btn-volver" id="btn-volver-perfil">Volver</button>
+        </div>
+      </section>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/es.js"></script>
+
     <script src="/monsterlabs/public/scripts/tutor.js"></script>
-</body>
+    <script src="/monsterlabs/public/scripts/validations/tutor-validaciones.js"></script>
+   
+  </body>
 </html>

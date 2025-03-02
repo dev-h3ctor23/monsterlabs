@@ -3,11 +3,11 @@ session_start();
 header("Content-Type: application/json");
 
 if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] !== 'monitor') {
-    echo json_encode(["status" => "error", "message" => "Acceso denegado"]);
+    echo json_encode(["status" => "error", "message" => "Acceso denegado", "redirect" => "/monsterlabs/index.php"]);
     exit;
 }
 
-include(__DIR__ . '/../../../config/conn.php');
+require_once(__DIR__ . '/../../../config/conn.php');
 
 $user_id = $_SESSION['id_usuario'];
 $data = json_decode(file_get_contents("php://input"), true);
