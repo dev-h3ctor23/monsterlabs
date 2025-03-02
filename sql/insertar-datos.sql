@@ -1,3 +1,4 @@
+
 INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('juanp', 'juanp@example.com', 'password123', 'padre');
 INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('maria.m', 'maria.m@example.com', 'password123', 'padre');
 INSERT IGNORE INTO Usuario (nombre_usuario, correo, contrasena, nombre_tipo) VALUES ('luism', 'luism@example.com', 'password123', 'monitor');
@@ -50,7 +51,6 @@ INSERT INTO PeriodoNino (fecha_inicio_periodo, fecha_fin_periodo, id_nino) VALUE
 INSERT INTO PeriodoNino (fecha_inicio_periodo, fecha_fin_periodo, id_nino) VALUES ('2025-08-01', '2023-08-31', 4);
 INSERT INTO PeriodoNino (fecha_inicio_periodo, fecha_fin_periodo, id_nino) VALUES ('2025-08-04', '2023-08-08', 5);
 
-
 INSERT IGNORE INTO Asistencia (fecha, id_nino, estado) VALUES ('2023-06-10', 1, 'asistio');
 INSERT IGNORE INTO Asistencia (fecha, id_nino, estado) VALUES ('2023-06-10', 2, 'ausente');
 INSERT IGNORE INTO Asistencia (fecha, id_nino, estado) VALUES ('2023-06-10', 3, 'asistio');
@@ -80,11 +80,9 @@ INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Super Burb
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Pasta Monster', 'Elaboración de pasta comestible con formas monstruosas.');
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Super Slime', 'Creación de slime con texturas variadas y colores brillantes.');
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Actividad Pasivo Monter', 'Actividad de relajación y creatividad en silencio con temática Monster.');
-INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Circuito Activo Monster', 'Circuito deportivo inspirado en desafíos del mundo Monster.');
 
 INSERT IGNORE INTO Cronograma (id_cronograma, fecha, hora_inicio, hora_fin, id_actividad, id_grupo) VALUES (1,'2025-03-01', '10:00:00', '11:30:00', 1, 1);
 INSERT IGNORE INTO Cronograma (id_cronograma, fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES (2,'2025-03-02', '14:00:00', '15:30:00', 2, 2);
 INSERT IGNORE INTO Cronograma (id_cronograma, fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES (3,'2025-03-03', '09:30:00', '11:00:00', 3, 3);
 INSERT IGNORE INTO Cronograma (id_cronograma, fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES (4,'2025-03-04', '13:00:00', '14:30:00', 4, 4);
 INSERT IGNORE INTO Cronograma (id_cronograma, fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES (5,'2025-03-05', '16:00:00', '17:30:00', 5, 5);
-
