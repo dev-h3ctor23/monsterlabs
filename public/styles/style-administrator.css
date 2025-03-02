@@ -38,7 +38,8 @@
 
 .table-container table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0 4px; /* Separación entre filas */
     flex: 1; /* Permite que la tabla ocupe todo el espacio disponible */
 }
 
@@ -46,6 +47,8 @@
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
+    background-color: #E1E6EA; /* Color de fondo de las celdas */
+    border-radius: 8px; /* Bordes redondeados */
 }
 
 .table-container th {
@@ -53,7 +56,7 @@
 }
 
 .table-container tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #E1E6EA; /* Color de fondo de las filas pares */
 }
 
 .table-container tbody tr:hover {
@@ -992,6 +995,21 @@ border-radius: 6px;
 
 .btn-red {
     background-color: red;
+}
+
+/* Estilos para el scroll */
+.table-container::-webkit-scrollbar {
+    width: 12px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #57B949; /* Color del scroll */
+    border-radius: 20px;
+    border: 3px solid #f1f1f1;
 }
 
 
