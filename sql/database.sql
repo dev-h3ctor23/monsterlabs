@@ -3,8 +3,8 @@ USE monsterLabs;
 
 CREATE TABLE IF NOT EXISTS Usuario (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_usuario VARCHAR(100) NOT NULL,
-    correo VARCHAR(100) NOT NULL,
+    nombre_usuario VARCHAR(100) UNIQUE NOT NULL,
+    correo VARCHAR(100) UNIQUE NOT NULL,
     contrasena VARCHAR(255) NOT NULL,
     nombre_tipo ENUM('padre', 'monitor', 'admin') NOT NULL
 );
@@ -16,19 +16,19 @@ CREATE TABLE IF NOT EXISTS Grupo (
 
 CREATE TABLE IF NOT EXISTS Monitor (
     id_monitor INT AUTO_INCREMENT PRIMARY KEY,
-    dni_monitor VARCHAR(9) NOT NULL,
+    dni_monitor VARCHAR(9) UNIQUE NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
     numero_telefono VARCHAR(13),
     id_usuario INT NOT NULL,
-    id_grupo INT,
+    id_grupo INT NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE,
     FOREIGN KEY (id_grupo) REFERENCES Grupo(id_grupo) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Padre (
     id_padre INT AUTO_INCREMENT PRIMARY KEY,
-    dni_padre VARCHAR(9) NOT NULL,
+    dni_padre VARCHAR(9) UNIQUE NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
     numero_telefono VARCHAR(13),
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS Padre (
 
 CREATE TABLE IF NOT EXISTS Administrador (
     id_admin INT AUTO_INCREMENT PRIMARY KEY,
-    dni_admin VARCHAR(9) NOT NULL,
+    dni_admin VARCHAR(9) UNIQUE NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
     numero_telefono VARCHAR(13),
@@ -69,17 +69,17 @@ CREATE TABLE IF NOT EXISTS Asistencia (
 
 CREATE TABLE IF NOT EXISTS Pago (
     id_pago INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_tipo ENUM('transferencia', 'bizum', 'pagoCentro') NOT NULL,
+    tipo_pago ENUM('transferencia', 'bizum', 'pagoCentro') NOT NULL,
     id_padre INT NOT NULL,
-    FOREIGN KEY (id_padre) REFERENCES Padre(id_padre) ON DELETE CASCADE
+    FOREIGN KEY (id_padre) REFERENCES Padre(id_padre) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Guardian (
     id_guardian INT AUTO_INCREMENT PRIMARY KEY,
-    dni_guardian VARCHAR(9) NOT NULL,
+    dni_guardian VARCHAR(9) UNIQUE NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
-    telefono VARCHAR(13)
+    telefono VARCHAR(13)
 );
 
 CREATE TABLE IF NOT EXISTS GuardianNino (
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS Observaciones (
     FOREIGN KEY (id_nino) REFERENCES Nino(id_nino) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS PeriodoNino (
+CREATE TABLE  IF NOT EXISTS PeriodoNino (
     id_periodo INT AUTO_INCREMENT PRIMARY KEY,
     fecha_inicio_periodo DATE NOT NULL,
     fecha_fin_periodo DATE NOT NULL,
