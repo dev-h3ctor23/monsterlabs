@@ -15,10 +15,5 @@ if (ini_get("session.use_cookies")) {
 }
 
 session_destroy();
-
-// Devolver un JSON con un indicador de redirección
-echo json_encode([
-    "status" => "success",
-    "redirect" => "/monsterlabs/index.php"
-]);
+header("Location: /monsterlabs/index.php"); 
 exit;
