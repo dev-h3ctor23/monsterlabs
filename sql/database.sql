@@ -52,8 +52,6 @@ CREATE TABLE IF NOT EXISTS Nino (
     apellido VARCHAR(100) NOT NULL,
     fecha_nacimiento DATE NOT NULL,
     periodo ENUM('semanal', 'mensual', 'trimestral') NOT NULL,
-    fecha_inicio DATE,
-    fecha_fin DATE,
     estado ENUM('activo', 'inactivo') NOT NULL,
     id_grupo INT,
     id_padre INT NOT NULL,

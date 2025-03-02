@@ -39,8 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $nombre = $data['nombre'];
         $apellidos = $data['apellidos'];
         $fechaNacimiento = $data['fechaNacimiento'];
-        $fechaInicio = $data['fechaInicio'];
-        $fechaFin = $data['fechaFin'];
         $periodo = $data['periodo'];
         $stmt = $conn->prepare("SELECT id_padre FROM Padre WHERE id_usuario = ?");
         $stmt->bind_param("i", $user_id);
@@ -69,8 +67,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $conn->autocommit(false);
 
         // a) Insertar en Nino
-        $stmt = $conn->prepare("INSERT INTO Nino (nombre, apellido, fecha_nacimiento, fecha_inicio,fecha_fin,periodo, estado, id_padre) VALUES (?, ?, ?,?, ?, ?,'inactivo', ?)");
-        $stmt->bind_param("ssssssi", $nombre, $apellidos, $fechaNacimiento, $fechaInicio, $fechaFin, $periodo, $id_padre);
+        $stmt = $conn->prepare("INSERT INTO Nino (nombre, apellido, fecha_nacimiento, periodo, estado, id_padre) VALUES (?, ?, ?, ?,'inactivo', ?)");
+        $stmt->bind_param("ssssi", $nombre, $apellidos, $fechaNacimiento, $periodo, $id_padre);
         if (!$stmt->execute()) {
             $conn->rollback();
             echo json_encode(['status' => 'error', 'message' => 'Error al insertar datos del niño']);

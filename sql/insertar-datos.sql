@@ -38,11 +38,19 @@ INSERT IGNORE INTO Administrador (dni_admin, nombre, apellido, numero_telefono, 
 INSERT IGNORE INTO Administrador (dni_admin, nombre, apellido, numero_telefono, id_usuario) VALUES ('44444444D', 'Lucia', 'Torres', '700444444', 14);
 INSERT IGNORE INTO Administrador (dni_admin, nombre, apellido, numero_telefono, id_usuario) VALUES ('55555555E', 'Sergio', 'Lopez', '700555555', 15);
 
-INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, fecha_inicio, fecha_fin, periodo, estado, id_grupo, id_padre) VALUES ('Ana', 'Perez', '2015-03-15', '2023-06-01', '2023-12-01', 'mensual', 'activo', 1, 1);
-INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, fecha_inicio, fecha_fin, periodo, estado, id_grupo, id_padre) VALUES ('Luis', 'Sanchez', '2014-07-22', '2023-06-01', '2023-12-01', 'semanal', 'activo', 2, 2);
-INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, fecha_inicio, fecha_fin, periodo, estado, id_grupo, id_padre) VALUES ('Marta', 'Lopez', '2016-01-10', '2023-06-01', '2023-12-01', 'trimestral', 'activo', 3, 3);
-INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, fecha_inicio, fecha_fin, periodo, estado, id_grupo, id_padre) VALUES ('Diego', 'Garcia', '2015-09-30', '2023-06-01', '2023-12-01', 'mensual', 'activo', 4, 4);
-INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, fecha_inicio, fecha_fin, periodo, estado, id_grupo, id_padre) VALUES ('Sofia', 'Martinez', '2014-12-05', '2023-06-01', '2023-12-01', 'semanal', 'activo', 5, 5);
+INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, periodo, estado, id_grupo, id_padre) VALUES ('Ana', 'Perez', '2015-03-15', 'mensual', 'activo', 1, 1);
+INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, periodo, estado, id_grupo, id_padre) VALUES ('Luis', 'Sanchez', '2014-07-22', 'semanal', 'activo', 2, 2);
+INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, periodo, estado, id_grupo, id_padre) VALUES ('Marta', 'Lopez', '2016-01-10', 'trimestral', 'activo', 3, 3);
+INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, periodo, estado, id_grupo, id_padre) VALUES ('Diego', 'Garcia', '2015-09-30', 'mensual', 'activo', 4, 4);
+INSERT IGNORE INTO Nino (nombre, apellido, fecha_nacimiento, periodo, estado, id_grupo, id_padre) VALUES ('Sofia', 'Martinez', '2014-12-05', 'semanal', 'activo', 5, 5);
+
+INSERT INTO PeriodoNino (fecha_inicio_periodo, fecha_fin_periodo, id_nino) VALUES ('2025-07-01', '2023-07-31', 1);
+INSERT INTO PeriodoNino (fecha_inicio_periodo, fecha_fin_periodo, id_nino) VALUES ('2025-06-09', '2023-06-13', 2);
+INSERT INTO PeriodoNino (fecha_inicio_periodo, fecha_fin_periodo, id_nino) VALUES ('2025-06-01', '2023-08-31', 3);
+INSERT INTO PeriodoNino (fecha_inicio_periodo, fecha_fin_periodo, id_nino) VALUES ('2025-08-01', '2023-08-31', 4);
+INSERT INTO PeriodoNino (fecha_inicio_periodo, fecha_fin_periodo, id_nino) VALUES ('2025-08-04', '2023-08-08', 5);
+
+
 INSERT IGNORE INTO Asistencia (fecha, id_nino, estado) VALUES ('2023-06-10', 1, 'asistio');
 INSERT IGNORE INTO Asistencia (fecha, id_nino, estado) VALUES ('2023-06-10', 2, 'ausente');
 INSERT IGNORE INTO Asistencia (fecha, id_nino, estado) VALUES ('2023-06-10', 3, 'asistio');
