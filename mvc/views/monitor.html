@@ -20,20 +20,27 @@
     </div>
     <div class="content" id="content">
 
+        <!-- Sections -->
+         <section id="section-home" class="section">
+            <h1>BIENVENIDO MONITOR</h1>
+         </section>
 
          <!------------------- SECCION PERFIL ---------------------->
         <section id="section-perfil" class="section">
             
-            <!-- <div class="perfil-container" id="perfilContainer"> -->
+            <div class="perfil-container" id="perfilContainer">
                 <div class="title">
                     <h2>Perfil</h2>
                 </div>
                 <!-- Foto de perfil con botón para subir imagen -->
                  <div class="container-photo">
                     <div class="perfil-foto">
-                        <img id="profileImage" src="/monsterlabs/assets/images/monitor-perfil.jpg" alt="Foto de Perfil">
+                        <img id="profileImage" src="" alt="Foto de Perfil">
                     </div>
                     <div class="editPhoto">
+                        <!-- Input oculto para seleccionar archivo -->
+                        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                        <!-- Botón para abrir el selector de archivos -->
                         <button class="btn" id="editPhoto">Cambiar Foto</button>
                     </div>
                  </div>
@@ -41,19 +48,19 @@
         
                 <!-- Información personal -->
                 <div class="perfil-info" id="perfilInfo">
-                    <div class="dates-monitor name">
+                    <div class="dates-monitor">
                         <strong>Nombre:</strong> <span id="name-monitor"></span> <span id="lastname"></span>
                     </div>
-                    <div class="dates-monitor username">
+                    <div class="dates-monitor">
                         <strong>Usuario:</strong> <span id="user-monitor"></span>
                     </div>
-                    <div class="dates-monitor dni">
+                    <div class="dates-monitor">
                         <strong>DNI:</strong> <span id="dni-monitor"></span>
                     </div>
-                    <div class="dates-monitor email">
+                    <div class="dates-monitor">
                         <strong>Correo:</strong> <span id="email-monitor"></span>
                     </div>
-                    <div class="dates-monitor phone">
+                    <div class="dates-monitor">
                         <strong>Teléfono:</strong><span id="phone-monitor"></span>
                     </div>
                      <!-- Botones de acciones -->
@@ -61,8 +68,8 @@
                         <button class="btn" id="editProfileBtn"><i class="bx bx-edit"></i> Editar Perfil</button>
                         <button class="btn" id="changePasswordBtn"><i class="bx bx-lock"></i> Cambiar Contraseña</button>
                     </div>
-                <!-- </div> -->
-                
+                </div>
+        
                
             </div>
 

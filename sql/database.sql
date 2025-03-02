@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS Administrador (
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE
 );
 
--- Tabla Niño
+-- Tabla Niño
 CREATE TABLE IF NOT EXISTS Nino (
     id_nino INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
