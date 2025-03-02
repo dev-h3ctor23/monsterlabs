@@ -84,5 +84,14 @@
     </script>
     <script src="/monsterlabs/public/scripts/home.js"></script>
     <script src="/monsterlabs/public/scripts/database.js"></script>
+
+    <!--Seccion para no ir para atras-->
+
+    <script>
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+          history.go(1);
+        };
+      </script>
 </body>
 </html>

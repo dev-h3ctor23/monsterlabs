@@ -74,8 +74,9 @@ INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Super Slim
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Actividad Pasivo Monter', 'Actividad de relajación y creatividad en silencio con temática Monster.');
 INSERT IGNORE INTO Actividad (nombre_actividad, descripcion) VALUES ('Circuito Activo Monster', 'Circuito deportivo inspirado en desafíos del mundo Monster.');
 
-INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, id_actividad, id_grupo) VALUES ('2025-03-01', '10:00:00', '11:30:00', 1, 1);
-INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES ('2025-03-02', '14:00:00', '15:30:00', 2, 2);
-INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES ('2025-03-03', '09:30:00', '11:00:00', 3, 3);
-INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES ('2025-03-04', '13:00:00', '14:30:00', 4, 4);
-INSERT IGNORE INTO Cronograma (fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES ('2025-03-05', '16:00:00', '17:30:00', 5, 5);
+INSERT IGNORE INTO Cronograma (id_cronograma, fecha, hora_inicio, hora_fin, id_actividad, id_grupo) VALUES (1,'2025-03-01', '10:00:00', '11:30:00', 1, 1);
+INSERT IGNORE INTO Cronograma (id_cronograma, fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES (2,'2025-03-02', '14:00:00', '15:30:00', 2, 2);
+INSERT IGNORE INTO Cronograma (id_cronograma, fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES (3,'2025-03-03', '09:30:00', '11:00:00', 3, 3);
+INSERT IGNORE INTO Cronograma (id_cronograma, fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES (4,'2025-03-04', '13:00:00', '14:30:00', 4, 4);
+INSERT IGNORE INTO Cronograma (id_cronograma, fecha, hora_inicio, hora_fin, id_actividad, id_grupo)  VALUES (5,'2025-03-05', '16:00:00', '17:30:00', 5, 5);
+

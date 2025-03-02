@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/monsterlabs/public/styles/tutor.css" />
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
 
     <title>Tutor</title>
   </head>
@@ -101,6 +102,7 @@
 
       <!--SECCION PERFIL-->
       <section id="section-perfil" class="section">
+        <button class="btn-volver" id="btn-volver-perfil">Volver</button>
         <div id="infoUsuario">
           <p><strong>Nombre de usuario:</strong> <span id="usuario"></span></p>
           <p><strong>Nombre:</strong> <span id="nombre"></span></p>
@@ -112,11 +114,53 @@
           <button id="btnEditar">Editar Mi información</button>
           <!-- Nueva sección para mostrar hijos -->
           <h3>Hijos</h3>
-          <p><strong>===============================</strong></p>
-          <div id="infoHijos">
-            <!-- Aquí se inyectará la información de cada hijo -->
+          <button class="btn-agregar-hijo" id="btn-agregar-hijo">
+            <i class="bx bx-user-plus"></i> Agregar Hijo
+         </button>
+          <table id="infoHijos">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Fecha de nacimiento</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Aquí se inyectarán las filas con los datos de cada hijo -->
+            </tbody>
+          </table>
+          <!-- Contenedor para cargar los formularios de edición de hijos -->
+          <div id="hijos" style="display:none;"></div>
+
+          <!-- Plantilla oculta para el formulario de edición de un hijo -->
+          <div id="hijoModelo" class="hijo modelo" style="display:none;">
+            <div class="child-info">
+              <p class="nombre"></p>
+              <p class="apellidos"></p>
+              <p class="fecha"></p>
+            </div>
+            <!-- Formulario de edición -->
+            <form class="formulario" style="display:none;">
+              <label>
+                Nombre:
+                <input type="text" class="inputNombre" placeholder="Nuevo nombre" />
+              </label>
+              <label>
+                Apellidos:
+                <input type="text" class="inputApellidos" placeholder="Nuevos apellidos" />
+              </label>
+              <label>
+                Fecha de nacimiento:
+                <input type="date" class="inputFecha" />
+              </label>
+              <button type="button" class="btnGuardar">Guardar</button>
+            </form>
+            <!-- Botones para mostrar/ocultar el formulario y eliminar -->
+            <button type="button" class="btnEditar">Abrir Formulario</button>
+             <!--<button type="button" class="btnEliminar">Eliminar</button>-->
           </div>
-          <button id="btnEditarHijos">Editar Datos de Mi/s Hijo/s</button>
+
         </div>
 
         <div id="formularioUsuario" style="display: none">
@@ -124,11 +168,11 @@
             <label
               >Nombre de usuario: <input type="text" id="inputUsuario"
             /></label>
-            <label>Nombre: <input type="text" id="inputNombre" /></label>
-            <label>Apellidos: <input type="text" id="inputApellidos" /></label>
-            <label>DNI: <input type="text" id="inputDni" /></label>
+            <label>Nombre: <input type="text" id="inputNombrePadre" /></label>
+            <label>Apellidos: <input type="text" id="inputApellidosPadre" /></label>
+            <label>DNI: <input type="text" id="inputDniPadre" /></label>
             <label
-              >Número de teléfono: <input type="text" id="inputTelefono"
+              >Número de teléfono: <input type="text" id="inputTelefonoPadre"
             /></label>
             <div class="button-container">
               <button type="submit">Guardar</button>
@@ -139,29 +183,11 @@
       </section>
 
 
-      <section id="section-editar-datos" class="section">
-        <div id="hijos">
-            <div class="hijo modelo" id="hijoModelo" style="display: none;">
-                <h3>Hijo</h3>
-                <p><strong>Nombre:</strong> <span class="nombre">Nombre</span></p>
-                <p><strong>Apellidos:</strong> <span class="apellidos">Apellidos</span></p>
-                <p><strong>Fecha de nacimiento:</strong> <span class="fecha">01/01/2015</span></p>
-              
-                <button class="btnEditar">Editar</button>
-                <button class="btnEliminar">Eliminar</button>
-                <div class="formulario" style="display:none;">
-                    <label>*Nombre: <input type="text" class="inputNombre"></label>
-                    <label>Apellidos: <input type="text" class="inputApellidos"></label>
-                    <label>Fecha de nacimiento: <input type="date" class="inputFecha"></label>
-                  
-                    <button class="btnGuardar">Guardar</button>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
 <!-- Notificaciones -->
 <section id="section-notificaciones" class="section">
+  <button class="btn-volver" id="btn-volver-perfil">Volver</button>
   <h1 class="welcome-title">Contacto</h1>
 
   <!-- Formulario de notificaciones -->
@@ -172,9 +198,6 @@
     <label for="descripcion">Descripción:</label>
     <textarea id="descripcion" name="descripcion" maxlength="300"></textarea>
 
-    <label for="fecha">Fecha:</label>
-    <input type="date" id="fecha" name="fecha" />
-
     <button type="submit">Enviar</button>
   </form>
 </section>
@@ -182,6 +205,7 @@
 
       <!--SECCION INSCRIPCION-->
       <section id="section-inscripcion" class="section">
+        <button class="btn-volver" id="btn-volver-perfil">Volver</button>
         <div class="form-container">
           <h2>Inscripción al Campamento</h2>
           <form id="form-inscripcion">
@@ -258,11 +282,10 @@
       <section id="section-cronograma" class="section">
         <div class="container2">
           <div class="welcome-section">
-            <h1 class="welcome-title">Actividades Monster</h1>
+            <h1 class="welcome-title">Cronograma</h1>
           </div>
 
           <div class="content-section">
-            <h2>Cronograma </h2>
             <h2>Calendarios de Actividades de Hijos</h2>
             <div class="container">
             <div id="childCalendars">
@@ -270,9 +293,39 @@
             </div>
           </div>
           </div>
+          <button class="btn-volver" id="btn-volver-perfil">Volver</button>
         </div>
       </section>
     </div>
+
+    <!-- Modal de notificación -->
+    <div id="modal-notificacion" class="modal-overlay" style="display: none;">
+      <div class="modal">
+        <p>Un administrador se comunicará con usted de inmediato</p>
+        <button id="btnCerrarNotificacion">Cerrar</button>
+      </div>
+    </div>
+
+
+    <div id="modal-actividad-calendar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTitle">Título del Evento</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="modalBody">
+            <!-- Aquí se mostrará la descripción del evento -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>

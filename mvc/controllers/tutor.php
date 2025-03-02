@@ -31,7 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo json_encode(["status" => "error", "message" => "No se recibieron datos"]);
         exit;
     }
-
+    error_log(json_encode($data['action']));
+    error_log(json_encode($data));
+    error_log("linea 35");
     // 1. Registro del campamento (inscripción del niño)
     if (isset($data['fechaNacimiento'], $data['formaPago'])) {
         $nombre = $data['nombre'];
@@ -206,7 +208,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // 3. Actualización del perfil del tutor (registro de padre)
-    if (isset($data['nombre'], $data['apellidos'], $data['dni'], $data['telefono'])) {
+    if (isset($data['nombre'], $data['apellidos'], $data['dni'], $data['telefono']) && $data['action'] != 'updateProfile') {
         // Verificar si el usuario ya está registrado como padre
         $stmt_check = $conn->prepare("SELECT id_padre FROM Padre WHERE id_usuario = ?");
         $stmt_check->bind_param("i", $user_id);
@@ -240,6 +242,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (isset($data['action']) && $data['action'] === 'updateProfile') {
         // Verificar si el usuario ya tiene registro en Padre
+        error_log(json_encode($data['action']));
+        error_log("lINEA 245");
         $stmt_check = $conn->prepare("SELECT id_padre FROM Padre WHERE id_usuario = ?");
         $stmt_check->bind_param("i", $user_id);
         $stmt_check->execute();
@@ -251,7 +255,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt_update = $conn->prepare("UPDATE Padre SET dni_padre = ?, nombre = ?, apellido = ?, numero_telefono = ? WHERE id_usuario = ?");
             $stmt_update->bind_param("ssssi", $data['dni'], $data['nombre'], $data['apellidos'], $data['telefono'], $user_id);
             if ($stmt_update->execute()) {
-                echo json_encode(["status" => "success", "message" => "Perfil actualizado correctamente"]);
+                echo json_encode(["status" => "success", "message" => "Perfil actualizadoOO correctamente"]);
             } else {
                 echo json_encode(["status" => "error", "message" => "Error al actualizar los datos"]);
             }
@@ -352,6 +356,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
+
+    // Verificar si se enviaron datos para la notificación
+if (isset($data['asunto']) && isset($data['descripcion'])) {
+    $asunto = $data['asunto'];
+    $descripcion = $data['descripcion'];
+    // Usamos la fecha actual (puedes cambiarla si lo requieres)
+    $fecha = date('Y-m-d');
+    // $user_id se obtiene de la sesión, ya que el usuario debe estar logueado
+    $stmt = $conn->prepare("INSERT INTO Notificaciones (asunto, descripcion, fecha, id_usuario) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("sssi", $asunto, $descripcion, $fecha, $user_id);
+    if ($stmt->execute()) {
+        echo json_encode(['status' => 'success', 'message' => 'Notificación guardada correctamente']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Error al guardar la notificación']);
+    }
+    $stmt->close();
+    exit;
+}
+
+
     echo json_encode(["status" => "error", "message" => "Acción no reconocida"]);
     $conn->close();
     exit;
@@ -422,38 +446,4 @@ if ($stmt->num_rows > 0) {
 $stmt->close();
 $conn->close();
 
-// Verificar si se ha enviado el formulario
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Obtener los datos del formulario
-    $asunto = $_POST['asunto'] ?? '';
-    $descripcion = $_POST['descripcion'] ?? '';
-    $fecha = $_POST['fecha'] ?? '';
-    $id_usuario = 1; // Aquí debes obtener el ID del usuario actual. Esto es un ejemplo.
 
-    // Validar que los campos no estén vacíos
-    if (empty($asunto) || empty($descripcion) || empty($fecha)) {
-        echo json_encode(['status' => 'error', 'message' => 'Todos los campos son obligatorios.']);
-        exit;
-    }
-
-    // Validar que la fecha sea el día actual
-    $fechaActual = date('Y-m-d');
-    if ($fecha !== $fechaActual) {
-        echo json_encode(['status' => 'error', 'message' => 'La fecha debe ser el día actual.']);
-        exit;
-    }
-
-    // Insertar la notificación en la base de datos
-    $stmt = $conn->prepare("INSERT INTO Notificaciones (asunto, descripcion, fecha, id_usuario) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("sssi", $asunto, $descripcion, $fecha, $id_usuario);
-
-    if ($stmt->execute()) {
-        echo json_encode(['status' => 'success', 'message' => 'Notificación enviada correctamente.']);
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'Error al enviar la notificación.']);
-    }
-
-    $stmt->close();
-    $conn->close();
-    exit;
-}
