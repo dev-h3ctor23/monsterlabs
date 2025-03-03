@@ -72,11 +72,11 @@
         <div class="bottom-content">
           <ul>
             <li>
-              <a href="/monsterlabs/mvc/controllers/logout.php">
+              <a href="#" id="logoutBtn">
                 <i class="bx bx-log-out icon"></i>
                 <span class="text nav-text">Salir</span>
               </a>
-            </li>
+            </li> 
             
             <!-- ! NO TOCAR HASTA NUEVO AVISO :D ===== Interruptor del modo oscuro/claro. =====-->
             <!-- <li class="mode">
@@ -95,12 +95,14 @@
     </nav>
     <!-- ! ===== Enlace a los scripts de JavaScript =====-->
     <script src="/monsterlabs/public/scripts/script-sidebar.js"></script>
+
     <script>
       window.onpageshow = function(event) {
         if (event.persisted) {
           window.location.reload();
         }
       };
+      window.onunload = function() {};
     </script>
   </body>
 </html>

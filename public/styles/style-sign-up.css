@@ -42,6 +42,12 @@
   background: var(--color-form-bg);
 }
 
+.success-message {
+  color: green;
+  display: none;
+  margin-top: 10px;
+}
+
 header {
   font-size: 28px;
   font-weight: 600;
