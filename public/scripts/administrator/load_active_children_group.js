@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <td class="child-cell">
                             <span class="name">${child.nombre} ${child.apellido}</span>
                             <button class="btn-yellow"></button>
-                            <button class="btn-green" data-child-id="${child.id}"></button>
+                            <button class="btn-green" data-child-id="${child.id_nino}"></button>
                         </td>
                     `;
                     childrenTableBody.appendChild(row);
