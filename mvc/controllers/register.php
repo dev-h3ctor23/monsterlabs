@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if($stmt->execute()){
         http_response_code(201);
-        // echo json_encode(["message" => "Registro exitoso."]);
+        echo json_encode(["message" => "Registro exitoso."]);
     } else {
         http_response_code(500);
         echo json_encode(["error" => "Error al registrar el usuario."]);

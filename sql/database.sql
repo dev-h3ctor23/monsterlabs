@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS Usuario (
     nombre_usuario VARCHAR(100) NOT NULL,
     correo VARCHAR(100) NOT NULL,
     contrasena VARCHAR(255) NOT NULL,
-    nombre_tipo ENUM('padre', 'monitor', 'admin') NOT NULL
+    nombre_tipo ENUM('padre', 'monitor', 'admin') NOT NULL,
+    foto VARCHAR(255) DEFAULT NULL
 );
 
 -- Tabla Grupo

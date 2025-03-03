@@ -482,17 +482,64 @@ body:has(.sidebar.close) {
 .btn-yellow {
     background-color: yellow;
     border: none;
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     display: inline-block;
     cursor: pointer;
     border-radius: 4px;
     margin-left: 10px; /* Espacio entre el nombre/apellido y el botón */
+    margin-right: 4px; /* Espacio a la derecha del botón amarillo */
     transition: transform 0.3s ease; /* Transición suave para el efecto de escala */
 }
 
 .btn-yellow:hover {
     transform: scale(1.1); /* Efecto de escala al hacer hover */
+}
+
+/* Estilos para el botón verde */
+.btn-green {
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin-left: 4px; /* Espacio a la izquierda del botón verde */
+}
+
+.btn-green:hover {
+    background-color: darkgreen;
+}
+
+/* Estilos para el botón verde */
+.btn-green {
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.btn-green:hover {
+    background-color: darkgreen;
+}
+
+/* Estilos para el botón "Ver" */
+.btn-view {
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.btn-view:hover {
+    background-color: darkgreen;
 }
 
 /* TODO: Seccion de perfil -> Estilos para la sección de perfil */
@@ -1010,6 +1057,43 @@ border-radius: 6px;
     background-color: #57B949; /* Color del scroll */
     border-radius: 20px;
     border: 3px solid #f1f1f1;
+}
+
+.activities-red-button, .activities-green-button {
+    border: none;
+    height: 32px; /* Ajusta la altura del botón para que coincida con la altura de las filas */
+    width: 32px; /* Ajusta el ancho del botón */
+    border-radius: 4px;
+    margin-left: 4px; /* Espacio a la derecha del grupo */
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añadimos la transición para el efecto de hover */
+    box-shadow: -3px -3px 0.5px 0px rgba(0, 0, 0, 0.25) inset; /* Sombra para el efecto 3D */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.activities-red-button:hover, .activities-green-button:hover {
+    transform: scale(1.1); /* Efecto de hover para escalar a 1.1 */
+    box-shadow: -3px -3px 0.5px 0px rgba(0, 0, 0, 0.25) inset; /* Sombra más intensa al hacer hover */
+}
+
+/* Asegúrate de que los botones estén uno al lado del otro y alineados a la derecha */
+td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.name-cell {
+    flex-grow: 1; /* Permite que el nombre ocupe el espacio disponible */
+}
+
+.button-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Alinea los botones a la derecha */
+    gap: 4px; /* Espacio entre los botones */
 }
 
 

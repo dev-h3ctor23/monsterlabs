@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const usernameField = document.querySelector('input[type="text"]');
         const passwordField = document.querySelector('input[type="password"]');
+
         const emailError = document.getElementById('email-error');
         const passwordError = document.getElementById('password-error');
         let valid = true;
@@ -27,6 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Validación para la contraseña: no puede estar vacía
         const passwordValue = passwordField.value.trim();
+        console.log(passwordValue);
+
         if (passwordValue === "") {
             passwordError.textContent = "El campo de contraseña es obligatorio.";
             passwordError.style.display = 'block';
@@ -103,19 +106,20 @@ document.querySelector('input[type="text"]').addEventListener('blur', function()
         emailError.style.display = 'none';
         this.classList.remove('input-error');
     }
+
+    // Evento blur para el campo de contraseña
+    document.querySelector('input[type="password"]').addEventListener('blur', function() {
+        const passwordError = document.getElementById('password-error');
+        const passwordValue = this.value.trim();
+        
+        if (passwordValue === "") {
+            passwordError.textContent = "El campo de contraseña es obligatorio.";
+            passwordError.style.display = 'block';
+            this.classList.add('input-error');
+        } else {
+            passwordError.style.display = 'none';
+            this.classList.remove('input-error');
+        }
+    });
 });
 
-// Evento blur para el campo de contraseña
-document.querySelector('input[type="password"]').addEventListener('blur', function() {
-    const passwordError = document.getElementById('password-error');
-    const passwordValue = this.value.trim();
-    
-    if (passwordValue === "") {
-        passwordError.textContent = "El campo de contraseña es obligatorio.";
-        passwordError.style.display = 'block';
-        this.classList.add('input-error');
-    } else {
-        passwordError.style.display = 'none';
-        this.classList.remove('input-error');
-    }
-});

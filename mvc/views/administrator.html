@@ -12,20 +12,21 @@
     <!-- TODO : Secciones de contenido a mostrar según la navegación -->
     <main id="main-content">
 
-        <!-- ? : Seccion de Inicio -->
-        <section id="home" class="section-content active">
-            <h1>Inicio</h1>
-            <p>Contenido de inicio.</p>
-        </section>
         <!-- ? : Seccion de Perfil -->
-        <section id="profile" class="section-content">
+        <section id="profile" class="section-content active">
             <div class="profile-grid">
                 <!-- * Card con foto y botón para cambiarla -->
                 <div class="profile-card photo-card">
                     <div class="photo-container">
-                        <img src="" alt="Foto de usuario"> <!-- Ruta relativa -->
+                        <img id="profileImage" src="" alt="Foto de usuario"> <!-- Ruta relativa -->
                     </div>
-                    <button class="open-modal-btn">Cambiar foto</button>
+                    <!-- * Boton de editar foto -->
+                    <div class="editPhoto">
+                        <!-- Input oculto para seleccionar archivo -->
+                        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                        <!-- Botón para abrir el selector de archivos -->
+                        <button class="btn" id="editPhoto">Cambiar Foto</button>
+                    </div>
                 </div>
                 <!-- * Card con información de usuario y botón para editar -->
                 <div class="profile-card info-card">
@@ -128,7 +129,7 @@
     </main>
 
     <!-- TODO: Modals de Aministrador -->
-         <!-- * Modal de confirmación de logout -->
+    <!-- * Modal de confirmación de logout -->
     <div id="logout-modal" class="modal">
         <div class="modal-content">
             <p>¿Seguro quieres salir?</p>
@@ -175,26 +176,25 @@
         </div>
     </div>
     <!-- * Modal de subir foto -->
-    <div id="modal" class="modal">
-      <div class="modal-content">
-        <button id="closeModal" class="modal-close">&times;</button>
-        <h2>Subir Foto</h2>
-        <div id="dropZone" class="drop-zone">
-          <div class="dz-icon">
-            <i class="bx bx-cloud-upload"></i>
-          </div>
-          <div class="dz-text">Arrastra y suelta tu foto o haz clic para seleccionar</div>
-          <input type="file" id="fileInput" accept="image/*">
+    <div id="edit-photo-modal" class="modal">
+        <div class="modal-content">
+            <h2>Subir Foto</h2>
+            <div id="dropZone" class="drop-zone">
+                <div class="dz-icon">
+                    <i class="bx bx-cloud-upload"></i>
+                </div>
+                <div class="dz-text">Arrastra y suelta tu foto o haz clic para seleccionar</div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+            <img id="preview" class="preview" alt="Vista previa de la foto">
+            <!-- Botón pequeño para abrir el explorador -->
+            <button id="uploadPhoto" class="btn-submit small">Subir Foto</button>
+            <!-- Contenedor de botones para guardar o cancelar -->
+            <div class="modal-buttons">
+                <button type="button" id="cancel-photo" class="btn cancel">Cancelar</button>
+                <button type="button" id="save-photo" class="btn save">Guardar cambios</button>
+            </div>
         </div>
-        <img id="preview" class="preview" alt="Vista previa de la foto">
-        <!-- Botón pequeño para abrir el explorador -->
-        <button id="uploadPhoto" class="btn-submit small">Subir Foto</button>
-        <!-- Contenedor de botones para guardar o cancelar -->
-        <div class="modal-buttons">
-          <button type="button" id="cancel-photo" class="btn cancel">Cancelar</button>
-          <button type="button" id="save-photo" class="btn save">Guardar cambios</button>
-        </div>
-      </div>
     </div>
     <!-- * Modal de añadir monitor -->
     <div id="add-monitor-modal" class="modal">
@@ -378,6 +378,35 @@
                 </form>
             </div>
         </div>
+    
+    <!-- Modal de confirmación para eliminar actividad -->
+    <div id="confirm-delete-activity-modal" class="modal">
+        <div class="modal-content">
+            <p>¿Seguro que quieres eliminar esta actividad?</p>
+            <div class="modal-buttons">
+                <button id="confirm-delete-activity" class="btn save">Eliminar</button>
+                <button id="cancel-delete-activity" class="btn cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para seleccionar grupo -->
+    <div id="select-group-modal" class="modal">
+        <div class="modal-content">
+            <h2>Seleccionar Grupo</h2>
+            <form id="select-group-form" class="modal-form">
+                <label for="group-select">Grupo:</label>
+                <select id="group-select" name="group-select" required>
+                    <!-- Opciones de grupos dinámicas -->
+                </select>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn save">Guardar</button>
+                    <button type="button" class="btn cancel" id="cancel-select-group">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- TODO : Popups de notificación de Perfil -->
     <div id="popup" class="popup popup-success"></div>
     <div id="popup-error-edit" class="popup popup-error-edit"></div>
@@ -400,8 +429,6 @@
     <script src="../../public/scripts/modals-administrator/modal-log-out.js"></script> <!-- Ruta relativa -->
     <script src="../../public/scripts/modals-administrator/modal-edit-profile.js"></script> <!-- Ruta relativa -->
     <script src="../../public/scripts/validations-administrator/validations-edit.profile.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/modals-administrator/modal-edit-photo.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/validations-administrator/validations-edit-photo.js"></script> <!-- Ruta relativa -->
     <script src="../../public/scripts/modals-administrator/modal-add-monitor.js"></script> <!-- Ruta relativa -->
     <script src="../../public/scripts/validations-administrator/validations-add-monitor.js"></script> <!-- Ruta relativa -->
     <script src="../../public/scripts/modals-administrator/modal-add-group.js"></script> <!-- Ruta relativa -->
@@ -419,5 +446,8 @@
     <script src="../../public/scripts/administrator/load_groups.js"></script> <!-- Ruta relativa -->
     <script src="../../public/scripts/modals-administrator/modal-add-activity.js"></script> <!-- Ruta relativa -->
     <script src="../../public/scripts/administrator/load_activities.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/administrator/edit-photo.js"></script>
+    <script src="../../public/scripts/modals-administrator/modal-delete-activity.js"></script> 
+    <script src="../../public/scripts/modals-administrator/modal-select-group.js"></script> <!-- Ruta relativa -->
 </body>
 </html>
