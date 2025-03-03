@@ -103,19 +103,20 @@ document.querySelector('input[type="text"]').addEventListener('blur', function()
         emailError.style.display = 'none';
         this.classList.remove('input-error');
     }
+
+    // Evento blur para el campo de contraseña
+    document.querySelector('input[type="password"]').addEventListener('blur', function() {
+        const passwordError = document.getElementById('password-error');
+        const passwordValue = this.value.trim();
+        
+        if (passwordValue === "") {
+            passwordError.textContent = "El campo de contraseña es obligatorio.";
+            passwordError.style.display = 'block';
+            this.classList.add('input-error');
+        } else {
+            passwordError.style.display = 'none';
+            this.classList.remove('input-error');
+        }
+    });
 });
 
-// Evento blur para el campo de contraseña
-document.querySelector('input[type="password"]').addEventListener('blur', function() {
-    const passwordError = document.getElementById('password-error');
-    const passwordValue = this.value.trim();
-    
-    if (passwordValue === "") {
-        passwordError.textContent = "El campo de contraseña es obligatorio.";
-        passwordError.style.display = 'block';
-        this.classList.add('input-error');
-    } else {
-        passwordError.style.display = 'none';
-        this.classList.remove('input-error');
-    }
-});

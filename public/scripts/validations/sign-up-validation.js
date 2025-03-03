@@ -164,7 +164,9 @@ document.getElementById('sign-up-form').addEventListener('submit', function(even
         .then(response => response.json())
         .then(data => {
             if (data.message) {
-                alert(data.message);
+                const successMessage = document.getElementById('success-message');
+                successMessage.textContent = data.message;
+                successMessage.style.display = 'block';
                 // Rehabilitar el botón de envío en caso de éxito
                 if (submitButton) {
                     submitButton.disabled = false;
