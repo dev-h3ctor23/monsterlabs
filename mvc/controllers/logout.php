@@ -1,13 +1,10 @@
 <?php
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
 session_start();
-
-// Evitar que la página se guarde en caché
-header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
-header("Pragma: no-cache"); // HTTP 1.0.
-header("Expires: 0"); // Proxies.
-
 session_unset();
-
 
 // Eliminar todas las variables de sesión
 $_SESSION = array();
@@ -22,5 +19,10 @@ if (ini_get("session.use_cookies")) {
 }
 
 session_destroy();
-header("Location: /monsterlabs/index.php"); 
+
+// Devolver un JSON con un indicador de redirección
+echo json_encode([
+    "status" => "success",
+    "redirect" => "/monsterlabs/index.php"
+]);
 exit;

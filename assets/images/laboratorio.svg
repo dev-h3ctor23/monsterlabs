@@ -1,0 +1,51 @@
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <!-- Fondo del laboratorio -->
+  <rect width="100%" height="100%" fill="#E0F7FA" /> <!-- Fondo azul claro -->
+  
+  <!-- Mesa de laboratorio -->
+  <rect x="20" y="220" width="260" height="20" fill="#8B4513" /> <!-- Mesa marrón -->
+  <rect x="20" y="220" width="260" height="10" fill="#A0522D" /> <!-- Borde de la mesa -->
+  
+  <!-- Frascos de colores -->
+  <rect x="50" y="150" width="30" height="70" fill="#ADD8E6" /> <!-- Frasco azul -->
+  <rect x="100" y="140" width="30" height="80" fill="#FFD700" /> <!-- Frasco dorado -->
+  <rect x="150" y="130" width="30" height="90" fill="#FF6347" /> <!-- Frasco rojo -->
+  
+  <!-- Tapas de los frascos -->
+  <rect x="50" y="145" width="30" height="5" fill="#808080" /> <!-- Tapa gris -->
+  <rect x="100" y="135" width="30" height="5" fill="#808080" /> <!-- Tapa gris -->
+  <rect x="150" y="125" width="30" height="5" fill="#808080" /> <!-- Tapa gris -->
+  
+  <!-- Burbujas animadas -->
+  <circle cx="65" cy="140" r="5" fill="#FFFFFF" opacity="0.8">
+    <animate attributeName="cy" from="140" to="120" dur="2s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="115" cy="130" r="4" fill="#FFFFFF" opacity="0.8">
+    <animate attributeName="cy" from="130" to="110" dur="2.5s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="165" cy="120" r="6" fill="#FFFFFF" opacity="0.8">
+    <animate attributeName="cy" from="120" to="100" dur="3s" repeatCount="indefinite" />
+  </circle>
+  
+  <!-- Tubos de ensayo -->
+  <rect x="200" y="160" width="15" height="60" fill="#32CD32" /> <!-- Tubo verde -->
+  <rect x="230" y="150" width="15" height="70" fill="#FF69B4" /> <!-- Tubo rosa -->
+  
+  <!-- Soporte para tubos de ensayo -->
+  <rect x="195" y="160" width="55" height="10" fill="#A9A9A9" /> <!-- Base gris -->
+  
+  <!-- Microscopio -->
+  <rect x="250" y="180" width="20" height="40" fill="#D3D3D3" /> <!-- Base gris claro -->
+  <circle cx="260" cy="170" r="10" fill="#FFFFFF" /> <!-- Lente -->
+  <rect x="255" y="160" width="10" height="20" fill="#A9A9A9" /> <!-- Brazo del microscopio -->
+  
+  <!-- Libros -->
+  <rect x="20" y="190" width="40" height="20" fill="#FFD700" /> <!-- Libro dorado -->
+  <rect x="25" y="185" width="30" height="20" fill="#FF6347" /> <!-- Libro rojo -->
+  
+  <!-- Detalles adicionales -->
+  <circle cx="280" cy="50" r="20" fill="#FFD700" /> <!-- Sol -->
+  <polygon points="50,50 60,30 70,50" fill="#32CD32" /> <!-- Planta -->
+  <polygon points="80,50 90,30 100,50" fill="#32CD32" /> <!-- Planta -->
+</svg>
+
