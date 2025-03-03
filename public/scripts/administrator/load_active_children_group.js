@@ -10,9 +10,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         <td class="child-cell">
                             <span class="name">${child.nombre} ${child.apellido}</span>
                             <button class="btn-yellow"></button>
+                            <button class="btn-green" data-child-id="${child.id}"></button>
                         </td>
                     `;
                     childrenTableBody.appendChild(row);
+                });
+
+                // Añadir listener a los botones verdes
+                document.querySelectorAll('.btn-green').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const childId = this.getAttribute('data-child-id');
+                        openSelectGroupModal(childId);
+                    });
                 });
             } else {
                 console.error('Error al cargar los niños activos:', data.message);

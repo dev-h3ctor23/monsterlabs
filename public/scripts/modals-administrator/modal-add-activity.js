@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const addActivityForm = document.getElementById('add-activity-form');
     const activityNameInput = document.getElementById('activity-name');
     const activityDescriptionInput = document.getElementById('activity-description');
+    const activitiesTableBody = document.getElementById('activities-table-body');
 
     addActivityBtn.addEventListener('click', function() {
         addActivityModal.classList.add('show');
@@ -37,14 +38,33 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.status === "success") {
                 // Añadir la actividad a la tabla
-                const activitiesTableBody = document.getElementById('activities-table-body');
                 const newRow = document.createElement('tr');
                 const nameCell = document.createElement('td');
+                nameCell.classList.add('name-cell');
                 nameCell.textContent = activityName;
-                const descriptionCell = document.createElement('td');
-                descriptionCell.textContent = activityDescription;
+
+                const buttonGroup = document.createElement('div');
+                buttonGroup.classList.add('button-group');
+
+                const redButton = document.createElement('button');
+                redButton.style.backgroundColor = 'red';
+                redButton.style.color = 'white';
+                redButton.classList.add('activities-red-button');
+                redButton.id = `activities-red-button-${data.activity_id}`;
+
+                // Añadir evento para mostrar el modal al hacer clic en el botón rojo
+                redButton.addEventListener('click', function() {
+                    openDeleteModal(data.activity_id);
+                });
+
+                // Añadir el botón rojo al contenedor buttonGroup
+                buttonGroup.appendChild(redButton);
+
+                // Añadir el contenedor buttonGroup a la celda nameCell
+                nameCell.appendChild(buttonGroup);
+
                 newRow.appendChild(nameCell);
-                newRow.appendChild(descriptionCell);
+
                 activitiesTableBody.appendChild(newRow);
 
                 // Cerrar el modal
@@ -61,4 +81,29 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Error al añadir la actividad.');
         });
     });
+
+    // Usar MutationObserver para observar cambios en el DOM y agregar eventos a los nuevos botones
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.addedNodes.length) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1 && node.matches('tr')) {
+                        const redButton = node.querySelector('.activities-red-button');
+                        if (redButton) {
+                            redButton.addEventListener('click', function() {
+                                openDeleteModal(redButton.id.split('-').pop());
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    observer.observe(activitiesTableBody, { childList: true });
 });
+
+function openDeleteModal(activityId) {
+    currentActivityId = activityId;
+    deleteActivityModal.style.display = 'block';
+}
