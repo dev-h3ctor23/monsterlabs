@@ -1,4 +1,21 @@
 /***********COMPONENTE SIDEBAR**************/
+
+// ---------------------CODIGO PARA CUANDO SE VUELE ATRAS AL CERRAR SESION-----------------------º
+// Empuja un estado al historial
+window.history.pushState(null, null, window.location.href);
+
+// Listener para el evento popstate (cuando se presiona "atrás")
+window.addEventListener('popstate', function (event) {
+  window.location.replace("/monsterlabs/mvc/views/log-in.html");
+});
+
+// Listener para el evento pageshow (para detectar carga desde la cache)
+window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+    window.location.replace("/monsterlabs/mvc/views/log-in.html");
+  }
+});
+
 fetch('/monsterlabs/components/sidebar-monitor.html')
     .then(response => response.text())
     .then(data => {
@@ -102,8 +119,7 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener("DOMContentLoaded", function () {
 
     
-    //-----------------------ACTUALIZAR FOTO ------------------------
-
+//-----------------------ACTUALIZAR FOTO ------------------------
 // Manejar la selección de archivos
 const fileInput = document.getElementById('fileInput');
 const editPhotoButton = document.getElementById('editPhoto');

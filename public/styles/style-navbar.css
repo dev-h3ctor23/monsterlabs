@@ -24,6 +24,11 @@ body {
     z-index: 1000;
 }
 
+/* Clase adicional cuando el navbar está en la parte superior */
+.navbar.navbar-scrolled {
+    top: 0;
+}
+
 /* Grupos del navbar */
 .left-group,
 .right-group {
@@ -244,7 +249,7 @@ body {
 }
 
 .navbar .logo img {
-    height: 24px;
+    height: 15px;
 }
 
 .left-group,
