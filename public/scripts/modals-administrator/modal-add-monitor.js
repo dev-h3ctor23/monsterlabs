@@ -20,6 +20,11 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <path fill="#f8f8f8" fill-rule="evenodd" d="M11 6a1 1 0 00-1 1v.25H7a.75.75 0 000 1.5h10a.75.75 0 000-1.5h-3V7a1 1 0 00-1-1h-2z" clip-rule="evenodd" style="animation:rotate-tr 1s cubic-bezier(1,-.28,.01,1.13) infinite alternate-reverse both;transform-origin:right center"/>
                                     </svg>
                                 </button>
+                                <button class="btn-action btn-green-monitor" data-monitor-id="${monitor.id_usuario}">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
+                                        <path fill="#f8f8f8" d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14.59L9.41 13 8 14.41l4 4 8-8L18.59 9 13 14.59z"/>
+                                    </svg>
+                                </button>
                             </div>
                         </td>
                     `;
@@ -28,6 +33,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Añadir eventos de clic a los botones de eliminar monitor
                 window.addDeleteMonitorEventListeners();
+
+                // Añadir eventos de clic a los botones verdes
+                document.querySelectorAll('.btn-green-monitor').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const monitorId = this.getAttribute('data-monitor-id');
+                        openSelectGroupMonitorModal(monitorId);
+                    });
+                });
             } else {
                 console.error(data.message);
             }
@@ -86,6 +99,11 @@ document.getElementById('save-add-monitor').addEventListener('click', function(e
                                 <path fill="#f8f8f8" fill-rule="evenodd" d="M11 6a1 1 0 00-1 1v.25H7a.75.75 0 000 1.5h10a.75.75 0 000-1.5h-3V7a1 1 0 00-1-1h-2z" clip-rule="evenodd" style="animation:rotate-tr 1s cubic-bezier(1,-.28,.01,1.13) infinite alternate-reverse both;transform-origin:right center"/>
                             </svg>
                         </button>
+                        <button class="btn-action btn-green-monitor" data-monitor-id="${data.monitor.id_usuario}">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
+                                <path fill="#f8f8f8" d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14.59L9.41 13 8 14.41l4 4 8-8L18.59 9 13 14.59z"/>
+                            </svg>
+                        </button>
                     </div>
                 </td>
             `;
@@ -93,6 +111,14 @@ document.getElementById('save-add-monitor').addEventListener('click', function(e
 
             // Añadir evento de clic al nuevo botón de eliminar monitor
             window.addDeleteMonitorEventListeners();
+
+            // Añadir evento de clic al nuevo botón verde
+            document.querySelectorAll('.btn-green-monitor').forEach(button => {
+                button.addEventListener('click', function() {
+                    const monitorId = this.getAttribute('data-monitor-id');
+                    openSelectGroupMonitorModal(monitorId);
+                });
+            });
 
             // Cerrar el modal y mostrar el popup de éxito
             resetForm();

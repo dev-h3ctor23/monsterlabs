@@ -407,6 +407,55 @@
         </div>
     </div>
 
+    <!-- Modal para seleccionar grupo para el monitor -->
+    <div id="select-group-monitor-modal" class="modal-monitor">
+        <div class="modal-content-monitor">
+            <h2>Seleccionar Grupo</h2>
+            <form id="select-group-monitor-form" class="modal-form-monitor">
+                <label for="group-select-monitor">Grupo:</label>
+                <select id="group-select-monitor" name="group-select-monitor" required>
+                    <!-- Opciones de grupos dinámicas -->
+                </select>
+                <div class="modal-buttons-monitor">
+                    <button type="submit" class="btn save">Guardar</button>
+                    <button type="button" class="btn cancel" id="cancel-select-group-monitor">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para añadir cronograma -->
+    <div id="add-schedule-modal" class="modal">
+        <div class="modal-content">
+            <h2>Añadir Cronograma</h2>
+            <form id="add-schedule-form" class="modal-form">
+                <label for="schedule-date">Fecha:</label>
+                <input type="date" id="schedule-date" name="schedule-date" required>
+                
+                <label for="start-time">Hora de Inicio:</label>
+                <input type="time" id="start-time" name="start-time" required>
+                
+                <label for="end-time">Hora de Fin:</label>
+                <input type="time" id="end-time" name="end-time" required>
+                
+                <label for="activity-select">Actividad:</label>
+                <select id="activity-select" name="activity-select" required>
+                    <!-- Opciones de actividades dinámicas -->
+                </select>
+                
+                <label for="group-select">Grupo:</label>
+                <select id="group-select" name="group-select" required>
+                    <!-- Opciones de grupos dinámicas -->
+                </select>
+                
+                <div class="modal-buttons">
+                    <button type="submit" class="btn save">Guardar</button>
+                    <button type="button" class="btn cancel" id="cancel-add-schedule">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- TODO : Popups de notificación de Perfil -->
     <div id="popup" class="popup popup-success"></div>
     <div id="popup-error-edit" class="popup popup-error-edit"></div>
@@ -449,5 +498,7 @@
     <script src="../../public/scripts/administrator/edit-photo.js"></script>
     <script src="../../public/scripts/modals-administrator/modal-delete-activity.js"></script> 
     <script src="../../public/scripts/modals-administrator/modal-select-group.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/modals-administrator/modal-select-group-monitor.js"></script> <!-- Ruta relativa -->
+    <script src="../../public/scripts/modals-administrator/modal-add-schedule.js"></script> <!-- Ruta relativa -->
 </body>
 </html>
