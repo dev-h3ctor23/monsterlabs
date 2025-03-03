@@ -57,5 +57,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto'])) {
     echo json_encode(["status" => "error", "message" => "No se recibió ningún archivo"]);
 }
 
-$conn->close(); // Cerrar la conexión a la base de datos
+$conn->close();
 ?>
