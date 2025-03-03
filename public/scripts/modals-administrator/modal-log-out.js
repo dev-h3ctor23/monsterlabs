@@ -15,7 +15,17 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutModal.classList.remove('show');
     });
 
-    confirmLogout.addEventListener('click', () => {
-        // ! Implementear la lógica para cerrar la sesión del usuario.
+    confirmLogout.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        fetch("/monsterlabs/mvc/controllers/logout.php")
+            .then(response => response.json()) // Parsear la respuesta como JSON
+            .then(data => {
+                if (data.redirect) {
+                    // Redirigir al usuario si la respuesta indica una redirección
+                    window.location.href = data.redirect;
+                }
+            })
+            .catch(error => console.error("Error al cerrar sesión:", error));
     });
 });
