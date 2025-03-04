@@ -182,15 +182,15 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 5000);
   
   // Editar información del padre
-  document.getElementById('btnEditar').addEventListener('click', function () {
-    document.getElementById('infoUsuario').style.display = 'none';
-    document.getElementById('formularioUsuario').style.display = 'block';
+  // document.getElementById('btnEditar').addEventListener('click', function () {
+  //   document.getElementById('infoUsuario').style.display = 'none';
+  //   document.getElementById('formularioUsuario').style.display = 'block';
   
-    document.getElementById('inputUsuario').value = document.getElementById('usuario').textContent;
-    document.getElementById('inputNombrePadre').value = document.getElementById('nombre').textContent;
-    document.getElementById('inputApellidosPadre').value = document.getElementById('apellidos').textContent;
-    document.getElementById('inputDniPadre').value = document.getElementById('dni').textContent;
-  });
+  //   document.getElementById('inputUsuario').value = document.getElementById('usuario').textContent;
+  //   document.getElementById('inputNombrePadre').value = document.getElementById('nombre').textContent;
+  //   document.getElementById('inputApellidosPadre').value = document.getElementById('apellidos').textContent;
+  //   document.getElementById('inputDniPadre').value = document.getElementById('dni').textContent;
+  // });
   
   // Validación para el responsable adicional
   document.getElementById("responsable-adicional").addEventListener("change", function() {
@@ -427,14 +427,23 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log("data.status === success && data.padre");
         // Guardar globalmente la data para usar en la edición de hijos
         window.tutorData = data;
-  
+        
+
+        //Se rellena los datos del padre
         document.getElementById("modal-overlay").style.display = "none";
         document.getElementById("usuario").textContent   = data.usuario.username;
         document.getElementById("nombre").textContent    = data.padre.nombre;
         document.getElementById("apellidos").textContent = data.padre.apellido;
         document.getElementById("dni").textContent       = data.padre.dni;
         document.getElementById("telefono").textContent  = data.padre.telefono;
-  
+        const profileImage = document.getElementById('profileImage');
+            if (data.usuario.foto) {
+                profileImage.src = data.usuario.foto;
+            } else {
+                profileImage.src = '/monsterlabs/assets/fotoUsuarios/defecto.png';
+            }
+
+
         // Renderizado de la tabla de hijos (con celdas editables)
         const infoHijosTableBody = document.querySelector("#infoHijos tbody");
         infoHijosTableBody.innerHTML = "";
@@ -503,18 +512,26 @@ document.addEventListener("DOMContentLoaded", function() {
           });
         }
   
-        // Editar información del padre
+        //Editar información del padre
         document.getElementById('btnEditar').addEventListener('click', function () {
           document.getElementById('infoUsuario').style.display = 'none';
           document.getElementById('formularioUsuario').style.display = 'block';
-  
+          document.getElementById('formularioEditarUsario').style.display = 'block';
+          document.getElementById('profile-card-children').style.display = 'none';
+
           document.getElementById('inputUsuario').value         = document.getElementById('usuario').textContent;
           document.getElementById('inputNombrePadre').value       = document.getElementById('nombre').textContent;
           document.getElementById('inputApellidosPadre').value    = document.getElementById('apellidos').textContent;
           document.getElementById('inputDniPadre').value          = document.getElementById('dni').textContent;
           document.getElementById('inputTelefonoPadre').value     = document.getElementById('telefono').textContent;
         });
-  
+        
+        document.getElementById ("btn-volver-perfil").addEventListener("click", function () {
+          document.getElementById('formularioEditarUsario').style.display = 'none';
+          document.getElementById('formularioUsuario').style.display = 'none';
+          document.getElementById('infoUsuario').style.display = 'block';
+          document.getElementById('profile-card-children').style.display = 'block';
+        });
         // Enviar el formulario para actualizar el perfil del padre
         document.getElementById('formularioEditarUsario').addEventListener('submit', function (e) {
           e.preventDefault();
@@ -540,7 +557,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById('dni').textContent      = dataUpdate.dni;
                 document.getElementById('telefono').textContent = dataUpdate.telefono;
                 document.getElementById('formularioEditarUsario').style.display = 'none';
+                document.getElementById('formularioUsuario').style.display = 'none';
                 document.getElementById('infoUsuario').style.display = 'block';
+                document.getElementById('profile-card-children').style.display = 'block';
               } else {
                 console.error("Error al actualizar el perfil:", result.message);
                 document.getElementById("form-error").textContent = result.message;
@@ -645,4 +664,84 @@ document.getElementById("btn-agregar-hijo").addEventListener("click", (event) =>
     document.querySelectorAll(".section").forEach(section => section.classList.remove("active"));
     // Activa la sección inscripción
     document.getElementById("section-inscripcion").classList.add("active");
+});
+
+
+
+
+//-----------------------ACTUALIZAR FOTO ------------------------
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Manejar la selección de archivos
+    const fileInput = document.getElementById('fileInput');
+    const editPhotoButton = document.getElementById('editPhoto');
+    const profileImage = document.getElementById('profileImage');
+
+    // Abrir el selector de archivos al hacer clic en el botón
+    editPhotoButton.addEventListener('click', function () {
+        fileInput.click();
+    });
+
+    // Manejar la selección de archivos
+    fileInput.addEventListener('change', function (e) {
+        const file = e.target.files[0]; // Obtener el archivo seleccionado
+
+        if (file) {
+            // Validar el tipo de archivo (solo imágenes JPEG o PNG)
+            if (!file.type.startsWith('image/')) {
+                alert('Solo se permiten imágenes JPEG o PNG.');
+                return; // Detener la ejecución si el tipo no es válido
+            }
+
+            // Mostrar la imagen seleccionada en la página
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                profileImage.src = e.target.result; // Actualizar la imagen de perfil
+            };
+            reader.readAsDataURL(file); // Leer el archivo como una URL de datos
+
+            // Subir la imagen al servidor
+            const formData = new FormData();
+            formData.append('foto', file); // Agregar el archivo al FormData
+
+            fetch('/monsterlabs/mvc/controllers/cambiar-foto-tutor.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json()) // Convertir la respuesta a JSON
+            .then(data => {
+                if (data.status === "success") {
+                    console.log('Foto subida y guardada en la base de datos');
+                } else {
+                    console.error('Error al subir la foto:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    });
+
+    
+
+});
+
+
+// --------------------------CERRAR SESION----------------------------
+document.addEventListener("click", function (event) {
+  // Detectar si se hizo clic en el botón de salir
+  let logoutBtn = event.target.closest("#logoutBtn");
+  if (logoutBtn) {
+      event.preventDefault();
+
+      fetch("/monsterlabs/mvc/controllers/logout.php")
+          .then(response => response.json()) // Parsear la respuesta como JSON
+          .then(data => {
+              if (data.redirect) {
+                  // Redirigir al usuario si la respuesta indica una redirección
+                  window.location.href = data.redirect;
+              }
+          })
+          .catch(error => console.error("Error al cerrar sesión:", error));
+  }
 });

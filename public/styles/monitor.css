@@ -96,16 +96,43 @@ body {
 
 /* SECCTION PERFIL */
 .perfil-container {
-    display :grid;
-    
+    display: grid;
+    grid-template-columns: 1fr 3fr; /* La primera columna será más pequeña y la segunda ocupará el resto */
+    gap: 20px;
+    align-items: stretch; /* Se estiran para tener la misma altura */
+    margin-top: 20px;
+    width: 100%; /* Asegura que el grid ocupe toda la anchura */
+
+}
+
+.title-perfil{
+    grid-column: span 2;
+    background: #fff;
+    border-radius: 8px; /* Actualizado a 8px */
+    box-shadow: -4px -4px 1px 0px rgba(0, 0, 0, 0.16) inset;
+    padding: 20px;
+    width: 92.5%;
 
 }
 
 .container-photo{
+    /* display: flex;
+    flex-direction: column;
+    width: 25%; */
+    width: 90%;
+    height: 100%;
+    grid-column: span 1;
+    background: #fff;
+    border-radius: 8px; /* Actualizado a 8px */
+    box-shadow: -4px -4px 1px 0px rgba(0, 0, 0, 0.16) inset;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    width: 25%;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
 }
+
 
 .perfil-foto{
     max-width: 250px;
@@ -125,15 +152,19 @@ body {
     width: 100%;
 }
 .perfil-info{
-    width: 65%;
-    max-width: 700px;
+    width: 90%;
     background-color: #e3e3e3;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    grid-column: span 1;
+    background: #fff;
+    border-radius: 8px; /* Actualizado a 8px */
+    box-shadow: -4px -4px 1px 0px rgba(0, 0, 0, 0.16) inset;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
 }
 .dates-monitor{

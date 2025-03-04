@@ -896,3 +896,308 @@ body.form-page {
 #infoUsuario .btn-agregar-hijo:hover {
   background-color: #45a037;
 }
+
+:root {
+  --primary-color: #56B848;         /* Verde principal */
+  --primary-hover: #45a037;
+  --secondary-color: #8A2BE2;         /* Violeta */
+  --secondary-hover: #6a0dad;
+  --text-color: #333;
+  --text-light: #666;
+  --border-color: #e0e0e0;
+  --background-light: #f8f8f8;
+  --background-white: #ffffff;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --radius: 10px;
+  --spacing: 20px;
+}
+
+/* Estilos generales */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+/* Contenedor principal de perfil */
+.profile-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Tarjetas de perfil */
+.profile-card {
+  background-color: var(--background-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+/* Encabezado de tarjeta */
+.card-header {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing);
+  background-color: var(--background-light);
+  justify-content: space-between;
+}
+
+.card-header .header-left {
+  display: flex;
+  align-items: center;
+}
+
+.card-header i {
+  font-size: 24px;
+  color: var(--primary-color);
+  margin-right: 10px;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text-color);
+}
+
+/* Divisor de tarjeta */
+.card-divider {
+  height: 1px;
+  background-color: var(--border-color);
+}
+
+/* Detalles del usuario */
+.user-details, .table-container {
+  padding: var(--spacing);
+}
+
+.detail-row {
+  display: flex;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.detail-label {
+  display: flex;
+  align-items: center;
+  width: 200px;
+  font-weight: 500;
+}
+
+.detail-label i {
+  margin-right: 8px;
+  color: var(--primary-color);
+  font-size: 18px;
+}
+
+.detail-value {
+  flex-grow: 1;
+  padding: 8px 12px;
+  background-color: var(--background-light);
+  border-radius: 6px;
+  min-height: 20px;
+}
+
+/* Acciones de tarjeta */
+.card-actions {
+  padding: 0 var(--spacing) var(--spacing);
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn i {
+  font-size: 18px;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: var(--secondary-hover);
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* Hijos: encabezado con botón a la derecha */
+.children-info .card-header {
+  justify-content: space-between;
+}
+
+/* Tabla de Hijos */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.data-table th {
+  background-color: var(--background-light);
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.data-table th i {
+  margin-right: 5px;
+  color: var(--primary-color);
+}
+
+.data-table tbody tr:hover {
+  background-color: rgba(86, 184, 72, 0.05);
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Formularios de edición */
+.edit-form {
+  background-color: var(--background-light);
+  padding: var(--spacing);
+  border-radius: var(--radius);
+  margin: var(--spacing) 0;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* Información y acciones del hijo */
+.child-info {
+  padding: 15px;
+  background-color: var(--background-light);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+}
+
+.child-info p {
+  margin: 5px 0;
+}
+
+.child-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Botón Volver */
+.btn-volver {
+  margin: 0 auto;
+  display: block;
+}
+
+/* foto */
+.container-photo{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.perfil-foto{
+  max-width: 250px;
+  max-height: 250px;
+  border-radius: 8px;
+  background: #e3e3e3;
+  overflow: hidden; /* Para asegurar que la imagen no se desborde */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+}
+
+.perfil-foto img {
+  width: 100%;
+  height: 100%;
+}
+/* Responsive */
+@media (max-width: 768px) {
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .detail-label {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  .detail-value {
+    width: 100%;
+  }
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .btn-agregar-hijo {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
