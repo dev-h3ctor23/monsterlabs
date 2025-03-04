@@ -9,7 +9,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
 
 include(__DIR__ . '/../../../config/conn.php');
 
-$query = "SELECT m.id_usuario, m.nombre, m.apellido, u.nombre_usuario 
+$query = "SELECT m.id_monitor, m.id_usuario, m.nombre, m.apellido, u.nombre_usuario 
           FROM Monitor m 
           JOIN Usuario u ON m.id_usuario = u.id_usuario";
 $result = $conn->query($query);

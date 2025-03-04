@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS Monitor (
     apellido VARCHAR(100) NOT NULL,
     numero_telefono VARCHAR(13),
     id_usuario INT NOT NULL,
-    id_grupo INT NOT NULL,
+    id_grupo INT,
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE,
     FOREIGN KEY (id_grupo) REFERENCES Grupo(id_grupo) ON DELETE CASCADE
 );
