@@ -223,6 +223,30 @@ fileInput.addEventListener('change', function (e) {
     const passwordErrorActual = document.getElementById("password-actual-error");
     const passwordErrorNew = document.getElementById("password-new-error");
     const passwordErrorConfirm = document.getElementById("password-confirm-error");
+    const asuntoMensaje = document.getElementById("asunto");
+    const descripcionMensaje = document.getElementById("descripcion");
+    const asuntoError = document.getElementById("asunto-error");
+    const descripcionError = document.getElementById("descripcion-error");
+
+    function validateContact() {
+        const asunto = asuntoMensaje.value.trim();
+        if (asunto === "" ) {
+            asuntoError.textContent = "El asunto es obligatorio";
+            asuntoError.classList.add("error");
+        } else {
+            asuntoError.classList.remove("error");
+        }
+    }
+
+    function validateDescripcion() {
+        const descripcion = descripcionMensaje.value.trim();
+        if (descripcion === "" ) {
+            descripcionError.textContent = "La descripción es obligatoria";
+            descripcionError.classList.add("error");
+        } else {
+            descripcionError.classList.remove("error");
+        }
+    }
 
     function validateEmail() {
         const email = emailInput.value.trim();
@@ -307,6 +331,8 @@ fileInput.addEventListener('change', function (e) {
     passwordInputNew.addEventListener("blur", validatePasswordNew);
     passwordInputConfirm.addEventListener("blur", validateConfirmPassword);
     passwordInput.addEventListener("blur", validatePassword);
+    asuntoMensaje.addEventListener("blur", validateContact);
+    descripcionMensaje.addEventListener("blur", validateDescripcion);
 
     // Evento para limpiar el error cuando el usuario entra en el campo
     emailInput.addEventListener("focus", () => emailError.textContent = "");
@@ -314,16 +340,8 @@ fileInput.addEventListener('change', function (e) {
     passwordInputNew.addEventListener("focus", () => passwordErrorNew.textContent = "");
     passwordInputConfirm.addEventListener("focus", () => passwordErrorConfirm.textContent = "");
     passwordInput.addEventListener("focus", () => passwordErrorActual.textContent = "");
-
-
-    // document.getElementById("editProfileForm").addEventListener("submit", function (event) {
-    //     validateEmail();
-    //     validatePhone();
-
-    //     if (emailError.textContent || phoneError.textContent) {
-    //         event.preventDefault();
-    //     }
-    // });
+    asuntoMensaje.addEventListener("focus", () => asuntoMensaje.classList.remove("error"));
+    descripcionMensaje.addEventListener("focus", () => descripcionMensaje.classList.remove("error"));
 
     //--------------- ENVIAR LOS DATOS DEL FORMULARIO DE EDICION DE EMAIL Y TELEFONO ---------------
     editProfileForm.addEventListener('submit', function(event) {
@@ -465,7 +483,7 @@ document.addEventListener("DOMContentLoaded", function () {
         link.addEventListener("click", (event) => {
             event.preventDefault(); 
 
-            imageAttendance.style.display = 'block';
+            imageAttendance.style.display = 'flex';
         selectionAttendance.style.display = 'none';
         viewAttendance.style.display = 'none';
         });
@@ -516,7 +534,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Definir fechas mínima y máxima
-    const fechaMinima = new Date(2025, 5, 16); // 16 de junio de 2025
+    const fechaMinima = new Date(2025, 5, 2); // 16 de junio de 2025
     const fechaMaxima = new Date(2025, 7, 16); // 16 de agosto de 2025
 
     // Configurar el calendario
@@ -557,11 +575,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         row.innerHTML = `
                             <td>${nino.nombre} ${nino.apellido}</td>	
                             <td>
-                                <input type="radio" name="attendance_${nino.id_nino}" value="asistio" 
+                                <input type="radio" class="radio-attendance present" name="attendance_${nino.id_nino}" value="asistio" 
                                     ${nino.estado === 'asistio' ? 'checked' : ''}> Asistió
                             </td>
                             <td>
-                                <input type="radio" name="attendance_${nino.id_nino}" value="ausente" 
+                                <input type="radio" class="radio-attendance absent" name="attendance_${nino.id_nino}" value="ausente" 
                                     ${nino.estado === 'ausente' ? 'checked' : ''}> Ausente
                             </td>
                         `;
@@ -615,6 +633,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Si alguna fila no tiene opción seleccionada, muestra un error
         if (!allSelected) {
             messageAsistencia.textContent = "Por favor, selecciona una opción (Asistió o Ausente) para cada estudiante.";
+            messageAsistencia.style.color = 'red';
             return;  // Detiene el envío del formulario
         }
 
@@ -761,9 +780,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             <td>${nino.padre.dni_padre}</td>
                             <td>${nino.padre.telefono}</td>
                             <td>${nino.observaciones.observacion}</td>
-                            
-                            <td><i class='bx bx-edit icon' id='editarObservaciones' data-nino='${JSON.stringify(nino)}'></i></td>
-                            <td><i class='bx bxs-notepad icon' id= 'infoNino' data-nino='${JSON.stringify(nino)}'></i></td>
+
+                            <td><img src="/monsterlabs/assets/icons/edit.svg" alt="icono-editar" id='editarObservaciones' data-nino='${JSON.stringify(nino)}'></td>
+                            <td><img src="/monsterlabs/assets/icons/info.svg" alt="icono-informacion" id= 'infoNino' data-nino='${JSON.stringify(nino)}'></td>
                         `;
                         viewGroupMembers.appendChild(row);
                         console.log(nino.observaciones.observacion);
@@ -1042,3 +1061,90 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Obtener todos los radio buttons y checkboxes
+    const radios = document.querySelectorAll('.table-attendance input[type="radio"]');
+    const checkboxes = document.querySelectorAll('.table-attendance input[type="checkbox"]');
+
+    // Convertir los radio buttons en cuadrados (opcional si ya tienes CSS)
+    radios.forEach(radio => {
+        radio.style.appearance = "none";
+        radio.style.width = "20px";
+        radio.style.height = "20px";
+        radio.style.border = "2px solid #333";
+        radio.style.borderRadius = "4px"; // Mantener cuadrado con esquinas sutilmente redondeadas
+        radio.style.backgroundColor = "#fff";
+        radio.style.cursor = "pointer";
+
+        // Cambiar color cuando se selecciona
+        radio.addEventListener("change", function () {
+            radios.forEach(r => r.style.backgroundColor = "#fff"); // Reiniciar otros
+            if (radio.checked) {
+                radio.style.backgroundColor = "#007bff";
+            }
+        });
+    });
+
+    // Agregar animación a los checkboxes
+    checkboxes.forEach(checkbox => {
+        checkbox.style.appearance = "none";
+        checkbox.style.width = "20px";
+        checkbox.style.height = "20px";
+        checkbox.style.border = "2px solid #333";
+        checkbox.style.borderRadius = "4px";
+        checkbox.style.backgroundColor = "#fff";
+        checkbox.style.cursor = "pointer";
+        checkbox.style.transition = "all 0.3s ease-in-out";
+
+        checkbox.addEventListener("change", function () {
+            if (checkbox.checked) {
+                checkbox.style.backgroundColor = "#28a745";
+                checkbox.style.borderColor = "#28a745";
+                checkbox.style.transform = "scale(1.2)";
+            } else {
+                checkbox.style.backgroundColor = "#fff";
+                checkbox.style.borderColor = "#333";
+                checkbox.style.transform = "scale(1)";
+            }
+        });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const radios = document.querySelectorAll(".radio-attendance");
+
+    radios.forEach(radio => {
+        radio.addEventListener("change", function () {
+            if (this.classList.contains("present")) {
+                this.style.backgroundColor = "#4CAF50"; // Verde
+                this.style.boxShadow = "0 0 10px #4CAF50";
+            } else if (this.classList.contains("absent")) {
+                this.style.backgroundColor = "#E74C3C"; // Rojo
+                this.style.boxShadow = "0 0 10px #E74C3C";
+            }
+            
+            // Efecto de pulsación manual
+            this.classList.add("animate");
+            setTimeout(() => this.classList.remove("animate"), 300);
+        });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const radios = document.querySelectorAll(".radio-attendance");
+
+    radios.forEach(radio => {
+        radio.addEventListener("change", function () {
+            let row = this.closest("tr"); // Encuentra la fila actual
+
+            // Remueve la clase de las otras filas
+            row.parentElement.querySelectorAll("tr").forEach(r => r.classList.remove("selected-row"));
+
+            // Agrega la clase a la fila seleccionada
+            row.classList.add("selected-row");
+        });
+    });
+});
+
+

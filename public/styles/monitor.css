@@ -107,13 +107,20 @@ body {
 
 .title-perfil{
     grid-column: span 2;
+    text-align: center;
     background: #fff;
-    border-radius: 8px; /* Actualizado a 8px */
-    box-shadow: -4px -4px 1px 0px rgba(0, 0, 0, 0.16) inset;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     width: 92.5%;
 
 }
+.title-perfil h1 {
+    font-size: 2em;
+    color: #4CAF50; /* Color primario */
+    margin-bottom: 10px;
+}
+
 
 .container-photo{
     /* display: flex;
@@ -123,8 +130,8 @@ body {
     height: 100%;
     grid-column: span 1;
     background: #fff;
-    border-radius: 8px; /* Actualizado a 8px */
-    box-shadow: -4px -4px 1px 0px rgba(0, 0, 0, 0.16) inset;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -153,14 +160,13 @@ body {
 }
 .perfil-info{
     width: 90%;
-    background-color: #e3e3e3;
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     grid-column: span 1;
     background: #fff;
-    border-radius: 8px; /* Actualizado a 8px */
-    box-shadow: -4px -4px 1px 0px rgba(0, 0, 0, 0.16) inset;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -346,56 +352,119 @@ p {
 }
 
 /******************SECCION ASISTENCIA ******************/
-.outer-container{
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-}
-.image-attendance{
-    width: 80%;
-    max-width: 500px;
-    min-height: 200px;
-}
-.image-attendance img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover; 
-}
 
-/* tabla asistencia */
-#attendanceForm {
+.container-attendance{
     display: grid;
     grid-template-columns: 1fr 3fr;
     grid-gap: 20px;
     margin: 20px;
-  }
-  
-  .button-attendance{
-    grid-column: 1 / 3;
-  }
 
-  table {
-    width: 80%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  table, th, td {
-    border: 1px solid #ddd;
-  }
-  
-  th, td {
-    padding: 10px;
+}
+
+.title-attendance{
+    grid-column: span 2;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     text-align: center;
-  }
-  
-  th {
-    background-color: #f2f2f2;
-  }
-  
+
+}
+
+.title-attendance h1 {
+    font-size: 2em;
+    color: #4CAF50; /* Color primario */
+    margin-bottom: 10px;
+}
+
+.button-attendance{
+    grid-column: span 2;
+}
+.image-attendance{
+    grid-column: span 2;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.image-attendance img{
+    min-width: 300px;
+    max-width: 700px;
+    object-fit: cover; 
+}
+
+.attendance{
+    grid-column: span 2;
+    width: 100%;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    
+}
+/* tabla asistencia */
+
+#attendanceForm{
+    grid-column: 1 / 3;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: 20px;
+    padding: 25px;
+}
+
+.form-group {
+    grid-column: 1/2;
+}
+
+.table-attendance{
+    grid-column: span 1;
+}
+
+ /* Estilos generales de la tabla */
+.table-attendance table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezados */
+.table-attendance thead {
+    background-color: #4CAF50;
+    color: 000;
+    font-weight: bold;
+}
+
+.table-attendance th, 
+.table-attendance td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Filas alternas con color */
+.table-attendance tbody tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+/* Efecto hover */
+.table-attendance tbody tr:hover {
+    background-color: #f1f1f1;
+    transition: 0.3s ease-in-out;
+}
+
+.selected-row {
+    background-color: #d4edda !important;
+    transition: 0.3s ease-in-out;
+}
+
+
   button {
     margin-top: 20px;
     width: 30%;
@@ -405,6 +474,15 @@ p {
     border-radius: 10%;
   }
 
+  /* Tabla ver asistencia */
+
+#view-attendance{
+    grid-column: 1 / 3;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: 20px;
+    padding: 25px;
+}
 
   /*********** CALENDAR *****************/
 
@@ -419,10 +497,34 @@ p {
     fill: #000;   /* Cambiar el color de las flechas si es necesario */
 }
 
-/* Si necesitas hacer más grande el texto de los meses */
+/* Fondo gris oscuro y letras blancas para el calendario */
+calendar-date {
+    background-color: #e2e2e2a5; /* Fondo gris oscuro */
+    color: #333; /* Letras blancas */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 16px; /* Espaciado interno */
+    background: #fff;
+    border-radius: 8px; /* Actualizado a 8px */
+    box-shadow: -4px -4px 1px 0px rgba(0, 0, 0, 0.16) inset;
+    padding: 20px;
+
+}
+
+/* Estilos para los días del calendario */
 calendar-month {
-    font-size: 18px; /* Ajusta el tamaño de la letra */
-    color: #333;     /* Cambiar el color de la letra si es necesario */
+    color: 333; /* Letras blancas */
+}
+
+/* Estilos para los botones de navegación (flechas) */
+calendar-date svg {
+    fill: #333; /* Color de las flechas (blanco) */
+}
+
+/* Estilos para los días seleccionados */
+
+calendar-month {
+    font-size: 18px; 
+    /* color: #333;      */
 }
 
 /* Asegurarte de que los botones sean más accesibles */
@@ -443,6 +545,43 @@ calendar-month {
     background: #4ca741;
 }
 
+/**TABLAS DE ASISTENCIA**/
+.radio-attendance {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+/* ASISTIÓ - Verde */
+.radio-attendance.present:checked {
+    border-color: #4CAF50;
+    background-color: #4CAF50;
+    box-shadow: 0 0 10px #4CAF50;
+    transform: scale(1.2);
+}
+
+/* AUSENTE - Rojo */
+.radio-attendance.absent:checked {
+    border-color: #E74C3C;
+    background-color: #E74C3C;
+    box-shadow: 0 0 10px #E74C3C;
+    transform: scale(1.2);
+}
+
+/* Efecto de pulsación */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.radio-attendance:checked {
+    animation: pulse 0.3s ease-in-out;
+}
 
 /* MENSAJES */
 
@@ -461,6 +600,104 @@ calendar-month {
 
 /**********************MODAL DE INFORMACIÓN DE NIÑO *********************/
 
+.outer-container{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 25px;
+    width: 90%;
+    
+}
+.title-info{
+    grid-column: span 1;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.title-info h1 {
+    font-size: 2em;
+    color: #4CAF50; /* Color primario */
+    margin-bottom: 10px;
+}
+
+.table-grupo{
+    grid-column: span 1;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Estilos para la tabla */
+.table-grupo {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Estilos para las celdas de la tabla */
+.table-grupo th,
+.table-grupo td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+/* Estilos para el encabezado de la tabla */
+#viewInfoTable thead tr {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Estilos para las filas de la tabla */
+.table-grupo tbody tr {
+    border-bottom: 1px solid #dddddd;
+    transition: background-color 0.3s ease;
+}
+
+/* Efecto hover para las filas */
+.table-grupo tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Estilos para la última fila */
+.table-grupo tbody tr:last-child {
+    border-bottom: 2px solid #4CAF50;
+}
+
+/* Estilos para los botones o íconos dentro de la tabla */
+.table-grupo td img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.table-grupo td img:hover {
+    transform: scale(1.1);
+    
+}
+
+/* Transiciones para la tabla */
+.table-grupo tbody tr,
+.table-grupo td img {
+    transition: all 0.3s ease;
+}
+
+.table-grupo td img:hover {
+    transform: scale(1.1);
+}
 /* Fondo del Modal */
 .modal {
     position: fixed;
@@ -530,15 +767,45 @@ calendar-month {
     color: #333;
   }
 
+/* Ajustar el ancho de las columnas de "Editar Observaciones" y "Más Información" */
+#viewInfoTable th:nth-child(7), /* Columna "Editar Observaciones" */
+#viewInfoTable td:nth-child(7), /* Celdas de "Editar Observaciones" */
+#viewInfoTable th:nth-child(8), /* Columna "Más Información" */
+#viewInfoTable td:nth-child(8) { /* Celdas de "Más Información" */
+    width: 80px; /* Ancho deseado */
+    text-align: center; /* Centrar el contenido */
+}
+
 
   /************CRONOGRAMA**************/
+.outer-container-cronogram{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 25px;
+    width: 90%;
+}
+.title-cronogram{
+    grid-column: span 1;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
 
+.title-cronogram h1 {
+    font-size: 2em;
+    color: #4CAF50; /* Color primario */
+    margin-bottom: 10px;
+}
 
 .calendar-cronogram {
-    background: white;
+    grid-column: span 1;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .header {
@@ -562,18 +829,18 @@ button:hover {
     background-color: #98429c;
 }
 
-table {
+#cronogramTable {
     width: 100%;
     border-collapse: collapse;
 }
 
-th, td {
+#cronogramTableth, td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
 }
 
-th {
+#cronogramTable th {
     background-color: #f8f9fa;
 }
 
@@ -608,33 +875,104 @@ th {
 
 
 
-/**************************SECCION CONTACTO***************************/
+/************************** SECCION CONTACTO ***************************/
+.outer-container-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 25px;
+    width: 90%;
+    max-width: 800px; /* Limita el ancho máximo */
+    margin: 0 auto; /* Centra el contenedor */
+}
 
-.form-container{
-    background-color: #fff;
+.title-contact {
+    text-align: center;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
     width: 100%;
-    margin: 0 auto; /* Centrar el formulario */
+}
+
+.title-contact h1 {
+    font-size: 2em;
+    color: #4CAF50; /* Color primario */
+    margin-bottom: 10px;
+}
+
+.title-contact p {
+    font-size: 1em;
+    color: #666;
+}
+
+.form-container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 100%;
+}
+
+.form-contact {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 20px;
 }
 
 .form-contact label {
     color: #44464D;
     font-weight: bold;
-    margin-top: 10px;
+    margin-bottom: 8px;
     display: block;
-    text-align: left;
 }
 
 .form-contact input,
-.form-contact textarea,
-.form-contact select {
+.form-contact textarea {
     width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 20px;
-    border: 1px solid #44464D;
-    border-radius: 4px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-contact input:focus,
+.form-contact textarea:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+    outline: none;
+}
+
+.form-contact textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+    min-height: 150px;
+}
+
+.button-message {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.message {
+    text-align: center;
+    margin-top: 10px;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+/***********ICONES**************/
+.icons{
+    width: 45px;
+    height: 45px;
+}
+
+.content-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
