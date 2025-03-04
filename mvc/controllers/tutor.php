@@ -389,11 +389,11 @@ if (isset($data['asunto']) && isset($data['descripcion'])) {
 
 
 // Si se realiza una solicitud GET, se devuelven los datos del tutor
-$stmt = $conn->prepare("SELECT nombre_usuario, correo, nombre_tipo FROM Usuario WHERE id_usuario = ?");
+$stmt = $conn->prepare("SELECT nombre_usuario, correo, nombre_tipo, foto FROM Usuario WHERE id_usuario = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $stmt->store_result();
-$stmt->bind_result($username, $email, $user_type);
+$stmt->bind_result($username, $email, $user_type, $foto);
 
 if ($stmt->num_rows > 0) {
     $stmt->fetch();
@@ -425,7 +425,8 @@ if ($stmt->num_rows > 0) {
             "usuario" => [
                 "username" => $username,
                 "email"    => $email,
-                "user_type" => $user_type
+                "user_type" => $user_type,
+                "foto" => $foto
             ],
             "padre" => [
                 "dni"      => $dni,
@@ -447,5 +448,7 @@ if ($stmt->num_rows > 0) {
 
 $stmt->close();
 $conn->close();
+
+
 
 

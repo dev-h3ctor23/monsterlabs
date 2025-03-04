@@ -117,8 +117,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-
-    
+  
 //-----------------------ACTUALIZAR FOTO ------------------------
 // Manejar la selección de archivos
 const fileInput = document.getElementById('fileInput');
@@ -186,7 +185,7 @@ fileInput.addEventListener('change', function (e) {
 
     // Cancelar la edición y ocultar el formulario, mostrando nuevamente la sección de perfil
     cancelEditBtn.addEventListener('click', function() {
-        perfilInfo.style.display = 'flex'; 
+        perfilInfo.style.display = 'grid'; 
         editProfileSection.style.display = 'none'; 
     });
 

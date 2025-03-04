@@ -17,24 +17,7 @@ if (searchBtn) {
     });
 }
 
-// --------------------------CERRAR SESION----------------------------
-document.addEventListener("click", function (event) {
-    // Detectar si se hizo clic en el botón de salir
-    let logoutBtn = event.target.closest("#logoutBtn");
-    if (logoutBtn) {
-        event.preventDefault();
 
-        fetch("/monsterlabs/mvc/controllers/logout.php")
-            .then(response => response.json()) // Parsear la respuesta como JSON
-            .then(data => {
-                if (data.redirect) {
-                    // Redirigir al usuario si la respuesta indica una redirección
-                    window.location.href = data.redirect;
-                }
-            })
-            .catch(error => console.error("Error al cerrar sesión:", error));
-    }
-});
 // ! NO TOCAR HASTA NUEVO AVISO :D -> Alternar modo oscuro y actualizar el texto del modo
 // modeSwitch.addEventListener("click", () => {
 //     body.classList.toggle("dark");
