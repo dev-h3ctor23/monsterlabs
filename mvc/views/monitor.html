@@ -20,11 +20,6 @@
     </div>
     <div class="content" id="content">
 
-        <!-- Sections -->
-         <section id="section-home" class="section">
-            <h1>BIENVENIDO MONITOR</h1>
-         </section>
-
          <!------------------- SECCION PERFIL ---------------------->
         <section id="section-perfil" class="section">
             
@@ -77,7 +72,7 @@
             <form id="editProfileForm">
                 <div id="editProfileSection" class="edit-profile-section" style="display: none;">
                     <div class="subtitulo">
-                        <h3>Editar Perfil</h3>
+                        <h2>Editar Perfil</h2>
                     </div>
                     
                         <div class="container-email">
@@ -157,111 +152,124 @@
 
         <!-- SECCION ASISTENCIA -->
         <section id="section-attendance" class="section active">
-            
-            <div class="title-attendance">
-                <h1>ASISTENCIA</h1>
-            </div>
-
-            <div class="outer-container">
-                <div class="button-attendance">
-                    <button id="register-attendance-btn" class="btn">Registrar Asistencia</button>
-                    <button id="view-attendance-btn" class="btn">Ver Asistencia</button>
+            <div class="container-attendance">
+                <div class="title-attendance">
+                    <h1>ASISTENCIA</h1>
                 </div>
-
+    
+                <div class="button-attendance">
+                    <button id="register-attendance-btn" class="btn">
+                        <div class="content-button">
+                            <img src="/monsterlabs/assets/icons/asistencia.svg" alt="icono-asistencia" class="icons">  
+                            <div class="text-button">
+                                Registrar Asistencia
+                            </div>
+                        </div> 
+                    </button>
+                    <button id="view-attendance-btn" class="btn">
+                        <div class="content-button">
+                            <img src="/monsterlabs/assets/icons/ver.svg" alt="icono-asistencia" class="icons">  
+                            <div class="text-button">
+                                Ver Asistencia
+                            </div>
+                        </div> 
+                    </button>
+                </div>
+    
                 <div class="image-attendance" id="image-attendance">
                     <img src="/monsterlabs/assets/images/imagen-lista-asistencia.png" alt="Imagen de asistencia">
                 </div>
-            </div>
-
-            <div class="attendance" id="selection-attendance" style="display: none;">
-                <form id="attendanceForm" action="" method="post">
-                    <div class="form-group">
-                        <div class="calendar">
-                            <calendar-date id="calendar">
-                                <svg
-                                    aria-label="Previous"
-                                    slot="previous"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path d="M15.75 19.5 8.25 12l7.5-7.5"></path>
-                                </svg>
-                                <svg
-                                    aria-label="Next"
-                                    slot="next"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
-                                </svg>
-                                <calendar-month></calendar-month>
-                            </calendar-date>
+    
+                <div class="attendance" id="selection-attendance" style="display: none;">
+                    <form id="attendanceForm" action="" method="post">
+                        <div class="form-group">
+                            <div class="calendar">
+                                <calendar-date id="calendar">
+                                    <svg
+                                        aria-label="Previous"
+                                        slot="previous"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+                                    </svg>
+                                    <svg
+                                        aria-label="Next"
+                                        slot="next"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+                                    </svg>
+                                    <calendar-month></calendar-month>
+                                </calendar-date>
+                            </div>
+                            
                         </div>
-                        
+                
+                        <!-- Tabla de asistencia -->
+                         <div class="table-attendance">
+                            <table id="attendanceTable">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Asistió</th>
+                                        <th>Ausente</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="groupMembers">
+                                    <!-- Aquí se llenarán los nombres de los integrantes del grupo -->
+                                </tbody>
+                            </table>
+                         </div>
+                         <div class="message">
+                            <span id="message-envio-asistencia"></span>
+                        </div>
+                        <div class="button-attendance">
+                            <button type="submit" class="btn">Guardar asistencia</button>
+                        </div>
+                    </form>
+                </div>
+    
+                <div class="attendance" id="view-attendance" style="display: none;">
+                    <div class="calendar">
+                        <calendar-date id="calendar-view-attendance">
+                            <svg aria-label="Previous" slot="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+                            </svg>
+                            <svg aria-label="Next" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+                            </svg>
+                            <calendar-month></calendar-month>
+                        </calendar-date>
                     </div>
-            
-                    <!-- Tabla de asistencia -->
-                     <div class="table-attendance">
-                        <table id="attendanceTable">
+                    <div class="table-attendance">
+                        <table>
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th>Asistió</th>
-                                    <th>Ausente</th>
+                                    <th>Apellido</th>
+                                    <th>Estado</th>
                                 </tr>
                             </thead>
-                            <tbody id="groupMembers">
+                            <tbody id="tablaAsistencia">
                                 <!-- Aquí se llenarán los nombres de los integrantes del grupo -->
                             </tbody>
                         </table>
-                     </div>
-                     <div class="message">
-                        <span id="message-envio-asistencia"></span>
                     </div>
-                    <div class="button-attendance">
-                        <button type="submit" class="btn">Guardar asistencia</button>
+                    <div class="message">
+                        <span id="message-view-attendance"></span>
                     </div>
-                </form>
-            </div>
-
-            <div class="attendance" id="view-attendance" style="display: none;">
-                <div class="calendar">
-                    <calendar-date id="calendar-view-attendance">
-                        <svg aria-label="Previous" slot="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M15.75 19.5 8.25 12l7.5-7.5"></path>
-                        </svg>
-                        <svg aria-label="Next" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
-                        </svg>
-                        <calendar-month></calendar-month>
-                    </calendar-date>
-                </div>
-                <div class="table-view-attendance">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaAsistencia">
-                            <!-- Aquí se llenarán los nombres de los integrantes del grupo -->
-                        </tbody>
-                    </table>
-                </div>
-                <div class="message">
-                    <span id="message-view-attendance"></span>
                 </div>
             </div>
-          
+            
         </section>
 
         <!-- SECCION INFORMACION DEL GRUPO -->
         <section id="section-group" class="section">
             <div class="outer-container">
-                <div class="header-section">
-                    <div class="text">Información Grupo</div>
+                <div class="title-info">
+                    <h1>INFORMACIÓN GRUPO</h1>
                 </div>
                 <div class="table-grupo">
                     <table id="viewInfoTable">
@@ -301,9 +309,9 @@
 
         <!-- SECCION CRONOGRAMA -->
         <section id="section-cronogram" class="section">
-            <div class="outer-container">
-                <div class="header-section">
-                    <div class="text">Cronograma</div>
+            <div class="outer-container-cronogram">
+                <div class="title-cronogram">
+                    <h1>CRONOGRAMA</h1>
                 </div>
                 <div class="container-cronogram">
                     <div class="calendar-cronogram">
@@ -312,7 +320,7 @@
                             <h2 id="weekRange"></h2>
                             <button id="nextWeek">Siguiente Semana →</button>
                         </div>
-                        <table>
+                        <table id="cronogramTable">
                             <thead id="calendarHeader">
 
                             </thead>
@@ -338,24 +346,30 @@
 
         <!-- SECCION CONTACTO -->
         <section id="section-contact" class="section">
-            <div class="outer-container">
-                <div class="header-section">
-                    <div class="text">Contacto</div>
+            <div class="outer-container-contact">
+                <div class="title-contact">
+                    <h1>CONTACTO</h1>
+                    <p>¿Tienes alguna duda o sugerencia? ¡Escríbenos!</p>
                 </div>
                 <div class="form-container">
                     <!-- Formulario de notificaciones -->
                     <form id="form-notificaciones" class="form-contact">
-                        <label for="asunto">Asunto:</label>
-                        <input type="text" id="asunto" name="asunto" maxlength="100"/>
-
-                        <label for="descripcion">Descripción:</label>
-                        <textarea id="descripcion" name="descripcion" maxlength="300"></textarea>
+                        <div class="form-group">
+                            <label for="asunto">Asunto:</label>
+                            <input type="text" id="asunto" name="asunto" maxlength="100" placeholder="Ej: Problema técnico" required />
+                            <span id="asunto-error" class="error-message"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcion">Descripción:</label>
+                            <textarea id="descripcion" name="descripcion" maxlength="300" placeholder="Describe tu consulta aquí..." required></textarea>
+                            <span id="descripcion-error" class="error-message"></span>
+                        </div>
                         <div class="message">
                             <span id="message-contact"></span>
                         </div>
-                        <div class="buttton-message">
-                            <button type="submit" class="btn">Enviar</button>
-                        </div>   
+                        <div class="button-message">
+                            <button type="submit" class="btn">Enviar Mensaje</button>
+                        </div>
                     </form>
                 </div>
             </div>
