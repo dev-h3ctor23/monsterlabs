@@ -4,7 +4,7 @@ require_once '../../../config/conn.php';
 
 header('Content-Type: application/json');
 
-$query = "SELECT id_grupo, nombre_grupo FROM Grupo";
+$query = "SELECT id_grupo, nombre_grupo FROM grupo";
 $result = $conn->query($query);
 
 if ($result->num_rows > 0) {

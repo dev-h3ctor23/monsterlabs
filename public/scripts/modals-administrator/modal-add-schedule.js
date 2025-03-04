@@ -74,8 +74,8 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.status === 'success') {
                 addScheduleModal.classList.remove('show');
-                alert('Cronograma añadido correctamente.');
-                // Aquí puedes agregar código para actualizar la tabla de cronograma si es necesario
+                
+            
             } else {
                 console.error('Error al añadir el cronograma:', data.message);
             }
