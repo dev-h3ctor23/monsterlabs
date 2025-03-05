@@ -455,6 +455,21 @@
     const scrollDistance = sliderList.scrollWidth / 2;
     // Establece la variable CSS para usar en la animación
     sliderList.style.setProperty('--scroll-distance', scrollDistance + 'px');
+
+    const navbar = document.querySelector('[data-navbar]');
+    const navTogglers = document.querySelectorAll('[data-nav-toggler]');
+    const overlay = document.querySelector('[data-overlay]');
+
+    // Función para alternar el menú
+    const toggleNav = () => {
+      navbar.classList.toggle('active'); // Agrega o quita la clase 'active' al navbar
+      overlay.classList.toggle('active'); // Agrega o quita la clase 'active' al overlay
+    };
+
+    // Asigna el evento a cada botón que abre o cierra el menú
+    navTogglers.forEach(toggler => {
+      toggler.addEventListener('click', toggleNav);
+    });
     </script>
 
 
@@ -691,116 +706,101 @@
       </section>
 
 
+      <!----------------------------------- SECCION INSTALACIONES ----------------------------------->
+      <section class="section-instalaciones">
+          <div class="container">
+            <p></p>
+            <h2 class="h2 section-title">Nuestras Instalaciones</h2>
+            <div class="container2">
+              <div class="card">
+                <img src="../../assets/images/biblioteca.webp">
+                <div class="card__head">Biblioteca</div>
+              </div>
+              <div class="card">
+                <img src="../../assets/images/computo.webp">
+                <div class="card__head">Salon Computo</div>
+              </div>
+              <div class="card">
+                <img src="../../assets/images/edificio.webp">
+                <div class="card__head">Edificios</div>
+              </div>
+              <div class="card">
+                <img src="../../assets/images/laboratorio.webp">
+                <div class="card__head">Laboratorio</div>
+              </div>
+              <div class="card">
+                <img src="../../assets/images/salon.webp">
+                <div class="card__head">Salones</div>
+              </div>
+          </div>
+        </div>
+      </section>
+    
+         <!-- 
+            - ###################################  GALERIA DE MONITORES
+          -->
+      <section class="section-galeria-monitores">
+        <div class="container">
+          <h2 class="h2 section-title">Nuestros Monitores</h2>
+        <!-- about -->
+        <div class="about">
+          <a class="bg_links social portfolio" href="https://www.rafaelalucas.com" target="_blank">
+            <span class="icon"></span>
+          </a>
+          <a class="bg_links social dribbble" href="https://dribbble.com/rafaelalucas" target="_blank">
+            <span class="icon"></span>
+          </a>
+          <a class="bg_links social linkedin" href="https://www.linkedin.com/in/rafaelalucas/" target="_blank">
+            <span class="icon"></span>
+          </a>
+          <a class="bg_links logo"></a>
+        </div>
+      
+      <!-- end about -->
+      
+      
+      <div class="cards">
+        <div class="card">
+          <span class="close"></span>
+          <span class="arrow"></span>
+          <article>
+            <h2>Luis Torres</h2>
+            <div class="title">Monitor</div>
+            <div class="pic"><img src="../../assets/images/Luis Raul.jpg"></div>
+            <div class="desc">Con su energía contagiosa, transforma cada experimento en una emocionante aventura científica</div>
+          </article>
+        </div>
+
+        <div class="card">
+          <span class="close"></span>
+          <span class="arrow"></span>
+          <article>
+            <h2>Sofia Oliver</h2>
+            <div class="title">Monitora</div>
+            <div class="pic"><img src="../../assets/images/sofia.jpg"></div>
+            <div class="desc">Inspira creatividad y despierta la curiosidad, haciendo del aprendizaje un juego fascinante.</div>
+          </article>
+        </div>
+
+        <div class="card">
+          <span class="close"></span>
+          <span class="arrow"></span>
+          <article>
+            <h2>Megan Barrientos</h2>
+            <div class="title">Monitora</div>
+            <div class="pic"><img src="../../assets/images/megan.jpg"></div>
+            <div class="desc">Con paciencia y entusiasmo, guía a los niños en un viaje de descubrimiento y asombro por el mundo de la ciencia.</div>
+          </article>
+        </div>
+      </div>
+        </div>
+        
+      </section>
       
 
     </article>
   </main>
 
-<br>  
-      <!--Galeria de instalaciones de la escuela -->
-
-  <section class="section-instalaciones">
-    <br>
-    <br>
-    <h2 class="h2 section-title">Nuestras Instalaciones</h2>
-
-
-    <div class="container2">
-      <div class="card">
-        <img src="../../assets/images/biblioteca.jpg">
-        <div class="card__head">Biblioteca</div>
-      </div>
-      <div class="card">
-        <img src="../../assets/images/computo.jpg">
-        <div class="card__head">Salon Computo</div>
-      </div>
-      <div class="card">
-        <img src="../../assets/images/edificio.jpg">
-        <div class="card__head">Edificios</div>
-      </div>
-      <div class="card">
-        <img src="../../assets/images/laboratorio.jpg">
-        <div class="card__head">Laboratorio</div>
-      </div>
-      <div class="card">
-        <img src="../../assets/images/salon.jpg">
-        <div class="card__head">Salones</div>
-      </div>
-    </div>
-    </section>
-
-     <!-- 
-        - ###################################  GALERIA DE MONITORES
-      -->
-<section class="section-galeria-monitores">
-
-  <h2 class="h2 section-title">Nuestros Monitores</h2>
-<br>
-<br>
-  <!-- about -->
-<div class="about">
-<a class="bg_links social portfolio" href="https://www.rafaelalucas.com" target="_blank">
- <span class="icon"></span>
-</a>
-<a class="bg_links social dribbble" href="https://dribbble.com/rafaelalucas" target="_blank">
- <span class="icon"></span>
-</a>
-<a class="bg_links social linkedin" href="https://www.linkedin.com/in/rafaelalucas/" target="_blank">
- <span class="icon"></span>
-</a>
-<a class="bg_links logo"></a>
-</div>
-
-<!-- end about -->
-
-
-<div class="cards">
-<div class="card">
-<span class="close"></span>
-<span class="arrow"></span>
-<article>
- <h2>Luis Torres</h2>
- <div class="title">Monitor</div>
- <div class="pic"><img src="../../assets/images/Luis Raul.jpg"></div>
-
- <div class="desc">Con su energía contagiosa, transforma cada experimento en una emocionante aventura científica</div>
-
-</article>
-
-</div>
-<div class="card">
-<span class="close"></span>
-<span class="arrow"></span>
-<article>
- <h2>Sofia Oliver</h2>
- <div class="title">Monitora</div>
- <div class="pic"><img src="../../assets/images/sofia.jpg"></div>
-
- <div class="desc">Inspira creatividad y despierta la curiosidad, haciendo del aprendizaje un juego fascinante.</div>
-
-</article>
-
-</div>
-<div class="card">
-<span class="close"></span>
-<span class="arrow"></span>
-<article>
- <h2>Megan Barrientos</h2>
- <div class="title">Monitora</div>
- <div class="pic"><img src="../../assets/images/megan.jpg"></div>
-
- <div class="desc">Con paciencia y entusiasmo, guía a los niños en un viaje de descubrimiento y asombro por el mundo de la ciencia.</div>
-
-</article>
-</div>
-</div>
-</section>
-  
-<br>
-
-  <!-- 
-    - #FOOTER
-  -->
 
   <footer class="footer" style="background-image: url('./assets/images/footer-bg.png')">
 
