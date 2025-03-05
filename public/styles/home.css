@@ -578,6 +578,35 @@ body {
   #COURSE
 \*-----------------------------------*/
 
+/* Contenedor que oculta el scroll horizontal */
+    .blog-slider-container {
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Lista en una sola fila con animación de desplazamiento */
+    .blog-slider-list {
+      display: flex;
+      gap: 30px;
+      animation: scrollLeft 25s linear infinite;
+    }
+
+    /* Cada tarjeta mantiene un ancho fijo */
+    .blog-slider-list .blog-card {
+      min-width: 370px;
+      flex-shrink: 0;
+    }
+
+    /* Animación: se desplaza de 0 a -50% del total (ya que el script duplicará el contenido) */
+    @keyframes scrollLeft {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
 .course { background-color: var(--isabelline); }
 
 .course-card {
