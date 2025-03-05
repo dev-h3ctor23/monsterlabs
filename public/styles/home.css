@@ -180,6 +180,9 @@ body {
 
 .section { padding-block: var(--section-padding); }
 
+.section-instalaciones { padding-block: var(--section-padding); }
+.section-galeria-monitores { padding-block: var(--section-padding); } 
+
 .shape {
   position: absolute;
   display: none;
@@ -263,9 +266,7 @@ body {
   background-color: var(--light-gray);
   overflow: hidden;
 }
-.img-holder video{
-  
-}
+
 
 .img-cover {
   width: 100%;
@@ -309,7 +310,7 @@ body {
 .header .btn { display: none; }
 
 .header {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -414,7 +415,84 @@ body {
   pointer-events: all;
 }
 
+/*------------------MENU  HAMBURGUESA --------------*
+/* Oculta el botón del menú hamburguesa en pantallas grandes */
+.header-action-btn {
+  display: none; /* Oculta el botón en pantallas grandes */
+}
 
+/* Muestra el botón del menú hamburguesa en pantallas pequeñas */
+@media (max-width: 992px) {
+  .header-action-btn {
+    display: block; /* Muestra el botón en pantallas pequeñas */
+  }
+
+  /* Oculta el menú principal en pantallas pequeñas */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: -320px;
+    width: 100%;
+    max-width: 320px;
+    height: 100%;
+    background-color: var(--white);
+    z-index: 2;
+    transition: 0.25s var(--cubic-in);
+  }
+
+  /* Muestra el menú cuando está activo */
+  .navbar.active {
+    transform: translateX(320px);
+    transition: 0.5s var(--cubic-out);
+  }
+
+  /* Estilos para el overlay (fondo oscuro) */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background-color: var(--black_80);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 1;
+    transition: var(--transition-1);
+  }
+
+  .overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+
+/* Muestra el menú principal en pantallas grandes */
+@media (min-width: 992px) {
+  .navbar {
+    display: flex; /* Muestra el menú en pantallas grandes */
+    position: static;
+    width: auto;
+    height: auto;
+    background-color: transparent;
+    transform: none;
+  }
+
+  .navbar-list {
+    display: flex;
+    gap: 20px;
+  }
+
+  .navbar-item {
+    border-bottom: none;
+  }
+
+  .navbar-link {
+    padding-block: 0;
+  }
+
+  .nav-close-btn,
+  .overlay {
+    display: none; /* Oculta el botón de cierre y el overlay en pantallas grandes */
+  }
+}
 
 
 
@@ -440,7 +518,7 @@ body {
 
 .hero-banner {
   display: grid;
-  grid-template-columns: 1fr 0.8fr;
+  grid-template-columns: 1fr;
   align-items: flex-start;
   gap: 30px;
 }
@@ -1169,7 +1247,7 @@ body {
     top: -40px;
     right: -70px;
   }
-
+}
 
 
   /**
@@ -1683,11 +1761,15 @@ body {
   background-color: #56B848;
 }
 
+/*================================   Monitores   ====================================*/
+
 .section-galeria-monitores .cards {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap; /* Permite que las tarjetas se envuelvan en pantallas pequeñas */
+  gap: 20px; /* Espacio entre tarjetas */
 }
 
 .section-galeria-monitores .cards .card {
@@ -1705,6 +1787,64 @@ body {
   position: relative;
   transition: all 0.4s ease;
   margin: 0 10px;
+}
+
+.section-galeria-monitores .cards .card:before {
+  height: 190px;
+  width: calc(100% + 100px);
+  content: "";
+  position: absolute;
+  background-image: linear-gradient(to top, #56B848 0%, #20bc0b 100%);
+  border-radius: 4px 4px 100% 100%;
+  transition: all 0.4s ease-out;
+  top: 0;
+}
+
+/* Media Query para Tablet y Mobile (max-width: 992px) */
+@media (max-width: 992px) {
+  .section-galeria-monitores .cards {
+    flex-direction: column; /* Las tarjetas se apilan verticalmente */
+    align-items: center; /* Centra las tarjetas */
+  }
+
+  .section-galeria-monitores .cards .card {
+    width: 100%; /* Ocupa el 100% del ancho disponible */
+    max-width: 400px; /* Ajusta el ancho máximo para tabletas */
+    margin: 10px 0; /* Espacio entre tarjetas */
+  }
+}
+
+/* Media Query para Mobile (max-width: 575px) */
+@media (max-width: 575px) {
+  .section-galeria-monitores .cards .card {
+    max-width: 100%; /* Ocupa el 100% del ancho en móviles */
+    height: auto; /* Altura automática para adaptarse al contenido */
+    padding-bottom: 20px; /* Espacio inferior */
+  }
+
+  .section-galeria-monitores .cards .card:before {
+    height: 150px; /* Reduce la altura del fondo */
+  }
+
+  .section-galeria-monitores .cards .card article h2 {
+    font-size: 20px; /* Reduce el tamaño de la fuente del título */
+    padding: 20px 10px 5px 10px; /* Ajusta el padding */
+  }
+
+  .section-galeria-monitores .cards .card article .title {
+    font-size: 14px; /* Reduce el tamaño de la fuente del subtítulo */
+  }
+
+  .section-galeria-monitores .cards .card article .desc {
+    font-size: 12px; /* Reduce el tamaño de la fuente de la descripción */
+    padding: 5px 15px; /* Ajusta el padding */
+  }
+
+  .section-galeria-monitores .cards .card article .pic {
+    width: 80px; /* Reduce el tamaño de la imagen */
+    height: 80px;
+    margin: 10px 0;
+  }
 }
 
 .section-galeria-monitores .cards .card:before {
@@ -2007,5 +2147,3 @@ body {
   opacity: 0.6;
 }
 
-
-  
