@@ -453,7 +453,6 @@ body {
 .hero-banner .img-holder.two {
   border-top-left-radius: 50px;
   border-bottom-right-radius: 90px;
-  
 }
 
 
@@ -1177,6 +1176,60 @@ body {
    * FOOTER
    */
 
+  
+  @media (min-width: 575px) {
+  
+    /**
+     * REUSED STYLE
+     */
+  
+    .container {
+      max-width: 520px;
+      width: 100%;
+      margin-inline: auto;
+    }
+  
+    .grid-list { grid-template-columns: 1fr 1fr; }
+  
+    :is(.course, .blog) .grid-list { grid-template-columns: 1fr; }
+  
+  
+  
+    /**
+     * HEADER
+     */
+  
+    .header .container { max-width: unset; }
+  
+    .header-actions { gap: 30px; }
+  
+  
+  
+    /**
+     * HERO
+     */
+  
+    .hero-banner { grid-template-columns: 1fr; }
+  
+  
+  
+    /**
+     * VIDEO
+     */
+  
+    .video .play-btn { padding: 25px; }
+  
+  
+  
+    /**
+     * STATS
+     */
+  
+    .stats-card { padding: 40px 30px; }
+  
+  
+  
+
   .footer-brand,
   .footer-list:last-child { grid-column: auto; }
 
@@ -1349,7 +1402,6 @@ body {
     color: var(--eerie-black-1);
     padding-block: 20px;
   }
-
   .header .btn { margin-inline-end: 0; }
 
 

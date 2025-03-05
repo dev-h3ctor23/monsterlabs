@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     confirmLogout.addEventListener('click', (event) => {
         event.preventDefault();
 
-        fetch("/monsterlabs/mvc/controllers/logout.php")
+        fetch("../../../mvc/controllers/logout.php")
             .then(response => response.json()) // Parsear la respuesta como JSON
             .then(data => {
                 if (data.redirect) {

@@ -3,7 +3,7 @@ session_start();
 header("Content-Type: application/json");
 
 if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] !== 'monitor') {
-    echo json_encode(["status" => "error", "message" => "Acceso denegado", "redirect" => "/monsterlabs/mvc/views/log-in.html"]);
+    echo json_encode(["status" => "error", "message" => "Acceso denegado", "redirect" => "../../views/log-in.html"]);
     exit;
 }
 

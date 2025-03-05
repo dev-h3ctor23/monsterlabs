@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (valid) {
             // Suponiendo que usamos fetch para enviar datos al endpoint de login (por ejemplo, login.php)
-            fetch('/monsterlabs/mvc/controllers/login.php', {
+            fetch('../../../mvc/controllers/login.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (data.message && data.redirect) {
                         window.location = data.redirect;
                     } else {
-                        window.location = '/monsterlabs/mvc/views/error-404.html';
+                        window.location = '../mvc/views/error-404.html';
                     }
                 }
             })

@@ -4,7 +4,7 @@ header("Content-Type: application/json");
 
 // Verificar si el usuario está autenticado y es de tipo 'monitor'
 if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] !== 'monitor') {
-    echo json_encode(["status" => "error", "message" => "Acceso denegado", "redirect" => "/monsterlabs/index.php"]);
+    echo json_encode(["status" => "error", "message" => "Acceso denegado", "redirect" => "../../views/log-in.html"]);
     exit;
 }
 
@@ -18,9 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto'])) {
 
     // Verificar si no hubo errores en la subida
     if ($file['error'] === UPLOAD_ERR_OK) {
-        $rutaDestino = $_SERVER['DOCUMENT_ROOT'] . '/monsterlabs/assets/fotoUsuarios/'; // Ruta absoluta en el servidor
+        $rutaDestino = $_SERVER['DOCUMENT_ROOT'] . '/assets/fotoUsuarios/'; 
         $nombreArchivo = uniqid() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '_', basename($file['name'])); // Nombre único para el archivo
-        $rutaRelativa = '/monsterlabs/assets/fotoUsuarios/' . $nombreArchivo; // Ruta relativa para la base de datos
+        $rutaRelativa = '/assets/fotoUsuarios/' . $nombreArchivo; // Ruta relativa para la base de datos
         $rutaCompleta = $rutaDestino . $nombreArchivo; // Ruta absoluta para mover el archivo
 
         // Verificar si la carpeta de destino existe y tiene permisos de escritura

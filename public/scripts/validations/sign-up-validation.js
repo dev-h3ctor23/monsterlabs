@@ -154,7 +154,7 @@ document.getElementById('sign-up-form').addEventListener('submit', function(even
             contrasena: password
         };
 
-        fetch('/monsterlabs/mvc/controllers/register.php', {
+        fetch('../../../mvc/controllers/register.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
