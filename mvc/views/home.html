@@ -8,7 +8,7 @@
   <title>Inicio</title>
   <meta name="title" content="Monsterlabs">
   <meta name="description" content="Monsterlabs, la ciencia, la creatividad y la diversión se unen para crear aventuras inolvidables que ayudan a los niños a aprender y crecer.">
-  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="shortcut icon" href="../../assets/icons/favicon.ico" type="image/svg+xml">
   <link rel="stylesheet" href="../../public/styles/home.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,7 +64,7 @@
           </li>
 
           <li class="navbar-item">
-            <a href="#" class="navbar-link" data-nav-link>Contacto</a>
+            <a href="../views/companies.html" class="navbar-link" data-nav-link>Empresas</a>
           </li>
 
         </ul>
@@ -117,7 +117,6 @@
           </div>
 
           <figure class="hero-banner">
-
             <div class="img-holder one" style="--width: 300; --height: 400;">
               <!-- <img src="../../assets/images/hero-banner-1.jpg" width="270" height="300" alt="hero banner" class="img-cover"> -->
               <video autoplay loop muted playsinline>
@@ -125,15 +124,6 @@
                 Tu navegador no soporta la etiqueta de video.
               </video>
             </div>
-
-            <!-- <div class="img-holder two" style="--width: 240; --height: 370;">
-              <img src="../../assets/images/hero-banner-2.jpg" width="240" height="370" alt="hero banner" class="img-cover">
-              <video autoplay loop muted playsinline>
-                <source src="../../assets/videos/video-campamento.mp4" type="video/mp4">
-                Tu navegador no soporta la etiqueta de video.
-              </video>
-            </div> -->
-
 
             <img src="../../assets/images/hero-shape-2.svg" width="622" height="551" alt="" class="shape hero-shape-2">
 
@@ -308,157 +298,164 @@
 
 
       <section class="section blog has-bg-image" id="blog" aria-label="blog"
-        style="background-image: url('../../assets/images/blog-bg.svg')">
-        <div class="container">
-
-          <p class="section-subtitle">Últimas Novedades</p>
-
-          <h2 class="h2 section-title">Nuestras Mounstruosas y Locas Actividades</h2>
-
-          <ul class="grid-list">
-
-            <li>
-              <div class="blog-card">
-
-                <figure class="card-banner img-holder has-after" style="--width: 370; --height: 370;">
-                  <img src="../../assets/images/blog-1.jpg" width="370" height="370" loading="lazy"
-                    alt="Become A Better Blogger: Content Planning" class="img-cover">
-                </figure>
-
-                <div class="card-content">
-
-                  <a href="#" class="card-btn" aria-label="read more">
-                    <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
-                  </a>
-
-                  <a href="#" class="card-subtitle">Presencial</a>
-
-                  <h3 class="h3">
-                    <a href="#" class="card-title">Conociendo a Monster</a>
-                  </h3>
-
-                  <ul class="card-meta-list">
-
-                    <li class="card-meta-item">
-                      <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
-
-                      <span class="span">Abr 31, 2025</span>
-                    </li>
-
-                    <li class="card-meta-item">
-                      <ion-icon name="chatbubbles-outline" aria-hidden="true"></ion-icon>
-
-                      <span class="span">Martes</span>
-                    </li>
-
-                  </ul>
-
-                  <p class="card-text">
-                    Introducción divertida al mundo de Monsterlabs y sus monstruos.
-                  </p>
-
-                </div>
-
+      style="background-image: url('../../assets/images/blog-bg.svg')">
+      <div class="container blog-slider-container">
+        <p class="section-subtitle">Últimas Novedades</p>
+        <h2 class="h2 section-title">Nuestras Mounstruosas y Locas Actividades</h2>
+        <ul class="blog-slider-list">
+          <!-- Solo 6 tarjetas definidas en el HTML -->
+          <li>
+            <div class="blog-card">
+              <figure class="card-banner img-holder has-after" style="--width: 370; --height: 370;">
+                <img src="../../assets/images/blog-1.jpg" width="370" height="370" loading="lazy"
+                  alt="Conociendo a Monster" class="img-cover">
+              </figure>
+              <div class="card-content">
+                <a href="#" class="card-subtitle">Presencial</a>
+                <h3 class="h3"><a href="#" class="card-title">Conociendo a Monster</a></h3>
+                <ul class="card-meta-list">
+                  <li class="card-meta-item">
+                    <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
+                    <span class="span">Abr 31, 2025</span>
+                  </li>
+                  <li class="card-meta-item">
+                    <ion-icon name="chatbubbles-outline" aria-hidden="true"></ion-icon>
+                    <span class="span">Martes</span>
+                  </li>
+                </ul>
+                <p class="card-text">Introducción divertida al mundo de Monsterlabs y sus monstruos.</p>
               </div>
-            </li>
-
-            <li>
-              <div class="blog-card">
-
-                <figure class="card-banner img-holder has-after" style="--width: 370; --height: 370;">
-                  <img src="../../assets/images/blog-2.jpg" width="370" height="370" loading="lazy"
-                    alt="Become A Better Blogger: Content Planning" class="img-cover">
-                </figure>
-
-                <div class="card-content">
-
-                  <a href="#" class="card-btn" aria-label="read more">
-                    <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
-                  </a>
-
-                  <a href="#" class="card-subtitle">Presencial</a>
-
-                  <h3 class="h3">
-                    <a href="#" class="card-title">Circuito Monster</a>
-                  </h3>
-
-                  <ul class="card-meta-list">
-
-                    <li class="card-meta-item">
-                      <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
-
-                      <span class="span">May 31, 2025</span>
-                    </li>
-
-                    <li class="card-meta-item">
-                      <ion-icon name="chatbubbles-outline" aria-hidden="true"></ion-icon>
-
-                      <span class="span">Miércoles</span>
-                    </li>
-
-                  </ul>
-
-                  <p class="card-text">
-                    Circuito de obstáculos para mejorar agilidad y trabajo en equipo.
-                  </p>
-
-                </div>
-
+            </div>
+          </li>
+          <li>
+            <div class="blog-card">
+              <figure class="card-banner img-holder has-after" style="--width: 370; --height: 370;">
+                <img src="../../assets/images/blog-2.jpg" width="370" height="370" loading="lazy"
+                  alt="Circuito Monster" class="img-cover">
+              </figure>
+              <div class="card-content">
+                <a href="#" class="card-subtitle">Presencial</a>
+                <h3 class="h3"><a href="#" class="card-title">Circuito Monster</a></h3>
+                <ul class="card-meta-list">
+                  <li class="card-meta-item">
+                    <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
+                    <span class="span">May 31, 2025</span>
+                  </li>
+                  <li class="card-meta-item">
+                    <ion-icon name="chatbubbles-outline" aria-hidden="true"></ion-icon>
+                    <span class="span">Miércoles</span>
+                  </li>
+                </ul>
+                <p class="card-text">Circuito de obstáculos para mejorar agilidad y trabajo en equipo.</p>
               </div>
-            </li>
-
-            <li>
-              <div class="blog-card">
-
-                <figure class="card-banner img-holder has-after" style="--width: 370; --height: 370;">
-                  <img src="../../assets/images/blog-3.jpg" width="370" height="370" loading="lazy"
-                    alt="Become A Better Blogger: Content Planning" class="img-cover">
-                </figure>
-
-                <div class="card-content">
-
-                  <a href="#" class="card-btn" aria-label="read more">
-                    <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
-                  </a>
-
-                  <a href="#" class="card-subtitle">Presencial</a>
-
-                  <h3 class="h3">
-                    <a href="#" class="card-title">Super slime</a>
-                  </h3>
-
-                  <ul class="card-meta-list">
-
-                    <li class="card-meta-item">
-                      <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
-
-                      <span class="span">Mar 31, 2025</span>
-                    </li>
-
-                    <li class="card-meta-item">
-                      <ion-icon name="chatbubbles-outline" aria-hidden="true"></ion-icon>
-
-                      <span class="span">Lunes</span>
-                    </li>
-
-                  </ul>
-
-                  <p class="card-text">
-                    Fabricación de slime con colores y texturas, explorando su ciencia.
-                  </p>
-
-                </div>
-
+            </div>
+          </li>
+          <li>
+            <div class="blog-card">
+              <figure class="card-banner img-holder has-after" style="--width: 370; --height: 370;">
+                <img src="../../assets/images/blog-3.jpg" width="370" height="370" loading="lazy"
+                  alt="Super slime" class="img-cover">
+              </figure>
+              <div class="card-content">
+                <a href="#" class="card-subtitle">Presencial</a>
+                <h3 class="h3"><a href="#" class="card-title">Super slime</a></h3>
+                <ul class="card-meta-list">
+                  <li class="card-meta-item">
+                    <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
+                    <span class="span">Mar 31, 2025</span>
+                  </li>
+                  <li class="card-meta-item">
+                    <ion-icon name="chatbubbles-outline" aria-hidden="true"></ion-icon>
+                    <span class="span">Lunes</span>
+                  </li>
+                </ul>
+                <p class="card-text">Fabricación de slime con colores y texturas, explorando su ciencia.</p>
               </div>
-            </li>
-
-          </ul>
-
-          <img src="../../assets/images/blog-shape-3.svg" width="186" height="186" loading="lazy" alt=""
-            class="shape blog-shape">
-
-        </div>
-      </section>
+            </div>
+          </li>
+          <li>
+            <div class="blog-card">
+              <figure class="card-banner img-holder has-after" style="--width: 370; --height: 370;">
+                <img src="../../assets/images/pasta-elefante.jpeg" width="370" height="370" loading="lazy"
+                  alt="Noche de Sustos" class="img-cover">
+              </figure>
+              <div class="card-content">
+                <a href="#" class="card-subtitle">Presencial</a>
+                <h3 class="h3"><a href="#" class="card-title">Pasta de diente de elefante</a></h3>
+                <ul class="card-meta-list">
+                  <li class="card-meta-item">
+                    <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
+                    <span class="span">Jun 15, 2025</span>
+                  </li>
+                  <li class="card-meta-item">
+                    <ion-icon name="chatbubbles-outline" aria-hidden="true"></ion-icon>
+                    <span class="span">Sábado</span>
+                  </li>
+                </ul>
+                <p class="card-text">Los niños escuchan una adivinanza sobre un elefante.</p>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="blog-card">
+              <figure class="card-banner img-holder has-after" style="--width: 370; --height: 370;">
+                <img src="../../assets/images/burbujas.jpeg" width="370" height="370" loading="lazy"
+                  alt="Caza del Tesoro" class="img-cover">
+              </figure>
+              <div class="card-content">
+                <a href="#" class="card-subtitle">Presencial</a>
+                <h3 class="h3"><a href="#" class="card-title">Super burbujas de colores</a></h3>
+                <ul class="card-meta-list">
+                  <li class="card-meta-item">
+                    <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
+                    <span class="span">Jul 10, 2025</span>
+                  </li>
+                  <li class="card-meta-item">
+                    <ion-icon name="chatbubbles-outline" aria-hidden="true"></ion-icon>
+                    <span class="span">Viernes</span>
+                  </li>
+                </ul>
+                <p class="card-text">Niños crean burbujas gigantes de colores con música.</p>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="blog-card">
+              <figure class="card-banner img-holder has-after" style="--width: 370; --height: 370;">
+                <img src="../../assets/images/blog-6.jpg" width="370" height="370" loading="lazy"
+                  alt="Desafío del Laberinto" class="img-cover">
+              </figure>
+              <div class="card-content">
+                <a href="#" class="card-subtitle">Presencial</a>
+                <h3 class="h3"><a href="#" class="card-title">Desafío del Laberinto</a></h3>
+                <ul class="card-meta-list">
+                  <li class="card-meta-item">
+                    <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
+                    <span class="span">Ago 22, 2025</span>
+                  </li>
+                  <li class="card-meta-item">
+                    <ion-icon name="chatbubbles-outline" aria-hidden="true"></ion-icon>
+                    <span class="span">Domingo</span>
+                  </li>
+                </ul>
+                <p class="card-text">Pon a prueba tu ingenio y agilidad en un laberinto lleno de retos.</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+  
+    <!-- Script para duplicar internamente las tarjetas y lograr un scroll continuo -->
+    <script>
+      const sliderList = document.querySelector('.blog-slider-list');
+    // Duplica el contenido de la lista
+    sliderList.innerHTML += sliderList.innerHTML;
+    // Calcula el ancho total de la primera tanda (las 6 tarjetas)
+    const scrollDistance = sliderList.scrollWidth / 2;
+    // Establece la variable CSS para usar en la animación
+    sliderList.style.setProperty('--scroll-distance', scrollDistance + 'px');
+    </script>
 
 
       <section class="section stats" aria-label="stats">
@@ -548,7 +545,7 @@
 
                   </div>
 
-                  <data class="price" value="29">$XX:XX</data>
+                  <data class="price" value="29">€157</data>
 
                   <ul class="card-meta-list">
 
@@ -606,7 +603,7 @@
 
                   </div>
 
-                  <data class="price" value="49">$XX:XX</data>
+                  <data class="price" value="49">€630</data>
 
                   <ul class="card-meta-list">
 
@@ -665,7 +662,7 @@
 
                   </div>
 
-                  <data class="price" value="35">$XX.XX/data>
+                  <data class="price" value="35">€1890</data>
 
                   <ul class="card-meta-list">
 
@@ -690,12 +687,6 @@
 
           </ul>
 
-          <a href="#" class="btn has-before">
-            <span class="span">¿Necesitas más información?</span>
-
-            <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
-          </a>
-
         </div>
       </section>
 
@@ -706,29 +697,105 @@
   </main>
 
 <br>  
-      <!-- 
-        - #VIDEO
+      <!--Galeria de instalaciones de la escuela -->
+
+  <section class="section-instalaciones">
+    <br>
+    <br>
+    <h2 class="h2 section-title">Nuestras Instalaciones</h2>
+
+
+    <div class="container2">
+      <div class="card">
+        <img src="../../assets/images/biblioteca.jpg">
+        <div class="card__head">Biblioteca</div>
+      </div>
+      <div class="card">
+        <img src="../../assets/images/computo.jpg">
+        <div class="card__head">Salon Computo</div>
+      </div>
+      <div class="card">
+        <img src="../../assets/images/edificio.jpg">
+        <div class="card__head">Edificios</div>
+      </div>
+      <div class="card">
+        <img src="../../assets/images/laboratorio.jpg">
+        <div class="card__head">Laboratorio</div>
+      </div>
+      <div class="card">
+        <img src="../../assets/images/salon.jpg">
+        <div class="card__head">Salones</div>
+      </div>
+    </div>
+    </section>
+
+     <!-- 
+        - ###################################  GALERIA DE MONITORES
       -->
+<section class="section-galeria-monitores">
 
-      <section class="video has-bg-image" aria-label="video"
-        style="background-image: url('../../assets/images/video-shape-1.svg')">
-        <div class="container">
+  <h2 class="h2 section-title">Nuestros Monitores</h2>
+<br>
+<br>
+  <!-- about -->
+<div class="about">
+<a class="bg_links social portfolio" href="https://www.rafaelalucas.com" target="_blank">
+ <span class="icon"></span>
+</a>
+<a class="bg_links social dribbble" href="https://dribbble.com/rafaelalucas" target="_blank">
+ <span class="icon"></span>
+</a>
+<a class="bg_links social linkedin" href="https://www.linkedin.com/in/rafaelalucas/" target="_blank">
+ <span class="icon"></span>
+</a>
+<a class="bg_links logo"></a>
+</div>
 
-          <div class="video-card">
+<!-- end about -->
 
-            <div class="video-banner img-holder has-after" style="--width: ; --height: ;">
-              <img src="../../assets/images/video-banner.jpg" width="970" height="550" loading="lazy" alt="video banner"
-                class="img-cover">
 
-              <button class="play-btn" aria-label="play video">
-                <ion-icon name="play" aria-hidden="true"></ion-icon>
-              </button>
-            </div>
+<div class="cards">
+<div class="card">
+<span class="close"></span>
+<span class="arrow"></span>
+<article>
+ <h2>Luis Torres</h2>
+ <div class="title">Monitor</div>
+ <div class="pic"><img src="../../assets/images/Luis Raul.jpg"></div>
 
-          </div>
+ <div class="desc">Con su energía contagiosa, transforma cada experimento en una emocionante aventura científica</div>
 
-        </div>
-      </section>
+</article>
+
+</div>
+<div class="card">
+<span class="close"></span>
+<span class="arrow"></span>
+<article>
+ <h2>Sofia Oliver</h2>
+ <div class="title">Monitora</div>
+ <div class="pic"><img src="../../assets/images/sofia.jpg"></div>
+
+ <div class="desc">Inspira creatividad y despierta la curiosidad, haciendo del aprendizaje un juego fascinante.</div>
+
+</article>
+
+</div>
+<div class="card">
+<span class="close"></span>
+<span class="arrow"></span>
+<article>
+ <h2>Megan Barrientos</h2>
+ <div class="title">Monitora</div>
+ <div class="pic"><img src="../../assets/images/megan.jpg"></div>
+
+ <div class="desc">Con paciencia y entusiasmo, guía a los niños en un viaje de descubrimiento y asombro por el mundo de la ciencia.</div>
+
+</article>
+</div>
+</div>
+</section>
+  
 <br>
 
   <!-- 
@@ -818,7 +885,7 @@
           </p>
 
           <form action="" class="newsletter-form">
-            <input type="email" name="email_address" placeholder="Tu correo" required class="input-field">
+            <input type="email" name="email_address" placeholder="Tu correo" class="input-field">
 
             <button type="submit" class="btn has-before">
               <span class="span">Enviar</span>
@@ -830,13 +897,7 @@
           <ul class="social-list">
 
             <li>
-              <a href="#" class="social-link">
-                <ion-icon name="logo-facebook"></ion-icon>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" class="social-link">
+              <a href="https://www.instagram.com/monsterlabkids?igsh=MXU2NWxsN21jaDAwcg== " class="social-link">
                 <ion-icon name="logo-instagram"></ion-icon>
               </a>
             </li>
