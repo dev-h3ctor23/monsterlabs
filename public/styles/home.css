@@ -437,9 +437,9 @@
   
   .hero-banner {
     display: grid;
-    grid-template-columns: 1fr 0.8fr;
-    align-items: flex-start;
-    gap: 30px;
+    grid-template-columns: 1fr;
+    /* align-items: flex-start;
+    gap: 30px; */
   }
   
   .hero-banner .img-holder.one {
@@ -447,11 +447,12 @@
     border-bottom-left-radius: 110px;
   }
   
-  .hero-banner .img-holder.two {
+  /* .hero-banner .img-holder.two {
     border-top-left-radius: 50px;
     border-bottom-right-radius: 90px;
+    
   }
-  
+   */
   
   
   
@@ -994,7 +995,7 @@
      * HERO
      */
   
-    .hero-banner { grid-template-columns: 1fr 0.9fr; }
+    .hero-banner { grid-template-columns: 1fr; }
   
   
   

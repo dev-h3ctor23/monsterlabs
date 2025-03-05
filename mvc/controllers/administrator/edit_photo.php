@@ -19,9 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto'])) {
 
     // Verificar si no hubo errores en la subida
     if ($file['error'] === UPLOAD_ERR_OK) {
-        $rutaDestino = $_SERVER['DOCUMENT_ROOT'] . '/monsterlabs/assets/fotoUsuarios/'; // Ruta absoluta en el servidor
+        $rutaDestino = $_SERVER['DOCUMENT_ROOT'] . '/assets/fotoUsuarios/'; // Ruta absoluta en el servidor
         $nombreArchivo = uniqid() . '_' . preg_replace('/[^a-zA-Z0-9.-]/', '_', basename($file['name'])); // Nombre único para el archivo
-        $rutaRelativa = '/monsterlabs/assets/fotoUsuarios/' . $nombreArchivo; // Ruta relativa para la base de datos
+        $rutaRelativa = '/assets/fotoUsuarios/' . $nombreArchivo; // Ruta relativa para la base de datos
         $rutaCompleta = $rutaDestino . $nombreArchivo; // Ruta absoluta para mover el archivo
 
         // Verificar si la carpeta de destino existe y tiene permisos de escritura

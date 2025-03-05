@@ -6,24 +6,24 @@ window.history.pushState(null, null, window.location.href);
 
 // Listener para el evento popstate (cuando se presiona "atrás")
 window.addEventListener('popstate', function (event) {
-  window.location.replace("/monsterlabs/mvc/views/log-in.html");
+  window.location.replace("../../mvc/views/log-in.html");
 });
 
 // Listener para el evento pageshow (para detectar carga desde la cache)
 window.addEventListener('pageshow', function (event) {
   if (event.persisted) {
-    window.location.replace("/monsterlabs/mvc/views/log-in.html");
+    window.location.replace("../../mvc/views/log-in.html");
   }
 });
 
-fetch('/monsterlabs/components/sidebar-monitor.html')
+fetch('../../components/sidebar-monitor.html')
     .then(response => response.text())
     .then(data => {
         document.getElementById('sidebar-component').innerHTML = data;
 
         // Cargar el script del sidebar
         const script = document.createElement('script');
-        script.src = '/monsterlabs/public/scripts/script-sidebar.js';
+        script.src = '../../public/scripts/script-sidebar.js';
         document.body.appendChild(script);
 
         // Esperar a que el sidebar se haya insertado antes de buscar elementos
@@ -69,7 +69,7 @@ fetch('/monsterlabs/components/sidebar-monitor.html')
 
 // Función para obtener los datos del monitor
 function obtenerDatosMonitor() {
-    fetch('/monsterlabs/mvc/controllers/monitor/usuario.php', {
+    fetch('../../mvc/controllers/monitor/usuario.php', {
         method: 'GET',  
         headers: {
             'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ function obtenerDatosMonitor() {
             if (data.usuario.foto) {
                 profileImage.src = data.usuario.foto;
             } else {
-                profileImage.src = '/monsterlabs/assets/fotoUsuarios/defecto.png';
+                profileImage.src = '../assets/fotoUsuarios/defecto.png';
             }
 
             document.getElementById('editEmail').value = data.usuario.email;
@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  
+
 //-----------------------ACTUALIZAR FOTO ------------------------
 // Manejar la selección de archivos
 const fileInput = document.getElementById('fileInput');
@@ -151,7 +151,7 @@ fileInput.addEventListener('change', function (e) {
         const formData = new FormData();
         formData.append('foto', file); // Agregar el archivo al FormData
 
-        fetch('/monsterlabs/mvc/controllers/monitor/cambiar-foto.php', {
+        fetch('../../mvc/controllers/monitor/cambiar-foto.php', {
             method: 'POST',
             body: formData
         })
@@ -207,7 +207,7 @@ fileInput.addEventListener('change', function (e) {
     // Cuando se hace clic en "Cancelar"
     cancelChangePasswordBtn.addEventListener('click', function() {
         // Ocultar el formulario de cambio de contraseña
-        perfilInfo.style.display = 'flex'; // Mostrar la sección de perfil
+        perfilInfo.style.display = 'grid'; // Mostrar la sección de perfil
         changePasswordSection.style.display = 'none';
     });
 
@@ -357,7 +357,7 @@ fileInput.addEventListener('change', function (e) {
         const phone = document.getElementById('editPhone').value;
         const messageEditProfile = document.getElementById('message-edit-profile');
         
-        fetch('/monsterlabs/mvc/controllers/monitor/editar-datos.php', {
+        fetch('../../mvc/controllers/monitor/editar-datos.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -422,7 +422,7 @@ fileInput.addEventListener('change', function (e) {
         // }
 
         // Hacer la solicitud al servidor para cambiar la contraseña
-        fetch('/monsterlabs/mvc/controllers/monitor/editar-datos.php', {
+        fetch('../../mvc/controllers/monitor/editar-datos.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -435,7 +435,7 @@ fileInput.addEventListener('change', function (e) {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                passwordErrorActual.textContent = 'Cambio de contraseña realizado con éxito';
+                messageEditPassword.textContent = 'Cambio de contraseña realizado con éxito';
                 // changePasswordSection.style.display = 'none';
             } else {
                 // alert('Error al cambiar la contraseña: ' + data.message);
@@ -555,7 +555,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
         console.log('Actualizando tabla para la fecha:', date); // Verificar en la consola
     
-        fetch(`/monsterlabs/mvc/controllers/monitor/obtener-estudiantes.php?date=${date}`)
+        fetch(`../../mvc/controllers/monitor/obtener-estudiantes.php?date=${date}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error en la respuesta de la API');
@@ -658,7 +658,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Enviar la información mediante fetch
-        fetch("/monsterlabs/mvc/controllers/monitor/guardar-asistencia.php", {
+        fetch("../../mvc/controllers/monitor/guardar-asistencia.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ fecha, asistencia })
@@ -709,7 +709,7 @@ document.addEventListener("DOMContentLoaded", function () {
         tablaAsistencia.innerHTML = '<tr><td colspan="3">Cargando asistencia...</td></tr>';
 
         // Llamar al backend para obtener la asistencia
-        fetch(`/monsterlabs/mvc/controllers/monitor/obtener-asistencia.php?fecha=${fecha}`)
+        fetch(`../../mvc/controllers/monitor/obtener-asistencia.php?fecha=${fecha}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error en la respuesta del servidor');
@@ -763,7 +763,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     
         // Obtener datos de los niños desde el backend
-        fetch(`/monsterlabs/mvc/controllers/monitor/info-grupos.php`)
+        fetch(`../../mvc/controllers/monitor/info-grupos.php`)
             .then(response => response.json())
             .then(data => {
                 console.log("Respuesta del servidor:", data); // Depuración
@@ -781,8 +781,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             <td>${nino.padre.telefono}</td>
                             <td>${nino.observaciones.observacion}</td>
 
-                            <td><img src="/monsterlabs/assets/icons/edit.svg" alt="icono-editar" id='editarObservaciones' data-nino='${JSON.stringify(nino)}'></td>
-                            <td><img src="/monsterlabs/assets/icons/info.svg" alt="icono-informacion" id= 'infoNino' data-nino='${JSON.stringify(nino)}'></td>
+                            <td><img src="../../assets/icons/edit.svg" alt="icono-editar" id='editarObservaciones' data-nino='${JSON.stringify(nino)}'></td>
+                            <td><img src="../../assets/icons/info.svg" alt="icono-informacion" id= 'infoNino' data-nino='${JSON.stringify(nino)}'></td>
                         `;
                         viewGroupMembers.appendChild(row);
                         console.log(nino.observaciones.observacion);
@@ -816,7 +816,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             event.preventDefault();
                             const observaciones = document.getElementById("observaciones").value;
                             // Actualizar la observaciones en la base de datos
-                            fetch('/monsterlabs/mvc/controllers/monitor/editar-observaciones.php', {
+                            fetch('../../mvc/controllers/monitor/editar-observaciones.php', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json'
@@ -903,7 +903,7 @@ document.addEventListener("DOMContentLoaded", function () {
             weekRange.textContent = `Semana del ${formatDate(startOfWeek)} al ${formatDate(new Date(startOfWeek.getTime() + 4 * 24 * 60 * 60 * 1000))}`;
     
             // Obtener los datos del cronograma
-            fetch('/monsterlabs/mvc/controllers/monitor/obtener-cronograma.php')
+            fetch('../../mvc/controllers/monitor/obtener-cronograma.php')
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
@@ -1013,7 +1013,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const descripcion = document.getElementById('descripcion').value;
         const messageContact = document.getElementById('message-contact');
 
-        fetch("/monsterlabs/mvc/controllers/monitor/envio-mensaje.php", {
+        fetch("../../mvc/controllers/monitor/envio-mensaje.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -1048,7 +1048,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (logoutBtn) {
             event.preventDefault();
 
-            fetch("/monsterlabs/mvc/controllers/logout.php")
+            fetch("../../mvc/controllers/logout.php")
                 .then(response => response.json()) // Parsear la respuesta como JSON
                 .then(data => {
                     if (data.redirect) {
@@ -1123,7 +1123,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 this.style.backgroundColor = "#E74C3C"; // Rojo
                 this.style.boxShadow = "0 0 10px #E74C3C";
             }
-            
             // Efecto de pulsación manual
             this.classList.add("animate");
             setTimeout(() => this.classList.remove("animate"), 300);

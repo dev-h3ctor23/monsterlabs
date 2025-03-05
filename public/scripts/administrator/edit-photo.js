@@ -6,7 +6,7 @@ const profileImage = document.getElementById('profileImage');
 
 // Cargar la foto al cargar la página
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('/monsterlabs/mvc/controllers/administrator/get_photo.php')
+    fetch('../../../mvc/controllers/administrator/get_photo.php')
         .then(response => response.json())
         .then(data => {
             if (data.status === "success") {
@@ -47,7 +47,7 @@ fileInput.addEventListener('change', function (e) {
         const formData = new FormData();
         formData.append('foto', file); // Agregar el archivo al FormData
 
-        fetch('/monsterlabs/mvc/controllers/administrator/edit_photo.php', {
+        fetch('../../../mvc/controllers/administrator/edit_photo.php', {
             method: 'POST',
             body: formData
         })

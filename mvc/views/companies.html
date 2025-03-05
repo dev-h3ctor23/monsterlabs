@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/monsterlabs/public/styles/style-companies.css">
-    <link rel="stylesheet" href="/monsterlabs/public/styles/style-footer.css">
+    <link rel="stylesheet" href="../../public/styles/style-companies.css">
+    <link rel="stylesheet" href="../../public/styles/style-footer.css">
     <title>Document</title>
 </head>
 <body>
@@ -28,7 +28,7 @@
                 
                 <div class="container-gif-text">
                     <div class="gif">
-                        <img src="/monsterlabs/assets/images/laboratorio.gif" alt="Gif de laboratorio">
+                        <img src="../../assets/images/laboratorio.gif" alt="Gif de laboratorio">
                     </div>
                     <div class="contact-info">
                         <h2>Contáctanos</h2>
@@ -36,7 +36,7 @@
                         <p>Correo electrónico: <a href="mailto:info@monsterlab.com">info@monsterlab.com</a></p>
                     </div>
                     <div class="gif">
-                        <img src="/monsterlabs/assets/images/experimento.gif" alt="Gif de expermiento">
+                        <img src="../../assets/images/experimento.gif" alt="Gif de expermiento">
                     </div>
                 </div>
                
@@ -45,7 +45,7 @@
             <!-- Columna derecha: Video -->
             <div class="video-content">
                 <video autoplay loop muted playsinline>
-                    <source src="/monsterlabs/assets/videos/video-campamento.mp4" type="video/mp4">
+                    <source src="../../assets/videos/video-campamento.mp4" type="video/mp4">
                     Tu navegador no soporta la etiqueta de video.
                 </video>
             </div>
@@ -55,7 +55,7 @@
     <div class="footer" id="footer-container"></div>
         <script>
             // Cargar el contenido de navbar.html en el contenedor
-            fetch('/monsterlabs/components/footer.html')
+            fetch('../../components/footer.html')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('footer-container').innerHTML = data;
@@ -63,7 +63,7 @@
                     // Inyectar el CSS del navbar
                     const link = document.createElement('link');
                     link.rel = 'stylesheet';
-                    link.href = '/monsterlabs/public/styles/style-footer.css';
+                    link.href = '../../public/styles/style-footer.css';
                     document.head.appendChild(link);
                 })
                 .catch(error => console.error('Error al cargar el navbar:', error));
@@ -72,7 +72,7 @@
 
     <script>
         // Cargar el contenido de navbar.html en el contenedor
-        fetch('/monsterlabs/components/navbar.html')
+        fetch('../../components/navbar.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbar-container').innerHTML = data;
@@ -80,11 +80,11 @@
                 // Inyectar el CSS del navbar
                 const link = document.createElement('link');
                 link.rel = 'stylesheet';
-                link.href = '/monsterlabs/public/styles/style-navbar.css';
+                link.href = '../../public/styles/style-navbar.css';
                 document.head.appendChild(link);
             })
             .catch(error => console.error('Error al cargar el navbar:', error));
     </script>
-    <script src="/monsterlabs/public/scripts/companies.js"></script>
+    <script src="../../public/scripts/companies.js"></script>
 </body>
 </html>

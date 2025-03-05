@@ -187,7 +187,8 @@ p {
 
 /* ESTILO BOTONES */
 .btn {
-    width: 35%;
+    /* width: 35%; */
+    max-width: 250px;
     min-width: 100px; /* Define un ancho mínimo */
     min-height: 60px;
     padding: 8px 16px;
@@ -225,7 +226,7 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 25px; /* Espaciado entre botones */
+    gap: 40px; /* Espaciado entre botones */
 }
 
 
@@ -538,7 +539,7 @@ calendar-month {
     justify-content: center;
     align-items: center;
     width: 100%;
-    gap: 25px; /* Espaciado entre botones */
+    gap: 40px; /* Espaciado entre botones */
 }
 
 #view-attendance-btn{
@@ -810,7 +811,7 @@ calendar-month {
 
 .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     margin-bottom: 20px;
 }
@@ -834,7 +835,7 @@ button:hover {
     border-collapse: collapse;
 }
 
-#cronogramTableth, td {
+#cronogramTable th, td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;

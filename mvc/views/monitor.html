@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Enlace CSS sidebar -->
-    <link rel="stylesheet" href="/monsterlabs/public/styles/style-sidebar-monitor.css"/>
+    <link rel="stylesheet" href="../../public/styles/style-sidebar-monitor.css"/>
     <!-- Enlace boxicons css -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
     <!-- Enlace CSS monitor -->
-    <link rel="stylesheet" href="/monsterlabs/public/styles/monitor.css">
-    <link rel="shortcut icon" href="/monsterlabs/assets/images/mini-logo-monsterlabs.png" type="image/x-icon">
+    <link rel="stylesheet" href="../../public/styles/monitor.css">
+    <link rel="shortcut icon" href="../../assets/images/mini-logo-monsterlabs.png" type="image/x-icon">
     <title>Monitor</title>
 </head>
 <body>
@@ -104,7 +104,7 @@
                     <div class="subtitulo">
                         <h2>Cambiar Contraseña</h2>
                     </div>
-                    <form id="changePasswordForm"></form>
+                    <form id="changePasswordForm">
                         <div class="container-password-actual">
                             <label for="currentPassword">Contraseña actual:</label>
                             <div class="field input-field">
@@ -160,7 +160,7 @@
                 <div class="button-attendance">
                     <button id="register-attendance-btn" class="btn">
                         <div class="content-button">
-                            <img src="/monsterlabs/assets/icons/asistencia.svg" alt="icono-asistencia" class="icons">  
+                            <img src="../../assets/icons/asistencia.svg" alt="icono-asistencia" class="icons">  
                             <div class="text-button">
                                 Registrar Asistencia
                             </div>
@@ -168,7 +168,7 @@
                     </button>
                     <button id="view-attendance-btn" class="btn">
                         <div class="content-button">
-                            <img src="/monsterlabs/assets/icons/ver.svg" alt="icono-asistencia" class="icons">  
+                            <img src="../../assets/icons/ver.svg" alt="icono-asistencia" class="icons">  
                             <div class="text-button">
                                 Ver Asistencia
                             </div>
@@ -177,7 +177,7 @@
                 </div>
     
                 <div class="image-attendance" id="image-attendance">
-                    <img src="/monsterlabs/assets/images/imagen-lista-asistencia.png" alt="Imagen de asistencia">
+                    <img src="../../assets/images/imagen-lista-asistencia.png" alt="Imagen de asistencia">
                 </div>
     
                 <div class="attendance" id="selection-attendance" style="display: none;">
@@ -316,9 +316,9 @@
                 <div class="container-cronogram">
                     <div class="calendar-cronogram">
                         <div class="header">
-                            <button id="prevWeek">← Semana Anterior</button>
+                            <button id="prevWeek" class="btn">← Semana Anterior</button>
                             <h2 id="weekRange"></h2>
-                            <button id="nextWeek">Siguiente Semana →</button>
+                            <button id="nextWeek" class="btn">Siguiente Semana →</button>
                         </div>
                         <table id="cronogramTable">
                             <thead id="calendarHeader">
@@ -377,8 +377,8 @@
     </div>
 </div>
 
-<script src="/monsterlabs/public/scripts/script-form.js"></script>
-<script src="/monsterlabs/public/scripts/monitor.js"></script>
+<script src="../../public/scripts/script-form.js"></script>
+<script src="../../public/scripts/monitor.js"></script>
 <script type="module" src="https://unpkg.com/cally"></script>
 </script>
 </body>

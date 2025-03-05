@@ -6,26 +6,26 @@ window.history.pushState(null, null, window.location.href);
 
 // Listener para el evento popstate (cuando se presiona "atrás")
 window.addEventListener('popstate', function (event) {
-  window.location.replace("/monsterlabs/mvc/views/log-in.html");
+  window.location.replace("../../mvc/views/log-in.html");
 });
 
 // Listener para el evento pageshow (para detectar carga desde la cache)
 window.addEventListener('pageshow', function (event) {
   if (event.persisted) {
-    window.location.replace("/monsterlabs/mvc/views/log-in.html");
+    window.location.replace("../../mvc/views/log-in.html");
   }
 });
 
 
 
 // Cargar el componente sidebar
-fetch('/monsterlabs/components/sidebar-tutor.html')
+fetch('../../components/sidebar-tutor.html')
   .then(response => response.text())
   .then(dataSidebar => {
     document.getElementById('sidebar-component').innerHTML = dataSidebar;
     // Cargar script del sidebar
     const script = document.createElement('script');
-    script.src = '/monsterlabs/public/scripts/script-sidebar.js';
+    script.src = '../../public/scripts/script-sidebar.js';
     document.body.appendChild(script);
 
     const menuLinks = document.querySelectorAll(".sidebar .nav-link[data-section]");
@@ -57,7 +57,7 @@ function deleteChild(childId) {
       id_nino: childId,
       action: "deleteChild"
     };
-    fetch("/monsterlabs/mvc/controllers/tutor.php", {
+    fetch("../../mvc/controllers/tutor.php", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(deleteData)
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
           updatedChild.id_nino = childId;
           updatedChild.action = 'updateChild';
           // Enviar la actualización al servidor
-          fetch("/monsterlabs/mvc/controllers/tutor.php", {
+          fetch("../../mvc/controllers/tutor.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedChild)
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
     const notifData = { asunto, descripcion };
   
-    fetch('/monsterlabs/mvc/controllers/tutor.php', {
+    fetch('../../mvc/controllers/tutor.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(notifData)
@@ -395,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function() {
       formData.relacionResponsable  = document.getElementById("relacion-responsable").value;
     }
   
-    fetch("/monsterlabs/mvc/controllers/tutor.php", {
+    fetch("../../mvc/controllers/tutor.php", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData)
@@ -419,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Manejo del registro del padre (si el usuario ya está registrado como padre)
 document.addEventListener("DOMContentLoaded", function() {
-  fetch('/monsterlabs/mvc/controllers/tutor.php')
+  fetch('../../mvc/controllers/tutor.php')
     .then(response => response.json())
     .then(data => {
       console.log(data);
@@ -440,7 +440,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (data.usuario.foto) {
                 profileImage.src = data.usuario.foto;
             } else {
-                profileImage.src = '/monsterlabs/assets/fotoUsuarios/defecto.png';
+                profileImage.src = '../../assets/fotoUsuarios/defecto.png';
             }
 
 
@@ -492,7 +492,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 center: 'title',
                 right: 'month,agendaWeek,agendaDay'
               },
-              events: '/monsterlabs/mvc/controllers/cronograma.php?ninoId=' + nino.id_nino,
+              events: '../../mvc/controllers/cronograma.php?ninoId=' + nino.id_nino,
               editable: false,
               eventLimit: true,
               eventClick: function(calEvent, jsEvent, view) {
@@ -543,7 +543,7 @@ document.addEventListener("DOMContentLoaded", function() {
             telefono: document.getElementById('inputTelefonoPadre').value
           };
           console.log("Enviando..", dataUpdate);
-          fetch('/monsterlabs/mvc/controllers/tutor.php', {
+          fetch('../../mvc/controllers/tutor.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dataUpdate)
@@ -579,7 +579,7 @@ document.addEventListener("DOMContentLoaded", function() {
           var telefono = document.getElementById("telefono-padre").value.trim();
           if (nombre && apellidos && dni && telefono) {
             console.log("Enviando datos formulario...");
-            fetch('/monsterlabs/mvc/controllers/tutor.php', {
+            fetch('../../mvc/controllers/tutor.php', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -704,7 +704,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const formData = new FormData();
             formData.append('foto', file); // Agregar el archivo al FormData
 
-            fetch('/monsterlabs/mvc/controllers/cambiar-foto-tutor.php', {
+            fetch('../../mvc/controllers/cambiar-foto-tutor.php', {
                 method: 'POST',
                 body: formData
             })
@@ -734,7 +734,7 @@ document.addEventListener("click", function (event) {
   if (logoutBtn) {
       event.preventDefault();
 
-      fetch("/monsterlabs/mvc/controllers/logout.php")
+      fetch("../../mvc/controllers/logout.php")
           .then(response => response.json()) // Parsear la respuesta como JSON
           .then(data => {
               if (data.redirect) {
