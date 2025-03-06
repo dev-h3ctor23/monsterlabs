@@ -16,8 +16,6 @@ window.addEventListener('pageshow', function (event) {
   }
 });
 
-
-
 // Cargar el componente sidebar
 fetch('../../components/sidebar-tutor.html')
   .then(response => response.text())
@@ -45,10 +43,6 @@ fetch('../../components/sidebar-tutor.html')
     });
   })
   .catch(error => console.error('Error al cargar el componente:', error));
-
-
-  
-
 
 // Función para eliminar un hijo
 function deleteChild(childId) {
@@ -152,7 +146,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-
 // Resto de funciones y manejo de eventos (galería, formularios, etc.)
 document.addEventListener('DOMContentLoaded', function() {
   const track = document.querySelector('.gallery-track');
@@ -180,17 +173,6 @@ document.addEventListener('DOMContentLoaded', function() {
     currentIndex = (currentIndex + 1) % images.length;
     updateGallery();
   }, 5000);
-  
-  // Editar información del padre
-  // document.getElementById('btnEditar').addEventListener('click', function () {
-  //   document.getElementById('infoUsuario').style.display = 'none';
-  //   document.getElementById('formularioUsuario').style.display = 'block';
-  
-  //   document.getElementById('inputUsuario').value = document.getElementById('usuario').textContent;
-  //   document.getElementById('inputNombrePadre').value = document.getElementById('nombre').textContent;
-  //   document.getElementById('inputApellidosPadre').value = document.getElementById('apellidos').textContent;
-  //   document.getElementById('inputDniPadre').value = document.getElementById('dni').textContent;
-  // });
   
   // Validación para el responsable adicional
   document.getElementById("responsable-adicional").addEventListener("change", function() {
@@ -269,17 +251,14 @@ document.addEventListener('DOMContentLoaded', function() {
         checkbox.value = index;
         checkbox.setAttribute("data-start", dato.start);
         checkbox.setAttribute("data-end", dato.end);
-        // Asignamos una clase para aplicar estilos
         checkbox.classList.add("custom-checkbox");
     
         const label = document.createElement("label");
         label.htmlFor = checkbox.id;
         label.textContent = dato.label;
-        // Asignamos una clase para el label
         label.classList.add("custom-label");
     
         const wrapper = document.createElement("div");
-        // Clase para el contenedor de cada opción
         wrapper.classList.add("custom-wrapper");
     
         wrapper.appendChild(checkbox);
@@ -312,7 +291,6 @@ document.addEventListener('DOMContentLoaded', function() {
       checkContainer.innerHTML = "<p class='custom-message'>Se seleccionó período trimestral: del 1 de Junio al 31 de Agosto de 2025.</p>";
     }
   }
-  
   
   periodoRadios.forEach(radio => {
     radio.addEventListener("change", function () {
@@ -416,7 +394,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-
 // Manejo del registro del padre (si el usuario ya está registrado como padre)
 document.addEventListener("DOMContentLoaded", function() {
   fetch('../../mvc/controllers/tutor.php')
@@ -428,7 +405,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // Guardar globalmente la data para usar en la edición de hijos
         window.tutorData = data;
         
-
         //Se rellena los datos del padre
         document.getElementById("modal-overlay").style.display = "none";
         document.getElementById("usuario").textContent   = data.usuario.username;
@@ -442,7 +418,6 @@ document.addEventListener("DOMContentLoaded", function() {
             } else {
                 profileImage.src = '../../assets/fotoUsuarios/defecto.png';
             }
-
 
         // Renderizado de la tabla de hijos (con celdas editables)
         const infoHijosTableBody = document.querySelector("#infoHijos tbody");
@@ -496,13 +471,10 @@ document.addEventListener("DOMContentLoaded", function() {
               editable: false,
               eventLimit: true,
               eventClick: function(calEvent, jsEvent, view) {
-               // Asigna la información del evento a los elementos del modal
                 $('#modalTitle').text(event.title);
                 $('#modalBody').html(event.description || 'Sin detalles adicionales');
-                // Muestra el modal (asegúrate de que el id coincida)
                 $('#modal-actividad-calendar').modal('show');
               },
-              
               defaultDate: '2025-06-01',
               validRange: {
                 start: '2025-06-01',
@@ -614,7 +586,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
   
-  
 // Función que asigna el listener a un botón "btn-volver"
 function agregarEventoBtnVolver(btn) {
   btn.addEventListener('click', function() {
@@ -631,13 +602,10 @@ const observer = new MutationObserver((mutationsList) => {
   mutationsList.forEach((mutation) => {
     if (mutation.type === 'childList') {
       mutation.addedNodes.forEach((node) => {
-        // Asegurarnos de que el nodo es un elemento
         if (node.nodeType === 1) {
-          // Si el nodo agregado es un botón con clase "btn-volver", asignarle el listener
           if (node.classList.contains('btn-volver')) {
             agregarEventoBtnVolver(node);
           }
-          // Si el nodo contiene elementos con la clase "btn-volver" (por ejemplo, un contenedor)
           const btns = node.querySelectorAll('.btn-volver');
           btns.forEach((btn) => {
             agregarEventoBtnVolver(btn);
@@ -656,59 +624,42 @@ document.querySelectorAll('.btn-volver').forEach((btn) => {
   agregarEventoBtnVolver(btn);
 });
 
-
 document.getElementById("btn-agregar-hijo").addEventListener("click", (event) => {
     event.preventDefault();
     console.log("Agregar hijo");
-    // Remueve la clase 'active' de todas las secciones
     document.querySelectorAll(".section").forEach(section => section.classList.remove("active"));
-    // Activa la sección inscripción
     document.getElementById("section-inscripcion").classList.add("active");
 });
 
-
-
-
 //-----------------------ACTUALIZAR FOTO ------------------------
 document.addEventListener('DOMContentLoaded', function() {
-
-    // Manejar la selección de archivos
     const fileInput = document.getElementById('fileInput');
     const editPhotoButton = document.getElementById('editPhoto');
     const profileImage = document.getElementById('profileImage');
 
-    // Abrir el selector de archivos al hacer clic en el botón
     editPhotoButton.addEventListener('click', function () {
         fileInput.click();
     });
 
-    // Manejar la selección de archivos
     fileInput.addEventListener('change', function (e) {
-        const file = e.target.files[0]; // Obtener el archivo seleccionado
-
+        const file = e.target.files[0];
         if (file) {
-            // Validar el tipo de archivo (solo imágenes JPEG o PNG)
             if (!file.type.startsWith('image/')) {
                 alert('Solo se permiten imágenes JPEG o PNG.');
-                return; // Detener la ejecución si el tipo no es válido
+                return;
             }
-
-            // Mostrar la imagen seleccionada en la página
             const reader = new FileReader();
             reader.onload = function (e) {
-                profileImage.src = e.target.result; // Actualizar la imagen de perfil
+                profileImage.src = e.target.result;
             };
-            reader.readAsDataURL(file); // Leer el archivo como una URL de datos
-
-            // Subir la imagen al servidor
+            reader.readAsDataURL(file);
             const formData = new FormData();
-            formData.append('foto', file); // Agregar el archivo al FormData
-
+            formData.append('foto', file);
             fetch('../../mvc/controllers/cambiar-foto-tutor.php', {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json()) // Convertir la respuesta a JSON
+            .then(response => response.json())
             .then(data => {
                 if (data.status === "success") {
                     console.log('Foto subida y guardada en la base de datos');
@@ -721,24 +672,17 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-
-    
-
 });
-
 
 // --------------------------CERRAR SESION----------------------------
 document.addEventListener("click", function (event) {
-  // Detectar si se hizo clic en el botón de salir
   let logoutBtn = event.target.closest("#logoutBtn");
   if (logoutBtn) {
       event.preventDefault();
-
       fetch("../../mvc/controllers/logout.php")
-          .then(response => response.json()) // Parsear la respuesta como JSON
+          .then(response => response.json())
           .then(data => {
               if (data.redirect) {
-                  // Redirigir al usuario si la respuesta indica una redirección
                   window.location.href = data.redirect;
               }
           })
