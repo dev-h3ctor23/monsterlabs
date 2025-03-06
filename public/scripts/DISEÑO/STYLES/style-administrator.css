@@ -1,0 +1,1216 @@
+/* TODO : style-administrator.css -> Estilos para el administrador */
+
+.section-content { /* * : Estilos para el contenido de las secciones */
+    display: none;
+    padding: 20px;
+}
+.section-content.active { /* * : Estilos para el contenido activo */
+    display: block;
+}
+
+/* Estilos para la sección de actividades */
+.section-content {
+    padding: 20px;
+}
+
+.activities-tables {
+    display: flex;
+    gap: 20px;
+    height: calc(100vh - 100px); /* Ajusta el alto de la pantalla menos el espacio del encabezado */
+}
+
+.table-container {
+    flex: 1 1 300px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: -4px -4px 1px 0px rgba(0, 0, 0, 0.16) inset;
+    height: calc(100vh - 150px);  /* Ajusta el 150px según el espacio ocupado en la web */
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.table-container h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 4px; /* Separación entre filas */
+    flex: 1; /* Permite que la tabla ocupe todo el espacio disponible */
+}
+
+.table-container th, .table-container td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    background-color: #E1E6EA; /* Color de fondo de las celdas */
+    border-radius: 8px; /* Bordes redondeados */
+}
+
+.table-container th {
+    background-color: #f2f2f2;
+}
+
+.table-container tbody tr:nth-child(even) {
+    background-color: #E1E6EA; /* Color de fondo de las filas pares */
+}
+
+.table-container tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.add-btn {
+    display: block;
+    width: 150px; /* Ajusta el ancho del botón */
+    padding: 5px;
+    margin: 10px auto 0; /* Centra el botón y añade margen superior */
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: -3px -3px 0.5px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.add-btn:hover {
+    background-color: #45a049;
+}
+
+/* TODO : Define variables para los anchos del sidebar */
+:root {
+    --sidebar-width: 250px;
+    --sidebar-width-collapsed: 70px;
+}
+
+/* TODO : Aplica layout grid al body. Por defecto, el sidebar está abierto */
+body {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    transition: grid-template-columns 0.3s ease;
+    margin: 0;
+    padding: 0;
+}
+
+/* * Cuando el sidebar esté cerrado, actualiza la plantilla de columnas */
+body:has(.sidebar.close) {
+    grid-template-columns: var(--sidebar-width-collapsed) 1fr;
+}
+
+#sidebar {
+    min-height: 100vh; /* ! Para que ocupe toda la altura de la ventana */
+    transition: width 0.3s ease;
+}
+
+/* * Sidebar en estado cerrado */
+#sidebar.closed {
+    width: var(--sidebar-width-collapsed); /* * Ajusta este valor según requieras para el sidebar cerrado */
+}
+
+/* * El contenido principal debe ocupar el resto del espacio */
+#main-content {
+    padding: 20px;
+    overflow-x: auto; /* ! Para manejar contenido ancho, si es necesario */
+    transition: margin-left 0.3s ease;
+}
+
+/* TODO : Modals -> Estilos para los Modals */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 100;
+}
+
+.modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+  text-align: center;
+  position: relative;
+}
+
+.modal.show .modal-content {
+  transform: translateY(0);
+}
+
+/* Botón de cerrar */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+/* Título */
+.modal-content h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Estilos para los títulos h3 */
+.modal-content h3 {
+  font-size: 20px;
+  font-weight: 500; /* Medium */
+  text-align: center;
+}
+
+/* Estilos para los elementos strong */
+.modal-content p strong {
+  font-size: 16px;
+  font-weight: 500; /* Medium */
+}
+
+/* Estilos para los datos */
+.modal-content p span {
+  font-size: 16px;
+}
+
+/* Formulario del modal */
+.modal-form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+.modal-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.modal-form input:focus {
+  outline: none;
+  border: 1px solid #28A745; /* Verde */
+}
+
+/* Botones del modal */
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn.cancel {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.btn.cancel:hover {
+  background: #d6d6d6;
+}
+
+.btn.save {
+  background: #56B848;
+  color: white;
+}
+
+.btn.save:hover {
+  background: #4da63d;
+}
+
+/* Botón de eliminación */
+.btn-delete {
+    background-color: red;
+    border: none;
+    height: 32px; /* Ajusta la altura del botón para que coincida con la altura de las filas */
+    width: 32px; /* Ajusta el ancho del botón */
+    border-radius: 4px;
+    margin-left: 4px; /* Espacio a la derecha del grupo */
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añadimos la transición para el efecto de hover */
+    box-shadow: -3px -3px 0.5px 0px rgba(0, 0, 0, 0.25) inset; /* Sombra para el efecto 3D */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-delete:hover {
+    transform: scale(1.1); /* Efecto de hover para escalar a 1.1 */
+    box-shadow: -3px -3px 0.5px 0px rgba(0, 0, 0, 0.25) inset; /* Sombra más intensa al hacer hover */
+}
+
+/* Mensajes de error */
+.error-message {
+  color: #EF5948;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: -1px;
+  display: none;
+}
+
+/* Zona de arrastrar y soltar */
+.drop-zone {
+  position: relative;
+  border: 2px dashed #d2d2d7;
+  border-radius: 12px;
+  padding: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  margin-bottom: 20px;
+  overflow: hidden; /* Evita que el input se salga */
+}
+
+.drop-zone:hover {
+  background-color: #f9f9fa;
+}
+
+.drop-zone.dragover {
+  background-color: #e8f0fe;
+  border-color: #007aff;
+}
+
+.drop-zone input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 2; /* Queda arriba solo del drop zone */
+  cursor: pointer;
+}
+
+/* Icono y texto de la zona */
+.drop-zone .dz-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+  color: #007aff;
+}
+
+.drop-zone .dz-text {
+  font-size: 16px;
+  color: #666;
+}
+
+/* Vista previa */
+.preview {
+  max-width: 100%;
+  max-height: 250px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  display: none;
+}
+
+/* Botón para subir foto */
+.btn-submit {
+    padding: 12px 24px;
+    background-color: #34c759;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #28a745;
+}
+
+.btn-submit.small {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+/* Botones de modal (guardar y cancelar) */
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+/* TODO : Modals -> Estilos para los Modals */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    text-align: left;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transform: translateY(-20px);
+    transition: transform 0.3s ease-in-out;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+}
+
+.modal-form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.modal-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+.modal-form input:focus {
+    outline: none;
+    border: 1px solid #28A745; /* Verde */
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+/* Botones de los modales */
+.modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center; /* Centra botones */
+    gap: 12px;
+}
+
+/* Botones individuales */
+.btn {
+    display: inline-block; /* Asegura que el ancho se ajuste al contenido */
+    padding: 8px 16px; /* Establece el padding deseado */
+    border: none;
+    border-radius: 8px; /* Redondea 8px */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn.cancel {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.btn.cancel:hover {
+    background: #d6d6d6;
+}
+
+.btn.logout {
+    background: #ff3b30;
+    color: white;
+}
+
+.btn.logout:hover {
+    background: #e03127;
+}
+
+.btn.save {
+    background: #56B848;
+    color: white;
+}
+
+.btn.save:hover {
+    background: #4da63d;
+}
+
+/* Estilo para el botón cuadrado amarillo */
+.btn-yellow {
+    background-color: yellow;
+    border: none;
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 10px; /* Espacio entre el nombre/apellido y el botón */
+    margin-right: 4px; /* Espacio a la derecha del botón amarillo */
+    transition: transform 0.3s ease; /* Transición suave para el efecto de escala */
+}
+
+.btn-yellow:hover {
+    transform: scale(1.1); /* Efecto de escala al hacer hover */
+}
+
+/* Estilos para el botón verde */
+.btn-green {
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin-left: 4px; /* Espacio a la izquierda del botón verde */
+}
+
+.btn-green:hover {
+    background-color: darkgreen;
+}
+
+/* Estilos para el botón verde */
+.btn-green {
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.btn-green:hover {
+    background-color: darkgreen;
+}
+
+/* Estilos para el botón "Ver" */
+.btn-view {
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.btn-view:hover {
+    background-color: darkgreen;
+}
+
+/* Estilos para el botón verde específico para abrir el modal de selección de grupo para monitores */
+.btn-green-monitor {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  margin-left: 4px; /* Espacio a la izquierda del botón verde */
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.btn-green-monitor:hover {
+  background-color: darkgreen;
+  transform: scale(1.1); /* Efecto de hover para escalar a 1.1 */
+}
+
+/* TODO: Seccion de perfil -> Estilos para la sección de perfil */
+
+/* Contenedor de grid para la sección de perfil */
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 3fr; /* La primera columna será más pequeña y la segunda ocupará el resto */
+    gap: 20px;
+    align-items: stretch; /* Se estiran para tener la misma altura */
+    margin-top: 20px;
+    width: 100%; /* Asegura que el grid ocupe toda la anchura */
+}
+
+/* Estilos generales para las cards */
+.profile-card {
+    background: #fff;
+    border-radius: 8px; /* Actualizado a 8px */
+    box-shadow: -4px -4px 1px 0px rgba(0, 0, 0, 0.16) inset;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Card para la foto del usuario */
+.photo-card {
+    text-align: center;
+    height: 100%; /* Asegura que la tarjeta de la foto tenga la misma altura que la tarjeta de información */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Contenedor de foto: cuadrado perfecto */
+.photo-container {
+    width: 200px;   /* Valor igual para ancho */
+    height: 200px;  /* Valor igual para alto */
+    margin: 0 auto 15px;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid #E1E6EA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photo-card .photo-container {
+    width: 100%;
+    height: 100%;
+    max-width: 200px; /* Limita el ancho máximo */
+    max-height: 200px; /* Limita la altura máxima */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Card para la información del usuario */
+.info-card .user-info {
+    margin-bottom: 15px;
+}
+
+.info-card .user-info p {
+    margin: 8px 0;
+    background: #E1E6EA; /* Color de fondo para la celda */
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.info-card {
+    grid-column: span 1; /* Ocupa una columna del grid */
+    height: 100%; /* Asegura que la tarjeta de información ocupe toda la altura disponible */
+}
+
+/* Estilo reutilizado para botones en la sección de perfil */
+.open-modal-btn {
+    background-color: #56B848;
+    padding: 8px 16px; /* Limita el ancho basado en el padding */
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.5s; /* Agregado el transform */
+    width: auto;         /* Forzar ancho automático */
+    align-self: center;  /* Centrar el botón sin expandir */
+    box-shadow: -3px -3px 0.5px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.open-modal-btn:hover {
+    transform: scale(1.1);
+}
+
+/* TODO: Modal Editar Perfil -> Estilos para el modal de editar perfil */
+
+.error-message {
+    color: #EF5948;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: -1px;
+    display: none;
+}
+
+/* Popup de notificación genérico */
+.popup {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 1000;
+}
+
+.popup.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Popup Éxito: fondo verde */
+.popup-success {
+  background: #28A745;
+}
+
+/* Popup Error: fondo rojo */
+.popup-error-edit {
+  background: #EF5948;  
+}
+
+/* Popup Error: fondo rojo */
+.popup-error {
+  background: #dc3545;
+}
+
+#uploadPhoto {
+border-radius: 6px; 
+  display: block;
+  margin: 10px auto;
+  background-color: #F89728;
+}
+
+/* Estilos adicionales para la sección de Grupos */
+#groups {
+  margin-top: 20px;
+}
+
+.groups-tables {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.groups-tables .table-container {
+  flex: 1 1 300px;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: -4px -4px 1px 0px rgba(0, 0, 0, 0.16) inset;
+  height: calc(100vh - 150px);  /* Ajusta el 150px según el espacio ocupado en la web */
+  display: flex;
+  flex-direction: column;
+}
+
+.groups-tables .table-container h2 {
+  text-align: center; /* Deja la alineación original */
+  margin-bottom: 0.5rem; /* Ajusta el margen inferior según lo necesites */
+  font-size: 20px; /* Tamaño de fuente */
+  font-weight: 500; /* Grosor medio */
+  font-family: 'Poppins', sans-serif; /* Fuente Poppins */
+}
+
+.groups-tables table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 2px; /* Añade separación entre las celdas */
+  flex: 1;
+  overflow: auto;
+}
+
+.groups-tables th,
+.groups-tables td {
+  padding: 4px 8px; /* Reduce el padding para filas de poca altura */
+  text-align: left;
+  background: #E1E6EA; /* Color de fondo para la celda */
+  border-radius: 4px; /* Ajusta el border-radius */
+  height: 32px; /* Ajusta la altura de las filas */
+}
+
+.groups-tables tr {
+  height: auto; /* Asegura que la altura de las filas sea automática */
+}
+
+.groups-tables tbody {
+  display: block;
+}
+
+.groups-tables tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* Estilo para los botones de añadir */
+.add-btn {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #56B848;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+  align-self: center;
+  box-shadow: -3px -3px 0.5px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.add-btn:hover {
+  background-color: #4da63d;
+}
+
+/* Estilo para los botones de añadir y abrir modal */
+.add-btn, .open-modal-btn {
+  transition: transform 0.3s ease;
+}
+
+.add-btn:hover, .open-modal-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Estilos para la sección de Gestiones */
+.management-tables {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.management-tables .table-container {
+  flex: 1 1 300px;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: -4px -4px 1px 0px rgba(0, 0, 0, 0.16) inset;
+  height: calc(100vh - 150px);  /* Ajusta el 150px según el espacio ocupado en la web */
+  display: flex;
+  flex-direction: column;
+}
+
+.management-tables .table-container h2 {
+  text-align: center; /* Deja la alineación original */
+  margin-bottom: 0.5rem; /* Ajusta el margen inferior según lo necesites */
+  font-size: 20px; /* Tamaño de fuente */
+  font-weight: 500; /* Grosor medio */
+  font-family: 'Poppins', sans-serif; /* Fuente Poppins */
+}
+
+.management-tables table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 2px; /* Añade separación entre las celdas */
+  flex: 1;
+  overflow: auto;
+}
+
+.management-tables th,
+.management-tables td {
+  padding: 4px 8px; /* Reduce el padding para filas de poca altura */
+  text-align: left;
+  background: #E1E6EA; /* Color de fondo para la celda */
+  border-radius: 4px; /* Ajusta el border-radius */
+  height: 32px; /* Ajusta la altura de las filas */
+}
+
+.management-tables tr {
+  height: auto; /* Asegura que la altura de las filas sea automática */
+}
+
+.management-tables tbody {
+  display: block;
+}
+
+.management-tables tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* Estilos para los botones de acción con efecto 3D */
+.btn-action {
+  width: 24px; /* Cambiar el ancho a 28px */
+  height: 24px; /* Cambiar la altura a 28px */
+  border: none;
+  border-radius: 4px;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añadimos la transición para el efecto de hover */
+  box-shadow: -3px -3px 0.5px 0px rgba(0, 0, 0, 0.25) inset; /* Sombra para el efecto 3D */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-action:hover {
+  transform: scale(1.1); /* Efecto de hover para escalar a 1.1 */
+  box-shadow: -3px -3px 0.5px 0px rgba(0, 0, 0, 0.25) inset; /* Sombra más intensa al hacer hover */
+}
+
+.btn-green {
+  background-color: #28a745;
+}
+
+.btn-red, .btn-baja, .btn-delete, .btn-delete-monitor, .btn-delete-group {
+  background-color: #dc3545;
+}
+
+.btn-yellow {
+  background-color: #ffc107;
+}
+
+/* Alineación de los botones de acción en la misma fila */
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Estilo para la celda que contiene el nombre, apellido y botones */
+.inactive-child-cell,
+.active-child-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px; /* Espacio entre el nombre/apellido y los botones */
+  height: 32px; /* Ajusta la altura de las filas */
+}
+
+/* Estilo para la celda que contiene el nombre, apellido y botón */
+.child-cell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1; /* Permite que el nombre ocupe el espacio disponible */
+}
+
+/* Centrar el mensaje de la pregunta en el modal */
+#confirm-alta-modal .modal-content p {
+  text-align: center;
+}
+
+/* Centrar el mensaje de la pregunta en el modal de confirmación para eliminar */
+#confirm-delete-modal .modal-content p {
+  text-align: center;
+}
+
+/* Centrar el mensaje de la pregunta en el modal de confirmación para dar de baja */
+#confirm-baja-modal .modal-content p {
+  text-align: center;
+}
+
+/* Centrar el mensaje de la pregunta en el modal de confirmación para eliminar monitor */
+#confirm-delete-monitor-modal .modal-content p {
+  text-align: center;
+}
+
+/* Centrar el mensaje de la pregunta en el modal de confirmación para eliminar grupo */
+#confirm-delete-group-modal .modal-content p {
+  text-align: center;
+}
+
+/* Estilos para el modal de confirmación para eliminar notificación */
+#confirm-delete-notification-modal .modal-content p {
+    text-align: center;
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Animación de desaparición */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Clase para aplicar la animación de aparición */
+.fade-in {
+  animation: fadeIn 0.32s forwards;
+}
+
+/* Clase para aplicar la animación de desaparición */
+.fade-out {
+  animation: fadeOut 0.32s forwards;
+}
+
+/* Estilos para la sección de perfil */
+.notifications-card {
+    grid-column: 1 / -1; /* Ocupa todas las columnas del grid */
+    height: 420px;
+    width: 100%; /* Ocupa toda la anchura de la pantalla */
+    overflow: hidden; /* Evita que aparezca el scroll */
+}
+
+/* Estilos para las notificaciones */
+.notifications-container {
+    height: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f9f9f9;
+    overflow-y: auto;
+}
+
+.notification-row {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 5px 0;
+    justify-content: space-between; /* Distribuir los elementos por toda la fila */
+}
+
+.notification-item {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.notification-column {
+    display: flex;
+    flex-direction: row; /* Alinear encabezado y contenido en una fila */
+    align-items: center; /* Alinear verticalmente */
+    margin-right: 10px; /* Espaciado entre las columnas */
+}
+
+.notification-header {
+    font-weight: 600; /* Semibold */
+    margin-right: 5px; /* Espaciado entre el encabezado y el contenido */
+}
+
+.notification-item span {
+    font-size: 14px; /* Mismo tamaño de letra para todos los elementos */
+}
+
+.notification-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centrar los botones */
+}
+
+.noti-btn {
+    width: 24px;
+    height: 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 10px; /* Espacio entre los botones */
+    transition: transform 0.3s ease; /* Transición suave para el efecto de escala */
+}
+
+.noti-btn:hover {
+    transform: scale(1.1); /* Efecto de escala al hacer hover */
+}
+
+.btn-yellow {
+    background-color: yellow;
+}
+
+.btn-red {
+    background-color: red;
+}
+
+/* Estilos para el scroll */
+.table-container::-webkit-scrollbar {
+    width: 12px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #57B949; /* Color del scroll */
+    border-radius: 20px;
+    border: 3px solid #f1f1f1;
+}
+
+.activities-red-button, .activities-green-button {
+    border: none;
+    height: 32px; /* Ajusta la altura del botón para que coincida con la altura de las filas */
+    width: 32px; /* Ajusta el ancho del botón */
+    border-radius: 4px;
+    margin-left: 4px; /* Espacio a la derecha del grupo */
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añadimos la transición para el efecto de hover */
+    box-shadow: -3px -3px 0.5px 0px rgba(0, 0, 0, 0.25) inset; /* Sombra para el efecto 3D */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.activities-red-button:hover, .activities-green-button:hover {
+    transform: scale(1.1); /* Efecto de hover para escalar a 1.1 */
+    box-shadow: -3px -3px 0.5px 0px rgba(0, 0, 0, 0.25) inset; /* Sombra más intensa al hacer hover */
+}
+
+/* Asegúrate de que los botones estén uno al lado del otro y alineados a la derecha */
+td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.name-cell {
+    flex-grow: 1; /* Permite que el nombre ocupe el espacio disponible */
+}
+
+.button-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Alinea los botones a la derecha */
+    gap: 4px; /* Espacio entre los botones */
+}
+
+/* Estilos para el modal de selección de grupo para monitores */
+.modal-monitor {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 100;
+}
+
+.modal-monitor.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-content-monitor {
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  text-align: left;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(-20px);
+  transition: transform 0.3s ease-in-out;
+}
+
+.modal-monitor.show .modal-content-monitor {
+  transform: translateY(0);
+}
+
+.modal-form-monitor label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+.modal-form-monitor input,
+.modal-form-monitor select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.modal-form-monitor input:focus,
+.modal-form-monitor select:focus {
+  outline: none;
+  border: 1px solid #28A745; /* Verde */
+}
+
+.modal-buttons-monitor {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.modal-buttons-monitor .btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.modal-buttons-monitor .btn.cancel {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.modal-buttons-monitor .btn.cancel:hover {
+  background: #d6d6d6;
+}
+
+.modal-buttons-monitor .btn.save {
+  background: #56B848;
+  color: white;
+}
+
+.modal-buttons-monitor .btn.save:hover {
+  background: #4da63d;
+}
+
+
+
+
+
+
