@@ -776,10 +776,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         row.innerHTML = `
                             <td>${nino.nino.nombre_nino}</td>
                             <td>${nino.nino.apellido_nino}</td>
-                            <td>${nino.padre.nombre_padre} ${nino.padre.apellido_padre}</td>
-                            <td>${nino.padre.dni_padre}</td>
-                            <td>${nino.padre.telefono}</td>
-                            <td>${nino.observaciones.observacion}</td>
+                            <td class="hide-on-mobile">${nino.padre.nombre_padre} ${nino.padre.apellido_padre}</td>
+                            <td class="hide-on-mobile">${nino.padre.dni_padre}</td>
+                            <td class="hide-on-mobile">${nino.padre.telefono}</td>
+                            <td class="hide-on-mobile">${nino.observaciones.observacion}</td>
 
                             <td><img src="../../assets/icons/edit.svg" alt="icono-editar" id='editarObservaciones' data-nino='${JSON.stringify(nino)}'></td>
                             <td><img src="../../assets/icons/info.svg" alt="icono-informacion" id= 'infoNino' data-nino='${JSON.stringify(nino)}'></td>
@@ -1146,4 +1146,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+function hideColumns() {
+    const table = document.getElementById("responsive-table");
+    const columnsToHide = table.querySelectorAll(".hide-on-mobile");
+
+    if (window.innerWidth <= 992) {
+        columnsToHide.forEach(column => column.style.display = "none");
+    } else {
+        columnsToHide.forEach(column => column.style.display = "");
+    }
+}
+
+window.addEventListener("resize", hideColumns);
+hideColumns();
 

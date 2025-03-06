@@ -181,6 +181,10 @@
                 </div>
     
                 <div class="attendance" id="selection-attendance" style="display: none;">
+                    <div class="subtitulo">
+                        <h2>Registrar Asistencia</h2>
+                    </div>
+                    
                     <form id="attendanceForm" action="" method="post">
                         <div class="form-group">
                             <div class="calendar">
@@ -277,10 +281,10 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>Apellido</th>
-                                <th>Datos Tutor</th>
-                                <th>DNI</th>
-                                <th>Teléfono</th>
-                                <th>Observaciones</th>
+                                <th class="hide-on-mobile">Datos Tutor</th>
+                                <th class="hide-on-mobile">DNI</th>
+                                <th class="hide-on-mobile">Teléfono</th>
+                                <th class="hide-on-mobile">Observaciones</th>
                                 <th>Editar Observaciones</th>
                                 <th>Más Información</th>
                                 
@@ -332,10 +336,13 @@
                 </div>
                 <div id="infoModalCronogram" class="modal">
                     <div class="modal-content">
-                        <button class="modal-close" id="closeModalCronogram">&times;</button>
                         <div class="modal-header">
                             <h2>Información Actividad</h2>
                           </div>
+                        <div class="button-modal-close">
+                            <button class="modal-close" id="closeModalCronogram">&times;</button>
+                        </div>
+                        
                         <div id="modalContentCronogram">
                             <!-- Aquí se mostrará la información adicional -->
                         </div>
