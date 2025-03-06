@@ -518,7 +518,7 @@ body {
 
 .hero-banner {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 0.8fr;
   align-items: flex-start;
   gap: 30px;
 }
