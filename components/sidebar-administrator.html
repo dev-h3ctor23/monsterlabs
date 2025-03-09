@@ -1,86 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
-    <link rel="stylesheet" href="../../public/styles/style-sidebar-administrator.css"/> <!-- TODO : Enlace al CSS del Sidebar de Administrador (style-sidebar-administrator.css)-->
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/> <!-- TODO : Enlace a la libreria de iconos Boxicons -->
-    <title>Sidebar-Administrator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sliding Tabs</title>
   </head>
   <body>
-    <!-- ? : Contenedor principal del Sidebar de Administrador. -->
-    <nav class="sidebar close">
-
-        <!-- ? : Encabezado del Sidebar de Administrador. -->
-      <header>
-        <div class="image-text">
-          <span class="image">
-            <img src="../../assets/images/mini-logo-monsterlabs.png" alt="Logo del Sidebar de Monsterlabs"/> <!-- * Logo del encabezado del Sidebar. -->
-          </span>
-          <div class="text logo-text">
-            <span class="name">Monsterlabs</span>
-            <span class="profession">Administrador</span>
-          </div>
-        </div>
-        <i class="bx bx-chevron-right toggle"></i>
-      </header>
-
-        <!-- ? : Contenedor de los enlaces de navegacion. -->
-      <div class="menu-bar">
-        <div class="menu">
-          <!-- ? : Enlaces de navegacion.-->
-          <ul class="menu-links">
-            <!-- * : Enlace para ir al perfil del Administrador. -->
-            <li class="nav-link">
-              <a href="#profile">
-                <i class='bx bxs-user icon'></i>
-                <span class="text nav-text">Perfil</span>
-              </a>
-            </li>
-
-            <!-- * : Enlace para ir al apartado de Actividades. -->
-            <li class="nav-link">
-              <a href="#activities">
-                <i class='bx bxs-universal-access icon'></i>
-                <span class="text nav-text">Actividades</span>
-              </a>
-            </li>
-
-            <!-- * : Enlace para ir al apartado de Grupos. -->
-            <li class="nav-link">
-              <a href="#groups">
-                <i class='bx bxs-group icon'></i>
-                <span class="text nav-text">Grupos</span>
-              </a>
-            </li>
-
-            <!-- * : Enlace para ir al apartado de Gestiones. -->
-            <li class="nav-link">
-              <a href="#management">
-                <i class='bx bxs-archive icon'></i>
-                <span class="text nav-text">Gestiones</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <!-- ? ===== Boton para cerrar sesion. =====-->
-        <div class="bottom-content">
-          <ul>
-            <li>
-              <a href="#" id="logout-btn">
-                <i class="bx bx-log-out icon"></i>
-                <span class="text nav-text">Salir</span>
-              </a>
-            </li>
-          </ul>
+    <nav>
+      <div class="navbar-container">
+        <div class="tabs">
+          <input type="radio" id="perfil" name="tabs" checked>
+          <label class="tab" for="perfil">Perfil</label>
+          <input type="radio" id="actividades" name="tabs">
+          <label class="tab" for="actividades">Actividades</label>
+          <input type="radio" id="grupos" name="tabs">
+          <label class="tab" for="grupos">Grupos</label>
+          <input type="radio" id="gestiones" name="tabs">
+          <label class="tab" for="gestiones">Gestiones</label>
+          <span class="slider"></span>
         </div>
       </div>
     </nav>
-
-    <!-- TODO : Enlace a los scripts de Componentes del Sidebar. -->
-    <script src="../../public/scripts/components-administrator/script-sidebar-administrator.js"></script>
-    <script src="../../public/scripts/components-administrator/script-navigation-sections.js"></script>
-    <script src="../../public/scripts/modals-administrator/modal-log-out.js"></script>
   </body>
 </html>

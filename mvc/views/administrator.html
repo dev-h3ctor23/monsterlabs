@@ -4,501 +4,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administrador</title>
-    <link rel="stylesheet" href="../../public/styles/style-administrator.css"> <!-- Ruta relativa -->
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../public/styles/style-sidebar-administrator.css">
+    <link rel="stylesheet" href="../../public/styles/style-administrator.css">
+    <script defer src="../../public/scripts/administrator/sidebar.js"></script>
+    <script defer src="../../public/scripts/administrator/administrator.js"></script> <!-- Incluir el script -->
 </head>
 <body>
-    <!-- TODO : Secciones de contenido a mostrar según la navegación -->
-    <main id="main-content">
+    <div id="sidebar-container"></div>
+    <div id="content-container">
+        <!--! seccion de perfil del administrador -->
+        <section id="perfil-content" class="content-section">
+            <!--! seccion de perfil del administrador -->
+            <div class="grid-container">
+                <!--! seccion de foto de perfil -->
+                <div class="grid-item photo">
+                    <div class="photo-placeholder">
+                        <img id="profileImage" src="" alt="Foto de perfil">
+                    </div>
+                    <form id="form-subir-foto" enctype="multipart/form-data">
+                        <input type="file" id="input-subir-foto" name="foto" accept="image/*" style="display: none;">
+                        <button type="button" class="edit-photo-btn" onclick="document.getElementById('input-subir-foto').click();">
+                            Editar foto
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
+                                <style>
+                                    @keyframes slide {
+                                        0% { transform: translateX(0); }
+                                        to { transform: translateX(5.5px) translateY(-1px); }
+                                    }
+                                </style>
+                                <path stroke="#f8f8f8" stroke-width="1.5" d="M4 8a4 4 0 014-4h8a4 4 0 014 4v8a4 4 0 01-4 4H8a4 4 0 01-4-4V8z"/>
+                                <path stroke="#f8f8f8" stroke-width="1.5" d="M4.221 17.607c.498-.603.767-.816 1.263-1.426.944-1.169 1.58-1.507 2.287-1.21.287.123.575.308.87.503.79.523 1.888 1.24 3.334.461.994-.544 1.57-1.477 2.07-2.286.206-.329.4-.657.627-.954.235-.308 1.107-1.271 2.234-.586.719.432 1.314.915 1.96 1.54.247.24.433.614.55.905.352.88.457 1.372.457 2.488"/>
+                                <path stroke="#f8f8f8" stroke-width="1.33" d="M8.647 11.032c.977 0 1.773-.796 1.773-1.773 0-.977-.796-1.773-1.773-1.773-.978 0-1.773.796-1.773 1.773 0 .977.795 1.773 1.773 1.773" style="transform-origin:center;animation:slide 1.5s cubic-bezier(.86,0,.07,1) infinite alternate-reverse both"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+                <!--! seccion de informacion del administrador -->
+                <div class="grid-item info">
+                    <div class="info-field">
+                        <label for="username">Nombre de usuario:</label>
+                        <span id="username"></span>
+                    </div>
+                    <div class="info-field">
+                        <label for="full-name">Nombre completo:</label>
+                        <span id="full-name"></span>
+                    </div>
+                    <div class="info-field">
+                        <label for="dni">DNI:</label>
+                        <span id="dni"></span>
+                    </div>
+                    <div class="info-field">
+                        <label for="email">Correo Electrónico:</label>
+                        <span id="email"></span>
+                    </div>
+                    <div class="info-field">
+                        <label for="phone">Teléfono:</label>
+                        <span id="phone"></span>
+                    </div>
+                    <button class="edit-info-btn">
+                        Editar información
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <style>
+                            .user-2 {
+                              animation: user-2 1s cubic-bezier(0.83, -0.07, 0, 1.04) both infinite alternate-reverse;
+                          }
+                          @keyframes user-2 {
+                            0% {
+                              transform: translateY(0) translateX(0);
+                            }
+                            100% {
+                              transform: translateY(-1px) translateX(2px);
+                            }
+                          }
+                          </style>
+                            <circle class="user-2" cx="12" cy="7.858" r="2.5" stroke="#f8f8f8" stroke-width="1.5"/>
+                            <rect width="10" height="4" x="7" y="13.926" stroke="#f8f8f8" stroke-width="1.5" rx="2"/>
+                          </svg>                          
+                    </button>
+                </div>
+                <!--! seccion de notificaciones -->
+                <div class="grid-item notifications">
+                    Notificaciones
+                </div>
+            </div>
+        </section>
+        
+        <section id="actividades-content" class="content-section" style="display: none;">Contenido de Actividades</section>
 
-        <!-- ? : Seccion de Perfil -->
-        <section id="profile" class="section-content active">
-            <div class="profile-grid">
-                <!-- * Card con foto y botón para cambiarla -->
-                <div class="profile-card photo-card">
-                    <div class="photo-container">
-                        <img id="profileImage" src="" alt="Foto de usuario"> <!-- Ruta relativa -->
-                    </div>
-                    <!-- * Boton de editar foto -->
-                    <div class="editPhoto">
-                        <!-- Input oculto para seleccionar archivo -->
-                        <input type="file" id="fileInput" accept="image/*" style="display: none;">
-                        <!-- Botón para abrir el selector de archivos -->
-                        <button class="btn" id="editPhoto">Cambiar Foto</button>
-                    </div>
-                </div>
-                <!-- * Card con información de usuario y botón para editar -->
-                <div class="profile-card info-card">
-                    <div class="user-info">
-                        <p><strong>Nombre de usuario:</strong> <span id="username-display"></span></p>
-                        <p><strong>Nombre:</strong> <span id="name-display"></span></p>
-                        <p><strong>Correo:</strong> <span id="email-display"></span></p>
-                        <p><strong>Teléfono:</strong> <span id="phone-display"></span></p>
-                        <p><strong>DNI:</strong> <span id="dni-display"></span></p>
-                    </div>
-                    <button id="edit-profile-btn" class="open-modal-btn">Editar perfil</button>
-                </div>
-                <!-- * Card de notificaciones -->
-                <div class="profile-card notifications-card">
-                    <h2>Notificaciones</h2>
-                    <div class="notifications-container">
-                        <!-- Aquí se mostrarán las notificaciones -->
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ? : Seccion de Actividades -->
-        <section id="activities" class="section-content">
-            <h1>Actividades</h1>
-            <div class="activities-tables">
-                <div class="table-container">
-                    <h2>Actividades</h2>
-                    <table id="activities-table">
-                        <tbody id="activities-table-body">
-                            <!-- Filas dinámicas de actividades -->
-                        </tbody>
-                    </table>
-                    <button class="add-btn" id="add-activity-btn">Añadir Actividad</button>
-                </div>
-                <div class="table-container">
-                    <h2>Cronograma</h2>
-                    <table id="schedule-table">
-                        <tbody id="schedule-table-body">
-                            <!-- Filas dinámicas de cronograma -->
-                        </tbody>
-                    </table>
-                    <button class="add-btn" id="add-schedule-btn">Añadir Cronograma</button>
-                </div>
-            </div>
-        </section>
-        <!-- ? : Seccion de Grupos -->
-        <section id="groups" class="section-content">
-            <div class="groups-tables" style="display: flex; gap: 20px;">
-                <div class="table-container">
-                    <h2>Niños</h2>
-                    <table>
-                        <tbody id="children-table-body">
-                            <!-- Filas dinámicas de niños -->
-                        </tbody>
-                    </table>
-                </div>
-                <div class="table-container">
-                    <h2>Grupos</h2>
-                    <table>
-                        <tbody id="groups-table-body">
-                            <!-- Filas dinámicas de grupos -->
-                        </tbody>
-                    </table>
-                    <button class="add-btn" id="add-group-btn">Añadir Grupo</button>
-                </div>
-                <!-- Tabla de monitores -->
-                <div class="table-container">
-                    <h2>Monitores</h2>
-                    <table>
-                        <tbody id="monitors-table-body">
-                            <!-- Filas dinámicas de monitores -->
-                        </tbody>
-                    </table>
-                    <button class="add-btn" id="add-monitor-btn">Añadir Monitor</button>
-                </div>
-            </div>
-        </section>
-        <!-- ? : Seccion de Gestiones -->
-        <section id="management" class="section-content">
-            <h1>Gestiones</h1>
-            <div class="management-tables" style="display: flex; gap: 20px;">
-                <div class="table-container">
-                    <h2>Niños Activos</h2>
-                    <table>
-                        <tbody id="active-children-table-body">
-                            <!-- Filas dinámicas de niños activos -->
-                        </tbody>
-                    </table>
-                </div>
-                <div class="table-container">
-                    <h2>Niños Inactivos</h2>
-                    <table>
-                        <tbody id="inactive-children-table-body">
-                            <!-- Fila dinámica de niño inactivo -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-    </main>
+        <section id="grupos-content" class="content-section" style="display: none;">Contenido de Grupos</section>
 
-    <!-- TODO: Modals de Aministrador -->
-    <!-- * Modal de confirmación de logout -->
-    <div id="logout-modal" class="modal">
-        <div class="modal-content">
-            <p>¿Seguro quieres salir?</p>
-            <div class="modal-buttons">
-                <button id="confirm-logout" class="btn logout">Confirmar</button>
-                <button id="cancel-logout" class="btn cancel">Cancelar</button>
-            </div>
-        </div>
-    </div>
-    <!-- * Modal de editar perfil -->
-    <div id="edit-profile-modal" class="modal">
-        <div class="modal-content">
-            <h2>Editar Perfil</h2>
-            <form class="modal-form">
-                <label for="username">Nombre de usuario</label>
-                <input type="text" id="username" name="username" placeholder="usuario123">
-                <span id="username-error" class="error-message"></span>
-                
-                <label for="name">Nombre</label>
-                <input type="text" id="name" name="name" placeholder="Juan">
-                <span id="name-error" class="error-message"></span>
-                
-                <label for="surname">Apellido</label>
-                <input type="text" id="surname" name="surname" placeholder="Pérez">
-                <span id="surname-error" class="error-message"></span>
-                
-                <label for="dni">DNI</label>
-                <input type="text" id="dni" name="dni" placeholder="12345678">
-                <span id="dni-error" class="error-message"></span>
-                
-                <label for="phone">Número de Teléfono</label>
-                <input type="tel" id="phone" name="phone" placeholder="+1 555-5555">
-                <span id="phone-error" class="error-message"></span>
-                
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="tu@ejemplo.com">
-                <span id="email-error" class="error-message"></span>
-                
-                <div class="modal-buttons">
-                    <button type="button" id="cancel-edit" class="btn cancel">Cancelar</button>
-                    <button type="submit" id="save-edit" class="btn save">Guardar cambios</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!-- * Modal de subir foto -->
-    <div id="edit-photo-modal" class="modal">
-        <div class="modal-content">
-            <h2>Subir Foto</h2>
-            <div id="dropZone" class="drop-zone">
-                <div class="dz-icon">
-                    <i class="bx bx-cloud-upload"></i>
-                </div>
-                <div class="dz-text">Arrastra y suelta tu foto o haz clic para seleccionar</div>
-                <input type="file" id="fileInput" accept="image/*">
-            </div>
-            <img id="preview" class="preview" alt="Vista previa de la foto">
-            <!-- Botón pequeño para abrir el explorador -->
-            <button id="uploadPhoto" class="btn-submit small">Subir Foto</button>
-            <!-- Contenedor de botones para guardar o cancelar -->
-            <div class="modal-buttons">
-                <button type="button" id="cancel-photo" class="btn cancel">Cancelar</button>
-                <button type="button" id="save-photo" class="btn save">Guardar cambios</button>
-            </div>
-        </div>
-    </div>
-    <!-- * Modal de añadir monitor -->
-    <div id="add-monitor-modal" class="modal">
-        <div class="modal-content">
-            <h2>Añadir Monitor</h2>
-            <form id="add-monitor-form" class="modal-form">
-                <label for="monitor-username">Nombre de usuario</label>
-                <input type="text" id="monitor-username" name="monitor-username" placeholder="usuario123">
-                <span id="monitor-username-error" class="error-message"></span>
-                
-                <label for="monitor-name">Nombre</label>
-                <input type="text" id="monitor-name" name="monitor-name" placeholder="Juan">
-                <span id="monitor-name-error" class="error-message"></span>
-                
-                <label for="monitor-surname">Apellido</label>
-                <input type="text" id="monitor-surname" name="monitor-surname" placeholder="Pérez">
-                <span id="monitor-surname-error" class="error-message"></span>
-                
-                <label for="monitor-dni">DNI</label>
-                <input type="text" id="monitor-dni" name="monitor-dni" placeholder="12345678">
-                <span id="monitor-dni-error" class="error-message"></span>
-                
-                <label for="monitor-phone">Número de Teléfono</label>
-                <input type="tel" id="monitor-phone" name="monitor-phone" placeholder="+1 555-5555">
-                <span id="monitor-phone-error" class="error-message"></span>
-                
-                <label for="monitor-email">Correo Electrónico</label>
-                <input type="email" id="monitor-email" name="monitor-email" placeholder="correo@ejemplo.com">
-                <span id="monitor-email-error" class="error-message"></span>
-                
-                <label for="monitor-password">Contraseña</label>
-                <input type="password" id="monitor-password" name="monitor-password" placeholder="Contraseña">
-                <span id="monitor-password-error" class="error-message"></span>
-                
-                <label for="monitor-confirm-password">Confirmar Contraseña</label>
-                <input type="password" id="monitor-confirm-password" name="monitor-confirm-password" placeholder="Confirmar Contraseña">
-                <span id="monitor-confirm-password-error" class="error-message"></span>
-                
-                <div class="modal-buttons">
-                    <button type="button" id="cancel-add-monitor" class="btn cancel">Cancelar</button>
-                    <button type="submit" id="save-add-monitor" class="btn save">Guardar</button>
-                </div>
-            </form>
-        </div>
-    </div>
+        <section id="gestiones-content" class="content-section" style="display: none;">Contenido de Gestiones</section>
 
-    <!-- * Modal de añadir grupo -->
-    <div id="add-group-modal" class="modal">
-        <div class="modal-content">
-            <h2>Añadir Grupo</h2>
-            <form id="add-group-form" class="modal-form">
-                <label for="group-name">Nombre del Grupo</label>
-                <input type="text" id="group-name" name="group-name" placeholder="Nombre del Grupo">
-                <span id="group-name-error" class="error-message"></span>
-                <div class="modal-buttons">
-                    <button type="button" id="cancel-add-group" class="btn cancel">Cancelar</button>
-                    <button type="submit" id="save-add-group" class="btn save">Guardar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!-- * Modal de confirmación para dar de alta -->
-    <div id="confirm-alta-modal" class="modal">
-        <div class="modal-content">
-            <p>¿Quieres dar de alta a este participante?</p>
-            <div class="modal-buttons">
-                <button id="confirm-alta" class="btn save">Dar de alta</button>
-                <button id="cancel-alta" class="btn cancel">Cancelar</button>
-            </div>
-        </div>
-    </div>
-    <!-- * Modal de confirmación para eliminar -->
-    <div id="confirm-delete-modal" class="modal">
-        <div class="modal-content">
-            <p>¿Seguro que quieres eliminar a este participante?</p>
-            <div class="modal-buttons">
-                <button id="confirm-delete" class="btn save">Eliminar</button>
-                <button id="cancel-delete" class="btn cancel">Cancelar</button>
-            </div>
-        </div>
-    </div>
-    <!-- * Modal de confirmación para eliminar monitor -->
-    <div id="confirm-delete-monitor-modal" class="modal">
-        <div class="modal-content">
-            <p>¿Seguro que quieres eliminar a este monitor?</p>
-            <div class="modal-buttons">
-                <button id="confirm-delete-monitor" class="btn save">Eliminar</button>
-                <button id="cancel-delete-monitor" class="btn cancel">Cancelar</button>
-            </div>
-        </div>
-    </div>
-    <!-- * Modal de confirmación para eliminar grupo -->
-    <div id="confirm-delete-group-modal" class="modal">
-        <div class="modal-content">
-            <p>¿Seguro que quieres eliminar este grupo?</p>
-            <div class="modal-buttons">
-                <button id="confirm-delete-group" class="btn save">Eliminar</button>
-                <button id="cancel-delete-group" class="btn cancel">Cancelar</button>
-            </div>
-        </div>
-    </div>
-    <!-- * Modal de confirmación para dar de baja -->
-    <div id="confirm-baja-modal" class="modal">
-        <div class="modal-content">
-            <p>¿Seguro que quieres dar de baja a este participante?</p>
-            <div class="modal-buttons">
-                <button id="confirm-baja" class="btn save">Dar de baja</button>
-                <button id="cancel-baja" class="btn cancel">Cancelar</button>
-            </div>
-        </div>
-    </div>
-    <!-- * Modal para mostrar los datos del niño -->
-    <div id="view-child-modal" class="modal">
-        <div class="modal-content">
-            <h3>Datos del Niño</h3>
-            <div class="child-info">
-                <p><strong>Nombre:</strong> <span id="child-name"></span></p>
-                <p><strong>Apellido:</strong> <span id="child-surname"></span></p>
-                <p><strong>Fecha de Nacimiento:</strong> <span id="child-dob"></span></p>
-                <br>
-                <h3>Datos del Padre</h3>
-                <p><strong>Nombre:</strong> <span id="parent-name"></span></p>
-                <p><strong>Apellido:</strong> <span id="parent-surname"></span></p>
-                <p><strong>Correo Electrónico:</strong> <span id="parent-email"></span></p>
-                <br>
-                <h3>Ficha Médica</h3>
-                <p><strong>Alimentos Alérgicos:</strong> <span id="allergic-foods"></span></p>
-                <p><strong>Medicamentos Alérgicos:</strong> <span id="allergic-medicines"></span></p>
-                <p><strong>Medicamentos Actuales:</strong> <span id="current-medicines"></span></p>
-                <br>
-                <h3>Contacto de Emergencia</h3>
-                <p><strong>Nombre:</strong> <span id="emergency-name"></span></p>
-                <p><strong>Teléfono:</strong> <span id="emergency-phone"></span></p>
-                <br>
-                <h3>Persona Responsable</h3>
-                <p><strong>Nombre:</strong> <span id="responsible-name"></span></p>
-                <p><strong>Apellido:</strong> <span id="responsible-surname"></span></p>
-                <p><strong>Teléfono:</strong> <span id="responsible-phone"></span></p>
-            </div>
-            <div class="modal-buttons">
-                <button id="close-view-child" class="btn cancel">Cerrar</button>
-            </div>
-        </div>
-    </div>
-    <!-- * Modal de confirmación para eliminar notificación -->
-    <div id="confirm-delete-notification-modal" class="modal">
-        <div class="modal-content">
-            <p>¿Seguro que quieres eliminar esta notificación?</p>
-            <div class="modal-buttons">
-                <button id="confirm-delete-notification" class="btn save">Eliminar</button>
-                <button id="cancel-delete-notification" class="btn cancel">Cancelar</button>
-            </div>
-        </div>
-    </div>
-    <!-- * Modal para mostrar la información completa de la notificación -->
-    <div id="view-notification-modal" class="modal">
-        <div class="modal-content">
-            <h3>Información de la Notificación</h3>
-            <p><strong>Asunto:</strong> <span id="notification-subject"></span></p>
-            <p><strong>Fecha:</strong> <span id="notification-date"></span></p>
-            <p><strong>Emisor:</strong> <span id="notification-sender"></span></p>
-            <p><strong>Descripción:</strong> <span id="notification-description"></span></p>
-            <div class="modal-buttons">
-                <button id="close-view-notification" class="btn cancel">Cerrar</button>
-            </div>
-        </div>
-    </div>
-        <!-- Modal para añadir actividad -->
-        <div id="add-activity-modal" class="modal">
-            <div class="modal-content">
-                <form id="add-activity-form" class="modal-form">
-                    <h2>Añadir Actividad</h2>
-                    <label for="activity-name">Nombre de la Actividad:</label>
-                    <input type="text" id="activity-name" name="activity-name" required>
-                    <label for="activity-description">Descripción:</label>
-                    <textarea id="activity-description" name="activity-description" required></textarea>
-                    <div class="modal-buttons">
-                        <button type="submit" class="btn save">Guardar</button>
-                        <button type="button" class="btn cancel" id="cancel-add-activity">Cancelar</button>
+        <!--! Modals de la seccion de perfil -->
+        <div class="modal-overlay-profile">
+            <div class="modal-profile">
+                <h2>Editar Perfil</h2>
+                <form id="form-editar-perfil" method="POST" action="../../mvc/controllers/administrator/actualizar_perfil.php">
+                    <div class="form-group-profile">
+                        <label for="edit-nombre-profile">Nombre</label>
+                        <input type="text" id="edit-nombre-profile" name="nombre" placeholder="Tu nombre">
+                        <span class="error-message"></span>
+                    </div>
+        
+                    <div class="form-group-profile">
+                        <label for="edit-apellido-profile">Apellido</label>
+                        <input type="text" id="edit-apellido-profile" name="apellido" placeholder="Tu apellido">
+                        <span class="error-message"></span>
+                    </div>
+        
+                    <div class="form-group-profile">
+                        <label for="edit-dni-profile">DNI</label>
+                        <input type="text" id="edit-dni-profile" name="dni" placeholder="Tu DNI">
+                        <span class="error-message"></span>
+                    </div>
+        
+                    <div class="form-group-profile">
+                        <label for="edit-telefono-profile">Teléfono</label>
+                        <input type="tel" id="edit-telefono-profile" name="telefono" placeholder="Tu teléfono">
+                        <span class="error-message"></span>
+                    </div>
+        
+                    <div class="form-group-profile">
+                        <label for="edit-correo-profile">Correo Electrónico</label>
+                        <input type="email" id="edit-correo-profile" name="correo" placeholder="Tu correo">
+                        <span class="error-message"></span>
+                    </div>
+        
+                    <div class="btn-container-profile">
+                        <button type="button" class="btn-profile btn-close-profile">Cancelar</button>
+                        <button type="submit" class="btn-profile btn-save-profile">Guardar</button>
                     </div>
                 </form>
             </div>
         </div>
-    
-    <!-- Modal de confirmación para eliminar actividad -->
-    <div id="confirm-delete-activity-modal" class="modal">
-        <div class="modal-content">
-            <p>¿Seguro que quieres eliminar esta actividad?</p>
-            <div class="modal-buttons">
-                <button id="confirm-delete-activity" class="btn save">Eliminar</button>
-                <button id="cancel-delete-activity" class="btn cancel">Cancelar</button>
+        <!--! Modal para borrar notificaciones -->
+        <div class="modal-overlay-delete">
+            <div class="modal-delete">
+                <h2>Eliminar notificaciones</h2>
+                <p>¿Estás seguro de que deseas eliminar todas las notificaciones?</p>
+                <div class="btn-container-delete">
+                    <button type="button" class="btn-delete btn-close-delete">Cancelar</button>
+                    <button type="button" class="btn-delete btn-delete-all">Eliminar</button>
+                </div>
             </div>
-        </div>
     </div>
-
-    <!-- Modal para seleccionar grupo -->
-    <div id="select-group-modal" class="modal">
-        <div class="modal-content">
-            <h2>Seleccionar Grupo</h2>
-            <form id="select-group-form" class="modal-form">
-                <label for="group-select-cronograma">Grupo:</label>
-                <select id="group-select-cronograma" name="group-select" required>
-                    <!-- Opciones de grupos dinámicas -->
-                </select>
-                <div class="modal-buttons">
-                    <button type="submit" class="btn save">Guardar</button>
-                    <button type="button" class="btn cancel" id="cancel-select-group">Cancelar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal para seleccionar grupo para el monitor -->
-    <div id="select-group-monitor-modal" class="modal-monitor">
-        <div class="modal-content-monitor">
-            <h2>Seleccionar Grupo</h2>
-            <form id="select-group-monitor-form" class="modal-form-monitor">
-                <label for="group-select-monitor">Grupo:</label>
-                <select id="group-select-monitor" name="group-select-monitor" required>
-                    <!-- Opciones de grupos dinámicas -->
-                </select>
-                <div class="modal-buttons-monitor">
-                    <button type="submit" class="btn save">Guardar</button>
-                    <button type="button" class="btn cancel" id="cancel-select-group-monitor">Cancelar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal para añadir cronograma -->
-    <div id="add-schedule-modal" class="modal">
-        <div class="modal-content">
-            <h2>Añadir Cronograma</h2>
-            <form id="add-schedule-form" class="modal-form">
-                <label for="schedule-date">Fecha:</label>
-                <input type="date" id="schedule-date" name="schedule-date" required>
-                
-                <label for="start-time">Hora de Inicio:</label>
-                <input type="time" id="start-time" name="start-time" required>
-                
-                <label for="end-time">Hora de Fin:</label>
-                <input type="time" id="end-time" name="end-time" required>
-                
-                <label for="activity-select">Actividad:</label>
-                <select id="activity-select" name="activity-select" required>
-                    <!-- Opciones de actividades dinámicas -->
-                </select>
-                
-                <label for="group-select">Grupo:</label>
-                <select id="group-select" name="group-select" required>
-                    <!-- Opciones de grupos dinámicas -->
-                </select>
-                
-                <div class="modal-buttons">
-                    <button type="submit" class="btn save">Guardar</button>
-                    <button type="button" class="btn cancel" id="cancel-add-schedule">Cancelar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- TODO : Popups de notificación de Perfil -->
-    <div id="popup" class="popup popup-success"></div>
-    <div id="popup-error-edit" class="popup popup-error-edit"></div>
-    <div id="popup-error-add" class="popup popup-error-add"></div>
-
-    <!-- TODO : Código para cargar el sidebar con su script. -->
-    <script> 
-        fetch('../../components/sidebar-administrator.html') 
-            .then(response => response.text()) 
-            .then(data => {
-                document.querySelector('body').insertAdjacentHTML('afterbegin', data);
-                const script = document.createElement('script');
-                script.src = '../../public/scripts/components-administrator/script-sidebar-administrator.js'; // Ruta relativa
-                document.body.appendChild(script);
-            });
-    </script>
-
-    <!-- TODO : Enlace a los Scripts de navegación -->
-    <script src="../../public/scripts/components-administrator/script-navigation-sections.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/modals-administrator/modal-log-out.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/modals-administrator/modal-edit-profile.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/validations-administrator/validations-edit.profile.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/modals-administrator/modal-add-monitor.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/validations-administrator/validations-add-monitor.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/modals-administrator/modal-add-group.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/modals-administrator/modal-confirm-alta.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/modals-administrator/modal-confirm-delete.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/modals-administrator/modal-view-child.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/modals-administrator/modal-confirm-baja.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/modals-administrator/modal-confirm-delete-monitor.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/modals-administrator/modal-confirm-delete-group.js"></script>
-    <script src="../../public/scripts/administrator/profile.js"></script>
-    <script src="../../public/scripts/administrator/load_inactive_children.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/administrator/load_active_children.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/administrator/load_active_children_group.js"></script>
-    <script src="../../public/scripts/administrator/load_notifications.js"></script> <!-- Incluir el archivo JavaScript -->
-    <script src="../../public/scripts/administrator/load_groups.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/modals-administrator/modal-add-activity.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/administrator/load_activities.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/administrator/edit-photo.js"></script>
-    <script src="../../public/scripts/modals-administrator/modal-delete-activity.js"></script> 
-    <script src="../../public/scripts/modals-administrator/modal-select-group.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/modals-administrator/modal-select-group-monitor.js"></script> <!-- Ruta relativa -->
-    <script src="../../public/scripts/modals-administrator/modal-add-schedule.js"></script> <!-- Ruta relativa -->
 </body>
 </html>
