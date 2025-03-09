@@ -2,12 +2,13 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden; /* Evita que aparezca el scroll de la web */
 }
 
 #content-container {
     display: flex;
     flex-direction: column;
-    height: 80%;
+    height: 100%; /* Ajusta el contenedor para ocupar toda la altura */
     width: 80%;
     margin: 0 auto; /* Centrar el contenedor horizontalmente */
 }
@@ -314,7 +315,6 @@ html, body {
     transform: scale(1);
 }
 
-
 .btn-borrar-notificacion {
     background-color: #EF5948;
     color: white;
@@ -452,5 +452,322 @@ html, body {
 
 .success-popup.show {
     opacity: 1;
+}
+
+.grid-container-gestiones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+}
+
+.grid-item-gestiones {
+    background-color: #f0f0f0;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.grid-item-gestiones h2 {
+    margin-bottom: 20px;
+}
+
+.grid-item-gestiones table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.grid-item-gestiones th, .grid-item-gestiones td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.grid-item-gestiones th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+.grid-container-gestiones-full-height {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    height: 80vh; /* Ocupa el 85% de la altura de la ventana */
+}
+
+.grid-item-gestiones-full-height {
+    background-color: #f0f0f0;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ocupa todo el alto del contenedor */
+}
+
+.grid-item-gestiones-full-height h2 {
+    margin-bottom: 20px;
+}
+
+.full-height-table {
+    width: 100%;
+    border-collapse: collapse;
+    flex-grow: 1; /* Permite que la tabla crezca para ocupar el espacio disponible */
+}
+
+.full-height-table th, .full-height-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.full-height-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+/* Estilos específicos para las filas de los niños activos */
+.grid-item-gestiones-full-height .full-height-table tbody tr {
+    height: 70px; /* Ajustar la altura de las filas */
+    background-color: #E0E3E6;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px; /* Espacio entre las filas */
+    flex-direction: column; /* Alinear elementos en columna */
+}
+
+.grid-item-gestiones-full-height .full-height-table tbody tr td {
+    border: none; /* Eliminar bordes de las celdas */
+    padding: 10px; /* Añadir padding a las celdas */
+    width: 100%; /* Asegurar que el td ocupe todo el ancho */
+    text-align: center; /* Centrar el texto */
+    display: flex;
+    flex-direction: column; /* Alinear elementos en columna */
+    align-items: center; /* Centrar elementos horizontalmente */
+    justify-content: center; /* Centrar elementos verticalmente */
+}
+
+.grid-item-gestiones-full-height .full-height-table tbody tr .nombre-apellido {
+    margin-bottom: 10px; /* Espacio entre el nombre/apellido y los botones */
+    font-weight: bold; /* Hacer el texto en negrita */
+}
+
+.grid-item-gestiones-full-height .full-height-table tbody tr .botones {
+    display: flex;
+    gap: 10px; /* Espacio entre los botones */
+}
+
+.grid-item-gestiones-full-height .full-height-table tbody tr .botones button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 12px;
+}
+
+.grid-item-gestiones-full-height .full-height-table tbody tr .boton-editar {
+    background-color: #56B848;
+}
+
+.grid-item-gestiones-full-height .full-height-table tbody tr .boton-editar:hover {
+    background-color: #4ca03e;
+}
+
+.grid-item-gestiones-full-height .full-height-table tbody tr .boton-info {
+    background-color: #F89728;
+}
+
+.grid-item-gestiones-full-height .full-height-table tbody tr .boton-info:hover {
+    background-color: #e07a1f;
+}
+
+.grid-item-gestiones-full-height .full-height-table tbody tr .boton-baja {
+    background-color: #EF5948;
+}
+
+.grid-item-gestiones-full-height .full-height-table tbody tr .boton-baja:hover {
+    background-color: #d94a3e;
+}
+
+/* Estilos para el scrollbar */
+.grid-item-gestiones-full-height {
+    overflow-y: auto; /* Añadir scroll vertical */
+}
+
+.grid-item-gestiones-full-height::-webkit-scrollbar {
+    width: 12px;
+}
+
+.grid-item-gestiones-full-height::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.grid-item-gestiones-full-height::-webkit-scrollbar-thumb {
+    background-color: #F89728; /* Color del scrollbar */
+    border-radius: 10px;
+    border: 3px solid #f1f1f1;
+}
+
+.grid-item-gestiones-full-height::-webkit-scrollbar-thumb:hover {
+    background-color: #d87a1f;
+}
+
+/* Estilos específicos para las filas de los niños activos */
+.grid-item-gestiones-full-height .full-height-table-activos tbody tr {
+    height: 70px; /* Ajustar la altura de las filas */
+    background-color: #E0E3E6;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px; /* Espacio entre las filas */
+    flex-direction: column; /* Alinear elementos en columna */
+}
+
+.grid-item-gestiones-full-height .full-height-table-activos tbody tr td {
+    border: none; /* Eliminar bordes de las celdas */
+    padding: 10px; /* Añadir padding a las celdas */
+    width: 100%; /* Asegurar que el td ocupe todo el ancho */
+    text-align: center; /* Centrar el texto */
+    display: flex;
+    flex-direction: column; /* Alinear elementos en columna */
+    align-items: center; /* Centrar elementos horizontalmente */
+    justify-content: center; /* Centrar elementos verticalmente */
+}
+
+.grid-item-gestiones-full-height .full-height-table-activos tbody tr .nombre-apellido {
+    margin-bottom: 10px; /* Espacio entre el nombre/apellido y los botones */
+    font-weight: bold; /* Hacer el texto en negrita */
+}
+
+.grid-item-gestiones-full-height .full-height-table-activos tbody tr .botones {
+    display: flex;
+    gap: 10px; /* Espacio entre los botones */
+}
+
+.grid-item-gestiones-full-height .full-height-table-activos tbody tr .botones button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 12px;
+}
+
+.grid-item-gestiones-full-height .full-height-table-activos tbody tr .boton-editar {
+    background-color: #56B848;
+}
+
+.grid-item-gestiones-full-height .full-height-table-activos tbody tr .boton-editar:hover {
+    background-color: #4ca03e;
+}
+
+.grid-item-gestiones-full-height .full-height-table-activos tbody tr .boton-info {
+    background-color: #F89728;
+}
+
+.grid-item-gestiones-full-height .full-height-table-activos tbody tr .boton-info:hover {
+    background-color: #e07a1f;
+}
+
+.grid-item-gestiones-full-height .full-height-table-activos tbody tr .boton-baja {
+    background-color: #EF5948;
+}
+
+.grid-item-gestiones-full-height .full-height-table-activos tbody tr .boton-baja:hover {
+    background-color: #d94a3e;
+}
+
+/* Estilos específicos para las filas de los niños inactivos */
+.grid-item-gestiones-full-height .full-height-table-inactivos tbody tr {
+    height: 70px; /* Ajustar la altura de las filas */
+    background-color: #E0E3E6;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px; /* Espacio entre las filas */
+    flex-direction: column; /* Alinear elementos en columna */
+}
+
+.grid-item-gestiones-full-height .full-height-table-inactivos tbody tr td {
+    border: none; /* Eliminar bordes de las celdas */
+    padding: 10px; /* Añadir padding a las celdas */
+    width: 100%; /* Asegurar que el td ocupe todo el ancho */
+    text-align: center; /* Centrar el texto */
+    display: flex;
+    flex-direction: column; /* Alinear elementos en columna */
+    align-items: center; /* Centrar elementos horizontalmente */
+    justify-content: center; /* Centrar elementos verticalmente */
+}
+
+.grid-item-gestiones-full-height .full-height-table-inactivos tbody tr .nombre-apellido {
+    margin-bottom: 10px; /* Espacio entre el nombre/apellido y los botones */
+    font-weight: bold; /* Hacer el texto en negrita */
+}
+
+.grid-item-gestiones-full-height .full-height-table-inactivos tbody tr .botones {
+    display: flex;
+    gap: 10px; /* Espacio entre los botones */
+}
+
+.grid-item-gestiones-full-height .full-height-table-inactivos tbody tr .botones button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 12px;
+}
+
+.grid-item-gestiones-full-height .full-height-table-inactivos tbody tr .boton-alta {
+    background-color: #56B848;
+}
+
+.grid-item-gestiones-full-height .full-height-table-inactivos tbody tr .boton-alta:hover {
+    background-color: #4ca03e;
+}
+
+.grid-item-gestiones-full-height .full-height-table-inactivos tbody tr .boton-info {
+    background-color: #F89728;
+}
+
+.grid-item-gestiones-full-height .full-height-table-inactivos tbody tr .boton-info:hover {
+    background-color: #e07a1f;
+}
+
+.grid-item-gestiones-full-height .full-height-table-inactivos tbody tr .boton-eliminar {
+    background-color: #EF5948;
+}
+
+.grid-item-gestiones-full-height .full-height-table-inactivos tbody tr .boton-eliminar:hover {
+    background-color: #d94a3e;
+}
+
+/* Estilos para el scrollbar */
+.grid-item-gestiones-full-height {
+    overflow-y: auto; /* Añadir scroll vertical */
+}
+
+.grid-item-gestiones-full-height::-webkit-scrollbar {
+    width: 12px;
+}
+
+.grid-item-gestiones-full-height::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.grid-item-gestiones-full-height::-webkit-scrollbar-thumb {
+    background-color: #F89728; /* Color del scrollbar */
+    border-radius: 10px;
+    border: 3px solid #f1f1f1;
+}
+
+.grid-item-gestiones-full-height::-webkit-scrollbar-thumb:hover {
+    background-color: #d87a1f;
 }
 

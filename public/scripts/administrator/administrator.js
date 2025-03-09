@@ -1,5 +1,4 @@
 // Función para obtener los datos del administrador
-
 function obtenerDatosAdministrator() {
     fetch('../../mvc/controllers/administrator/usuario.php', {
         method: 'GET',
@@ -88,7 +87,6 @@ function actualizarFotoPerfil() {
 }
 
 // Función para traer las notificaciones de la base de datos
-
 function obtenerNotificaciones() {
     fetch('../../mvc/controllers/administrator/notificaciones.php', {
         method: 'GET',
@@ -363,42 +361,120 @@ function validarCorreo() {
     }
 }
 
+// Función para obtener los niños activos y llenar la tabla
+function obtenerNinosActivos() {
+    fetch('../../mvc/controllers/administrator/obtener_ninos_activos.php', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Respuesta del servidor (activos):', data); // Log para verificar la respuesta
+        if (data.status === "success") {
+            const tbody = document.querySelector('.full-height-table-activos tbody');
+            if (!tbody) {
+                console.error('No se encontró el elemento tbody para la tabla de niños activos');
+                return;
+            }
+            tbody.innerHTML = ''; // Limpiar la tabla antes de llenarla
+
+            data.ninos.forEach(nino => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <div class="nombre-apellido">${nino.nombre} ${nino.apellido}</div>
+                        <div class="botones">
+                            <button class="boton-editar">Editar Grupo</button>
+                            <button class="boton-info">Información</button>
+                            <button class="boton-baja">Dar de Baja</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        } else {
+            console.error('Error:', data.message);
+        }
+    })
+    .catch(error => {
+        console.log('Error en la solicitud:', error);
+        alert('Error al obtener los niños activos');
+    });
+}
+
+// Función para obtener los niños inactivos y llenar la tabla
+function obtenerNinosInactivos() {
+    fetch('../../mvc/controllers/administrator/obtener_ninos_inactivos.php', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Respuesta del servidor (inactivos):', data); // Log para verificar la respuesta
+        if (data.status === "success") {
+            const tbody = document.querySelector('.full-height-table-inactivos tbody');
+            if (!tbody) {
+                console.error('No se encontró el elemento tbody para la tabla de niños inactivos');
+                return;
+            }
+            tbody.innerHTML = ''; // Limpiar la tabla antes de llenarla
+
+            data.ninos.forEach(nino => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <div class="nombre-apellido">${nino.nombre} ${nino.apellido}</div>
+                        <div class="botones">
+                            <button class="boton-alta">Dar de Alta</button>
+                            <button class="boton-info">Información</button>
+                            <button class="boton-eliminar">Eliminar</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        } else {
+            console.error('Error:', data.message);
+        }
+    })
+    .catch(error => {
+        console.log('Error en la solicitud:', error);
+        alert('Error al obtener los niños inactivos');
+    });
+}
+
 // Llamar a las funciones cuando se cargue la página
 document.addEventListener('DOMContentLoaded', function() {
     obtenerDatosAdministrator();
     actualizarFotoPerfil();
     obtenerNotificaciones();
+    obtenerNinosActivos(); // Llamar a la función para obtener los niños activos
+    obtenerNinosInactivos(); // Llamar a la función para obtener los niños inactivos
 
     // Agregar evento al botón "Editar información"
     const editInfoButton = document.querySelector('.edit-info-btn');
-    editInfoButton.addEventListener('click', abrirModalEditarPerfil);
+    editInfoButton.addEventListener('click', function() {
+        abrirModalEditarPerfil();
+    });
 
-    const nombreInput = document.getElementById('edit-nombre-profile');
-    const apellidoInput = document.getElementById('edit-apellido-profile');
-    const dniInput = document.getElementById('edit-dni-profile');
-    const telefonoInput = document.getElementById('edit-telefono-profile');
-    const correoInput = document.getElementById('edit-correo-profile');
-
-    nombreInput.addEventListener('blur', validarNombre);
-    apellidoInput.addEventListener('blur', validarApellido);
-    dniInput.addEventListener('blur', validarDNI);
-    telefonoInput.addEventListener('blur', validarTelefono);
-    correoInput.addEventListener('blur', validarCorreo);
-
-    // Validar todos los campos al enviar el formulario
+    // Validar y enviar el formulario de edición de perfil
     const formEditarPerfil = document.getElementById('form-editar-perfil');
     formEditarPerfil.addEventListener('submit', function(event) {
-        const esNombreValido = validarNombre();
-        const esApellidoValido = validarApellido();
-        const esDNIValido = validarDNI();
-        const esTelefonoValido = validarTelefono();
-        const esCorreoValido = validarCorreo();
+        event.preventDefault(); // Evitar el envío del formulario
 
-        if (!esNombreValido || !esApellidoValido || !esDNIValido || !esTelefonoValido || !esCorreoValido) {
-            event.preventDefault(); // Evitar el envío del formulario si hay errores
-        } else {
-            // Enviar el formulario usando fetch
-            event.preventDefault(); // Evitar el envío del formulario por defecto
+        // Validar los campos del formulario
+        const nombreValido = validarNombre();
+        const apellidoValido = validarApellido();
+        const dniValido = validarDNI();
+        const telefonoValido = validarTelefono();
+        const correoValido = validarCorreo();
+
+        if (nombreValido && apellidoValido && dniValido && telefonoValido && correoValido) {
+            // Enviar el formulario si todos los campos son válidos
             const formData = new FormData(formEditarPerfil);
 
             fetch('../../mvc/controllers/administrator/actualizar_perfil.php', {
