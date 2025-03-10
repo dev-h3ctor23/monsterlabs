@@ -204,6 +204,26 @@ function mostrarPopupExito(mensaje) {
     }, 1500);
 }
 
+// Función para mostrar el pop-up de confirmación
+function mostrarPopupConfirmacion(mensaje) {
+    const popup = document.getElementById('popup-confirmation');
+    const popupMessage = document.getElementById('popup-message');
+
+    popupMessage.textContent = mensaje;
+    popup.style.display = 'block'; // Asegurarse de que el pop-up esté visible
+    popup.classList.add('show');
+
+    setTimeout(() => {
+        popup.classList.remove('show');
+        popup.classList.add('hide');
+    }, 1500); // Ocultar el pop-up después de 1.5 segundos
+
+    setTimeout(() => {
+        popup.style.display = 'none'; // Ocultar completamente el pop-up
+        popup.classList.remove('hide');
+    }, 2000); // Esperar a que la animación termine antes de ocultar completamente
+}
+
 // Función para abrir el modal de editar perfil
 function abrirModalEditarPerfil() {
     const modalOverlayProfile = document.querySelector('.modal-overlay-profile');
@@ -361,6 +381,70 @@ function validarCorreo() {
     }
 }
 
+// Función común para abrir el modal de información
+function abrirModalInfo(idNino) {
+    const modalOverlayInfo = document.querySelector('.modal-overlay-info');
+    const infoContent = document.getElementById('info-content');
+
+    // Limpiar el contenido antes de llenarlo
+    infoContent.innerHTML = '';
+
+    // Obtener los datos del niño
+    fetch(`../../mvc/controllers/administrator/obtener_info_nino.php?id=${idNino}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            const nino = data.nino;
+            const padre = data.padre;
+            const grupo = data.grupo;
+            const fichaMedica = data.fichaMedica;
+            const guardian = data.guardian;
+
+            infoContent.innerHTML = `
+                <p><strong>Nombre:</strong> ${nino.nombre} ${nino.apellido}</p>
+                <p><strong>Fecha de Nacimiento:</strong> ${nino.fecha_nacimiento}</p>
+                <p><strong>Periodo:</strong> ${nino.periodo}</p>
+                <p><strong>Estado:</strong> ${nino.estado}</p>
+                <p><strong>Grupo:</strong> ${grupo ? grupo.nombre_grupo : 'Sin grupo'}</p>
+                <p><strong>Nombre del Padre:</strong> ${padre.nombre} ${padre.apellido}</p>
+                <p><strong>Teléfono del Padre:</strong> ${padre.numero_telefono}</p>
+                <p><strong>Alimentos Alérgicos:</strong> ${fichaMedica.alimentos_alergico}</p>
+                <p><strong>Medicamentos Alérgicos:</strong> ${fichaMedica.medicamentos_alergico}</p>
+                <p><strong>Medicamentos Actuales:</strong> ${fichaMedica.medicamentos_actuales}</p>
+                <p><strong>Guardian:</strong> ${guardian.nombre} ${guardian.apellido}</p>
+                <p><strong>Relación:</strong> ${guardian.relacion}</p>
+            `;
+        } else {
+            alert(data.message); // Mostrar el mensaje de error del servidor
+        }
+    })
+    .catch(error => {
+        console.log('Error en la solicitud:', error);
+        alert('Error al obtener la información del niño');
+    });
+
+    modalOverlayInfo.classList.add('active');
+
+    document.querySelector('.btn-close-info').onclick = function() {
+        modalOverlayInfo.classList.remove('active');
+    };
+}
+
+// Función específica para abrir el modal de información de niños activos
+function abrirModalInfoActivos(idNino) {
+    abrirModalInfo(idNino);
+}
+
+// Función específica para abrir el modal de información de niños inactivos
+function abrirModalInfoInactivos(idNino) {
+    abrirModalInfo(idNino);
+}
+
 // Función para obtener los niños activos y llenar la tabla
 function obtenerNinosActivos() {
     fetch('../../mvc/controllers/administrator/obtener_ninos_activos.php', {
@@ -386,13 +470,37 @@ function obtenerNinosActivos() {
                     <td>
                         <div class="nombre-apellido">${nino.nombre} ${nino.apellido}</div>
                         <div class="botones">
-                            <button class="boton-editar">Editar Grupo</button>
-                            <button class="boton-info">Información</button>
-                            <button class="boton-baja">Dar de Baja</button>
+                            <button class="boton-editar" data-id="${nino.id_nino}">Editar Grupo</button>
+                            <button class="boton-info" data-id="${nino.id_nino}">Información</button>
+                            <button class="boton-baja" data-id="${nino.id_nino}">Dar de Baja</button>
                         </div>
                     </td>
                 `;
                 tbody.appendChild(tr);
+            });
+
+            // Añadir evento de clic a los botones "Editar Grupo"
+            document.querySelectorAll('.boton-editar').forEach(button => {
+                button.addEventListener('click', function() {
+                    const idNino = this.getAttribute('data-id');
+                    abrirModalEditarGrupo(idNino);
+                });
+            });
+
+            // Añadir evento de clic a los botones "Información"
+            document.querySelectorAll('.boton-info').forEach(button => {
+                button.addEventListener('click', function() {
+                    const idNino = this.getAttribute('data-id');
+                    abrirModalInfoActivos(idNino);
+                });
+            });
+
+            // Añadir evento de clic a los botones "Dar de Baja"
+            document.querySelectorAll('.boton-baja').forEach(button => {
+                button.addEventListener('click', function() {
+                    const idNino = this.getAttribute('data-id');
+                    abrirModalBaja(idNino);
+                });
             });
         } else {
             console.error('Error:', data.message);
@@ -429,13 +537,37 @@ function obtenerNinosInactivos() {
                     <td>
                         <div class="nombre-apellido">${nino.nombre} ${nino.apellido}</div>
                         <div class="botones">
-                            <button class="boton-alta">Dar de Alta</button>
-                            <button class="boton-info">Información</button>
-                            <button class="boton-eliminar">Eliminar</button>
+                            <button class="boton-alta" data-id="${nino.id_nino}">Dar de Alta</button>
+                            <button class="boton-info" data-id="${nino.id_nino}">Información</button>
+                            <button class="boton-eliminar" data-id="${nino.id_nino}">Eliminar</button>
                         </div>
                     </td>
                 `;
                 tbody.appendChild(tr);
+            });
+
+            // Añadir evento de clic a los botones "Dar de Alta"
+            document.querySelectorAll('.boton-alta').forEach(button => {
+                button.addEventListener('click', function() {
+                    const idNino = this.getAttribute('data-id');
+                    abrirModalAlta(idNino);
+                });
+            });
+
+            // Añadir evento de clic a los botones "Información"
+            document.querySelectorAll('.boton-info').forEach(button => {
+                button.addEventListener('click', function() {
+                    const idNino = this.getAttribute('data-id');
+                    abrirModalInfoInactivos(idNino);
+                });
+            });
+
+            // Añadir evento de clic a los botones "Eliminar"
+            document.querySelectorAll('.boton-eliminar').forEach(button => {
+                button.addEventListener('click', function() {
+                    const idNino = this.getAttribute('data-id');
+                    abrirModalEliminar(idNino);
+                });
             });
         } else {
             console.error('Error:', data.message);
@@ -444,6 +576,197 @@ function obtenerNinosInactivos() {
     .catch(error => {
         console.log('Error en la solicitud:', error);
         alert('Error al obtener los niños inactivos');
+    });
+}
+
+// Función para abrir el modal de dar de baja
+function abrirModalBaja(idNino) {
+    const modalOverlayBaja = document.querySelector('.modal-overlay-baja');
+    const btnConfirmarBaja = document.querySelector('.btn-confirmar-baja');
+
+    modalOverlayBaja.style.display = 'flex'; // Mostrar el modal
+
+    btnConfirmarBaja.onclick = function() {
+        darDeBajaNino(idNino);
+        modalOverlayBaja.style.display = 'none'; // Ocultar el modal
+    };
+
+    document.querySelector('.btn-close-baja').onclick = function() {
+        modalOverlayBaja.style.display = 'none'; // Ocultar el modal
+    };
+}
+
+// Función para dar de baja a un niño
+function darDeBajaNino(idNino) {
+    fetch(`../../mvc/controllers/administrator/dar_de_baja_nino.php?id=${idNino}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            obtenerNinosActivos(); // Actualizar la tabla de niños activos
+            obtenerNinosInactivos(); // Actualizar la tabla de niños inactivos
+        } else {
+            alert(data.message); // Mostrar el mensaje de error del servidor
+        }
+    })
+    .catch(error => {
+        console.log('Error en la solicitud:', error);
+        alert('Error al dar de baja al niño');
+    });
+}
+
+// Función para abrir el modal de dar de alta
+function abrirModalAlta(idNino) {
+    const modalOverlayAlta = document.querySelector('.modal-overlay-alta');
+    const btnConfirmarAlta = document.querySelector('.btn-confirmar-alta');
+
+    modalOverlayAlta.classList.add('active');
+
+    btnConfirmarAlta.onclick = function() {
+        darDeAltaNino(idNino);
+        modalOverlayAlta.classList.remove('active');
+    };
+
+    document.querySelector('.btn-close-alta').onclick = function() {
+        modalOverlayAlta.classList.remove('active');
+    };
+}
+
+// Función para dar de alta a un niño
+function darDeAltaNino(idNino) {
+    fetch(`../../mvc/controllers/administrator/dar_de_alta_nino.php?id=${idNino}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            obtenerNinosActivos(); // Actualizar la tabla de niños activos
+            obtenerNinosInactivos(); // Actualizar la tabla de niños inactivos
+        } else {
+            alert(data.message); // Mostrar el mensaje de error del servidor
+        }
+    })
+    .catch(error => {
+        console.log('Error en la solicitud:', error);
+        alert('Error al dar de alta al niño');
+    });
+}
+
+// Función para abrir el modal de eliminar
+function abrirModalEliminar(idNino) {
+    const modalOverlayEliminar = document.querySelector('.modal-overlay-eliminar');
+    const btnConfirmarEliminar = document.querySelector('.btn-confirmar-eliminar');
+
+    modalOverlayEliminar.classList.add('active');
+
+    btnConfirmarEliminar.onclick = function() {
+        eliminarNino(idNino);
+        modalOverlayEliminar.classList.remove('active');
+    };
+
+    document.querySelector('.btn-close-eliminar').onclick = function() {
+        modalOverlayEliminar.classList.remove('active');
+    };
+}
+
+// Función para eliminar a un niño
+function eliminarNino(idNino) {
+    fetch(`../../mvc/controllers/administrator/eliminar_nino.php?id=${idNino}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            obtenerNinosActivos(); // Actualizar la tabla de niños activos
+            obtenerNinosInactivos(); // Actualizar la tabla de niños inactivos
+        } else {
+            alert(data.message); // Mostrar el mensaje de error del servidor
+        }
+    })
+    .catch(error => {
+        console.log('Error en la solicitud:', error);
+        alert('Error al eliminar al niño');
+    });
+}
+
+// Función para abrir el modal de editar grupo
+function abrirModalEditarGrupo(idNino) {
+    const modalOverlayEditarGrupo = document.querySelector('.modal-overlay-editar-grupo');
+    const btnConfirmarEditarGrupo = document.querySelector('.btn-confirmar-editar-grupo');
+    const selectGrupo = document.getElementById('select-grupo');
+
+    // Limpiar el select antes de llenarlo
+    selectGrupo.innerHTML = '';
+
+    // Obtener los grupos disponibles
+    fetch('../../mvc/controllers/administrator/obtener_grupos.php', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            data.grupos.forEach(grupo => {
+                const option = document.createElement('option');
+                option.value = grupo.id_grupo;
+                option.textContent = grupo.nombre_grupo;
+                selectGrupo.appendChild(option);
+            });
+        } else {
+            alert(data.message); // Mostrar el mensaje de error del servidor
+        }
+    })
+    .catch(error => {
+        console.log('Error en la solicitud:', error);
+        alert('Error al obtener los grupos');
+    });
+
+    modalOverlayEditarGrupo.classList.add('active');
+
+    btnConfirmarEditarGrupo.onclick = function() {
+        const idGrupoSeleccionado = selectGrupo.value;
+        const nombreGrupoSeleccionado = selectGrupo.options[selectGrupo.selectedIndex].text;
+        editarGrupoNino(idNino, idGrupoSeleccionado, nombreGrupoSeleccionado);
+        modalOverlayEditarGrupo.classList.remove('active');
+    };
+
+    document.querySelector('.btn-close-editar-grupo').onclick = function() {
+        modalOverlayEditarGrupo.classList.remove('active');
+    };
+}
+
+// Función para editar el grupo de un niño
+function editarGrupoNino(idNino, idGrupo, nombreGrupo) {
+    fetch(`../../mvc/controllers/administrator/editar_grupo_nino.php?id=${idNino}&grupo=${idGrupo}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            obtenerNinosActivos(); // Actualizar la tabla de niños activos
+            mostrarPopupConfirmacion(`Campista asignado al grupo ${nombreGrupo}`);
+        } else {
+            alert(data.message); // Mostrar el mensaje de error del servidor
+        }
+    })
+    .catch(error => {
+        console.log('Error en la solicitud:', error);
+        alert('Error al editar el grupo del niño');
     });
 }
 

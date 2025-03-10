@@ -4,7 +4,7 @@ require_once(__DIR__ . '/../../../config/conn.php');
 
 header("Content-Type: application/json");
 
-$sql = "SELECT nombre, apellido FROM Nino WHERE estado = 'activo'";
+$sql = "SELECT id_nino, nombre, apellido, fecha_nacimiento, periodo, estado FROM Nino WHERE estado = 'activo'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

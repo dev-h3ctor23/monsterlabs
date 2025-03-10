@@ -771,3 +771,357 @@ html, body {
     background-color: #d87a1f;
 }
 
+/* Estilos para el modal de dar de baja */
+.modal-overlay-baja {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none; /* Ocultar el modal inicialmente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay-baja.active {
+    display: flex; /* Mostrar el modal cuando esté activo */
+}
+
+.modal-baja {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+}
+
+.modal-baja h2 {
+    margin-bottom: 10px;
+}
+
+.modal-baja p {
+    margin-bottom: 20px;
+}
+
+.btn-container-baja {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-baja {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-close-baja {
+    background: #ccc;
+}
+
+.btn-close-baja:hover {
+    background: #bbb;
+}
+
+.btn-confirmar-baja {
+    background: #d9534f;
+    color: #fff;
+}
+
+.btn-confirmar-baja:hover {
+    background: #c9302c;
+}
+
+/* Estilos para el modal de dar de alta */
+.modal-overlay-alta {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none; /* Ocultar el modal inicialmente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay-alta.active {
+    display: flex; /* Mostrar el modal cuando esté activo */
+}
+
+.modal-alta {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+}
+
+.modal-alta h2 {
+    margin-bottom: 10px;
+}
+
+.modal-alta p {
+    margin-bottom: 20px;
+}
+
+.btn-container-alta {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-alta {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-close-alta {
+    background: #ccc;
+}
+
+.btn-close-alta:hover {
+    background: #bbb;
+}
+
+.btn-confirmar-alta {
+    background: #5cb85c;
+    color: #fff;
+}
+
+.btn-confirmar-alta:hover {
+    background: #4cae4c;
+}
+
+/* Estilos para el modal de eliminar */
+.modal-overlay-eliminar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none; /* Ocultar el modal inicialmente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay-eliminar.active {
+    display: flex; /* Mostrar el modal cuando esté activo */
+}
+
+.modal-eliminar {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+}
+
+.modal-eliminar h2 {
+    margin-bottom: 10px;
+}
+
+.modal-eliminar p {
+    margin-bottom: 20px;
+}
+
+.btn-container-eliminar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-eliminar {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-close-eliminar {
+    background: #ccc;
+}
+
+.btn-close-eliminar:hover {
+    background: #bbb;
+}
+
+.btn-confirmar-eliminar {
+    background: #d9534f;
+    color: #fff;
+}
+
+.btn-confirmar-eliminar:hover {
+    background: #c9302c;
+}
+
+/* Estilos para el modal de editar grupo */
+.modal-overlay-editar-grupo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none; /* Ocultar el modal inicialmente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay-editar-grupo.active {
+    display: flex; /* Mostrar el modal cuando esté activo */
+}
+
+.modal-editar-grupo {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+}
+
+.modal-editar-grupo h2 {
+    margin-bottom: 10px;
+}
+
+.modal-editar-grupo p {
+    margin-bottom: 20px;
+}
+
+.modal-editar-grupo select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-container-editar-grupo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-editar-grupo {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-close-editar-grupo {
+    background: #ccc;
+}
+
+.btn-close-editar-grupo:hover {
+    background: #bbb;
+}
+
+.btn-confirmar-editar-grupo {
+    background: #5cb85c;
+    color: #fff;
+}
+
+.btn-confirmar-editar-grupo:hover {
+    background: #4cae4c;
+}
+
+/* Estilos para el pop-up de confirmación */
+.popup-confirmation {
+    font-size: 12px;
+    position: fixed;
+    top: -50px; /* Inicialmente fuera de la vista */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #5cb85c;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: none; /* Ocultar el pop-up inicialmente */
+    z-index: 1000;
+    transition: top 0.5s ease, opacity 0.5s ease;
+}
+
+.popup-confirmation.show {
+    display: block; /* Mostrar el pop-up cuando esté activo */
+    top: 65px; /* Posición final del pop-up */
+    opacity: 1;
+}
+
+.popup-confirmation.hide {
+    opacity: 0;
+}
+
+/* Estilos para el modal de información */
+.modal-overlay-info {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none; /* Ocultar el modal inicialmente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay-info.active {
+    display: flex; /* Mostrar el modal cuando esté activo */
+}
+
+.modal-info {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    max-width: 90%;
+    text-align: left;
+}
+
+.modal-info h2 {
+    margin-bottom: 10px;
+}
+
+.modal-info #info-content {
+    margin-bottom: 20px;
+}
+
+.btn-container-info {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-info {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-close-info {
+    background: #ccc;
+}
+
+.btn-close-info:hover {
+    background: #bbb;
+}
+

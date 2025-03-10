@@ -177,6 +177,70 @@
                     <button type="button" class="btn-delete btn-delete-all">Eliminar</button>
                 </div>
             </div>
+        </div>
+        <!-- Modal para dar de baja a un niño -->
+        <div class="modal-overlay-baja">
+            <div class="modal-baja">
+                <h2>Dar de Baja</h2>
+                <p>¿Estás seguro de que deseas dar de baja a este niño?</p>
+                <div class="btn-container-baja">
+                    <button type="button" class="btn-baja btn-close-baja">Cancelar</button>
+                    <button type="button" class="btn-baja btn-confirmar-baja">Confirmar</button>
+                </div>
+            </div>
+        </div>
+        <!-- Modal para dar de alta a un niño -->
+        <div class="modal-overlay-alta">
+            <div class="modal-alta">
+                <h2>Dar de Alta</h2>
+                <p>¿Estás seguro de que deseas dar de alta a este niño?</p>
+                <div class="btn-container-alta">
+                    <button type="button" class="btn-alta btn-close-alta">Cancelar</button>
+                    <button type="button" class="btn-alta btn-confirmar-alta">Confirmar</button>
+                </div>
+            </div>
+        </div>
+        <!-- Modal para eliminar a un niño -->
+        <div class="modal-overlay-eliminar">
+            <div class="modal-eliminar">
+                <h2>Eliminar Niño</h2>
+                <p>¿Estás seguro de que deseas eliminar a este niño?</p>
+                <div class="btn-container-eliminar">
+                    <button type="button" class="btn-eliminar btn-close-eliminar">Cancelar</button>
+                    <button type="button" class="btn-eliminar btn-confirmar-eliminar">Confirmar</button>
+                </div>
+            </div>
+        </div>
+        <!-- Modal para editar el grupo de un niño -->
+        <div class="modal-overlay-editar-grupo">
+            <div class="modal-editar-grupo">
+                <h2>Editar Grupo</h2>
+                <p>Selecciona el nuevo grupo para el niño:</p>
+                <select id="select-grupo">
+                    <!-- Opciones de grupos se llenarán dinámicamente -->
+                </select>
+                <div class="btn-container-editar-grupo">
+                    <button type="button" class="btn-editar-grupo btn-close-editar-grupo">Cancelar</button>
+                    <button type="button" class="btn-editar-grupo btn-confirmar-editar-grupo">Confirmar</button>
+                </div>
+            </div>
+        </div>
+        <!-- Modal para mostrar información del niño -->
+        <div class="modal-overlay-info">
+            <div class="modal-info">
+                <h2>Información del Niño</h2>
+                <div id="info-content">
+                    <!-- Aquí se llenarán los datos del niño -->
+                </div>
+                <div class="btn-container-info">
+                    <button type="button" class="btn-info btn-close-info">Cerrar</button>
+                </div>
+            </div>
+        </div>
+        <!-- Pop-up de confirmación -->
+        <div id="popup-confirmation" class="popup-confirmation">
+            <span id="popup-message"></span>
+        </div>
     </div>
 </body>
 </html>
