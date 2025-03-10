@@ -16,6 +16,8 @@ window.addEventListener('pageshow', function (event) {
   }
 });
 
+
+
 // Cargar el componente sidebar
 fetch('../../components/sidebar-tutor.html')
   .then(response => response.text())
@@ -43,6 +45,10 @@ fetch('../../components/sidebar-tutor.html')
     });
   })
   .catch(error => console.error('Error al cargar el componente:', error));
+
+
+  
+
 
 // Función para eliminar un hijo
 function deleteChild(childId) {
@@ -74,7 +80,7 @@ function deleteChild(childId) {
 }
 
 // Delegación de eventos para la edición y eliminación inline de hijos
-document.addEventListener('DOMContentLoaded', function() {
+/*document.addEventListener('DOMContentLoaded', function() {
   // Asignar listener al <tbody> de la tabla de hijos
   const hijosTableBody = document.querySelector("#infoHijos tbody");
   if (hijosTableBody) {
@@ -117,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
           updatedChild.id_nino = childId;
           updatedChild.action = 'updateChild';
           // Enviar la actualización al servidor
-          fetch("../../mvc/controllers/tutor.php", {
+          fetch("/monsterlabs/mvc/controllers/tutor.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedChild)
@@ -145,6 +151,181 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+*/
+
+// Función para abrir el modal y rellenar sus campos con los datos actuales
+
+// Función para abrir el modal y rellenar sus campos con los datos actuales
+function abrirModalEdicion(childId, row) {
+  // Extraer los datos básicos del niño desde las celdas de la fila
+  const nombre = row.querySelector('td[data-field="nombre"]').textContent.trim();
+  const apellido = row.querySelector('td[data-field="apellido"]').textContent.trim();
+  const fechaNacimiento = row.querySelector('td[data-field="fecha_nacimiento"]').textContent.trim();
+  
+  // Rellenar los inputs con los datos básicos
+  document.getElementById('input-nombre-hijo').value = nombre;
+  document.getElementById('input-apellidos-hijo').value = apellido;
+  document.getElementById('input-fecha-nacimiento').value = fechaNacimiento;
+  
+  // Rellenar los inputs adicionales usando atributos data-*
+  document.getElementById('input-alergia-alimentos').value = row.dataset.alergiaAlimentos || '';
+  document.getElementById('input-alergia-medicamentos').value = row.dataset.alergiaMedicamentos || '';
+  document.getElementById('input-medicamento-actual').value = row.dataset.medicamentoActual || '';
+  
+  document.getElementById('input-dni-guardian').value = row.dataset.dniGuardian || '';
+  document.getElementById('input-nombre-guardian').value = row.dataset.nombreGuardian || '';
+  document.getElementById('input-apellidos-guardian').value = row.dataset.apellidosGuardian || '';
+  document.getElementById('input-telefono-guardian').value = row.dataset.telefonoGuardian || '';
+  document.getElementById('input-relacion-guardian').value = row.dataset.relacionGuardian || '';
+  
+  // Guardar el ID del niño en un campo oculto
+  document.getElementById('input-id-hijo').value = childId;
+  
+  // Mostrar el modal
+  document.getElementById('modal-edit-hijo').style.display = 'flex';
+}
+
+// Manejo de eventos al cargar el DOM
+document.addEventListener('DOMContentLoaded', function() {
+  // Delegar evento de clic en los botones "Editar" de la tabla
+  const hijosTableBody = document.querySelector("#infoHijos tbody");
+  if (hijosTableBody) {
+    hijosTableBody.addEventListener('click', function(e) {
+      const target = e.target;
+      if (target.classList.contains('btnEditarHijo')) {
+        e.preventDefault();
+        const row = target.closest('tr[data-child-id]');
+        if (!row) return;
+        const childId = row.getAttribute('data-child-id');
+        abrirModalEdicion(childId, row);
+      }
+    });
+  }
+  
+  // Cerrar el modal al hacer clic en la cruz
+  document.getElementById('btn-cerrar-modal').addEventListener('click', function() {
+    document.getElementById('modal-edit-hijo').style.display = 'none';
+  });
+  
+  // Cerrar el modal al hacer clic en el botón "Cancelar"
+  document.getElementById('btn-cancelar-edit').addEventListener('click', function() {
+    document.getElementById('modal-edit-hijo').style.display = 'none';
+  });
+  
+  // Manejar el envío del formulario del modal
+  document.getElementById('form-editar-hijo').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const data = {
+      action: 'updateChildFull',
+      id_nino: document.getElementById('input-id-hijo').value,
+      nombre: document.getElementById('input-nombre-hijo').value,
+      apellido: document.getElementById('input-apellidos-hijo').value,
+      fecha_nacimiento: document.getElementById('input-fecha-nacimiento').value,
+      alimentos_alergico: document.getElementById('input-alergia-alimentos').value,
+      medicamentos_alergico: document.getElementById('input-alergia-medicamentos').value,
+      medicamentos_actuales: document.getElementById('input-medicamento-actual').value,
+      dni_guardian: document.getElementById('input-dni-guardian').value,
+      guardian_nombre: document.getElementById('input-nombre-guardian').value,
+      guardian_apellido: document.getElementById('input-apellidos-guardian').value,
+      telefono_guardian: document.getElementById('input-telefono-guardian').value,
+      relacion_guardian: document.getElementById('input-relacion-guardian').value
+    };
+
+    console.log("Linea 234 = "+ data)
+    
+    fetch('../../mvc/controllers/tutor.php', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+      if (result.status === "success") {
+        // Actualizar la fila de la tabla con los nuevos datos
+        const row = document.querySelector(`tr[data-child-id="${data.id_nino}"]`);
+        console.log(9) 
+        if (row) {
+          row.querySelector('td[data-field="nombre"]').textContent = data.nombre;
+          row.querySelector('td[data-field="apellido"]').textContent = data.apellido;
+          row.querySelector('td[data-field="fecha_nacimiento"]').textContent = data.fecha_nacimiento;
+          row.dataset.alergiaAlimentos = data.alimentos_alergico;
+          row.dataset.alergiaMedicamentos = data.medicamentos_alergico;
+          row.dataset.medicamentoActual = data.medicamentos_actuales;
+          row.dataset.dniGuardian = data.dni_guardian;
+          row.dataset.nombreGuardian = data.guardian_nombre;
+          row.dataset.apellidosGuardian = data.guardian_apellido;
+          row.dataset.telefonoGuardian = data.telefono_guardian;
+          row.dataset.relacionGuardian = data.relacion_guardian;
+        // Actualizar la fila de detalle (la que muestra ficha médica y guardian)
+        const detailRow = row.nextElementSibling;
+        if (detailRow && detailRow.classList.contains('detail-row')) {
+          detailRow.innerHTML = `
+            <td colspan="4">
+              <div class="detail-container">
+                <div class="ficha-medica">
+                  <strong>Ficha Médica:</strong>
+                  <table class="subtable">
+                    <tbody>
+                      <tr>
+                        <td>Alimentos:</td>
+                        <td data-field="alimento-alergico">${data.alimentos_alergico || 'NO TIENE'}</td>
+                      </tr>
+                      <tr>
+                        <td>Medicamentos alérgicos:</td>
+                        <td data-field="medicamento-alergico">${data.medicamentos_alergico || 'NO TIENE'}</td>
+                      </tr>
+                      <tr>
+                        <td>Medicamentos actuales:</td>
+                        <td data-field="medicamento-actual">${data.medicamentos_actuales || 'NO TIENE'}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="guardian">
+                  <strong>Guardian:</strong>
+                  <table class="subtable">
+                    <tbody>
+                      <tr>
+                        <td>DNI:</td>
+                        <td>${data.dni_guardian || 'NO TIENE'}</td>
+                      </tr>
+                      <tr>
+                        <td>Nombre:</td>
+                        <td>${data.guardian_nombre || 'NO TIENE'}</td>
+                      </tr>
+                      <tr>
+                        <td>Apellido:</td>
+                        <td>${data.guardian_apellido || 'NO TIENE'}</td>
+                      </tr>
+                      <tr>
+                        <td>Teléfono:</td>
+                        <td>${data.telefono_guardian || 'NO TIENE'}</td>
+                      </tr>
+                       <tr>
+                        <td>Relacion:</td>
+                        <td>${data.relacion_guardian || 'NO TIENE'}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </td>
+          `;
+        }
+      }
+      // Ocultar el modal
+      document.getElementById('modal-edit-hijo').style.display = 'none';
+      } else {
+        console.error("Error al actualizar: " + result.message);
+      }
+    })
+    .catch(error => console.error("Error en la solicitud:", error));
+  });
+});
+
+
+
+
 
 // Resto de funciones y manejo de eventos (galería, formularios, etc.)
 document.addEventListener('DOMContentLoaded', function() {
@@ -174,6 +355,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateGallery();
   }, 5000);
   
+
   // Validación para el responsable adicional
   document.getElementById("responsable-adicional").addEventListener("change", function() {
     const responsableInfo = document.getElementById("responsable-info");
@@ -251,14 +433,17 @@ document.addEventListener('DOMContentLoaded', function() {
         checkbox.value = index;
         checkbox.setAttribute("data-start", dato.start);
         checkbox.setAttribute("data-end", dato.end);
+        // Asignamos una clase para aplicar estilos
         checkbox.classList.add("custom-checkbox");
     
         const label = document.createElement("label");
         label.htmlFor = checkbox.id;
         label.textContent = dato.label;
+        // Asignamos una clase para el label
         label.classList.add("custom-label");
     
         const wrapper = document.createElement("div");
+        // Clase para el contenedor de cada opción
         wrapper.classList.add("custom-wrapper");
     
         wrapper.appendChild(checkbox);
@@ -291,6 +476,7 @@ document.addEventListener('DOMContentLoaded', function() {
       checkContainer.innerHTML = "<p class='custom-message'>Se seleccionó período trimestral: del 1 de Junio al 31 de Agosto de 2025.</p>";
     }
   }
+  
   
   periodoRadios.forEach(radio => {
     radio.addEventListener("change", function () {
@@ -394,6 +580,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+
 // Manejo del registro del padre (si el usuario ya está registrado como padre)
 document.addEventListener("DOMContentLoaded", function() {
   fetch('../../mvc/controllers/tutor.php')
@@ -405,6 +592,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Guardar globalmente la data para usar en la edición de hijos
         window.tutorData = data;
         
+
         //Se rellena los datos del padre
         document.getElementById("modal-overlay").style.display = "none";
         document.getElementById("usuario").textContent   = data.usuario.username;
@@ -419,25 +607,89 @@ document.addEventListener("DOMContentLoaded", function() {
                 profileImage.src = '../../assets/fotoUsuarios/defecto.png';
             }
 
+
         // Renderizado de la tabla de hijos (con celdas editables)
         const infoHijosTableBody = document.querySelector("#infoHijos tbody");
         infoHijosTableBody.innerHTML = "";
   
         if (data.ninos && data.ninos.length > 0) {
           data.ninos.forEach(nino => {
-            const tr = document.createElement("tr");
-            tr.setAttribute('data-child-id', nino.id_nino);
-            tr.innerHTML = `
-              <td data-field="nombre">${nino.nombre}</td>
-              <td data-field="apellido">${nino.apellido}</td>
-              <td data-field="fecha_nacimiento">${nino.fecha_nacimiento}</td>
-              <td>
-                <button class="btnEditarHijo">Editar</button>
-                <button class="btnEliminarHijo">Eliminar</button>
-              </td>
-            `;
-            infoHijosTableBody.appendChild(tr);
+            // Fila principal
+  const mainRow = document.createElement("tr");
+  mainRow.setAttribute('data-child-id', nino.id_nino);
+  mainRow.dataset.alergiaAlimentos = nino.ficha_medica ? nino.ficha_medica.alimentos_alergico : '';
+  mainRow.dataset.alergiaMedicamentos = nino.ficha_medica ? nino.ficha_medica.medicamentos_alergico : '';
+  mainRow.dataset.medicamentoActual = nino.ficha_medica ? nino.ficha_medica.medicamentos_actuales : '';
+  mainRow.dataset.dniGuardian = nino.guardian ? nino.guardian.dni_guardian : '';
+  mainRow.dataset.nombreGuardian = nino.guardian ? nino.guardian.nombre : '';
+  mainRow.dataset.apellidosGuardian = nino.guardian ? nino.guardian.apellido : '';
+  mainRow.dataset.telefonoGuardian = nino.guardian ? nino.guardian.telefono : '';
+  mainRow.innerHTML = `
+    <td data-field="nombre">${nino.nombre}</td>
+    <td data-field="apellido">${nino.apellido}</td>
+    <td data-field="fecha_nacimiento">${nino.fecha_nacimiento}</td>
+    <td>
+      <button class="btnEditarHijo">Editar</button>
+      <button class="btnEliminarHijo">Eliminar</button>
+    </td>
+  `;
+  infoHijosTableBody.appendChild(mainRow);
+  
+      // Fila detalle: Ficha Médica y Guardian
+      const detailRow = document.createElement("tr");
+      detailRow.classList.add("detail-row"); // Para aplicar estilos o comportamiento extra
+      detailRow.innerHTML = `
+      <td colspan="4">
+        <div class="detail-container">
+          <div class="ficha-medica">
+            <strong>Ficha Médica:</strong>
+            ${ nino.ficha_medica 
+              ? `<table class="subtable">
+                    <tr>
+                      <td>Alimentos:</td>
+                      <td data-field="alimento-alergico">${ nino.ficha_medica.alimentos_alergico || 'NO TIENE' }</td>
+                    </tr>
+                    <tr>
+                      <td>Medicamentos alérgicos:</td>
+                      <td data-field="medicamento-alergico">${ nino.ficha_medica.medicamentos_alergico || 'NO TIENE' }</td>
+                    </tr>
+                    <tr>
+                      <td>Medicamentos actuales:</td>
+                      <td data-field="medicamento-actual">${ nino.ficha_medica.medicamentos_actuales || 'NO TIENE' }</td>
+                    </tr>
+                  </table>`
+              : '<p>No existe Ficha Médica</p>' }
+          </div>
+          <div class="guardian">
+            <strong>Guardian:</strong>
+            ${ nino.guardian 
+              ? `<table class="subtable">
+                    <tr>
+                      <td>DNI:</td>
+                      <td>${ nino.guardian.dni_guardian }</td>
+                    </tr>
+                    <tr>
+                      <td>Nombre:</td>
+                      <td>${ nino.guardian.nombre }</td>
+                    </tr>
+                    <tr>
+                      <td>Apellido:</td>
+                      <td>${ nino.guardian.apellido }</td>
+                    </tr>
+                    <tr>
+                      <td>Teléfono:</td>
+                      <td>${ nino.guardian.telefono || 'NO TIENE' }</td>
+                    </tr>
+                  </table>`
+              : '<p>No existe Guardian</p>' }
+          </div>
+        </div>
+      </td>
+    `;
+    
+      infoHijosTableBody.appendChild(detailRow);
           });
+          
         } else {
           const tr = document.createElement("tr");
           tr.innerHTML = `<td colspan="4">No hay hijos registrados.</td>`;
@@ -471,10 +723,13 @@ document.addEventListener("DOMContentLoaded", function() {
               editable: false,
               eventLimit: true,
               eventClick: function(calEvent, jsEvent, view) {
+               // Asigna la información del evento a los elementos del modal
                 $('#modalTitle').text(event.title);
                 $('#modalBody').html(event.description || 'Sin detalles adicionales');
+                // Muestra el modal (asegúrate de que el id coincida)
                 $('#modal-actividad-calendar').modal('show');
               },
+              
               defaultDate: '2025-06-01',
               validRange: {
                 start: '2025-06-01',
@@ -491,7 +746,7 @@ document.addEventListener("DOMContentLoaded", function() {
           document.getElementById('formularioEditarUsario').style.display = 'block';
           document.getElementById('profile-card-children').style.display = 'none';
 
-          document.getElementById('inputUsuario').value         = document.getElementById('usuario').textContent;
+          
           document.getElementById('inputNombrePadre').value       = document.getElementById('nombre').textContent;
           document.getElementById('inputApellidosPadre').value    = document.getElementById('apellidos').textContent;
           document.getElementById('inputDniPadre').value          = document.getElementById('dni').textContent;
@@ -586,6 +841,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
   
+  
 // Función que asigna el listener a un botón "btn-volver"
 function agregarEventoBtnVolver(btn) {
   btn.addEventListener('click', function() {
@@ -602,10 +858,13 @@ const observer = new MutationObserver((mutationsList) => {
   mutationsList.forEach((mutation) => {
     if (mutation.type === 'childList') {
       mutation.addedNodes.forEach((node) => {
+        // Asegurarnos de que el nodo es un elemento
         if (node.nodeType === 1) {
+          // Si el nodo agregado es un botón con clase "btn-volver", asignarle el listener
           if (node.classList.contains('btn-volver')) {
             agregarEventoBtnVolver(node);
           }
+          // Si el nodo contiene elementos con la clase "btn-volver" (por ejemplo, un contenedor)
           const btns = node.querySelectorAll('.btn-volver');
           btns.forEach((btn) => {
             agregarEventoBtnVolver(btn);
@@ -624,42 +883,59 @@ document.querySelectorAll('.btn-volver').forEach((btn) => {
   agregarEventoBtnVolver(btn);
 });
 
+
 document.getElementById("btn-agregar-hijo").addEventListener("click", (event) => {
     event.preventDefault();
     console.log("Agregar hijo");
+    // Remueve la clase 'active' de todas las secciones
     document.querySelectorAll(".section").forEach(section => section.classList.remove("active"));
+    // Activa la sección inscripción
     document.getElementById("section-inscripcion").classList.add("active");
 });
 
+
+
+
 //-----------------------ACTUALIZAR FOTO ------------------------
 document.addEventListener('DOMContentLoaded', function() {
+
+    // Manejar la selección de archivos
     const fileInput = document.getElementById('fileInput');
     const editPhotoButton = document.getElementById('editPhoto');
     const profileImage = document.getElementById('profileImage');
 
+    // Abrir el selector de archivos al hacer clic en el botón
     editPhotoButton.addEventListener('click', function () {
         fileInput.click();
     });
 
+    // Manejar la selección de archivos
     fileInput.addEventListener('change', function (e) {
-        const file = e.target.files[0];
+        const file = e.target.files[0]; // Obtener el archivo seleccionado
+
         if (file) {
+            // Validar el tipo de archivo (solo imágenes JPEG o PNG)
             if (!file.type.startsWith('image/')) {
                 alert('Solo se permiten imágenes JPEG o PNG.');
-                return;
+                return; // Detener la ejecución si el tipo no es válido
             }
+
+            // Mostrar la imagen seleccionada en la página
             const reader = new FileReader();
             reader.onload = function (e) {
-                profileImage.src = e.target.result;
+                profileImage.src = e.target.result; // Actualizar la imagen de perfil
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(file); // Leer el archivo como una URL de datos
+
+            // Subir la imagen al servidor
             const formData = new FormData();
-            formData.append('foto', file);
+            formData.append('foto', file); // Agregar el archivo al FormData
+
             fetch('../../mvc/controllers/cambiar-foto-tutor.php', {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
+            .then(response => response.json()) // Convertir la respuesta a JSON
             .then(data => {
                 if (data.status === "success") {
                     console.log('Foto subida y guardada en la base de datos');
@@ -672,17 +948,24 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+
+    
+
 });
+
 
 // --------------------------CERRAR SESION----------------------------
 document.addEventListener("click", function (event) {
+  // Detectar si se hizo clic en el botón de salir
   let logoutBtn = event.target.closest("#logoutBtn");
   if (logoutBtn) {
       event.preventDefault();
+
       fetch("../../mvc/controllers/logout.php")
-          .then(response => response.json())
+          .then(response => response.json()) // Parsear la respuesta como JSON
           .then(data => {
               if (data.redirect) {
+                  // Redirigir al usuario si la respuesta indica una redirección
                   window.location.href = data.redirect;
               }
           })
