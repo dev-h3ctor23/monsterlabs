@@ -2,18 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Importante para el responsive en móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
     <link rel="stylesheet" href="../../public/styles/tutor.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css"
-    />
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
     <title>Tutor</title>
   </head>
   <body>
@@ -51,7 +43,80 @@
       </div>
     </div>
 
-    <!-- Contenedor principal -->
+    <!-- Modal para editar datos del hijo -->
+    <div id="modal-edit-hijo" class="modal-overlay" style="display: none;">
+      <div class="modal-content">
+        <!-- Botón de cierre -->
+        <span class="close-modal" id="btn-cerrar-modal">&times;</span>
+        
+        <h2>Editar Información del Niño</h2>
+        
+        <!-- Contenedor dividido en dos columnas -->
+        <div class="modal-body">
+          <!-- Columna Izquierda: Datos del niño y ficha médica -->
+          <div class="modal-column">
+            <h3>Datos del Niño</h3>
+            <form id="form-editar-hijo">
+              <label for="input-nombre-hijo">*Nombre:</label>
+              <input type="text" id="input-nombre-hijo" name="nombre-hijo">
+              
+              <label for="input-apellidos-hijo">*Apellidos:</label>
+              <input type="text" id="input-apellidos-hijo" name="apellidos-hijo">
+              
+              <label for="input-fecha-nacimiento">*Fecha de nacimiento:</label>
+              <input type="date" id="input-fecha-nacimiento" name="fecha-nacimiento">
+              
+              <h3>Ficha Médica</h3>
+              <label for="input-alergia-alimentos">Alérgico a alimentos:</label>
+              <textarea id="input-alergia-alimentos" name="alergia-alimentos" maxlength="100"></textarea>
+              
+              <label for="input-alergia-medicamentos">Alérgico a medicamentos:</label>
+              <textarea id="input-alergia-medicamentos" name="alergia-medicamentos" maxlength="100"></textarea>
+              
+              <label for="input-medicamento-actual">Medicamento actual:</label>
+              <textarea id="input-medicamento-actual" name="medicamento-actual" maxlength="100"></textarea>
+              
+              <!-- Nueva pregunta para mostrar/ocultar datos del guardian -->
+              <label for="select-responsable-editar">¿Requiere un responsable adicional en caso de emergencia?</label>
+              <select id="select-responsable-editar" name="responsable-adicional">
+                <option value="no">No</option>
+                <option value="si">Sí</option>
+              </select>
+              
+              <!-- Sección de Datos del Guardian (oculta por defecto) -->
+              <div id="guardian-section" class="hidden">
+                <h3>Datos del Guardian</h3>
+                <label for="input-dni-guardian">*DNI:</label>
+                <input type="text" id="input-dni-guardian" name="dni-guardian">
+                
+                <label for="input-nombre-guardian">*Nombre:</label>
+                <input type="text" id="input-nombre-guardian" name="nombre-guardian">
+                
+                <label for="input-apellidos-guardian">*Apellidos:</label>
+                <input type="text" id="input-apellidos-guardian" name="apellidos-guardian">
+                
+                <label for="input-telefono-guardian">*Teléfono:</label>
+                <input type="text" id="input-telefono-guardian" name="telefono-guardian">
+                
+                <label for="input-relacion-guardian">*Relación:</label>
+                <input type="text" id="input-relacion-guardian" name="relacion-guardian">
+              </div>
+              
+              <!-- Campo oculto para el ID del niño -->
+              <input type="hidden" id="input-id-hijo" name="id-hijo">
+              
+              <!-- Pie del modal con botones -->
+              <div class="modal-footer">
+                <button type="submit" id="btn-guardar-edit">Guardar cambios</button>
+                <button type="button" id="btn-cancelar-edit">Cancelar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Secciones -->
     <div class="container">
       <!-- Sección Inicio -->
       <section id="section-inicio" class="section active">
@@ -60,46 +125,14 @@
         <div class="gallery-container">
           <button class="gallery-nav prev">&lt;</button>
           <div class="gallery-track">
-            <img
-              src="../../assets/images/imagen1.jpg"
-              alt="Actividad del Campamento 1"
-              class="gallery-image"
-            />
-            <img
-              src="../../assets/images/imagen2.jpg"
-              alt="Actividad del Campamento 2"
-              class="gallery-image"
-            />
-            <img
-              src="../../assets/images/imagen3.jpg"
-              alt="Actividad del Campamento 3"
-              class="gallery-image"
-            />
-            <img
-              src="../../assets/images/imagen4.jpg"
-              alt="Actividad del Campamento 4"
-              class="gallery-image"
-            />
-            <img
-              src="../../assets/images/imagen5.jpg"
-              alt="Actividad del Campamento 5"
-              class="gallery-image"
-            />
-            <img
-              src="../../assets/images/imagen6.jpg"
-              alt="Actividad del Campamento 6"
-              class="gallery-image"
-            />
-            <img
-              src="../../assets/images/imagen7.jpg"
-              alt="Actividad del Campamento 7"
-              class="gallery-image"
-            />
-            <img
-              src="../../assets/images/imagen8.jpg"
-              alt="Actividad del Campamento 8"
-              class="gallery-image"
-            />
+            <img src="../../assets/images/imagen1.jpg" alt="Actividad del Campamento 1" class="gallery-image" />
+            <img src="../../assets/images/imagen2.jpg" alt="Actividad del Campamento 2" class="gallery-image" />
+            <img src="../../assets/images/imagen3.jpg" alt="Actividad del Campamento 3" class="gallery-image" />
+            <img src="../../assets/images/imagen4.jpg" alt="Actividad del Campamento 4" class="gallery-image" />
+            <img src="../../assets/images/imagen5.jpg" alt="Actividad del Campamento 5" class="gallery-image" />
+            <img src="../../assets/images/imagen6.jpg" alt="Actividad del Campamento 6" class="gallery-image" />
+            <img src="../../assets/images/imagen7.jpg" alt="Actividad del Campamento 7" class="gallery-image" />
+            <img src="../../assets/images/imagen8.jpg" alt="Actividad del Campamento 8" class="gallery-image" />
           </div>
           <button class="gallery-nav next">&gt;</button>
         </div>
@@ -128,23 +161,18 @@
               <br>
               <div class="container-photo">
                 <div class="perfil-foto">
-                  <img id="profileImage" src="" alt="Foto de Perfil" />
+                    <img id="profileImage" src="" alt="Foto de Perfil">
                 </div>
                 <div class="editPhoto">
-                  <!-- Input oculto para seleccionar archivo -->
-                  <input
-                    type="file"
-                    id="fileInput"
-                    accept="image/*"
-                    style="display: none;"
-                  />
-                  <br />
-                  <!-- Botón para abrir el selector de archivos -->
-                  <button class="btn" id="editPhoto">Cambiar Foto</button>
-                  <br />
+                    <!-- Input oculto para seleccionar archivo -->
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                    <br>
+                    <!-- Botón para abrir el selector de archivos -->
+                    <button class="btn" id="editPhoto">Cambiar Foto</button>
+                    <br>
                 </div>
-                <br />
-              </div>
+                <br>
+             </div>
               <div class="card-divider"></div>
               <div class="user-details">
                 <div class="detail-row">
@@ -152,27 +180,21 @@
                     <i class="bx bx-user"></i>
                     <strong>Nombre de usuario:</strong>
                   </div>
-                  <span id="usuario" class="detail-value"
-                    >usuario_ejemplo</span
-                  >
+                  <span id="usuario" class="detail-value">usuario_ejemplo</span>
                 </div>
                 <div class="detail-row">
                   <div class="detail-label">
                     <i class="bx bx-id-card"></i>
                     <strong>Nombre:</strong>
                   </div>
-                  <span id="nombre" class="detail-value"
-                    >Nombre Ejemplo</span
-                  >
+                  <span id="nombre" class="detail-value">Nombre Ejemplo</span>
                 </div>
                 <div class="detail-row">
                   <div class="detail-label">
                     <i class="bx bx-user-pin"></i>
                     <strong>Apellidos:</strong>
                   </div>
-                  <span id="apellidos" class="detail-value"
-                    >Apellidos Ejemplo</span
-                  >
+                  <span id="apellidos" class="detail-value">Apellidos Ejemplo</span>
                 </div>
                 <div class="detail-row">
                   <div class="detail-label">
@@ -186,9 +208,7 @@
                     <i class="bx bx-phone"></i>
                     <strong>Número de teléfono:</strong>
                   </div>
-                  <span id="telefono" class="detail-value"
-                    >+34 600 123 456</span
-                  >
+                  <span id="telefono" class="detail-value">+34 600 123 456</span>
                 </div>
               </div>
               <div class="card-actions">
@@ -207,15 +227,12 @@
                 <i class="bx bx-child"></i>
                 <h2>Hijos</h2>
               </div>
-              <button
-                class="btn btn-primary btn-agregar-hijo"
-                id="btn-agregar-hijo"
-              >
+              <button class="btn btn-primary btn-agregar-hijo" id="btn-agregar-hijo">
                 <i class="bx bx-user-plus"></i> Agregar Hijo
               </button>
             </div>
             <div class="card-divider"></div>
-            <div class="table-container">
+            <div class="table-container"> 
               <table id="infoHijos" class="data-table">
                 <thead>
                   <tr>
@@ -226,20 +243,16 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- Aquí se inyectarán las filas con los datos de cada hijo -->
+                  <!-- Aquí se inyectarán las filas con los datos de cada hijo -->
                 </tbody>
               </table>
             </div>
-
+            
             <!-- Contenedor para formularios de edición de hijos (oculto por defecto) -->
             <div id="hijos" style="display:none;"></div>
 
             <!-- Plantilla oculta para el formulario de edición de un hijo -->
-            <div
-              id="hijoModelo"
-              class="hijo modelo"
-              style="display:none;"
-            >
+            <div id="hijoModelo" class="hijo modelo" style="display:none;">
               <div class="child-info">
                 <p class="nombre">Nombre Hijo</p>
                 <p class="apellidos">Apellidos Hijo</p>
@@ -249,21 +262,13 @@
                 <div class="form-group">
                   <label>
                     <i class="bx bx-user"></i> Nombre:
-                    <input
-                      type="text"
-                      class="inputNombre form-control"
-                      placeholder="Nuevo nombre"
-                    />
+                    <input type="text" class="inputNombre form-control" placeholder="Nuevo nombre" />
                   </label>
                 </div>
                 <div class="form-group">
                   <label>
                     <i class="bx bx-user-pin"></i> Apellidos:
-                    <input
-                      type="text"
-                      class="inputApellidos form-control"
-                      placeholder="Nuevos apellidos"
-                    />
+                    <input type="text" class="inputApellidos form-control" placeholder="Nuevos apellidos" />
                   </label>
                 </div>
                 <div class="form-group">
@@ -282,10 +287,6 @@
                 <button type="button" class="btnEditar btn btn-secondary">
                   <i class="bx bx-edit"></i> Editar
                 </button>
-                <!-- Opcional: botón para eliminar -->
-                <!-- <button type="button" class="btnEliminar btn btn-danger">
-                  <i class="bx bx-trash"></i> Eliminar
-                </button> -->
               </div>
             </div>
           </div>
@@ -295,80 +296,53 @@
             <form id="formularioEditarUsario">
               <div class="form-group">
                 <label>
-                  Nombre de usuario:
-                  <input
-                    type="text"
-                    id="inputUsuario"
-                    class="form-control"
-                  />
-                </label>
-              </div>
-              <div class="form-group">
-                <label>
                   Nombre:
-                  <input
-                    type="text"
-                    id="inputNombrePadre"
-                    class="form-control"
-                  />
+                  <input type="text" id="inputNombrePadre" class="form-control" />
                 </label>
               </div>
               <div class="form-group">
                 <label>
                   Apellidos:
-                  <input
-                    type="text"
-                    id="inputApellidosPadre"
-                    class="form-control"
-                  />
+                  <input type="text" id="inputApellidosPadre" class="form-control" />
                 </label>
               </div>
               <div class="form-group">
                 <label>
                   DNI:
-                  <input
-                    type="text"
-                    id="inputDniPadre"
-                    class="form-control"
-                  />
+                  <input type="text" id="inputDniPadre" class="form-control" />
                 </label>
               </div>
               <div class="form-group">
                 <label>
                   Número de teléfono:
-                  <input
-                    type="text"
-                    id="inputTelefonoPadre"
-                    class="form-control"
-                  />
+                  <input type="text" id="inputTelefonoPadre" name="telefono" value="..." class="form-control" />
                 </label>
               </div>
               <div class="button-container">
                 <button type="submit" class="btn btn-primary">Guardar</button>
-                <button class="btn btn-secondary" id="btn-volver-perfil">
-                  Volver
-                </button>
+                <button class="btn btn-secondary" id="btn-volver-perfil">Volver</button>
                 <span id="form-error" class="error-message"></span>
               </div>
             </form>
           </div>
-          <br />
+          <br>
         </div>
       </section>
 
-      <!-- Notificaciones -->
+      <!-- Sección Notificaciones -->
       <section id="section-notificaciones" class="section">
         <h1 class="welcome-title">Contacto</h1>
 
         <!-- Formulario de notificaciones -->
         <form id="form-notificaciones" class="form-container">
           <label for="asunto">Asunto:</label>
-          <input type="text" id="asunto" name="asunto" maxlength="100" />
+          <input type="text" id="asunto" name="asunto" maxlength="100"/>
 
           <label for="descripcion">Descripción:</label>
           <textarea id="descripcion" name="descripcion" maxlength="300"></textarea>
 
           <button type="submit">Enviar</button>
+          <span>  </span>
         </form>
       </section>
 
@@ -393,12 +367,7 @@
               <label for="semanal">Semanal</label>
               <input type="radio" name="periodo" id="mensual" value="mensual" />
               <label for="mensual">Mensual</label>
-              <input
-                type="radio"
-                name="periodo"
-                id="trimestral"
-                value="trimestral"
-              />
+              <input type="radio" name="periodo" id="trimestral" value="trimestral" />
               <label for="trimestral">Trimestral</label>
             </div>
 
@@ -413,79 +382,42 @@
             </select>
 
             <label for="alergia-alimentos">Alérgico a alimentos:</label>
-            <textarea
-              id="alergia-alimentos"
-              name="alergia-alimentos"
-              maxlength="100"
-            ></textarea>
+            <textarea id="alergia-alimentos" name="alergia-alimentos" maxlength="100"></textarea>
 
             <label for="alergia-medicamentos">Alérgico a medicamentos:</label>
-            <textarea
-              id="alergia-medicamentos"
-              name="alergia-medicamentos"
-              maxlength="100"
-            ></textarea>
+            <textarea id="alergia-medicamentos" name="alergia-medicamentos" maxlength="100"></textarea>
 
             <label for="medicamento-actual">Medicamento actual:</label>
-            <textarea
-              id="medicamento-actual"
-              name="medicamento-actual"
-              maxlength="100"
-            ></textarea>
+            <textarea id="medicamento-actual" name="medicamento-actual" maxlength="100"></textarea>
 
-            <label for="responsable-adicional"
-              >¿Requiere un responsable adicional en caso de emergencia?</label
-            >
-            <select
-              id="responsable-adicional"
-              name="responsable-adicional"
-            >
+            <label for="responsable-adicional">¿Requiere un responsable adicional en caso de emergencia?</label>
+            <select id="responsable-adicional" name="responsable-adicional">
               <option value="no">No</option>
-              <option value="si">Sí</option>
+              <option value="si">Sí</option>
             </select>
 
             <div id="responsable-info" class="hidden">
               <h3>Responsable adicional</h3>
               <label for="nombre-responsable">Nombre:</label>
-              <input
-                type="text"
-                id="nombre-responsable"
-                name="nombre-responsable"
-              />
+              <input type="text" id="nombre-responsable" name="nombre-responsable" />
 
               <label for="apellidos-responsable">Apellidos:</label>
-              <input
-                type="text"
-                id="apellidos-responsable"
-                name="apellidos-responsable"
-              />
+              <input type="text" id="apellidos-responsable" name="apellidos-responsable" />
 
               <label for="dni-responsable">DNI:</label>
-              <input
-                type="text"
-                id="dni-responsable"
-                name="dni-responsable"
-              />
+              <input type="text" id="dni-responsable" name="dni-responsable" />
 
               <label for="telefono-responsable">Teléfono:</label>
-              <input
-                type="text"
-                id="telefono-responsable"
-                name="telefono-responsable"
-              />
+              <input type="text" id="telefono-responsable" name="telefono-responsable" />
 
               <label for="relacion-responsable">Relación con el niño:</label>
-              <input
-                type="text"
-                id="relacion-responsable"
-                name="relacion-responsable"
-              />
+              <input type="text" id="relacion-responsable" name="relacion-responsable" />
             </div>
 
             <button type="submit">Enviar Inscripción</button>
           </form>
         </div>
-        <br />
+        <br>
         <button class="btn-volver" id="btn-volver-perfil">Volver</button>
       </section>
 
@@ -510,22 +442,16 @@
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/es.js"></script>
     <script src="../../public/scripts/tutor.js"></script>
     <script src="../../public/scripts/validations/tutor-validaciones.js"></script>
     <script>
-      // Opcional: cerrar el modal de notificación
-      document
-        .getElementById("closeModalNotificacion")
-        .addEventListener("click", function () {
-          document.getElementById("modal-notificacion").style.display = "none";
-        });
+      // No aplica: cerrar el modal de notificación
+      document.getElementById("closeModalNotificacion").addEventListener("click", function() {
+        document.getElementById("modal-notificacion").style.display = "none";
+      });
     </script>
   </body>
 </html>

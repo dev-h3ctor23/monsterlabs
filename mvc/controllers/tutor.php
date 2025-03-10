@@ -12,6 +12,13 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] !== 'padre') {
     echo json_encode(["status" => "error", "message" => "Acceso denegado"]);
     exit;
 }
+/*
+session_start();
+if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] !== 'padre') {
+    header("Location: /monsterlabs/mvc/views/login.html");
+    exit();
+}*/
+
 
 // Incluir la conexión a la base de datos
 include(__DIR__ . '/../../config/conn.php');
@@ -254,8 +261,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($stmt_check->num_rows > 0) {
             // Si ya existe, actualizamos la información
             $stmt_check->close();
+            $telefono = isset($data['telefono']) ? $data['telefono'] : '';
             $stmt_update = $conn->prepare("UPDATE Padre SET dni_padre = ?, nombre = ?, apellido = ?, numero_telefono = ? WHERE id_usuario = ?");
-            $stmt_update->bind_param("ssssi", $data['dni'], $data['nombre'], $data['apellidos'], $data['telefono'], $user_id);
+            $stmt_update->bind_param("ssssi", $data['dni'], $data['nombre'], $data['apellidos'], $telefono, $user_id);
             if ($stmt_update->execute()) {
                 echo json_encode(["status" => "success", "message" => "Perfil actualizadoOO correctamente"]);
             } else {
@@ -282,7 +290,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
-    if (isset($data['action']) && $data['action'] === 'updateChild') {
+  /*  if (isset($data['action']) && $data['action'] === 'updateChild') {
         // Verificar que se envíen los datos necesarios
         if (!isset($data['id_nino'], $data['nombre'], $data['apellido'], $data['fecha_nacimiento'])) {
             echo json_encode(['status' => 'error', 'message' => 'Datos incompletos para actualizar el hijo']);
@@ -319,7 +327,166 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt_update_child->close();
         $conn->close();
         exit;
+    }*/
+
+    if (isset($data['action']) && $data['action'] === 'updateChildFull') {
+        // Validar que se envían todos los campos obligatorios
+        $requiredFields = ['id_nino', 'nombre', 'apellido', 'fecha_nacimiento', 
+                           'alimentos_alergico', 'medicamentos_alergico', 'medicamentos_actuales', 
+                           'dni_guardian', 'guardian_nombre', 'guardian_apellido'];
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                echo json_encode(['status' => 'error', 'message' => 'Datos incompletos']);
+                exit;
+            }
+        }
+        
+        $id_nino = $data['id_nino'];
+        $nombre = $data['nombre'];
+        $apellido = $data['apellido'];
+        $fecha_nacimiento = $data['fecha_nacimiento'];
+        $alimentos_alergico = $data['alimentos_alergico'];
+        $medicamentos_alergico = $data['medicamentos_alergico'];
+        $medicamentos_actuales = $data['medicamentos_actuales'];
+        $dni_guardian = $data['dni_guardian'];
+        $guardian_nombre = $data['guardian_nombre'];
+        $guardian_apellido = $data['guardian_apellido'];
+        $telefono_guardian = isset($data['telefono_guardian']) ? $data['telefono_guardian'] : '';
+        $guardian_relacion = $data['relacion_guardian'];
+        // Iniciar transacción
+        $conn->begin_transaction();
+        
+        // Obtener el id_padre del usuario actual (se asume que $user_id proviene de la sesión)
+        $stmt = $conn->prepare("SELECT id_padre FROM Padre WHERE id_usuario = ?");
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $stmt->bind_result($id_padre);
+        if (!$stmt->fetch()) {
+           echo json_encode(['status' => 'error', 'message' => 'Padre no encontrado']);
+           $stmt->close();
+           $conn->rollback();
+           exit;
+        }
+        $stmt->close();
+        
+        // 1. Actualizar datos del niño en la tabla Nino
+        $stmt_update = $conn->prepare("UPDATE Nino SET nombre = ?, apellido = ?, fecha_nacimiento = ? WHERE id_nino = ? AND id_padre = ?");
+        $stmt_update->bind_param("sssii", $nombre, $apellido, $fecha_nacimiento, $id_nino, $id_padre);
+        if (!$stmt_update->execute()) {
+            echo json_encode(['status' => 'error', 'message' => 'Error al actualizar datos del niño']);
+            $stmt_update->close();
+            $conn->rollback();
+            exit;
+        }
+        $stmt_update->close();
+        
+        // 2. Actualizar o insertar la ficha médica en FichaMedica
+        $stmt_check = $conn->prepare("SELECT id_ficha FROM FichaMedica WHERE id_nino = ?");
+        $stmt_check->bind_param("i", $id_nino);
+        $stmt_check->execute();
+        $stmt_check->store_result();
+        if ($stmt_check->num_rows > 0) {
+            // Ya existe, actualizar la ficha médica
+            $stmt_check->bind_result($id_ficha);
+            $stmt_check->fetch();
+            $stmt_check->close();
+            $stmt_update_ficha = $conn->prepare("UPDATE FichaMedica SET alimentos_alergico = ?, medicamentos_alergico = ?, medicamentos_actuales = ? WHERE id_ficha = ?");
+            $stmt_update_ficha->bind_param("sssi", $alimentos_alergico, $medicamentos_alergico, $medicamentos_actuales, $id_ficha);
+            if (!$stmt_update_ficha->execute()) {
+                echo json_encode(['status' => 'error', 'message' => 'Error al actualizar ficha médica']);
+                $stmt_update_ficha->close();
+                $conn->rollback();
+                exit;
+            }
+            $stmt_update_ficha->close();
+        } else {
+            // No existe, insertar nueva ficha médica
+            $stmt_check->close();
+            $stmt_insert_ficha = $conn->prepare("INSERT INTO FichaMedica (alimentos_alergico, medicamentos_alergico, medicamentos_actuales, id_nino) VALUES (?, ?, ?, ?)");
+            $stmt_insert_ficha->bind_param("sssi", $alimentos_alergico, $medicamentos_alergico, $medicamentos_actuales, $id_nino);
+            if (!$stmt_insert_ficha->execute()) {
+                echo json_encode(['status' => 'error', 'message' => 'Error al insertar ficha médica']);
+                $stmt_insert_ficha->close();
+                $conn->rollback();
+                exit;
+            }
+            $stmt_insert_ficha->close();
+        }
+        
+        // 3. Actualizar o insertar datos del guardian y la relación en GuardianNino
+        // Verificar si ya existe un guardian asociado a este niño
+        $stmt_guardian = $conn->prepare("
+        SELECT g.id_guardian, gn.relacion 
+        FROM Guardian g
+        JOIN GuardianNino gn ON g.id_guardian = gn.id_guardian
+        WHERE gn.id_nino = ?
+        ");
+        $stmt_guardian->bind_param("i", $id_nino);
+        $stmt_guardian->execute();
+        $stmt_guardian->store_result();
+
+        if ($stmt_guardian->num_rows > 0) {
+        // Ya existe un guardian, obtenemos su id y la relación actual
+        $stmt_guardian->bind_result($id_guardian, $relacion_actual);
+        $stmt_guardian->fetch();
+        $stmt_guardian->close();
+
+        // Actualizamos los datos del guardian en la tabla Guardian
+        $stmt_update_guardian = $conn->prepare("UPDATE Guardian SET dni_guardian = ?, nombre = ?, apellido = ?, telefono = ? WHERE id_guardian = ?");
+        $stmt_update_guardian->bind_param("ssssi", $dni_guardian, $guardian_nombre, $guardian_apellido, $telefono_guardian, $id_guardian);
+        if (!$stmt_update_guardian->execute()) {
+            echo json_encode(['status' => 'error', 'message' => 'Error al actualizar datos del guardian']);
+            $stmt_update_guardian->close();
+            $conn->rollback();
+            exit;
+        }
+        $stmt_update_guardian->close();
+
+        // Si la relación ha cambiado, la actualizamos en GuardianNino
+        if ($relacion_actual !== $guardian_relacion) {
+            $stmt_update_gn = $conn->prepare("UPDATE GuardianNino SET relacion = ? WHERE id_nino = ? AND id_guardian = ?");
+            $stmt_update_gn->bind_param("sii", $guardian_relacion, $id_nino, $id_guardian);
+            if (!$stmt_update_gn->execute()) {
+                echo json_encode(['status' => 'error', 'message' => 'Error al actualizar la relación en GuardianNino']);
+                $stmt_update_gn->close();
+                $conn->rollback();
+                exit;
+            }
+            $stmt_update_gn->close();
+        }
+        } else {
+        // No existe un guardian asociado, insertar nuevo guardian y crear la relación en GuardianNino
+        $stmt_guardian->close();
+        $stmt_insert_guardian = $conn->prepare("INSERT INTO Guardian (dni_guardian, nombre, apellido, telefono) VALUES (?, ?, ?, ?)");
+        $stmt_insert_guardian->bind_param("ssss", $dni_guardian, $guardian_nombre, $guardian_apellido, $telefono_guardian);
+        if (!$stmt_insert_guardian->execute()) {
+            echo json_encode(['status' => 'error', 'message' => 'Error al insertar datos del guardian']);
+            $stmt_insert_guardian->close();
+            $conn->rollback();
+            exit;
+        }
+        $id_guardian = $stmt_insert_guardian->insert_id;
+        $stmt_insert_guardian->close();
+        
+        // Insertar la relación en GuardianNino
+        $stmt_insert_gn = $conn->prepare("INSERT INTO GuardianNino (relacion, id_nino, id_guardian) VALUES (?, ?, ?)");
+        $stmt_insert_gn->bind_param("sii", $guardian_relacion, $id_nino, $id_guardian);
+        if (!$stmt_insert_gn->execute()) {
+            echo json_encode(['status' => 'error', 'message' => 'Error al relacionar guardian con el niño']);
+            $stmt_insert_gn->close();
+            $conn->rollback();
+            exit;
+        }
+        $stmt_insert_gn->close();
+        }
+
+        
+        // Si todo salió bien, hacer commit y responder con éxito
+        $conn->commit();
+        echo json_encode(['status' => 'success', 'message' => 'Información actualizada correctamente']);
+        exit;
     }
+    
 
     if (isset($data['action']) && $data['action'] === 'deleteChild') {
         if (!isset($data['id_nino'])) {
@@ -409,13 +576,53 @@ if ($stmt->num_rows > 0) {
         $stmt2->fetch();
 
         // Obtener la información de los hijos
-        $stmt3 = $conn->prepare("SELECT id_nino, nombre, apellido, fecha_nacimiento, estado, id_grupo FROM Nino WHERE id_padre = ?");
+        $stmt3 = $conn->prepare("
+        SELECT n.id_nino, n.nombre, n.apellido, n.fecha_nacimiento, n.estado, n.id_grupo,
+                fm.alimentos_alergico, fm.medicamentos_alergico, fm.medicamentos_actuales,
+                g.id_guardian, g.dni_guardian, g.nombre AS guardian_nombre, g.apellido AS guardian_apellido, g.telefono AS guardian_telefono, gn.relacion AS relacion_guardian
+        FROM Nino n
+        LEFT JOIN FichaMedica fm ON n.id_nino = fm.id_nino
+        LEFT JOIN GuardianNino gn ON n.id_nino = gn.id_nino
+        LEFT JOIN Guardian g ON gn.id_guardian = g.id_guardian
+        WHERE n.id_padre = ?
+        ");
         $stmt3->bind_param("i", $id_padre);
         $stmt3->execute();
         $result = $stmt3->get_result();
         $ninos = [];
         while ($row = $result->fetch_assoc()) {
-            $ninos[] = $row;
+            // Procesar ficha médica (si existe)
+    $ficha_medica = null;
+    if (!is_null($row['alimentos_alergico']) || !is_null($row['medicamentos_alergico']) || !is_null($row['medicamentos_actuales'])) {
+         $ficha_medica = [
+             'alimentos_alergico'    => $row['alimentos_alergico'],
+             'medicamentos_alergico'  => $row['medicamentos_alergico'],
+             'medicamentos_actuales'  => $row['medicamentos_actuales']
+         ];
+    }
+    
+    // Procesar guardian (si existe)
+    $guardian = null;
+    if (!is_null($row['id_guardian'])) {
+         $guardian = [
+             'id_guardian'   => $row['id_guardian'],
+             'dni_guardian'  => $row['dni_guardian'],
+             'nombre'        => $row['guardian_nombre'],
+             'apellido'      => $row['guardian_apellido'],
+             'telefono'      => $row['guardian_telefono']
+         ];
+    }
+    
+    $ninos[] = [
+         'id_nino'         => $row['id_nino'],
+         'nombre'          => $row['nombre'],
+         'apellido'        => $row['apellido'],
+         'fecha_nacimiento'=> $row['fecha_nacimiento'],
+         'estado'          => $row['estado'],
+         'id_grupo'        => $row['id_grupo'],
+         'ficha_medica'    => $ficha_medica,
+         'guardian'        => $guardian
+    ];
         }
         $stmt3->close();
 
