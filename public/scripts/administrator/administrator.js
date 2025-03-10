@@ -402,8 +402,31 @@ function abrirModalInfo(idNino) {
             const nino = data.nino;
             const padre = data.padre;
             const grupo = data.grupo;
+
+            // Aquí se puede verificar si los datos son undefined y asignar un valor por defecto
+
+            if( typeof data.fichaMedica !== 'undefined') { // Si no hay datos de ficha médica
+                data.fichaMedica = {
+                    alimentos_alergico: 'No tiene alergias',
+                    medicamentos_alergico: 'No tiene alergias',
+                    medicamentos_actuales: 'No toma medicamentos'
+                };
+            }
+
+            // Si no hay datos de guardian asignar un valor por defecto
+
+            if( typeof data.guardian !== 'undefined') { // Si no hay datos de guardian
+                data.guardian = {
+                    nombre: 'No hay guardian',
+                    apellido: '',
+                    relacion: ''
+                };
+            }
+
             const fichaMedica = data.fichaMedica;
             const guardian = data.guardian;
+
+            console.log( fichaMedica ); // Log para verificar los datos de ficha médica
 
             infoContent.innerHTML = `
                 <p><strong>Nombre:</strong> ${nino.nombre} ${nino.apellido}</p>
@@ -424,7 +447,7 @@ function abrirModalInfo(idNino) {
         }
     })
     .catch(error => {
-        console.log('Error en la solicitud:', error);
+        console.error('Error en la solicitud:', error);
         alert('Error al obtener la información del niño');
     });
 
