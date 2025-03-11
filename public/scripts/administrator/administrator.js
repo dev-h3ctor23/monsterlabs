@@ -793,6 +793,331 @@ function editarGrupoNino(idNino, idGrupo, nombreGrupo) {
     });
 }
 
+// Función para obtener los grupos y mostrarlos en la tabla
+function obtenerGrupos() {
+    fetch('../../mvc/controllers/administrator/obtener_grupos.php', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            const tbody = document.querySelector('.full-height-table-grupos tbody');
+            tbody.innerHTML = ''; // Limpiar la tabla antes de llenarla
+
+            data.grupos.forEach(grupo => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <div class="grupo-nombre">${grupo.nombre_grupo}</div>
+                        <div class="grupo-botones">
+                            <button id="grps-btn-editar-${grupo.id_grupo}" class="grps-btn-editar">Editar</button>
+                            <button id="grps-btn-info-${grupo.id_grupo}" class="grps-btn-info">Información</button>
+                            <button id="grps-btn-borrar-${grupo.id_grupo}" class="grps-btn-borrar">Borrar</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Añadir evento a los botones de editar grupo
+            document.querySelectorAll('.grps-btn-editar').forEach(button => {
+                button.addEventListener('click', function() {
+                    const idGrupo = this.id.split('-').pop();
+                    const nombreGrupo = this.closest('tr').querySelector('.grupo-nombre').textContent;
+                    abrirModalEditGroup(idGrupo, nombreGrupo);
+                });
+            });
+
+            // Añadir evento a los botones de borrar grupo
+            document.querySelectorAll('.grps-btn-borrar').forEach(button => {
+                button.addEventListener('click', function() {
+                    const idGrupo = this.id.split('-').pop();
+                    abrirModalDeleteGroup(idGrupo);
+                });
+            });
+
+            // Añadir evento a los botones de información del grupo
+            document.querySelectorAll('.grps-btn-info').forEach(button => {
+                button.addEventListener('click', function() {
+                    const idGrupo = this.id.split('-').pop();
+                    abrirModalInfoGroup(idGrupo);
+                });
+            });
+        } else {
+            console.error('Error:', data.message);
+        }
+    })
+    .catch(error => {
+        console.log('Error en la solicitud:', error);
+        alert('Error al obtener los grupos');
+    });
+}
+
+// Función para abrir el modal de añadir grupo
+function abrirModalAddGroup() {
+    const modalOverlayAddGroup = document.querySelector('.modal-overlay-add-group');
+    const btnCloseAddGroup = document.querySelector('.btn-close-add-group');
+
+    modalOverlayAddGroup.classList.add('active');
+
+    btnCloseAddGroup.onclick = function() {
+        modalOverlayAddGroup.classList.remove('active');
+        limpiarFormularioAddGroup();
+    };
+}
+
+// Función para limpiar el formulario de añadir grupo
+function limpiarFormularioAddGroup() {
+    const groupNameInput = document.getElementById('group-name');
+    const errorMessage = groupNameInput.nextElementSibling;
+
+    groupNameInput.value = '';
+    errorMessage.textContent = '';
+    errorMessage.classList.remove('error-visible');
+}
+
+// Función para validar el nombre del grupo
+function validarNombreGrupo(nombre) {
+    const regex = /^[a-zA-Z0-9\s]+$/;
+    return nombre.trim() !== '' && regex.test(nombre);
+}
+
+// Función para añadir un grupo
+function anadirGrupo(event) {
+    event.preventDefault();
+
+    const groupNameInput = document.getElementById('group-name');
+    const groupName = groupNameInput.value.trim();
+    const errorMessage = groupNameInput.nextElementSibling;
+
+    if (!validarNombreGrupo(groupName)) {
+        errorMessage.textContent = 'El nombre del grupo es obligatorio y no debe contener caracteres especiales.';
+        errorMessage.classList.add('error-visible');
+        return;
+    }
+
+    errorMessage.textContent = '';
+    errorMessage.classList.remove('error-visible');
+
+    // Enviar el grupo al servidor
+    fetch('../../mvc/controllers/administrator/anadir_grupo.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nombre_grupo: groupName })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            obtenerGrupos(); // Actualizar la tabla de grupos
+            document.querySelector('.modal-overlay-add-group').classList.remove('active');
+            limpiarFormularioAddGroup(); // Limpiar el formulario después de añadir el grupo
+        } else {
+            alert(data.message); // Mostrar el mensaje de error del servidor
+        }
+    })
+    .catch(error => {
+        console.log('Error en la solicitud:', error);
+        alert('Error al añadir el grupo');
+    });
+}
+
+// Añadir evento al botón "Añadir Grupo"
+document.getElementById('group-section-add-group').addEventListener('click', abrirModalAddGroup);
+
+// Añadir evento al formulario de añadir grupo
+document.getElementById('form-add-group').addEventListener('submit', anadirGrupo);
+
+let grupoAEliminar = null;
+
+// Función para abrir el modal de confirmación de eliminación
+function abrirModalDeleteGroup(idGrupo) {
+    grupoAEliminar = idGrupo;
+    const modalOverlayDeleteGroup = document.querySelector('.modal-overlay-delete-group');
+    const btnCloseDeleteGroup = document.querySelector('.btn-close-delete-group');
+    const btnConfirmDeleteGroup = document.querySelector('.btn-confirm-delete-group');
+
+    modalOverlayDeleteGroup.classList.add('active');
+
+    btnCloseDeleteGroup.onclick = function() {
+        modalOverlayDeleteGroup.classList.remove('active');
+        grupoAEliminar = null;
+    };
+
+    btnConfirmDeleteGroup.onclick = function() {
+        borrarGrupo();
+    };
+}
+
+// Función para borrar un grupo
+function borrarGrupo() {
+    if (!grupoAEliminar) return;
+
+    fetch(`../../mvc/controllers/administrator/borrar_grupo.php?id=${grupoAEliminar}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            obtenerGrupos(); // Actualizar la tabla de grupos
+            document.querySelector('.modal-overlay-delete-group').classList.remove('active');
+            grupoAEliminar = null;
+        } else {
+            alert(data.message); // Mostrar el mensaje de error del servidor
+        }
+    })
+    .catch(error => {
+        console.log('Error en la solicitud:', error);
+        alert('Error al borrar el grupo');
+    });
+}
+
+let grupoAEditar = null;
+
+// Función para abrir el modal de edición de grupo
+function abrirModalEditGroup(idGrupo, nombreGrupo) {
+    grupoAEditar = idGrupo;
+    const modalOverlayEditGroup = document.querySelector('.modal-overlay-edit-group');
+    const btnCloseEditGroup = document.querySelector('.btn-close-edit-group');
+    const groupNameInput = document.getElementById('edit-group-name');
+
+    groupNameInput.value = nombreGrupo;
+    modalOverlayEditGroup.classList.add('active');
+
+    btnCloseEditGroup.onclick = function() {
+        modalOverlayEditGroup.classList.remove('active');
+        limpiarFormularioEditGroup();
+    };
+}
+
+// Función para limpiar el formulario de edición de grupo
+function limpiarFormularioEditGroup() {
+    const groupNameInput = document.getElementById('edit-group-name');
+    const errorMessage = groupNameInput.nextElementSibling;
+
+    groupNameInput.value = '';
+    errorMessage.textContent = '';
+    errorMessage.classList.remove('error-visible');
+}
+
+// Función para validar el nombre del grupo
+function validarNombreGrupo(nombre) {
+    const regex = /^[a-zA-Z0-9\s]+$/;
+    return nombre.trim() !== '' && regex.test(nombre);
+}
+
+// Función para editar un grupo
+function editarGrupo(event) {
+    event.preventDefault();
+
+    const groupNameInput = document.getElementById('edit-group-name');
+    const groupName = groupNameInput.value.trim();
+    const errorMessage = groupNameInput.nextElementSibling;
+
+    if (!validarNombreGrupo(groupName)) {
+        errorMessage.textContent = 'El nombre del grupo es obligatorio y no debe contener caracteres especiales.';
+        errorMessage.classList.add('error-visible');
+        return;
+    }
+
+    errorMessage.textContent = '';
+    errorMessage.classList.remove('error-visible');
+
+    // Enviar la edición del grupo al servidor
+    fetch(`../../mvc/controllers/administrator/editar_grupo.php`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id_grupo: grupoAEditar, nombre_grupo: groupName })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            obtenerGrupos(); // Actualizar la tabla de grupos
+            document.querySelector('.modal-overlay-edit-group').classList.remove('active');
+            limpiarFormularioEditGroup(); // Limpiar el formulario después de editar el grupo
+        } else {
+            alert(data.message); // Mostrar el mensaje de error del servidor
+        }
+    })
+    .catch(error => {
+        console.log('Error en la solicitud:', error);
+        alert('Error al editar el grupo');
+    });
+}
+
+// Función para abrir el modal de información del grupo
+function abrirModalInfoGroup(idGrupo) {
+    const modalOverlayInfoGroup = document.querySelector('.modal-overlay-info-group');
+    const btnCloseInfoGroup = document.querySelector('.btn-close-info-group');
+    const listaMonitores = document.getElementById('lista-monitores');
+    const listaCampistas = document.getElementById('lista-campistas');
+
+    // Limpiar las listas antes de llenarlas
+    listaMonitores.innerHTML = '';
+    listaCampistas.innerHTML = '';
+
+    // Obtener la información del grupo desde el servidor
+    fetch(`../../mvc/controllers/administrator/obtener_info_grupo.php?id=${idGrupo}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            // Llenar la lista de monitores
+            data.monitores.forEach(monitor => {
+                const li = document.createElement('li');
+                li.textContent = `${monitor.nombre} ${monitor.apellido}`;
+                listaMonitores.appendChild(li);
+            });
+
+            // Llenar la lista de campistas
+            data.campistas.forEach(campista => {
+                const li = document.createElement('li');
+                li.textContent = `${campista.nombre} ${campista.apellido}`;
+                listaCampistas.appendChild(li);
+            });
+
+            // Mostrar el modal
+            modalOverlayInfoGroup.classList.add('active');
+        } else {
+            alert(data.message); // Mostrar el mensaje de error del servidor
+        }
+    })
+    .catch(error => {
+        console.log('Error en la solicitud:', error);
+        alert('Error al obtener la información del grupo');
+    });
+
+    btnCloseInfoGroup.onclick = function() {
+        modalOverlayInfoGroup.classList.remove('active');
+    };
+}
+
+// Añadir evento a los botones de información del grupo
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.grps-btn-info').forEach(button => {
+        button.addEventListener('click', function() {
+            const idGrupo = this.id.split('-').pop();
+            abrirModalInfoGroup(idGrupo);
+        });
+    });
+});
+
+// Añadir evento al formulario de editar grupo
+document.getElementById('form-edit-group').addEventListener('submit', editarGrupo);
+
 // Llamar a las funciones cuando se cargue la página
 document.addEventListener('DOMContentLoaded', function() {
     obtenerDatosAdministrator();
@@ -800,6 +1125,7 @@ document.addEventListener('DOMContentLoaded', function() {
     obtenerNotificaciones();
     obtenerNinosActivos(); // Llamar a la función para obtener los niños activos
     obtenerNinosInactivos(); // Llamar a la función para obtener los niños inactivos
+    obtenerGrupos();
 
     // Agregar evento al botón "Editar información"
     const editInfoButton = document.querySelector('.edit-info-btn');

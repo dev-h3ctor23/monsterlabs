@@ -91,9 +91,33 @@
         
         <section id="actividades-content" class="content-section" style="display: none;">Contenido de Actividades</section>
 
-        <section id="grupos-content" class="content-section" style="display: none;">Contenido de Grupos</section>
+        <section id="grupos-content" class="content-section" style="display: none;">
+            <div class="grid-container-grupos-full-height">
+                <!-- Tabla de Grupos -->
+                <div class="grid-item-grupos-full-height">
+                    <h2>Grupos</h2>
+                    <table class="full-height-table-grupos">
+                        <tbody>
+                            <!-- Aquí se llenarán los datos de los grupos -->
+                        </tbody>
+                    </table>
+                    <button id="group-section-add-group" class="group-section-btn">Añadir Grupo</button>
+                </div>
+                <!-- Tabla de Monitores -->
+                <div class="grid-item-grupos-full-height">
+                    <h2>Monitores</h2>
+                    <table class="full-height-table-monitores">
+                        <tbody>
+                            <!-- Aquí se llenarán los datos de los monitores -->
+                        </tbody>
+                    </table>
+                    <button id="group-section-add-monitor" class="group-section-btn">Añadir Monitor</button>
+                </div>
+            </div>
+        </section>
 
         <section id="gestiones-content" class="content-section" style="display: none;">
+            
             <div class="grid-container-gestiones-full-height">
                 <!-- Tabla de Niños Activos -->
                 <div class="grid-item-gestiones-full-height">
@@ -235,6 +259,66 @@
                 <div class="btn-container-info">
                     <button type="button" class="btn-info btn-close-info">Cerrar</button>
                 </div>
+            </div>
+        </div>
+        <!-- Modal para añadir un grupo -->
+        <div class="modal-overlay-add-group">
+            <div class="modal-add-group">
+                <h2>Añadir Grupo</h2>
+                <form id="form-add-group">
+                    <div class="form-group">
+                        <label for="group-name">Nombre del Grupo</label>
+                        <input type="text" id="group-name" name="group-name" placeholder="Nombre del grupo">
+                        <span class="error-message"></span>
+                    </div>
+                    <div class="btn-container">
+                        <button type="button" class="btn-close-add-group">Cancelar</button>
+                        <button type="submit" class="btn-save-add-group">Añadir</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Modal para confirmar la eliminación de un grupo -->
+        <div class="modal-overlay-delete-group">
+            <div class="modal-delete-group">
+                <h2>Confirmar Eliminación</h2>
+                <p>¿Estás seguro de que deseas eliminar este grupo?</p>
+                <div class="btn-container">
+                    <button type="button" class="btn-close-delete-group">Cancelar</button>
+                    <button type="button" class="btn-confirm-delete-group">Eliminar</button>
+                </div>
+            </div>
+        </div>
+        <!-- Modal para editar un grupo -->
+        <div class="modal-overlay-edit-group">
+            <div class="modal-edit-group">
+                <h2>Editar Grupo</h2>
+                <form id="form-edit-group">
+                    <div class="form-group">
+                        <label for="edit-group-name">Nombre del Grupo</label>
+                        <input type="text" id="edit-group-name" name="edit-group-name" placeholder="Nombre del grupo">
+                        <span class="error-message"></span>
+                    </div>
+                    <div class="btn-container">
+                        <button type="button" class="btn-close-edit-group">Cancelar</button>
+                        <button type="submit" class="btn-save-edit-group">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Modal para mostrar la información del grupo -->
+        <div class="modal-overlay-info-group">
+            <div class="modal-info-group">
+                <h2>Información del Grupo</h2>
+                <div id="info-monitores">
+                    <h3>Monitores</h3>
+                    <ul id="lista-monitores"></ul>
+                </div>
+                <div id="info-campistas">
+                    <h3>Campistas</h3>
+                    <ul id="lista-campistas"></ul>
+                </div>
+                <button type="button" class="btn-close-info-group">Cerrar</button>
             </div>
         </div>
         <!-- Pop-up de confirmación -->
