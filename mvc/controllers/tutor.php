@@ -590,7 +590,7 @@ if ($stmt->num_rows > 0) {
                 g.id_guardian, g.dni_guardian, g.nombre AS guardian_nombre, g.apellido AS guardian_apellido, g.telefono AS guardian_telefono, gn.relacion AS relacion_guardian
         FROM Nino n
         LEFT JOIN FichaMedica fm ON n.id_nino = fm.id_nino
-        LEFT JOIN GuardianNino gn ON n.id_nino = gn.id_nino
+    LEFT JOIN GuardianNino gn ON n.id_nino = gn.id_nino
         LEFT JOIN Guardian g ON gn.id_guardian = g.id_guardian
         WHERE n.id_padre = ?
         ");

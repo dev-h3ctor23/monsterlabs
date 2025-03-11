@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function updateSubmitButtonStatus() {
             submitButton.disabled = !isFormValid();
         }
-
+        
         function validarInputEditarUsuario(input) {
             const value = input.value.trim();
             const errorDiv = document.getElementById(`${input.id}-error`);
@@ -538,25 +538,30 @@ if (formEditarHijo) {
     // Validación de campos del guardian
     const guardianFields = ['input-dni-guardian', 'input-nombre-guardian', 'input-apellidos-guardian', 'input-telefono-guardian', 'input-relacion-guardian'];
     guardianFields.forEach(id => {
-        const input = document.getElementById(id);
-        if (input) {
-            const errorDiv = document.createElement('div');
-            errorDiv.id = `${id}-error`;
-            errorDiv.style.color = 'red';
-            errorDiv.style.fontSize = '12px';
-            errorDiv.style.marginTop = '5px';
-            errorDiv.style.display = 'none';
-            input.insertAdjacentElement('afterend', errorDiv);
+    const input = document.getElementById(id);
+    if (input) {
+        input.dataset.touched = "false"; // Inicialmente no tocado
+        const errorDiv = document.createElement('div');
+        errorDiv.id = `${id}-error`;
+        errorDiv.style.color = 'red';
+        errorDiv.style.fontSize = '12px';
+        errorDiv.style.marginTop = '5px';
+        errorDiv.style.display = 'none';
+        input.insertAdjacentElement('afterend', errorDiv);
 
-            input.addEventListener('blur', () => {
-                validarInputGuardian(input);
-                updateSubmitButtonStatus();
-            });
-            input.addEventListener('input', () => {
-                validarInputGuardian(input);
-                updateSubmitButtonStatus();
-            });
+        input.addEventListener('blur', () => {
+        input.dataset.touched = "true";
+        validarInputGuardian(input);
+        updateSubmitButtonStatus();
+        });
+        input.addEventListener('input', () => {
+        // Solo se valida si ya fue tocado
+        if (input.dataset.touched === "true") {
+            validarInputGuardian(input);
         }
+        updateSubmitButtonStatus();
+        });
+    }
     });
 
     // Mostrar/ocultar sección del guardian según el select y actualizar botón
@@ -576,12 +581,23 @@ if (formEditarHijo) {
     // Función que valida todo el formulario de editar hijo
     function isFormValidEditarHijo() {
         let valid = true;
+        // Validar campos principales
         inputsEditarHijo.forEach(id => {
             const input = document.getElementById(id);
             if (input && !validarInputEditarHijo(input)) {
                 valid = false;
             }
         });
+        // Validar campos de ficha médica (opcional, por ejemplo: se permite vacío o validar longitud)
+        const inputsFichaMedica = ['input-alergia-alimentos', 'input-alergia-medicamentos', 'input-medicamento-actual'];
+        inputsFichaMedica.forEach(id => {
+            const input = document.getElementById(id);
+            // Si deseas permitir vacío, solo verifica que no exceda cierto límite
+            if (input && input.value.trim().length > 100) {  // o la validación que prefieras
+                valid = false;
+            }
+        });
+        // Validar campos del guardian si es requerido
         if (selectResponsableEditar.value === 'si') {
             guardianFields.forEach(id => {
                 const input = document.getElementById(id);
@@ -592,6 +608,15 @@ if (formEditarHijo) {
         }
         return valid;
     }
+    
+    const inputsFichaMedica = ['input-alergia-alimentos', 'input-alergia-medicamentos', 'input-medicamento-actual'];
+    inputsFichaMedica.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.addEventListener('blur', updateSubmitButtonStatus);
+            input.addEventListener('input', updateSubmitButtonStatus);
+        }
+    });
 
     // Función para actualizar el estado del botón de submit
     function updateSubmitButtonStatus() {
@@ -651,31 +676,32 @@ if (formEditarHijo) {
         return true;
     }
 
+    // Función de validación modificada:
     function validarInputGuardian(input) {
         const value = input.value.trim();
         const errorDiv = document.getElementById(`${input.id}-error`);
         const nombreApellidoRegex = /^[A-Za-záéíóúÁÉÍÓÚñÑ\s]+$/;
-
+    
+        // Si el campo está vacío, y ya fue tocado, mostramos el error
         if (!value) {
-            errorDiv.textContent = 'Este campo es obligatorio.';
-            errorDiv.style.display = 'block';
-            return false;
+        errorDiv.textContent = 'Este campo es obligatorio.';
+        errorDiv.style.display = 'block';
+        return false;
         }
-
         if (input.id === 'input-dni-guardian' && !/^[0-9]{8}[A-Za-z]$/.test(value)) {
-            errorDiv.textContent = 'El DNI debe tener 8 dígitos seguidos de una letra (ej. 12345678A).';
-            errorDiv.style.display = 'block';
-            return false;
+        errorDiv.textContent = 'El DNI debe tener 8 dígitos seguidos de una letra (ej. 12345678A).';
+        errorDiv.style.display = 'block';
+        return false;
         }
         if ((input.id === 'input-nombre-guardian' || input.id === 'input-apellidos-guardian' || input.id === 'input-relacion-guardian') && !nombreApellidoRegex.test(value)) {
-            errorDiv.textContent = 'Este campo solo puede contener letras y espacios.';
-            errorDiv.style.display = 'block';
-            return false;
+        errorDiv.textContent = 'Este campo solo puede contener letras y espacios.';
+        errorDiv.style.display = 'block';
+        return false;
         }
         if (input.id === 'input-telefono-guardian' && !/^[0-9]{9}$/.test(value)) {
-            errorDiv.textContent = 'El teléfono debe tener exactamente 9 dígitos.';
-            errorDiv.style.display = 'block';
-            return false;
+        errorDiv.textContent = 'El teléfono debe tener exactamente 9 dígitos.';
+        errorDiv.style.display = 'block';
+        return false;
         }
         errorDiv.style.display = 'none';
         return true;
