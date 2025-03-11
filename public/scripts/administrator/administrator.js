@@ -2256,3 +2256,126 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    cargarCronogramas();
+});
+
+function cargarCronogramas() {
+    fetch('../../mvc/controllers/administrator/get_cronogramas.php')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Agregar esta línea para verificar los datos
+            if (data.status === 'error') {
+                console.error('Error:', data.message);
+                return;
+            }
+            const tbody = document.getElementById('cronograma-tbody');
+            tbody.innerHTML = ''; // Limpiar el tbody antes de llenarlo
+            data.cronogramas.forEach(cronograma => {
+                const tr = document.createElement('tr');
+                tr.id = `cronograma-row-${cronograma.id_cronograma}`;
+                const td = document.createElement('td');
+                td.innerHTML = `
+                    <div>Fecha: ${cronograma.fecha}</div>
+                    <div>Hora de inicio: ${cronograma.hora_inicio}</div>
+                    <div>Hora de fin: ${cronograma.hora_fin}</div>
+                    <div>ID Actividad: ${cronograma.id_actividad}</div>
+                    <div>ID Grupo: ${cronograma.id_grupo}</div>
+                    <div class="cronograma-btn-container">
+                        <button class="cronograma-btn-editar" id="cronograma-editar-${cronograma.id_cronograma}">Editar</button>
+                        <button class="cronograma-btn-info" id="cronograma-info-${cronograma.id_cronograma}">Información</button>
+                        <button class="cronograma-btn-eliminar" id="cronograma-eliminar-${cronograma.id_cronograma}">Eliminar</button>
+                    </div>
+                `;
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    cargarCronogramas();
+
+    const deleteCronogramaModal = document.getElementById('delete-cronograma-modal');
+    const confirmDeleteCronogramaBtn = document.getElementById('confirm-delete-cronograma-btn');
+    const closeDeleteCronogramaModalBtn = document.getElementById('close-delete-cronograma-modal-btn');
+
+    let cronogramaToDelete = null;
+
+    function abrirModalEliminarCronograma(idCronograma) {
+        cronogramaToDelete = idCronograma;
+        deleteCronogramaModal.classList.add('active');
+    }
+
+    function cerrarModalEliminarCronograma() {
+        deleteCronogramaModal.classList.remove('active');
+        cronogramaToDelete = null;
+    }
+
+    confirmDeleteCronogramaBtn.addEventListener('click', function() {
+        if (cronogramaToDelete) {
+            fetch(`../../mvc/controllers/administrator/delete_cronograma.php`, {
+                method: 'POST', // Cambiar a POST para enviar datos en el cuerpo
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-HTTP-Method-Override': 'DELETE' // Usar X-HTTP-Method-Override para indicar DELETE
+                },
+                body: JSON.stringify({ id: cronogramaToDelete })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    document.getElementById(`cronograma-row-${cronogramaToDelete}`).remove();
+                    cerrarModalEliminarCronograma();
+                } else {
+                    console.error('Error:', data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+
+    closeDeleteCronogramaModalBtn.addEventListener('click', cerrarModalEliminarCronograma);
+
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('cronograma-btn-eliminar')) {
+            const idCronograma = event.target.id.split('-')[2];
+            abrirModalEliminarCronograma(idCronograma);
+        }
+    });
+});
+
+function cargarCronogramas() {
+    fetch('../../mvc/controllers/administrator/get_cronogramas.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'error') {
+                console.error('Error:', data.message);
+                return;
+            }
+            const tbody = document.getElementById('cronograma-tbody');
+            tbody.innerHTML = ''; // Limpiar el tbody antes de llenarlo
+            data.cronogramas.forEach(cronograma => {
+                const tr = document.createElement('tr');
+                tr.id = `cronograma-row-${cronograma.id_cronograma}`;
+                const td = document.createElement('td');
+                td.innerHTML = `
+                    <div>Fecha: ${cronograma.fecha}</div>
+                    <div>Hora de inicio: ${cronograma.hora_inicio}</div>
+                    <div>Hora de fin: ${cronograma.hora_fin}</div>
+                    <div>ID Actividad: ${cronograma.id_actividad}</div>
+                    <div>ID Grupo: ${cronograma.id_grupo}</div>
+                    <div class="cronograma-btn-container">
+                        <button class="cronograma-btn-editar" id="cronograma-editar-${cronograma.id_cronograma}">Editar</button>
+                        <button class="cronograma-btn-info" id="cronograma-info-${cronograma.id_cronograma}">Información</button>
+                        <button class="cronograma-btn-eliminar" id="cronograma-eliminar-${cronograma.id_cronograma}">Eliminar</button>
+                    </div>
+                `;
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}

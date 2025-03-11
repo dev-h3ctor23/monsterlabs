@@ -102,14 +102,16 @@
                     <button id="add-activity-btn" class="activity-section-btn">Añadir Actividad</button>
                 </div>
                 <!-- Tabla de Cronograma -->
-                <div class="grid-item-actividades-full-height">
-                    <h2>Cronograma</h2>
-                    <table class="full-height-table-cronograma">
-                        <tbody>
-                            <!-- Aquí se llenarán los datos del cronograma -->
-                        </tbody>
-                    </table>
-                    <button id="add-schedule-btn" class="activity-section-btn">Añadir Cronograma</button>
+                <div class="grid-container-cronograma-full-height">
+                    <div class="grid-item-cronograma-full-height">
+                        <h2>Cronograma</h2>
+                        <table class="full-height-table-cronograma">
+                            <tbody id="cronograma-tbody" class="crngrm-tbody">
+                                <!-- Aquí se llenarán los datos del cronograma -->
+                            </tbody>
+                        </table>
+                        <button id="add-cronograma-btn" class="cronograma-section-btn">Añadir Cronograma</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -237,22 +239,6 @@
                 </div>
             </div>
         </section>
-
-        <section id="cronograma-content" class="content-section" style="display: none;">
-            <div class="grid-container-cronograma-full-height">
-                <!-- Tabla de Cronograma -->
-                <div class="grid-item-cronograma-full-height">
-                    <h2>Cronograma</h2>
-                    <table class="full-height-table-cronograma">
-                        <tbody id="cronograma-tbody" class="crngrm-tbody">
-                            <!-- Aquí se llenarán los datos del cronograma -->
-                        </tbody>
-                    </table>
-                    <button id="add-cronograma-btn" class="cronograma-section-btn">Añadir Cronograma</button>
-                </div>
-            </div>
-        </section>
-
         <!--! Modals de la seccion de perfil -->
         <div class="modal-overlay-profile">
             <div class="modal-profile">
@@ -501,6 +487,17 @@
                     </div>
                     <span id="error-general" class="error-message"></span>
                 </form>
+            </div>
+        </div>
+        <!-- Modal para confirmar eliminación de cronograma -->
+        <div id="delete-cronograma-modal" class="modal-overlay">
+            <div class="modal">
+                <h2>Confirmar Eliminación</h2>
+                <p>¿Estás seguro de que deseas eliminar este cronograma?</p>
+                <div class="btn-container">
+                    <button id="confirm-delete-cronograma-btn" class="btn-save">Eliminar</button>
+                    <button id="close-delete-cronograma-modal-btn" class="btn-close">Cancelar</button>
+                </div>
             </div>
         </div>
         <!-- Pop-up de confirmación -->
