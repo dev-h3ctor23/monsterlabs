@@ -609,7 +609,8 @@ if ($stmt->num_rows > 0) {
              'dni_guardian'  => $row['dni_guardian'],
              'nombre'        => $row['guardian_nombre'],
              'apellido'      => $row['guardian_apellido'],
-             'telefono'      => $row['guardian_telefono']
+             'telefono'      => $row['guardian_telefono'],
+             'relacion'      => $row['relacion_guardian']
          ];
     }
     
