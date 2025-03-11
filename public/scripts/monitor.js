@@ -798,7 +798,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             document.getElementById("modalContent").innerHTML = `
                             <form id="editObservacionesForm">
                                 <div class="form-group">
-                                    <label for="observaciones">Observaciones:</label>
+                                    <label for="observaciones">Observaciones:</label><br>
                                     <textarea id="observaciones" name="observaciones" class="form-control" rows="4">${nino.observaciones.observacion}</textarea>
                                 </div>
                                 <div class="button-edit">
