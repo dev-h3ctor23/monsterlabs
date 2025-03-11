@@ -97,11 +97,23 @@ function abrirModalEdicion(childId, row) {
   document.getElementById('input-alergia-medicamentos').value = row.dataset.alergiaMedicamentos || '';
   document.getElementById('input-medicamento-actual').value = row.dataset.medicamentoActual || '';
   
+  // Rellenar los campos del guardian
   document.getElementById('input-dni-guardian').value = row.dataset.dniGuardian || '';
   document.getElementById('input-nombre-guardian').value = row.dataset.nombreGuardian || '';
   document.getElementById('input-apellidos-guardian').value = row.dataset.apellidosGuardian || '';
   document.getElementById('input-telefono-guardian').value = row.dataset.telefonoGuardian || '';
   document.getElementById('input-relacion-guardian').value = row.dataset.relacionGuardian || '';
+  
+  // Configurar el select y la sección del guardian según si existe información
+  if (row.dataset.dniGuardian && row.dataset.dniGuardian.trim() !== "") {
+    // Existe guardian: el select se establece en "si" y se muestra la sección
+    document.getElementById('select-responsable-editar').value = 'si';
+    document.getElementById('guardian-section').classList.remove('hidden');
+  } else {
+    // No existe guardian: el select se establece en "no" y se oculta la sección
+    document.getElementById('select-responsable-editar').value = 'no';
+    document.getElementById('guardian-section').classList.add('hidden');
+  }
   
   // Guardar el ID del niño en un campo oculto
   document.getElementById('input-id-hijo').value = childId;
@@ -109,6 +121,7 @@ function abrirModalEdicion(childId, row) {
   // Mostrar el modal
   document.getElementById('modal-edit-hijo').style.display = 'flex';
 }
+
 
 // Manejo de eventos al cargar el DOM
 document.addEventListener('DOMContentLoaded', function() {
@@ -132,6 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('modal-edit-hijo').style.display = 'none';
   });
   
+
   // Cerrar el modal al hacer clic en el botón "Cancelar"
   document.getElementById('btn-cancelar-edit').addEventListener('click', function() {
     document.getElementById('modal-edit-hijo').style.display = 'none';
@@ -140,6 +154,11 @@ document.addEventListener('DOMContentLoaded', function() {
   // Manejar el envío del formulario del modal
   document.getElementById('form-editar-hijo').addEventListener('submit', function(e) {
     e.preventDefault();
+  
+    // Tomamos el valor del select para determinar si se requiere guardian
+    const responsableAdicional = document.getElementById('select-responsable-editar').value;
+  
+    // Construimos el objeto de datos a enviar
     const data = {
       action: 'updateChildFull',
       id_nino: document.getElementById('input-id-hijo').value,
@@ -149,15 +168,27 @@ document.addEventListener('DOMContentLoaded', function() {
       alimentos_alergico: document.getElementById('input-alergia-alimentos').value,
       medicamentos_alergico: document.getElementById('input-alergia-medicamentos').value,
       medicamentos_actuales: document.getElementById('input-medicamento-actual').value,
-      dni_guardian: document.getElementById('input-dni-guardian').value,
-      guardian_nombre: document.getElementById('input-nombre-guardian').value,
-      guardian_apellido: document.getElementById('input-apellidos-guardian').value,
-      telefono_guardian: document.getElementById('input-telefono-guardian').value,
-      relacion_guardian: document.getElementById('input-relacion-guardian').value
+      responsableAdicional: responsableAdicional
     };
-
-    console.log("Linea 234 = "+ data)
-    
+  
+    // Si se requiere guardian, incluimos sus datos; de lo contrario, se envían como vacíos
+    if (responsableAdicional === "si") {
+      data.dni_guardian       = document.getElementById('input-dni-guardian').value;
+      data.guardian_nombre    = document.getElementById('input-nombre-guardian').value;
+      data.guardian_apellido  = document.getElementById('input-apellidos-guardian').value;
+      data.telefono_guardian  = document.getElementById('input-telefono-guardian').value;
+      data.relacion_guardian  = document.getElementById('input-relacion-guardian').value;
+    } else {
+      data.dni_guardian       = "";
+      data.guardian_nombre    = "";
+      data.guardian_apellido  = "";
+      data.telefono_guardian  = "";
+      data.relacion_guardian  = "";
+    }
+  
+    console.log("Submitting data:", data);
+  
+    // Envío de la solicitud AJAX a tutor.php
     fetch('../../mvc/controllers/tutor.php', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -168,7 +199,6 @@ document.addEventListener('DOMContentLoaded', function() {
       if (result.status === "success") {
         // Actualizar la fila de la tabla con los nuevos datos
         const row = document.querySelector(`tr[data-child-id="${data.id_nino}"]`);
-        console.log(9) 
         if (row) {
           row.querySelector('td[data-field="nombre"]').textContent = data.nombre;
           row.querySelector('td[data-field="apellido"]').textContent = data.apellido;
@@ -181,72 +211,74 @@ document.addEventListener('DOMContentLoaded', function() {
           row.dataset.apellidosGuardian = data.guardian_apellido;
           row.dataset.telefonoGuardian = data.telefono_guardian;
           row.dataset.relacionGuardian = data.relacion_guardian;
-          
-        // Actualizar la fila de detalle (la que muestra ficha médica y guardian)
-        const detailRow = row.nextElementSibling;
-        if (detailRow && detailRow.classList.contains('detail-row')) {
-          detailRow.innerHTML = `
-            <td colspan="4">
-              <div class="detail-container">
-                <div class="ficha-medica">
-                  <strong>Ficha Médica:</strong>
-                  <table class="subtable">
-                    <tbody>
-                      <tr>
-                        <td>Alimentos:</td>
-                        <td data-field="alimento-alergico">${data.alimentos_alergico || 'NO TIENE'}</td>
-                      </tr>
-                      <tr>
-                        <td>Medicamentos alérgicos:</td>
-                        <td data-field="medicamento-alergico">${data.medicamentos_alergico || 'NO TIENE'}</td>
-                      </tr>
-                      <tr>
-                        <td>Medicamentos actuales:</td>
-                        <td data-field="medicamento-actual">${data.medicamentos_actuales || 'NO TIENE'}</td>
-                      </tr>
-                    </tbody>
-                  </table>
+  
+          // Actualizar la fila de detalle (la que muestra ficha médica y guardian)
+          const detailRow = row.nextElementSibling;
+          if (detailRow && detailRow.classList.contains('detail-row')) {
+            detailRow.innerHTML = `
+              <td colspan="4">
+                <div class="detail-container">
+                  <div class="ficha-medica">
+                    <strong>Ficha Médica:</strong>
+                    <table class="subtable">
+                      <tbody>
+                        <tr>
+                          <td>Alimentos:</td>
+                          <td data-field="alimento-alergico">${data.alimentos_alergico || 'NO TIENE'}</td>
+                        </tr>
+                        <tr>
+                          <td>Medicamentos alérgicos:</td>
+                          <td data-field="medicamento-alergico">${data.medicamentos_alergico || 'NO TIENE'}</td>
+                        </tr>
+                        <tr>
+                          <td>Medicamentos actuales:</td>
+                          <td data-field="medicamento-actual">${data.medicamentos_actuales || 'NO TIENE'}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="guardian">
+                    <strong>Guardian:</strong>
+                    <table class="subtable">
+                      <tbody>
+                        <tr>
+                          <td>DNI:</td>
+                          <td>${data.dni_guardian || 'NO TIENE'}</td>
+                        </tr>
+                        <tr>
+                          <td>Nombre:</td>
+                          <td>${data.guardian_nombre || 'NO TIENE'}</td>
+                        </tr>
+                        <tr>
+                          <td>Apellido:</td>
+                          <td>${data.guardian_apellido || 'NO TIENE'}</td>
+                        </tr>
+                        <tr>
+                          <td>Teléfono:</td>
+                          <td>${data.telefono_guardian || 'NO TIENE'}</td>
+                        </tr>
+                        <tr>
+                          <td>Relación:</td>
+                          <td>${data.relacion_guardian || 'NO TIENE'}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-                <div class="guardian">
-                  <strong>Guardian:</strong>
-                  <table class="subtable">
-                    <tbody>
-                      <tr>
-                        <td>DNI:</td>
-                        <td>${data.dni_guardian || 'NO TIENE'}</td>
-                      </tr>
-                      <tr>
-                        <td>Nombre:</td>
-                        <td>${data.guardian_nombre || 'NO TIENE'}</td>
-                      </tr>
-                      <tr>
-                        <td>Apellido:</td>
-                        <td>${data.guardian_apellido || 'NO TIENE'}</td>
-                      </tr>
-                      <tr>
-                        <td>Teléfono:</td>
-                        <td>${data.telefono_guardian || 'NO TIENE'}</td>
-                      </tr>
-                       <tr>
-                        <td>Relacion:</td>
-                        <td>${data.relacion_guardian || 'NO TIENE'}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </td>
-          `;
+              </td>
+            `;
+          }
         }
-      }
-      // Ocultar el modal
-      document.getElementById('modal-edit-hijo').style.display = 'none';
+        // Ocultar el modal
+        document.getElementById('modal-edit-hijo').style.display = 'none';
+        
+
       } else {
         console.error("Error al actualizar: " + result.message);
       }
     })
     .catch(error => console.error("Error en la solicitud:", error));
-  });
+  });  
 });
 
 
@@ -908,3 +940,20 @@ document.addEventListener("click", function (event) {
           .catch(error => console.error("Error al cerrar sesión:", error));
   }
 });
+
+
+
+// --- Mostrar/Ocultar la sección del guardian en el modal de edición ---
+document.getElementById('select-responsable-editar').addEventListener('change', function() {
+  const guardianSection = document.getElementById('guardian-section');
+  if (this.value === 'si') {
+    guardianSection.classList.remove('hidden');
+  } else {
+    guardianSection.classList.add('hidden');
+    // Opcional: limpiar los campos del guardian
+    guardianSection.querySelectorAll('input').forEach(input => input.value = '');
+  }
+});
+
+
+
