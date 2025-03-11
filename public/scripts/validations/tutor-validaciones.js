@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function updateSubmitButtonStatus() {
             submitButton.disabled = !isFormValid();
         }
-
+        
         function validarInputEditarUsuario(input) {
             const value = input.value.trim();
             const errorDiv = document.getElementById(`${input.id}-error`);
@@ -505,183 +505,251 @@ document.addEventListener('DOMContentLoaded', () => {
     // VALIDACIÓN DEL FORMULARIO DE EDITAR HIJO
     // ===============================
 
-const formEditarHijo = document.getElementById('form-editar-hijo');
-if (formEditarHijo) {
-    // Deshabilitar el botón por defecto
-    const submitButton = document.getElementById('btn-guardar-edit');
-    submitButton.disabled = true;
-    
-    // Validación de campos principales del niño
-    const inputsEditarHijo = ['input-nombre-hijo', 'input-apellidos-hijo', 'input-fecha-nacimiento'];
-    inputsEditarHijo.forEach(id => {
-        const input = document.getElementById(id);
-        if (input) {
-            const errorDiv = document.createElement('div');
-            errorDiv.id = `${id}-error`;
-            errorDiv.style.color = 'red';
-            errorDiv.style.fontSize = '12px';
-            errorDiv.style.marginTop = '5px';
-            errorDiv.style.display = 'none';
-            input.insertAdjacentElement('afterend', errorDiv);
-
-            input.addEventListener('blur', () => {
-                validarInputEditarHijo(input);
-                updateSubmitButtonStatus();
-            });
-            input.addEventListener('input', () => {
-                validarInputEditarHijo(input);
-                updateSubmitButtonStatus();
-            });
-        }
-    });
-
-    // Validación de campos del guardian
-    const guardianFields = ['input-dni-guardian', 'input-nombre-guardian', 'input-apellidos-guardian', 'input-telefono-guardian', 'input-relacion-guardian'];
-    guardianFields.forEach(id => {
-        const input = document.getElementById(id);
-        if (input) {
-            const errorDiv = document.createElement('div');
-            errorDiv.id = `${id}-error`;
-            errorDiv.style.color = 'red';
-            errorDiv.style.fontSize = '12px';
-            errorDiv.style.marginTop = '5px';
-            errorDiv.style.display = 'none';
-            input.insertAdjacentElement('afterend', errorDiv);
-
-            input.addEventListener('blur', () => {
-                validarInputGuardian(input);
-                updateSubmitButtonStatus();
-            });
-            input.addEventListener('input', () => {
-                validarInputGuardian(input);
-                updateSubmitButtonStatus();
-            });
-        }
-    });
-
-    // Mostrar/ocultar sección del guardian según el select y actualizar botón
-    const selectResponsableEditar = document.getElementById('select-responsable-editar');
-    const guardianSection = document.getElementById('guardian-section');
-    if (selectResponsableEditar && guardianSection) {
-        selectResponsableEditar.addEventListener('change', () => {
-            if (selectResponsableEditar.value === 'si') {
-                guardianSection.classList.remove('hidden');
-            } else {
-                guardianSection.classList.add('hidden');
-            }
-            updateSubmitButtonStatus();
-        });
-    }
-
-    // Función que valida todo el formulario de editar hijo
-    function isFormValidEditarHijo() {
-        let valid = true;
+    const formEditarHijo = document.getElementById('form-editar-hijo');
+    if (formEditarHijo) {
+        // Deshabilitar el botón por defecto
+        const submitButton = document.getElementById('btn-guardar-edit');
+        submitButton.disabled = true;
+        
+        // Validación de campos principales del niño
+        const inputsEditarHijo = ['input-nombre-hijo', 'input-apellidos-hijo', 'input-fecha-nacimiento'];
         inputsEditarHijo.forEach(id => {
             const input = document.getElementById(id);
-            if (input && !validarInputEditarHijo(input)) {
-                valid = false;
+            if (input) {
+                const errorDiv = document.createElement('div');
+                errorDiv.id = `${id}-error`;
+                errorDiv.style.color = 'red';
+                errorDiv.style.fontSize = '12px';
+                errorDiv.style.marginTop = '5px';
+                errorDiv.style.display = 'none';
+                input.insertAdjacentElement('afterend', errorDiv);
+    
+                input.addEventListener('blur', () => {
+                    validarInputEditarHijo(input);
+                    updateSubmitButtonStatus();
+                });
+                input.addEventListener('input', () => {
+                    validarInputEditarHijo(input);
+                    updateSubmitButtonStatus();
+                });
             }
         });
-        if (selectResponsableEditar.value === 'si') {
-            guardianFields.forEach(id => {
+    
+        // Validación de campos del guardian
+        const guardianFields = [
+            'input-dni-guardian',
+            'input-nombre-guardian',
+            'input-apellidos-guardian',
+            'input-telefono-guardian',
+            'input-relacion-guardian'
+        ];
+        guardianFields.forEach(id => {
+            const input = document.getElementById(id);
+            if (input) {
+                input.dataset.touched = "false"; // Inicialmente no tocado
+                const errorDiv = document.createElement('div');
+                errorDiv.id = `${id}-error`;
+                errorDiv.style.color = 'red';
+                errorDiv.style.fontSize = '12px';
+                errorDiv.style.marginTop = '5px';
+                errorDiv.style.display = 'none';
+                input.insertAdjacentElement('afterend', errorDiv);
+    
+                input.addEventListener('blur', () => {
+                    input.dataset.touched = "true";
+                    validarInputGuardian(input);
+                    updateSubmitButtonStatus();
+                });
+                input.addEventListener('input', () => {
+                    if (input.dataset.touched === "true") {
+                        validarInputGuardian(input);
+                    }
+                    updateSubmitButtonStatus();
+                });
+            }
+        });
+    
+        // Mostrar/ocultar sección del guardian según el select y actualizar botón
+        const selectResponsableEditar = document.getElementById('select-responsable-editar');
+        const guardianSection = document.getElementById('guardian-section');
+        if (selectResponsableEditar && guardianSection) {
+            selectResponsableEditar.addEventListener('change', () => {
+                if (selectResponsableEditar.value === 'si') {
+                    guardianSection.classList.remove('hidden');
+                } else {
+                    guardianSection.classList.add('hidden');
+                }
+                updateSubmitButtonStatus();
+            });
+        }
+    
+        // Función que valida todo el formulario de editar hijo
+        function isFormValidEditarHijo() {
+            let valid = true;
+            // Validar campos principales
+            inputsEditarHijo.forEach(id => {
                 const input = document.getElementById(id);
-                if (input && !validarInputGuardian(input)) {
+                if (input && !validarInputEditarHijo(input)) {
                     valid = false;
                 }
             });
+            // Validar campos de ficha médica (opcional)
+            const inputsFichaMedica = [
+                'input-alergia-alimentos',
+                'input-alergia-medicamentos',
+                'input-medicamento-actual'
+            ];
+            inputsFichaMedica.forEach(id => {
+                const input = document.getElementById(id);
+                if (input && input.value.trim().length > 100) {
+                    valid = false;
+                }
+            });
+            // Validar campos del guardian si es requerido
+            if (selectResponsableEditar.value === 'si') {
+                guardianFields.forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input && !validarInputGuardian(input)) {
+                        valid = false;
+                    }
+                });
+            }
+            return valid;
         }
-        return valid;
-    }
-
-    // Función para actualizar el estado del botón de submit
-    function updateSubmitButtonStatus() {
-        submitButton.disabled = !isFormValidEditarHijo();
-    }
-
-    // Evento submit del formulario de editar hijo
-    formEditarHijo.addEventListener('submit', function(event) {
-        event.preventDefault();
-        if (isFormValidEditarHijo()) {
-            formEditarHijo.submit();
+    
+        const inputsFichaMedica = [
+            'input-alergia-alimentos',
+            'input-alergia-medicamentos',
+            'input-medicamento-actual'
+        ];
+        inputsFichaMedica.forEach(id => {
+            const input = document.getElementById(id);
+            if (input) {
+                input.addEventListener('blur', updateSubmitButtonStatus);
+                input.addEventListener('input', updateSubmitButtonStatus);
+            }
+        });
+    
+        // Función para actualizar el estado del botón de submit
+        function updateSubmitButtonStatus() {
+            submitButton.disabled = !isFormValidEditarHijo();
         }
-    });
-
-    function validarInputEditarHijo(input) {
-        const value = input.value.trim();
-        const errorDiv = document.getElementById(`${input.id}-error`);
-        const nombreApellidoRegex = /^[A-Za-záéíóúÁÉÍÓÚñÑ\s]+$/;
-
-        if (!value) {
-            errorDiv.textContent = 'Este campo es obligatorio.';
-            errorDiv.style.display = 'block';
-            return false;
-        }
-
-        if ((input.id === 'input-nombre-hijo' || input.id === 'input-apellidos-hijo') && !nombreApellidoRegex.test(value)) {
-            errorDiv.textContent = 'Este campo solo puede contener letras y espacios.';
-            errorDiv.style.display = 'block';
-            return false;
-        }
-
-        if (input.id === 'input-fecha-nacimiento') {
-            const fechaNacimiento = new Date(value);
-            const hoy = new Date();
-            if (fechaNacimiento > hoy) {
-                errorDiv.textContent = 'La fecha de nacimiento no puede ser futura.';
+    
+        // Evento submit del formulario de editar hijo
+        formEditarHijo.addEventListener('submit', function(event) {
+            event.preventDefault();
+        
+            // Si el guardian es requerido, mostramos la sección y forzamos la validación de cada campo
+            if (selectResponsableEditar.value === 'si') {
+                // Mostrar la sección del guardian
+                guardianSection.classList.remove('hidden');
+                // Forzar reflow para asegurar que la sección ya se muestra
+                guardianSection.getBoundingClientRect();
+        
+                // Marcar cada campo del guardian como "touched" y llamar directamente a su validación
+                guardianFields.forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input) {
+                        input.dataset.touched = "true";
+                        validarInputGuardian(input);
+                    }
+                });
+            }
+        
+            
+                //if (isFormValidEditarHijo()) {
+                    //formEditarHijo.submit();
+               // }
+            
+        });
+    
+        // Función de validación de campos del hijo
+        function validarInputEditarHijo(input) {
+            const value = input.value.trim();
+            const errorDiv = document.getElementById(`${input.id}-error`);
+            const nombreApellidoRegex = /^[A-Za-záéíóúÁÉÍÓÚñÑ\s]+$/;
+    
+            if (!value) {
+                errorDiv.textContent = 'Este campo es obligatorio.';
                 errorDiv.style.display = 'block';
                 return false;
             }
-            let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
-            const m = hoy.getMonth() - fechaNacimiento.getMonth();
-            if (m < 0 || (m === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
-                edad--;
-            }
-            if (edad < 6) {
-                errorDiv.textContent = 'El niño debe tener al menos 6 años de edad.';
+    
+            if ((input.id === 'input-nombre-hijo' || input.id === 'input-apellidos-hijo') && !nombreApellidoRegex.test(value)) {
+                errorDiv.textContent = 'Este campo solo puede contener letras y espacios.';
                 errorDiv.style.display = 'block';
                 return false;
             }
-            if (edad > 9) {
-                errorDiv.textContent = 'El niño no puede tener más de 9 años de edad.';
-                errorDiv.style.display = 'block';
+    
+            if (input.id === 'input-fecha-nacimiento') {
+                const fechaNacimiento = new Date(value);
+                const hoy = new Date();
+                if (fechaNacimiento > hoy) {
+                    errorDiv.textContent = 'La fecha de nacimiento no puede ser futura.';
+                    errorDiv.style.display = 'block';
+                    return false;
+                }
+                let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+                const m = hoy.getMonth() - fechaNacimiento.getMonth();
+                if (m < 0 || (m === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+                    edad--;
+                }
+                if (edad < 6) {
+                    errorDiv.textContent = 'El niño debe tener al menos 6 años de edad.';
+                    errorDiv.style.display = 'block';
+                    return false;
+                }
+                if (edad > 9) {
+                    errorDiv.textContent = 'El niño no puede tener más de 9 años de edad.';
+                    errorDiv.style.display = 'block';
+                    return false;
+                }
+            }
+            errorDiv.style.display = 'none';
+            return true;
+        }
+    
+        // Función de validación modificada para los campos del guardian
+        function validarInputGuardian(input) {
+            const value = input.value.trim();
+            const errorDiv = document.getElementById(`${input.id}-error`);
+            const nombreApellidoRegex = /^[A-Za-záéíóúÁÉÍÓÚñÑ\s]+$/;
+            
+            if (!value) {
+                if (input.dataset.touched === "true") {
+                    errorDiv.textContent = 'Este campo es obligatorio.';
+                    errorDiv.style.display = 'block';
+                }
                 return false;
             }
+            if (input.id === 'input-dni-guardian' && !/^[0-9]{8}[A-Za-z]$/.test(value)) {
+                if (input.dataset.touched === "true") {
+                    errorDiv.textContent = 'El DNI debe tener 8 dígitos seguidos de una letra (ej. 12345678A).';
+                    errorDiv.style.display = 'block';
+                }
+                return false;
+            }
+            if ((input.id === 'input-nombre-guardian' ||
+                 input.id === 'input-apellidos-guardian' ||
+                 input.id === 'input-relacion-guardian') &&
+                !nombreApellidoRegex.test(value)) {
+                if (input.dataset.touched === "true") {
+                    errorDiv.textContent = 'Este campo solo puede contener letras y espacios.';
+                    errorDiv.style.display = 'block';
+                }
+                return false;
+            }
+            if (input.id === 'input-telefono-guardian' && !/^[0-9]{9}$/.test(value)) {
+                if (input.dataset.touched === "true") {
+                    errorDiv.textContent = 'El teléfono debe tener exactamente 9 dígitos.';
+                    errorDiv.style.display = 'block';
+                }
+                return false;
+            }
+            errorDiv.style.display = 'none';
+            return true;
         }
-        errorDiv.style.display = 'none';
-        return true;
     }
-
-    function validarInputGuardian(input) {
-        const value = input.value.trim();
-        const errorDiv = document.getElementById(`${input.id}-error`);
-        const nombreApellidoRegex = /^[A-Za-záéíóúÁÉÍÓÚñÑ\s]+$/;
-
-        if (!value) {
-            errorDiv.textContent = 'Este campo es obligatorio.';
-            errorDiv.style.display = 'block';
-            return false;
-        }
-
-        if (input.id === 'input-dni-guardian' && !/^[0-9]{8}[A-Za-z]$/.test(value)) {
-            errorDiv.textContent = 'El DNI debe tener 8 dígitos seguidos de una letra (ej. 12345678A).';
-            errorDiv.style.display = 'block';
-            return false;
-        }
-        if ((input.id === 'input-nombre-guardian' || input.id === 'input-apellidos-guardian' || input.id === 'input-relacion-guardian') && !nombreApellidoRegex.test(value)) {
-            errorDiv.textContent = 'Este campo solo puede contener letras y espacios.';
-            errorDiv.style.display = 'block';
-            return false;
-        }
-        if (input.id === 'input-telefono-guardian' && !/^[0-9]{9}$/.test(value)) {
-            errorDiv.textContent = 'El teléfono debe tener exactamente 9 dígitos.';
-            errorDiv.style.display = 'block';
-            return false;
-        }
-        errorDiv.style.display = 'none';
-        return true;
-    }
-}
-
     
 
     // Agregar más código sin salirse del DOM, IMPORTANTE!!!!!!!!!!
