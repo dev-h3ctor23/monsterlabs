@@ -79,81 +79,6 @@ function deleteChild(childId) {
   }
 }
 
-// Delegación de eventos para la edición y eliminación inline de hijos
-/*document.addEventListener('DOMContentLoaded', function() {
-  // Asignar listener al <tbody> de la tabla de hijos
-  const hijosTableBody = document.querySelector("#infoHijos tbody");
-  if (hijosTableBody) {
-    hijosTableBody.addEventListener('click', function(e) {
-      const target = e.target;
-      const row = target.closest('tr');
-      if (!row) return;
-      const childId = row.getAttribute('data-child-id');
-
-      // Acción: Eliminar hijo
-      if (target.classList.contains('btnEliminarHijo')) {
-        deleteChild(childId);
-      }
-      // Acción: Editar/Guardar hijo inline
-      else if (target.classList.contains('btnEditarHijo')) {
-        // Si la fila no está en modo edición, activar la edición inline
-        if (!row.classList.contains('editing')) {
-          row.classList.add('editing');
-          // Reemplazar el contenido de cada celda editable por un input
-          row.querySelectorAll('td[data-field]').forEach(cell => {
-            const field = cell.getAttribute('data-field');
-            const value = cell.textContent;
-            cell.setAttribute('data-original', value);
-            const input = document.createElement('input');
-            input.type = (field === 'fecha_nacimiento' ? 'date' : 'text');
-            input.value = value;
-            cell.textContent = '';
-            cell.appendChild(input);
-          });
-          // Cambiar el texto del botón a "Guardar"
-          target.textContent = 'Guardar';
-        } else {
-          // En modo edición, recopilar los datos actualizados de la fila
-          const updatedChild = {};
-          row.querySelectorAll('td[data-field]').forEach(cell => {
-            const field = cell.getAttribute('data-field');
-            const input = cell.querySelector('input');
-            updatedChild[field] = input.value;
-          });
-          updatedChild.id_nino = childId;
-          updatedChild.action = 'updateChild';
-          // Enviar la actualización al servidor
-          fetch("/monsterlabs/mvc/controllers/tutor.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updatedChild)
-          })
-          .then(response => response.json())
-          .then(result => {
-            if(result.status === "success"){
-              console.log("Información del hijo actualizada correctamente");
-              // Actualizar la fila: reemplazar los inputs por texto con el nuevo valor
-              row.querySelectorAll('td[data-field]').forEach(cell => {
-                const input = cell.querySelector('input');
-                cell.textContent = input.value;
-              });
-              row.classList.remove('editing');
-              target.textContent = 'Editar';
-            } else {
-              console.log("Error al actualizar: " + result.message);
-            }
-          })
-          .catch(error => {
-            console.error("Error:", error);
-          });
-        }
-      }
-    });
-  }
-});
-*/
-
-// Función para abrir el modal y rellenar sus campos con los datos actuales
 
 // Función para abrir el modal y rellenar sus campos con los datos actuales
 function abrirModalEdicion(childId, row) {
@@ -256,6 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
           row.dataset.apellidosGuardian = data.guardian_apellido;
           row.dataset.telefonoGuardian = data.telefono_guardian;
           row.dataset.relacionGuardian = data.relacion_guardian;
+          
         // Actualizar la fila de detalle (la que muestra ficha médica y guardian)
         const detailRow = row.nextElementSibling;
         if (detailRow && detailRow.classList.contains('detail-row')) {
@@ -587,7 +513,10 @@ document.addEventListener("DOMContentLoaded", function() {
     .then(response => response.json())
     .then(data => {
       console.log(data);
-      if (data.status === "success" && data.padre) {
+
+      if (data.status === "error") {
+        window.location.replace("../../mvc/views/log-in.html");
+      } else if (data.status === "success" && data.padre) {
         console.log("data.status === success && data.padre");
         // Guardar globalmente la data para usar en la edición de hijos
         window.tutorData = data;
@@ -624,6 +553,7 @@ document.addEventListener("DOMContentLoaded", function() {
   mainRow.dataset.nombreGuardian = nino.guardian ? nino.guardian.nombre : '';
   mainRow.dataset.apellidosGuardian = nino.guardian ? nino.guardian.apellido : '';
   mainRow.dataset.telefonoGuardian = nino.guardian ? nino.guardian.telefono : '';
+  mainRow.dataset.relacionGuardian = nino.guardian ? nino.guardian.relacion : '';
   mainRow.innerHTML = `
     <td data-field="nombre">${nino.nombre}</td>
     <td data-field="apellido">${nino.apellido}</td>
@@ -679,6 +609,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     <tr>
                       <td>Teléfono:</td>
                       <td>${ nino.guardian.telefono || 'NO TIENE' }</td>
+                    </tr>
+                    <tr>
+                      <td>Relacion:</td>
+                      <td>${ nino.guardian.relacion || 'NO TIENE' }</td>
                     </tr>
                   </table>`
               : '<p>No existe Guardian</p>' }
@@ -796,6 +730,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
       } else {
         // Si no está registrado como padre, mostrar modal y asignar listener al formulario de inscripción
+       
         document.getElementById("modal-overlay").style.display = "block";
         const formInscripcionPadre = document.getElementById("form-inscripcion-padre");
         formInscripcionPadre.addEventListener("submit", function(e) {
@@ -837,7 +772,8 @@ document.addEventListener("DOMContentLoaded", function() {
     })
     .catch(error => {
       console.error("Error al obtener los datos del usuario:", error);
-      document.getElementById("modal-overlay").style.display = "block";
+      // En caso de error, puedes redirigir al log-in o mostrar el modal
+      window.location.replace("../../mvc/views/log-in.html");
     });
 });
   
