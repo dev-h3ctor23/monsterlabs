@@ -2379,3 +2379,714 @@ function cargarCronogramas() {
         })
         .catch(error => console.error('Error:', error));
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    cargarCronogramas();
+
+    const editCronogramaModal = document.getElementById('edit-cronograma-modal');
+    const saveEditCronogramaBtn = document.getElementById('save-edit-cronograma-btn');
+    const closeEditCronogramaModalBtn = document.getElementById('close-edit-cronograma-modal-btn');
+
+    let cronogramaToEdit = null;
+
+    function abrirModalEditarCronograma(cronograma) {
+        cronogramaToEdit = cronograma;
+        document.getElementById('edit-fecha').value = cronograma.fecha;
+        document.getElementById('edit-hora-inicio').value = cronograma.hora_inicio;
+        document.getElementById('edit-hora-fin').value = cronograma.hora_fin;
+        document.getElementById('edit-id-actividad').value = cronograma.id_actividad;
+        document.getElementById('edit-id-grupo').value = cronograma.id_grupo;
+        editCronogramaModal.classList.add('active');
+    }
+
+    function cerrarModalEditarCronograma() {
+        editCronogramaModal.classList.remove('active');
+        cronogramaToEdit = null;
+    }
+
+    saveEditCronogramaBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (cronogramaToEdit) {
+            const updatedCronograma = {
+                id: cronogramaToEdit.id_cronograma,
+                fecha: document.getElementById('edit-fecha').value,
+                hora_inicio: document.getElementById('edit-hora-inicio').value,
+                hora_fin: document.getElementById('edit-hora-fin').value,
+                id_actividad: document.getElementById('edit-id-actividad').value,
+                id_grupo: document.getElementById('edit-id-grupo').value
+            };
+
+            fetch(`../../mvc/controllers/administrator/update_cronograma.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedCronograma)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const tr = document.getElementById(`cronograma-row-${updatedCronograma.id}`);
+                    tr.innerHTML = `
+                        <div>Fecha: ${updatedCronograma.fecha}</div>
+                        <div>Hora de inicio: ${updatedCronograma.hora_inicio}</div>
+                        <div>Hora de fin: ${updatedCronograma.hora_fin}</div>
+                        <div>ID Actividad: ${updatedCronograma.id_actividad}</div>
+                        <div>ID Grupo: ${updatedCronograma.id_grupo}</div>
+                        <div class="cronograma-btn-container">
+                            <button class="cronograma-btn-editar" id="cronograma-editar-${updatedCronograma.id}">Editar</button>
+                            <button class="cronograma-btn-info" id="cronograma-info-${updatedCronograma.id}">Información</button>
+                            <button class="cronograma-btn-eliminar" id="cronograma-eliminar-${updatedCronograma.id}">Eliminar</button>
+                        </div>
+                    `;
+                    cerrarModalEditarCronograma();
+                } else {
+                    console.error('Error:', data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+
+    closeEditCronogramaModalBtn.addEventListener('click', cerrarModalEditarCronograma);
+
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('cronograma-btn-editar')) {
+            const idCronograma = event.target.id.split('-')[2];
+            const cronograma = {
+                id_cronograma: idCronograma,
+                fecha: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(1)`).textContent.split(': ')[1],
+                hora_inicio: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(2)`).textContent.split(': ')[1],
+                hora_fin: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(3)`).textContent.split(': ')[1],
+                id_actividad: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(4)`).textContent.split(': ')[1],
+                id_grupo: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(5)`).textContent.split(': ')[1]
+            };
+            abrirModalEditarCronograma(cronograma);
+        }
+    });
+});
+
+function cargarCronogramas() {
+    fetch('../../mvc/controllers/administrator/get_cronogramas.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'error') {
+                console.error('Error:', data.message);
+                return;
+            }
+            const tbody = document.getElementById('cronograma-tbody');
+            tbody.innerHTML = ''; // Limpiar el tbody antes de llenarlo
+            data.cronogramas.forEach(cronograma => {
+                const tr = document.createElement('tr');
+                tr.id = `cronograma-row-${cronograma.id_cronograma}`;
+                const td = document.createElement('td');
+                td.innerHTML = `
+                    <div>Fecha: ${cronograma.fecha}</div>
+                    <div>Hora de inicio: ${cronograma.hora_inicio}</div>
+                    <div>Hora de fin: ${cronograma.hora_fin}</div>
+                    <div>ID Actividad: ${cronograma.id_actividad}</div>
+                    <div>ID Grupo: ${cronograma.id_grupo}</div>
+                    <div class="cronograma-btn-container">
+                        <button class="cronograma-btn-editar" id="cronograma-editar-${cronograma.id_cronograma}">Editar</button>
+                        <button class="cronograma-btn-info" id="cronograma-info-${cronograma.id_cronograma}">Información</button>
+                        <button class="cronograma-btn-eliminar" id="cronograma-eliminar-${cronograma.id_cronograma}">Eliminar</button>
+                    </div>
+                `;
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    cargarCronogramas();
+    cargarActividadesYGrupos();
+
+    const editCronogramaModal = document.getElementById('edit-cronograma-modal');
+    const saveEditCronogramaBtn = document.getElementById('save-edit-cronograma-btn');
+    const closeEditCronogramaModalBtn = document.getElementById('close-edit-cronograma-modal-btn');
+
+    let cronogramaToEdit = null;
+
+    function abrirModalEditarCronograma(cronograma) {
+        cronogramaToEdit = cronograma;
+        document.getElementById('edit-fecha').value = cronograma.fecha;
+        document.getElementById('edit-hora-inicio').value = cronograma.hora_inicio;
+        document.getElementById('edit-hora-fin').value = cronograma.hora_fin;
+        document.getElementById('edit-id-actividad').value = cronograma.id_actividad;
+        document.getElementById('edit-id-grupo').value = cronograma.id_grupo;
+        editCronogramaModal.classList.add('active');
+    }
+
+    function cerrarModalEditarCronograma() {
+        editCronogramaModal.classList.remove('active');
+        cronogramaToEdit = null;
+    }
+
+    saveEditCronogramaBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (cronogramaToEdit) {
+            const updatedCronograma = {
+                id: cronogramaToEdit.id_cronograma,
+                fecha: document.getElementById('edit-fecha').value,
+                hora_inicio: document.getElementById('edit-hora-inicio').value,
+                hora_fin: document.getElementById('edit-hora-fin').value,
+                id_actividad: document.getElementById('edit-id-actividad').value,
+                id_grupo: document.getElementById('edit-id-grupo').value
+            };
+
+            fetch(`../../mvc/controllers/administrator/update_cronograma.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedCronograma)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const tr = document.getElementById(`cronograma-row-${updatedCronograma.id}`);
+                    tr.innerHTML = `
+                        <div>Fecha: ${updatedCronograma.fecha}</div>
+                        <div>Hora de inicio: ${updatedCronograma.hora_inicio}</div>
+                        <div>Hora de fin: ${updatedCronograma.hora_fin}</div>
+                        <div>ID Actividad: ${updatedCronograma.id_actividad}</div>
+                        <div>ID Grupo: ${updatedCronograma.id_grupo}</div>
+                        <div class="cronograma-btn-container">
+                            <button class="cronograma-btn-editar" id="cronograma-editar-${updatedCronograma.id}">Editar</button>
+                            <button class="cronograma-btn-info" id="cronograma-info-${updatedCronograma.id}">Información</button>
+                            <button class="cronograma-btn-eliminar" id="cronograma-eliminar-${updatedCronograma.id}">Eliminar</button>
+                        </div>
+                    `;
+                    cerrarModalEditarCronograma();
+                } else {
+                    console.error('Error:', data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+
+    closeEditCronogramaModalBtn.addEventListener('click', cerrarModalEditarCronograma);
+
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('cronograma-btn-editar')) {
+            const idCronograma = event.target.id.split('-')[2];
+            const cronograma = {
+                id_cronograma: idCronograma,
+                fecha: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(1)`).textContent.split(': ')[1],
+                hora_inicio: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(2)`).textContent.split(': ')[1],
+                hora_fin: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(3)`).textContent.split(': ')[1],
+                id_actividad: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(4)`).textContent.split(': ')[1],
+                id_grupo: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(5)`).textContent.split(': ')[1]
+            };
+            abrirModalEditarCronograma(cronograma);
+        }
+    });
+});
+
+function cargarActividadesYGrupos() {
+    fetch('../../mvc/controllers/administrator/get_actividades.php')
+        .then(response => response.json())
+        .then(data => {
+            const selectActividad = document.getElementById('edit-id-actividad');
+            data.forEach(actividad => {
+                const option = document.createElement('option');
+                option.value = actividad.id_actividad;
+                option.textContent = actividad.nombre_actividad;
+                selectActividad.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+
+    fetch('../../mvc/controllers/administrator/get_grupos.php')
+        .then(response => response.json())
+        .then(data => {
+            const selectGrupo = document.getElementById('edit-id-grupo');
+            data.forEach(grupo => {
+                const option = document.createElement('option');
+                option.value = grupo.id_grupo;
+                option.textContent = grupo.nombre_grupo;
+                selectGrupo.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    cargarCronogramas();
+    cargarActividadesYGrupos();
+
+    const addCronogramaModal = document.getElementById('add-cronograma-modal');
+    const saveAddCronogramaBtn = document.getElementById('save-add-cronograma-btn');
+    const closeAddCronogramaModalBtn = document.getElementById('close-add-cronograma-modal-btn');
+    const addCronogramaBtn = document.getElementById('add-cronograma-btn');
+
+    function abrirModalAñadirCronograma() {
+        addCronogramaModal.classList.add('active');
+    }
+
+    function cerrarModalAñadirCronograma() {
+        addCronogramaModal.classList.remove('active');
+    }
+
+    saveAddCronogramaBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        const nuevoCronograma = {
+            fecha: document.getElementById('add-fecha').value,
+            hora_inicio: document.getElementById('add-hora-inicio').value,
+            hora_fin: document.getElementById('add-hora-fin').value,
+            id_actividad: document.getElementById('add-id-actividad').value,
+            id_grupo: document.getElementById('add-id-grupo').value
+        };
+
+        fetch(`../../mvc/controllers/administrator/add_cronograma.php`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(nuevoCronograma)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                const tbody = document.getElementById('cronograma-tbody');
+                const tr = document.createElement('tr');
+                tr.id = `cronograma-row-${data.id}`;
+                const td = document.createElement('td');
+                td.innerHTML = `
+                    <div>Fecha: ${nuevoCronograma.fecha}</div>
+                    <div>Hora de inicio: ${nuevoCronograma.hora_inicio}</div>
+                    <div>Hora de fin: ${nuevoCronograma.hora_fin}</div>
+                    <div>ID Actividad: ${nuevoCronograma.id_actividad}</div>
+                    <div>ID Grupo: ${nuevoCronograma.id_grupo}</div>
+                    <div class="cronograma-btn-container">
+                        <button class="cronograma-btn-editar" id="cronograma-editar-${data.id}">Editar</button>
+                        <button class="cronograma-btn-info" id="cronograma-info-${data.id}">Información</button>
+                        <button class="cronograma-btn-eliminar" id="cronograma-eliminar-${data.id}">Eliminar</button>
+                    </div>
+                `;
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+                cerrarModalAñadirCronograma();
+            } else {
+                console.error('Error:', data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    closeAddCronogramaModalBtn.addEventListener('click', cerrarModalAñadirCronograma);
+    addCronogramaBtn.addEventListener('click', abrirModalAñadirCronograma);
+});
+
+function cargarCronogramas() {
+    fetch('../../mvc/controllers/administrator/get_cronogramas.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'error') {
+                console.error('Error:', data.message);
+                return;
+            }
+            const tbody = document.getElementById('cronograma-tbody');
+            tbody.innerHTML = ''; // Limpiar el tbody antes de llenarlo
+            data.cronogramas.forEach(cronograma => {
+                const tr = document.createElement('tr');
+                tr.id = `cronograma-row-${cronograma.id_cronograma}`;
+                const td = document.createElement('td');
+                td.innerHTML = `
+                    <div>Fecha: ${cronograma.fecha}</div>
+                    <div>Hora de inicio: ${cronograma.hora_inicio}</div>
+                    <div>Hora de fin: ${cronograma.hora_fin}</div>
+                    <div>ID Actividad: ${cronograma.id_actividad}</div>
+                    <div>ID Grupo: ${cronograma.id_grupo}</div>
+                    <div class="cronograma-btn-container">
+                        <button class="cronograma-btn-editar" id="cronograma-editar-${cronograma.id_cronograma}">Editar</button>
+                        <button class="cronograma-btn-info" id="cronograma-info-${cronograma.id_cronograma}">Información</button>
+                        <button class="cronograma-btn-eliminar" id="cronograma-eliminar-${cronograma.id_cronograma}">Eliminar</button>
+                    </div>
+                `;
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function cargarActividadesYGrupos() {
+    fetch('../../mvc/controllers/administrator/get_actividades.php')
+        .then(response => response.json())
+        .then(data => {
+            const selectActividadAdd = document.getElementById('add-id-actividad');
+            const selectActividadEdit = document.getElementById('edit-id-actividad');
+            data.forEach(actividad => {
+                const optionAdd = document.createElement('option');
+                optionAdd.value = actividad.id_actividad;
+                optionAdd.textContent = actividad.nombre_actividad;
+                selectActividadAdd.appendChild(optionAdd);
+
+                const optionEdit = document.createElement('option');
+                optionEdit.value = actividad.id_actividad;
+                optionEdit.textContent = actividad.nombre_actividad;
+                selectActividadEdit.appendChild(optionEdit);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+
+    fetch('../../mvc/controllers/administrator/get_grupos.php')
+        .then(response => response.json())
+        .then(data => {
+            const selectGrupoAdd = document.getElementById('add-id-grupo');
+            const selectGrupoEdit = document.getElementById('edit-id-grupo');
+            data.forEach(grupo => {
+                const optionAdd = document.createElement('option');
+                optionAdd.value = grupo.id_grupo;
+                optionAdd.textContent = grupo.nombre_grupo;
+                selectGrupoAdd.appendChild(optionAdd);
+
+                const optionEdit = document.createElement('option');
+                optionEdit.value = grupo.id_grupo;
+                optionEdit.textContent = grupo.nombre_grupo;
+                selectGrupoEdit.appendChild(optionEdit);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    cargarCronogramas();
+    cargarActividadesYGrupos();
+
+    const editCronogramaModal = document.getElementById('edit-cronograma-modal');
+    const saveEditCronogramaBtn = document.getElementById('save-edit-cronograma-btn');
+    const closeEditCronogramaModalBtn = document.getElementById('close-edit-cronograma-modal-btn');
+
+    let cronogramaToEdit = null;
+
+    function abrirModalEditarCronograma(cronograma) {
+        cronogramaToEdit = cronograma;
+        document.getElementById('edit-fecha').value = cronograma.fecha;
+        document.getElementById('edit-hora-inicio').value = cronograma.hora_inicio;
+        document.getElementById('edit-hora-fin').value = cronograma.hora_fin;
+        document.getElementById('edit-id-actividad').value = cronograma.id_actividad;
+        document.getElementById('edit-id-grupo').value = cronograma.id_grupo;
+        editCronogramaModal.classList.add('active');
+    }
+
+    function cerrarModalEditarCronograma() {
+        editCronogramaModal.classList.remove('active');
+        cronogramaToEdit = null;
+    }
+
+    saveEditCronogramaBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (cronogramaToEdit) {
+            const updatedCronograma = {
+                id: cronogramaToEdit.id_cronograma,
+                fecha: document.getElementById('edit-fecha').value,
+                hora_inicio: document.getElementById('edit-hora-inicio').value,
+                hora_fin: document.getElementById('edit-hora-fin').value,
+                id_actividad: document.getElementById('edit-id-actividad').value,
+                id_grupo: document.getElementById('edit-id-grupo').value
+            };
+
+            fetch(`../../mvc/controllers/administrator/update_cronograma.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedCronograma)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const tr = document.getElementById(`cronograma-row-${updatedCronograma.id}`);
+                    tr.innerHTML = `
+                        <div>Fecha: ${updatedCronograma.fecha}</div>
+                        <div>Hora de inicio: ${updatedCronograma.hora_inicio}</div>
+                        <div>Hora de fin: ${updatedCronograma.hora_fin}</div>
+                        <div>ID Actividad: ${updatedCronograma.id_actividad}</div>
+                        <div>ID Grupo: ${updatedCronograma.id_grupo}</div>
+                        <div class="cronograma-btn-container">
+                            <button class="cronograma-btn-editar" id="cronograma-editar-${updatedCronograma.id}">Editar</button>
+                            <button class="cronograma-btn-info" id="cronograma-info-${updatedCronograma.id}">Información</button>
+                            <button class="cronograma-btn-eliminar" id="cronograma-eliminar-${updatedCronograma.id}">Eliminar</button>
+                        </div>
+                    `;
+                    cerrarModalEditarCronograma();
+                } else {
+                    console.error('Error:', data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+
+    closeEditCronogramaModalBtn.addEventListener('click', cerrarModalEditarCronograma);
+
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('cronograma-btn-editar')) {
+            const idCronograma = event.target.id.split('-')[2];
+            const cronograma = {
+                id_cronograma: idCronograma,
+                fecha: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(1)`).textContent.split(': ')[1],
+                hora_inicio: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(2)`).textContent.split(': ')[1],
+                hora_fin: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(3)`).textContent.split(': ')[1],
+                id_actividad: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(4)`).textContent.split(': ')[1],
+                id_grupo: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(5)`).textContent.split(': ')[1]
+            };
+            abrirModalEditarCronograma(cronograma);
+        }
+    });
+});
+
+function cargarActividadesYGrupos() {
+    fetch('../../mvc/controllers/administrator/get_actividades.php')
+        .then(response => response.json())
+        .then(data => {
+            const selectActividad = document.getElementById('edit-id-actividad');
+            data.forEach(actividad => {
+                const option = document.createElement('option');
+                option.value = actividad.id_actividad;
+                option.textContent = actividad.nombre_actividad;
+                selectActividad.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+
+    fetch('../../mvc/controllers/administrator/get_grupos.php')
+        .then(response => response.json())
+        .then(data => {
+            const selectGrupo = document.getElementById('edit-id-grupo');
+            data.forEach(grupo => {
+                const option = document.createElement('option');
+                option.value = grupo.id_grupo;
+                option.textContent = grupo.nombre_grupo;
+                selectGrupo.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    cargarCronogramas();
+    cargarActividadesYGrupos();
+
+    const addCronogramaModal = document.getElementById('add-cronograma-modal');
+    const saveAddCronogramaBtn = document.getElementById('save-add-cronograma-btn');
+    const closeAddCronogramaModalBtn = document.getElementById('close-add-cronograma-modal-btn');
+    const addCronogramaBtn = document.getElementById('add-cronograma-btn');
+
+    const editCronogramaModal = document.getElementById('edit-cronograma-modal');
+    const saveEditCronogramaBtn = document.getElementById('save-edit-cronograma-btn');
+    const closeEditCronogramaModalBtn = document.getElementById('close-edit-cronograma-modal-btn');
+
+    let cronogramaToEdit = null;
+
+    function abrirModalAñadirCronograma() {
+        addCronogramaModal.classList.add('active');
+    }
+
+    function cerrarModalAñadirCronograma() {
+        addCronogramaModal.classList.remove('active');
+    }
+
+    function abrirModalEditarCronograma(cronograma) {
+        cronogramaToEdit = cronograma;
+        document.getElementById('edit-fecha').value = cronograma.fecha;
+        document.getElementById('edit-hora-inicio').value = cronograma.hora_inicio;
+        document.getElementById('edit-hora-fin').value = cronograma.hora_fin;
+        document.getElementById('edit-id-actividad').value = cronograma.id_actividad;
+        document.getElementById('edit-id-grupo').value = cronograma.id_grupo;
+        editCronogramaModal.classList.add('active');
+    }
+
+    function cerrarModalEditarCronograma() {
+        editCronogramaModal.classList.remove('active');
+        cronogramaToEdit = null;
+    }
+
+    saveAddCronogramaBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        const nuevoCronograma = {
+            fecha: document.getElementById('add-fecha').value,
+            hora_inicio: document.getElementById('add-hora-inicio').value,
+            hora_fin: document.getElementById('add-hora-fin').value,
+            id_actividad: document.getElementById('add-id-actividad').value,
+            id_grupo: document.getElementById('add-id-grupo').value
+        };
+
+        fetch(`../../mvc/controllers/administrator/add_cronograma.php`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(nuevoCronograma)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                const tbody = document.getElementById('cronograma-tbody');
+                const tr = document.createElement('tr');
+                tr.id = `cronograma-row-${data.id}`;
+                const td = document.createElement('td');
+                td.innerHTML = `
+                    <div>Fecha: ${nuevoCronograma.fecha}</div>
+                    <div>Hora de inicio: ${nuevoCronograma.hora_inicio}</div>
+                    <div>Hora de fin: ${nuevoCronograma.hora_fin}</div>
+                    <div>ID Actividad: ${nuevoCronograma.id_actividad}</div>
+                    <div>ID Grupo: ${nuevoCronograma.id_grupo}</div>
+                    <div class="cronograma-btn-container">
+                        <button class="cronograma-btn-editar" id="cronograma-editar-${data.id}">Editar</button>
+                        <button class="cronograma-btn-info" id="cronograma-info-${data.id}">Información</button>
+                        <button class="cronograma-btn-eliminar" id="cronograma-eliminar-${data.id}">Eliminar</button>
+                    </div>
+                `;
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+                cerrarModalAñadirCronograma();
+            } else {
+                console.error('Error:', data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    saveEditCronogramaBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (cronogramaToEdit) {
+            const updatedCronograma = {
+                id: cronogramaToEdit.id_cronograma,
+                fecha: document.getElementById('edit-fecha').value,
+                hora_inicio: document.getElementById('edit-hora-inicio').value,
+                hora_fin: document.getElementById('edit-hora-fin').value,
+                id_actividad: document.getElementById('edit-id-actividad').value,
+                id_grupo: document.getElementById('edit-id-grupo').value
+            };
+
+            fetch(`../../mvc/controllers/administrator/update_cronograma.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedCronograma)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const tr = document.getElementById(`cronograma-row-${updatedCronograma.id}`);
+                    tr.innerHTML = `
+                        <div>Fecha: ${updatedCronograma.fecha}</div>
+                        <div>Hora de inicio: ${updatedCronograma.hora_inicio}</div>
+                        <div>Hora de fin: ${updatedCronograma.hora_fin}</div>
+                        <div>ID Actividad: ${updatedCronograma.id_actividad}</div>
+                        <div>ID Grupo: ${updatedCronograma.id_grupo}</div>
+                        <div class="cronograma-btn-container">
+                            <button class="cronograma-btn-editar" id="cronograma-editar-${updatedCronograma.id}">Editar</button>
+                            <button class="cronograma-btn-info" id="cronograma-info-${updatedCronograma.id}">Información</button>
+                            <button class="cronograma-btn-eliminar" id="cronograma-eliminar-${updatedCronograma.id}">Eliminar</button>
+                        </div>
+                    `;
+                    cerrarModalEditarCronograma();
+                } else {
+                    console.error('Error:', data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+
+    closeAddCronogramaModalBtn.addEventListener('click', cerrarModalAñadirCronograma);
+    addCronogramaBtn.addEventListener('click', abrirModalAñadirCronograma);
+
+    closeEditCronogramaModalBtn.addEventListener('click', cerrarModalEditarCronograma);
+
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('cronograma-btn-editar')) {
+            const idCronograma = event.target.id.split('-')[2];
+            const cronograma = {
+                id_cronograma: idCronograma,
+                fecha: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(1)`).textContent.split(': ')[1],
+                hora_inicio: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(2)`).textContent.split(': ')[1],
+                hora_fin: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(3)`).textContent.split(': ')[1],
+                id_actividad: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(4)`).textContent.split(': ')[1],
+                id_grupo: document.querySelector(`#cronograma-row-${idCronograma} div:nth-child(5)`).textContent.split(': ')[1]
+            };
+            abrirModalEditarCronograma(cronograma);
+        }
+    });
+});
+
+function cargarCronogramas() {
+    fetch('../../mvc/controllers/administrator/get_cronogramas.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'error') {
+                console.error('Error:', data.message);
+                return;
+            }
+            const tbody = document.getElementById('cronograma-tbody');
+            tbody.innerHTML = ''; // Limpiar el tbody antes de llenarlo
+            data.cronogramas.forEach(cronograma => {
+                const tr = document.createElement('tr');
+                tr.id = `cronograma-row-${cronograma.id_cronograma}`;
+                const td = document.createElement('td');
+                td.innerHTML = `
+                    <div>Fecha: ${cronograma.fecha}</div>
+                    <div>Hora de inicio: ${cronograma.hora_inicio}</div>
+                    <div>Hora de fin: ${cronograma.hora_fin}</div>
+                    <div>ID Actividad: ${cronograma.id_actividad}</div>
+                    <div>ID Grupo: ${cronograma.id_grupo}</div>
+                    <div class="cronograma-btn-container">
+                        <button class="cronograma-btn-editar" id="cronograma-editar-${cronograma.id_cronograma}">Editar</button>
+                        <button class="cronograma-btn-info" id="cronograma-info-${cronograma.id_cronograma}">Información</button>
+                        <button class="cronograma-btn-eliminar" id="cronograma-eliminar-${cronograma.id_cronograma}">Eliminar</button>
+                    </div>
+                `;
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function cargarActividadesYGrupos() {
+    fetch('../../mvc/controllers/administrator/get_actividades.php')
+        .then(response => response.json())
+        .then(data => {
+            const selectActividadAdd = document.getElementById('add-id-actividad');
+            const selectActividadEdit = document.getElementById('edit-id-actividad');
+            data.forEach(actividad => {
+                const optionAdd = document.createElement('option');
+                optionAdd.value = actividad.id_actividad;
+                optionAdd.textContent = actividad.nombre_actividad;
+                selectActividadAdd.appendChild(optionAdd);
+
+                const optionEdit = document.createElement('option');
+                optionEdit.value = actividad.id_actividad;
+                optionEdit.textContent = actividad.nombre_actividad;
+                selectActividadEdit.appendChild(optionEdit);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+
+    fetch('../../mvc/controllers/administrator/get_grupos.php')
+        .then(response => response.json())
+        .then(data => {
+            const selectGrupoAdd = document.getElementById('add-id-grupo');
+            const selectGrupoEdit = document.getElementById('edit-id-grupo');
+            data.forEach(grupo => {
+                const optionAdd = document.createElement('option');
+                optionAdd.value = grupo.id_grupo;
+                optionAdd.textContent = grupo.nombre_grupo;
+                selectGrupoAdd.appendChild(optionAdd);
+
+                const optionEdit = document.createElement('option');
+                optionEdit.value = grupo.id_grupo;
+                optionEdit.textContent = grupo.nombre_grupo;
+                selectGrupoEdit.appendChild(optionEdit);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}

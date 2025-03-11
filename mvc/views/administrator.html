@@ -500,6 +500,70 @@
                 </div>
             </div>
         </div>
+        <!-- Modal para editar cronograma -->
+        <div id="edit-cronograma-modal" class="modal-overlay">
+            <div class="modal">
+                <h2>Editar Cronograma</h2>
+                <form id="edit-cronograma-form">
+                    <div class="form-group">
+                        <label for="edit-fecha">Fecha</label>
+                        <input type="date" id="edit-fecha" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-hora-inicio">Hora de Inicio</label>
+                        <input type="time" id="edit-hora-inicio" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-hora-fin">Hora de Fin</label>
+                        <input type="time" id="edit-hora-fin" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-id-actividad">ID Actividad</label>
+                        <select id="edit-id-actividad" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-id-grupo">ID Grupo</label>
+                        <select id="edit-id-grupo" class="form-control"></select>
+                    </div>
+                    <div class="btn-container">
+                        <button type="button" id="close-edit-cronograma-modal-btn" class="btn-close">Cancelar</button>
+                        <button type="submit" id="save-edit-cronograma-btn" class="btn-save">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Modal para añadir cronograma -->
+        <div id="add-cronograma-modal" class="modal-overlay">
+            <div class="modal">
+                <h2>Añadir Cronograma</h2>
+                <form id="add-cronograma-form">
+                    <div class="form-group">
+                        <label for="add-fecha">Fecha</label>
+                        <input type="date" id="add-fecha" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-hora-inicio">Hora de Inicio</label>
+                        <input type="time" id="add-hora-inicio" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-hora-fin">Hora de Fin</label>
+                        <input type="time" id="add-hora-fin" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-id-actividad">ID Actividad</label>
+                        <select id="add-id-actividad" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-id-grupo">ID Grupo</label>
+                        <select id="add-id-grupo" class="form-control"></select>
+                    </div>
+                    <div class="btn-container">
+                        <button type="button" id="close-add-cronograma-modal-btn" class="btn-close">Cancelar</button>
+                        <button type="submit" id="save-add-cronograma-btn" class="btn-save">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <!-- Pop-up de confirmación -->
         <div id="popup-confirmation" class="popup-confirmation">
             <span id="popup-message"></span>
