@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('form').addEventListener('submit', function(event) {
         event.preventDefault();
         
-        const usernameField = document.querySelector('input[type="text"]');
-        const passwordField = document.querySelector('input[type="password"]');
+        const usernameField = document.querySelector('input[type="text"].input');
+        const passwordField = document.querySelector('input[type="password"].password');
 
         const emailError = document.getElementById('email-error');
         const passwordError = document.getElementById('password-error');
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (valid) {
             // Suponiendo que usamos fetch para enviar datos al endpoint de login (por ejemplo, login.php)
-            fetch('../../../mvc/controllers/login.php', {
+            fetch('../../mvc/controllers/login.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
