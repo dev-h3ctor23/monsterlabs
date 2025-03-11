@@ -1610,3 +1610,349 @@ html, body {
     background: #bbb;
 }
 
+/* Estilos para el modal de añadir monitor */
+
+.mntrs-grp-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.mntrs-grp-btn-edit {
+    background-color: #56B848;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    margin: 4px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.mntrs-grp-btn-edit:hover {
+    background-color: #4ca03e;
+}
+
+.mntrs-grp-btn-info {
+    background-color: #F89728;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    margin: 4px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.mntrs-grp-btn-info:hover {
+    background-color: #e07a1f;
+}
+
+.mntrs-grp-btn-delete {
+    background-color: #EF5948;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    margin: 4px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.mntrs-grp-btn-delete:hover {
+    background-color: #d84438;
+}
+
+.modal-overlay-edit-monitor {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay-edit-monitor.active {
+    display: flex;
+}
+
+.modal-edit-monitor {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    max-width: 100%;
+}
+
+.modal-edit-monitor h2 {
+    margin-top: 0;
+}
+
+.modal-edit-monitor select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.modal-edit-monitor select:focus {
+    border-color: #56B848;
+}
+
+.btn-container-edit-monitor {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn-edit-monitor {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-close-edit-monitor {
+    background: #ccc;
+}
+
+.btn-confirmar-edit-monitor {
+    background: #56B848;
+    color: #fff;
+}
+
+.success-popup {
+    position: fixed;
+    top: 20px;
+    right: 50px;
+    background: #03B56E;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 1001;
+    text-align: center;
+    font-size: 16px;
+}
+
+.success-popup.show {
+    opacity: 1;
+}
+
+.modal-overlay-info-monitor {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay-info-monitor.active {
+    display: flex;
+}
+
+.modal-info-monitor {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    max-width: 100%;
+}
+
+.modal-info-monitor h2 {
+    margin-top: 0;
+}
+
+.btn-container-info-monitor {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn-info-monitor {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #ccc;
+}
+
+.btn-info-monitor:hover {
+    background: #bbb;
+}
+
+.modal-overlay-delete-monitor {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay-delete-monitor.active {
+    display: flex;
+}
+
+.modal-delete-monitor {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    max-width: 100%;
+}
+
+.modal-delete-monitor h2 {
+    margin-top: 0;
+}
+
+.btn-container-delete-monitor {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn-delete-monitor {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-close-delete-monitor {
+    background: #ccc;
+}
+
+.btn-confirmar-delete-monitor {
+    background: #EF5948;
+    color: #fff;
+}
+
+.btn-delete-monitor:hover {
+    opacity: 0.8;
+}
+
+/* Estilos para el modal de añadir monitor */
+.modal-overlay-add-monitor {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay-add-monitor.active {
+    display: flex;
+}
+
+.modal-add-monitor {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 500px; /* Ajustar el ancho del modal */
+    max-width: 100%;
+}
+
+.modal-add-monitor h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.modal-add-monitor form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-add-monitor label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.modal-add-monitor input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.modal-add-monitor input:focus {
+    border-color: #56B848;
+}
+
+.btn-container-add-monitor {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn-add-monitor {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-close-add-monitor {
+    background: #ccc;
+}
+
+.btn-confirmar-add-monitor {
+    background: #56B848;
+    color: #fff;
+}
+
+.btn-add-monitor:hover {
+    opacity: 0.8;
+}
+
+/* Añadir este CSS para el pop-up de error */
+.popup-error {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #d84438;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.popup-error.active {
+    display: block;
+}

@@ -321,9 +321,91 @@
                 <button type="button" class="btn-close-info-group">Cerrar</button>
             </div>
         </div>
+        <!-- Modal para editar el grupo de un monitor -->
+        <div class="modal-overlay-edit-monitor">
+            <div class="modal-edit-monitor">
+                <h2>Editar Grupo del Monitor</h2>
+                <p>Selecciona el nuevo grupo para el monitor:</p>
+                <select id="select-grupo-monitor">
+                    <!-- Opciones de grupos se llenarán dinámicamente -->
+                </select>
+                <div class="btn-container-edit-monitor">
+                    <button type="button" class="btn-edit-monitor btn-close-edit-monitor">Cancelar</button>
+                    <button type="button" class="btn-edit-monitor btn-confirmar-edit-monitor">Confirmar</button>
+                </div>
+            </div>
+        </div>
+        <!-- Modal para mostrar información del monitor -->
+        <div class="modal-overlay-info-monitor">
+            <div class="modal-info-monitor">
+                <h2>Información del Monitor</h2>
+                <div id="info-monitor-content">
+                    <!-- Aquí se llenarán los datos del monitor -->
+                </div>
+                <div class="btn-container-info-monitor">
+                    <button type="button" class="btn-info-monitor btn-close-info-monitor">Cerrar</button>
+                </div>
+            </div>
+        </div>
+        <!-- Modal para eliminar a un monitor -->
+        <div class="modal-overlay-delete-monitor">
+            <div class="modal-delete-monitor">
+                <h2>Eliminar Monitor</h2>
+                <p>¿Estás seguro de que deseas eliminar a este monitor?</p>
+                <div class="btn-container-delete-monitor">
+                    <button type="button" class="btn-delete-monitor btn-close-delete-monitor">Cancelar</button>
+                    <button type="button" class="btn-delete-monitor btn-confirmar-delete-monitor">Eliminar</button>
+                </div>
+            </div>
+        </div>
+        <!-- Modal para añadir un monitor -->
+        <div class="modal-overlay-add-monitor">
+            <div class="modal-add-monitor">
+                <h2>Añadir Monitor</h2>
+                <form id="form-add-monitor">
+                    <label for="add-username">Nombre de usuario:</label>
+                    <input type="text" id="add-username" name="username">
+                    <span id="add-username-error" class="error-message"></span>
+                    
+                    <label for="add-nombre">Nombre:</label>
+                    <input type="text" id="add-nombre" name="nombre">
+                    <span id="add-nombre-error" class="error-message"></span>
+                    
+                    <label for="add-apellido">Apellido:</label>
+                    <input type="text" id="add-apellido" name="apellido">
+                    <span id="add-apellido-error" class="error-message"></span>
+                    
+                    <label for="add-dni">DNI:</label>
+                    <input type="text" id="add-dni" name="dni">
+                    <span id="add-dni-error" class="error-message"></span>
+                    
+                    <label for="add-telefono">Teléfono:</label>
+                    <input type="text" id="add-telefono" name="telefono">
+                    <span id="add-telefono-error" class="error-message"></span>
+                    
+                    <label for="add-correo">Correo Electrónico:</label>
+                    <input type="email" id="add-correo" name="correo">
+                    <span id="add-correo-error" class="error-message"></span>
+                    
+                    <label for="add-contrasena">Contraseña:</label>
+                    <input type="password" id="add-contrasena" name="contrasena">
+                    <span id="add-contrasena-error" class="error-message"></span>
+                    
+                    <div class="btn-container-add-monitor">
+                        <button type="button" class="btn-add-monitor btn-close-add-monitor">Cancelar</button>
+                        <button type="submit" class="btn-add-monitor btn-confirmar-add-monitor">Añadir</button>
+                    </div>
+                    <span id="error-general" class="error-message"></span>
+                </form>
+            </div>
+        </div>
         <!-- Pop-up de confirmación -->
         <div id="popup-confirmation" class="popup-confirmation">
             <span id="popup-message"></span>
+        </div>
+        <!-- Pop-up de error -->
+        <div id="popup-error" class="popup-error">
+            <span id="popup-error-message"></span>
         </div>
     </div>
 </body>

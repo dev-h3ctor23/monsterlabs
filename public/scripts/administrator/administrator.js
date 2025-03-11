@@ -1118,6 +1118,561 @@ document.addEventListener('DOMContentLoaded', function() {
 // Añadir evento al formulario de editar grupo
 document.getElementById('form-edit-group').addEventListener('submit', editarGrupo);
 
+// Función para obtener los monitores y mostrarlos en la tabla
+function mntrsGrpObtenerMonitores() {
+    fetch('../../mvc/controllers/administrator/monitores.php')
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.querySelector('.full-height-table-monitores tbody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            data.forEach(monitor => {
+                const fila = document.createElement('tr');
+                const columna = document.createElement('td');
+
+                const nombreApellido = document.createElement('div');
+                nombreApellido.textContent = `${monitor.nombre} ${monitor.apellido}`;
+
+                const contenedorBotones = document.createElement('div');
+                contenedorBotones.classList.add('mntrs-grp-buttons');
+
+                const btnEditar = document.createElement('button');
+                btnEditar.id = `mntrs-grp-edit-${monitor.id_monitor}`;
+                btnEditar.classList.add('mntrs-grp-btn-edit');
+                btnEditar.textContent = 'Editar Grupo';
+                btnEditar.addEventListener('click', () => abrirModalEditarMonitor(monitor.id_monitor));
+
+                const btnInfo = document.createElement('button');
+                btnInfo.id = `mntrs-grp-info-${monitor.id_monitor}`;
+                btnInfo.classList.add('mntrs-grp-btn-info');
+                btnInfo.textContent = 'Información';
+                btnInfo.addEventListener('click', () => abrirModalInfoMonitor(monitor.id_monitor));
+
+                const btnEliminar = document.createElement('button');
+                btnEliminar.id = `mntrs-grp-delete-${monitor.id_monitor}`;
+                btnEliminar.classList.add('mntrs-grp-btn-delete');
+                btnEliminar.textContent = 'Eliminar';
+                btnEliminar.addEventListener('click', () => abrirModalEliminarMonitor(monitor.id_monitor));
+
+                contenedorBotones.appendChild(btnEditar);
+                contenedorBotones.appendChild(btnInfo);
+                contenedorBotones.appendChild(btnEliminar);
+
+                columna.appendChild(nombreApellido);
+                columna.appendChild(contenedorBotones);
+                fila.appendChild(columna);
+                tbody.appendChild(fila);
+            });
+        })
+        .catch(error => {
+            console.error('Error al obtener monitores:', error);
+        });
+}
+
+// Función para abrir el modal de editar grupo del monitor
+function abrirModalEditarMonitor(idMonitor) {
+    const modalOverlayEditMonitor = document.querySelector('.modal-overlay-edit-monitor');
+    const btnConfirmarEditMonitor = document.querySelector('.btn-confirmar-edit-monitor');
+    const selectGrupoMonitor = document.getElementById('select-grupo-monitor');
+
+    // Limpiar el select antes de llenarlo
+    selectGrupoMonitor.innerHTML = '';
+
+    // Obtener los grupos disponibles
+    fetch('../../mvc/controllers/administrator/obtener_grupos.php', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            data.grupos.forEach(grupo => {
+                const option = document.createElement('option');
+                option.value = grupo.id_grupo;
+                option.textContent = grupo.nombre_grupo;
+                selectGrupoMonitor.appendChild(option);
+            });
+        } else {
+            alert('Error al obtener los grupos');
+        }
+    })
+    .catch(error => {
+        console.error('Error al obtener los grupos:', error);
+    });
+
+    modalOverlayEditMonitor.classList.add('active');
+
+    btnConfirmarEditMonitor.onclick = function() {
+        const idGrupoSeleccionado = selectGrupoMonitor.value;
+        const nombreGrupoSeleccionado = selectGrupoMonitor.options[selectGrupoMonitor.selectedIndex].text;
+        editarGrupoMonitor(idMonitor, idGrupoSeleccionado, nombreGrupoSeleccionado);
+        modalOverlayEditMonitor.classList.remove('active');
+    };
+
+    document.querySelector('.btn-close-edit-monitor').onclick = function() {
+        modalOverlayEditMonitor.classList.remove('active');
+    };
+}
+
+// Función para editar el grupo del monitor
+function editarGrupoMonitor(idMonitor, idGrupo, nombreGrupo) {
+    fetch(`../../mvc/controllers/administrator/editar_grupo_monitor.php`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id_monitor: idMonitor, id_grupo: idGrupo })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            mostrarPopupExito(`Monitor añadido al grupo ${nombreGrupo}`);
+            mntrsGrpObtenerMonitores(); // Actualizar la tabla de monitores
+        } else {
+            alert('Error al editar el grupo del monitor');
+        }
+    })
+    .catch(error => {
+        console.error('Error al editar el grupo del monitor:', error);
+    });
+}
+
+// Función para mostrar el pop-up de éxito
+function mostrarPopupExito(mensaje) {
+    const popup = document.createElement('div');
+    popup.className = 'success-popup';
+    popup.textContent = mensaje;
+    document.body.appendChild(popup);
+
+    setTimeout(() => {
+        popup.classList.add('show');
+    }, 100);
+
+    setTimeout(() => {
+        popup.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(popup);
+        }, 500);
+    }, 1500);
+}
+
+// Función para abrir el modal de información del monitor
+function abrirModalInfoMonitor(idMonitor) {
+    const modalOverlayInfoMonitor = document.querySelector('.modal-overlay-info-monitor');
+    const infoMonitorContent = document.getElementById('info-monitor-content');
+
+    // Limpiar el contenido antes de llenarlo
+    infoMonitorContent.innerHTML = '';
+
+    // Obtener los datos del monitor
+    fetch(`../../mvc/controllers/administrator/obtener_info_monitor.php?id=${idMonitor}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            const monitor = data.monitor;
+            const nombre = monitor.nombre || 'No hay datos aquí';
+            const apellido = monitor.apellido || 'No hay datos aquí';
+            const dni = monitor.dni_monitor || 'No hay datos aquí';
+            const telefono = monitor.numero_telefono || 'No hay datos aquí';
+
+            infoMonitorContent.innerHTML = `
+                <p><strong>Nombre:</strong> ${nombre}</p>
+                <p><strong>Apellido:</strong> ${apellido}</p>
+                <p><strong>DNI:</strong> ${dni}</p>
+                <p><strong>Teléfono:</strong> ${telefono}</p>
+            `;
+        } else {
+            infoMonitorContent.innerHTML = '<p>Error al obtener la información del monitor</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Error al obtener la información del monitor:', error);
+        infoMonitorContent.innerHTML = '<p>Error al obtener la información del monitor</p>';
+    });
+
+    modalOverlayInfoMonitor.classList.add('active');
+
+    document.querySelector('.btn-close-info-monitor').onclick = function() {
+        modalOverlayInfoMonitor.classList.remove('active');
+    };
+}
+
+// Función para abrir el modal de eliminar monitor
+function abrirModalEliminarMonitor(idMonitor) {
+    const modalOverlayDeleteMonitor = document.querySelector('.modal-overlay-delete-monitor');
+    const btnConfirmarDeleteMonitor = document.querySelector('.btn-confirmar-delete-monitor');
+
+    modalOverlayDeleteMonitor.classList.add('active');
+
+    btnConfirmarDeleteMonitor.onclick = function() {
+        eliminarMonitor(idMonitor);
+        modalOverlayDeleteMonitor.classList.remove('active');
+    };
+
+    document.querySelector('.btn-close-delete-monitor').onclick = function() {
+        modalOverlayDeleteMonitor.classList.remove('active');
+    };
+}
+
+// Función para eliminar el monitor
+function eliminarMonitor(idMonitor) {
+    fetch(`../../mvc/controllers/administrator/eliminar_monitor.php`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id_monitor: idMonitor })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            mostrarPopupExito('Monitor eliminado correctamente');
+            mntrsGrpObtenerMonitores(); // Actualizar la tabla de monitores
+        } else {
+            alert('Error al eliminar el monitor');
+        }
+    })
+    .catch(error => {
+        console.error('Error al eliminar el monitor:', error);
+    });
+}
+
+// Función para abrir el modal de añadir monitor
+function abrirModalAddMonitor() {
+    const modalOverlayAddMonitor = document.querySelector('.modal-overlay-add-monitor');
+    const btnCloseAddMonitor = document.querySelector('.btn-close-add-monitor');
+
+    modalOverlayAddMonitor.classList.add('active');
+
+    btnCloseAddMonitor.onclick = function() {
+        modalOverlayAddMonitor.classList.remove('active');
+        limpiarFormularioAddMonitor();
+    };
+}
+
+// Función para limpiar el formulario de añadir monitor
+function limpiarFormularioAddMonitor() {
+    document.getElementById('form-add-monitor').reset();
+    document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+}
+
+// Añadir evento al botón "Añadir Monitor"
+document.getElementById('group-section-add-monitor').addEventListener('click', abrirModalAddMonitor);
+
+// Función para validar el formulario de añadir monitor
+function validarFormularioAddMonitor() {
+    let isValid = true;
+    const formAddMonitor = document.getElementById('form-add-monitor');
+    const formData = new FormData(formAddMonitor);
+
+    // Validaciones
+    const username = formData.get('username');
+    const nombre = formData.get('nombre');
+    const apellido = formData.get('apellido');
+    const dni = formData.get('dni');
+    const correo = formData.get('correo');
+    const contrasena = formData.get('contrasena');
+
+    // Validar Nombre de Usuario
+    if (!username) {
+        mostrarError('add-username', 'El usuario no puede estar vacío');
+        isValid = false;
+    } else if (/\s/.test(username)) {
+        mostrarError('add-username', 'El usuario no puede tener espacios en blanco');
+        isValid = false;
+    } else if (/[^a-zA-Z0-9]/.test(username)) {
+        mostrarError('add-username', 'El usuario no puede tener caracteres especiales');
+        isValid = false;
+    } else if (username.length < 6) {
+        mostrarError('add-username', 'El usuario debe tener mínimo 6 caracteres');
+        isValid = false;
+    } else {
+        // Verificar si el nombre de usuario ya existe
+        fetch(`../../mvc/controllers/administrator/verificar_usuario.php?username=${username}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    mostrarError('add-username', 'El nombre de usuario ya existe');
+                    isValid = false;
+                } else {
+                    ocultarError('add-username');
+                }
+            })
+            .catch(error => {
+                console.error('Error al verificar el nombre de usuario:', error);
+                mostrarError('add-username', 'Error al verificar el nombre de usuario');
+                isValid = false;
+            });
+    }
+
+    // Validar Nombre
+    if (!nombre) {
+        mostrarError('add-nombre', 'El nombre no puede estar vacío');
+        isValid = false;
+    } else if (/\s/.test(nombre)) {
+        mostrarError('add-nombre', 'El nombre no puede tener espacios en blanco');
+        isValid = false;
+    } else if (/\d/.test(nombre)) {
+        mostrarError('add-nombre', 'El nombre no puede contener números');
+        isValid = false;
+    } else if (/[^a-zA-Z]/.test(nombre)) {
+        mostrarError('add-nombre', 'El nombre no puede tener caracteres especiales');
+        isValid = false;
+    } else {
+        ocultarError('add-nombre');
+    }
+
+    // Validar Apellido
+    if (!apellido) {
+        mostrarError('add-apellido', 'El apellido no puede estar vacío');
+        isValid = false;
+    } else if (/\s/.test(apellido)) {
+        mostrarError('add-apellido', 'El apellido no puede tener espacios en blanco');
+        isValid = false;
+    } else if (/\d/.test(apellido)) {
+        mostrarError('add-apellido', 'El apellido no puede contener números');
+        isValid = false;
+    } else if (/[^a-zA-Z]/.test(apellido)) {
+        mostrarError('add-apellido', 'El apellido no puede tener caracteres especiales');
+        isValid = false;
+    } else {
+        ocultarError('add-apellido');
+    }
+
+    // Validar DNI
+    if (!dni) {
+        mostrarError('add-dni', 'El DNI no puede estar vacío');
+        isValid = false;
+    } else if (/\s/.test(dni)) {
+        mostrarError('add-dni', 'El DNI no puede tener espacios');
+        isValid = false;
+    } else if (!/^\d{8}[A-Z]$/.test(dni)) {
+        mostrarError('add-dni', 'El DNI debe contener 8 números y 1 letra mayúscula');
+        isValid = false;
+    } else {
+        ocultarError('add-dni');
+    }
+
+    // Validar Correo Electrónico
+    if (!correo) {
+        mostrarError('add-correo', 'El correo no puede estar vacío');
+        isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+        mostrarError('add-correo', 'Escriba correctamente el correo');
+        isValid = false;
+    } else {
+        ocultarError('add-correo');
+    }
+
+    // Validar Contraseña
+    if (!contrasena) {
+        mostrarError('add-contrasena', 'La contraseña no puede estar vacía');
+        isValid = false;
+    } else if (/\s/.test(contrasena)) {
+        mostrarError('add-contrasena', 'La contraseña no puede tener espacios');
+        isValid = false;
+    } else if (contrasena.length < 6) {
+        mostrarError('add-contrasena', 'La contraseña debe tener 6 caracteres');
+        isValid = false;
+    } else if (!/\d/.test(contrasena)) {
+        mostrarError('add-contrasena', 'La contraseña debe contener 1 número');
+        isValid = false;
+    } else if (!/[A-Z]/.test(contrasena)) {
+        mostrarError('add-contrasena', 'La contraseña debe contener 1 letra mayúscula');
+        isValid = false;
+    } else if (!/[a-z]/.test(contrasena)) {
+        mostrarError('add-contrasena', 'La contraseña debe contener 1 letra minúscula');
+        isValid = false;
+    } else {
+        ocultarError('add-contrasena');
+    }
+
+    return isValid;
+}
+
+// Función para validar un campo específico del formulario de añadir monitor
+function validarCampoAddMonitor(campo) {
+    const formAddMonitor = document.getElementById('form-add-monitor');
+    const formData = new FormData(formAddMonitor);
+    const valor = formData.get(campo);
+
+    switch (campo) {
+        case 'username':
+            if (!valor) {
+                mostrarError('add-username', 'El usuario no puede estar vacío');
+            } else if (/\s/.test(valor)) {
+                mostrarError('add-username', 'El usuario no puede tener espacios en blanco');
+            } else if (/[^a-zA-Z0-9]/.test(valor)) {
+                mostrarError('add-username', 'El usuario no puede tener caracteres especiales');
+            } else if (valor.length < 6) {
+                mostrarError('add-username', 'El usuario debe tener mínimo 6 caracteres');
+            } else {
+                // Verificar si el nombre de usuario ya existe
+                fetch(`../../mvc/controllers/administrator/verificar_usuario.php?username=${valor}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.exists) {
+                            mostrarError('add-username', 'El nombre de usuario ya existe');
+                        } else {
+                            ocultarError('add-username');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al verificar el nombre de usuario:', error);
+                        mostrarError('add-username', 'Error al verificar el nombre de usuario');
+                    });
+            }
+            break;
+        case 'nombre':
+            if (!valor) {
+                mostrarError('add-nombre', 'El nombre no puede estar vacío');
+            } else if (/\s/.test(valor)) {
+                mostrarError('add-nombre', 'El nombre no puede tener espacios en blanco');
+            } else if (/\d/.test(valor)) {
+                mostrarError('add-nombre', 'El nombre no puede contener números');
+            } else if (/[^a-zA-Z]/.test(valor)) {
+                mostrarError('add-nombre', 'El nombre no puede tener caracteres especiales');
+            } else {
+                ocultarError('add-nombre');
+            }
+            break;
+        case 'apellido':
+            if (!valor) {
+                mostrarError('add-apellido', 'El apellido no puede estar vacío');
+            } else if (/\s/.test(valor)) {
+                mostrarError('add-apellido', 'El apellido no puede tener espacios en blanco');
+            } else if (/\d/.test(valor)) {
+                mostrarError('add-apellido', 'El apellido no puede contener números');
+            } else if (/[^a-zA-Z]/.test(valor)) {
+                mostrarError('add-apellido', 'El apellido no puede tener caracteres especiales');
+            } else {
+                ocultarError('add-apellido');
+            }
+            break;
+        case 'dni':
+            if (!valor) {
+                mostrarError('add-dni', 'El DNI no puede estar vacío');
+            } else if (/\s/.test(valor)) {
+                mostrarError('add-dni', 'El DNI no puede tener espacios');
+            } else if (!/^\d{8}[A-Z]$/.test(valor)) {
+                mostrarError('add-dni', 'El DNI debe contener 8 números y 1 letra mayúscula');
+            } else {
+                ocultarError('add-dni');
+            }
+            break;
+        case 'correo':
+            if (!valor) {
+                mostrarError('add-correo', 'El correo no puede estar vacío');
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor)) {
+                mostrarError('add-correo', 'Escriba correctamente el correo');
+            } else {
+                ocultarError('add-correo');
+            }
+            break;
+        case 'contrasena':
+            if (!valor) {
+                mostrarError('add-contrasena', 'La contraseña no puede estar vacía');
+            } else if (/\s/.test(valor)) {
+                mostrarError('add-contrasena', 'La contraseña no puede tener espacios');
+            } else if (valor.length < 6) {
+                mostrarError('add-contrasena', 'La contraseña debe tener 6 caracteres');
+            } else if (!/\d/.test(valor)) {
+                mostrarError('add-contrasena', 'La contraseña debe contener 1 número');
+            } else if (!/[A-Z]/.test(valor)) {
+                mostrarError('add-contrasena', 'La contraseña debe contener 1 letra mayúscula');
+            } else if (!/[a-z]/.test(valor)) {
+                mostrarError('add-contrasena', 'La contraseña debe contener 1 letra minúscula');
+            } else {
+                ocultarError('add-contrasena');
+            }
+            break;
+        case 'telefono':
+            if (!valor) {
+                mostrarError('add-telefono', 'El teléfono no puede estar vacío');
+            } else if (!/^\d{9}$/.test(valor)) {
+                mostrarError('add-telefono', 'El teléfono debe tener 9 dígitos');
+            } else {
+                ocultarError('add-telefono');
+            }
+            break;
+    }
+}
+
+// Añadir eventos blur a los campos del formulario
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('add-username').addEventListener('blur', () => validarCampoAddMonitor('username'));
+    document.getElementById('add-nombre').addEventListener('blur', () => validarCampoAddMonitor('nombre'));
+    document.getElementById('add-apellido').addEventListener('blur', () => validarCampoAddMonitor('apellido'));
+    document.getElementById('add-dni').addEventListener('blur', () => validarCampoAddMonitor('dni'));
+    document.getElementById('add-correo').addEventListener('blur', () => validarCampoAddMonitor('correo'));
+    document.getElementById('add-contrasena').addEventListener('blur', () => validarCampoAddMonitor('contrasena'));
+    document.getElementById('add-telefono').addEventListener('blur', () => validarCampoAddMonitor('telefono'));
+});
+
+// Función para añadir un monitor
+function anadirMonitor(event) {
+    event.preventDefault();
+
+    if (!validarFormularioAddMonitor()) {
+        mostrarErrorGeneral('Complete todos los campos correctamente');
+        return;
+    }
+
+    const formAddMonitor = document.getElementById('form-add-monitor');
+    const formData = new FormData(formAddMonitor);
+    const data = {
+        username: formData.get('username'),
+        nombre: formData.get('nombre'),
+        apellido: formData.get('apellido'),
+        dni: formData.get('dni'),
+        telefono: formData.get('telefono'),
+        correo: formData.get('correo'),
+        contrasena: formData.get('contrasena')
+    };
+
+    fetch('../../mvc/controllers/administrator/anadir_monitor.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            mostrarPopupExito('Monitor añadido correctamente');
+            mntrsGrpObtenerMonitores(); // Actualizar la tabla de monitores
+            document.querySelector('.modal-overlay-add-monitor').classList.remove('active');
+            limpiarFormularioAddMonitor(); // Limpiar el formulario después de añadir el monitor
+        } else {
+            alert(data.message); // Mostrar el mensaje de error del servidor
+        }
+    })
+    .catch(error => {
+        console.error('Error al añadir el monitor:', error);
+    });
+}
+
+// Función para mostrar mensaje de error general
+function mostrarErrorGeneral(mensaje) {
+    const errorGeneralElement = document.getElementById('error-general');
+    if (errorGeneralElement) {
+        errorGeneralElement.textContent = mensaje;
+        errorGeneralElement.style.display = 'block';
+    }
+}
+
+// Añadir evento al formulario de añadir monitor
+document.getElementById('form-add-monitor').addEventListener('submit', anadirMonitor);
+
 // Llamar a las funciones cuando se cargue la página
 document.addEventListener('DOMContentLoaded', function() {
     obtenerDatosAdministrator();
@@ -1178,5 +1733,235 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    mntrsGrpObtenerMonitores();
+});
+
+// Función para mostrar mensajes de error
+function mostrarError(campo, mensaje) {
+    const errorElement = document.getElementById(`${campo}-error`);
+    if (errorElement) {
+        errorElement.textContent = mensaje;
+        errorElement.style.display = 'block';
+    } else {
+        console.error(`No se encontró el elemento de error para el campo: ${campo}`);
+    }
+}
+
+// Función para ocultar mensajes de error
+function ocultarError(campo) {
+    const errorElement = document.getElementById(`${campo}-error`);
+    if (errorElement) {
+        errorElement.textContent = '';
+        errorElement.style.display = 'none';
+    } else {
+        console.error(`No se encontró el elemento de error para el campo: ${campo}`);
+    }
+}
+
+// Función para mostrar el pop-up de error
+function mostrarPopupError(mensaje) {
+    const popupError = document.getElementById('popup-error');
+    const popupErrorMessage = document.getElementById('popup-error-message');
+    if (popupError && popupErrorMessage) {
+        popupErrorMessage.textContent = mensaje;
+        popupError.classList.add('active');
+        setTimeout(() => {
+            popupError.classList.remove('active');
+        }, 1000); // El pop-up se ocultará después de 5 segundos
+    }
+}
+
+// Función para validar un campo específico del formulario de añadir monitor
+function validarCampoAddMonitor(campo) {
+    const formAddMonitor = document.getElementById('form-add-monitor');
+    const formData = new FormData(formAddMonitor);
+    const valor = formData.get(campo);
+
+    switch (campo) {
+        case 'username':
+            if (!valor) {
+                mostrarError('add-username', 'El usuario no puede estar vacío');
+            } else if (/\s/.test(valor)) {
+                mostrarError('add-username', 'El usuario no puede tener espacios en blanco');
+            } else if (/[^a-zA-Z0-9]/.test(valor)) {
+                mostrarError('add-username', 'El usuario no puede tener caracteres especiales');
+            } else if (valor.length < 6) {
+                mostrarError('add-username', 'El usuario debe tener mínimo 6 caracteres');
+            } else {
+                fetch(`../../mvc/controllers/administrator/verificar_usuario.php?username=${valor}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.exists) {
+                            mostrarError('add-username', 'El nombre de usuario ya existe');
+                        } else {
+                            ocultarError('add-username');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al verificar el nombre de usuario:', error);
+                        mostrarPopupError('Error al verificar el nombre de usuario'); // Mostrar el mensaje de error en el pop-up
+                    });
+            }
+            break;
+        case 'nombre':
+            if (!valor) {
+                mostrarError('add-nombre', 'El nombre no puede estar vacío');
+            } else if (/\s/.test(valor)) {
+                mostrarError('add-nombre', 'El nombre no puede tener espacios en blanco');
+            } else if (/\d/.test(valor)) {
+                mostrarError('add-nombre', 'El nombre no puede contener números');
+            } else if (/[^a-zA-Z]/.test(valor)) {
+                mostrarError('add-nombre', 'El nombre no puede tener caracteres especiales');
+            } else {
+                ocultarError('add-nombre');
+            }
+            break;
+        case 'apellido':
+            if (!valor) {
+                mostrarError('add-apellido', 'El apellido no puede estar vacío');
+            } else if (/\s/.test(valor)) {
+                mostrarError('add-apellido', 'El apellido no puede tener espacios en blanco');
+            } else if (/\d/.test(valor)) {
+                mostrarError('add-apellido', 'El apellido no puede contener números');
+            } else if (/[^a-zA-Z]/.test(valor)) {
+                mostrarError('add-apellido', 'El apellido no puede tener caracteres especiales');
+            } else {
+                ocultarError('add-apellido');
+            }
+            break;
+        case 'dni':
+            if (!valor) {
+                mostrarError('add-dni', 'El DNI no puede estar vacío');
+            } else if (/\s/.test(valor)) {
+                mostrarError('add-dni', 'El DNI no puede tener espacios');
+            } else if (!/^\d{8}[A-Z]$/.test(valor)) {
+                mostrarError('add-dni', 'El DNI debe contener 8 números y 1 letra mayúscula');
+            } else {
+                ocultarError('add-dni');
+            }
+            break;
+        case 'correo':
+            if (!valor) {
+                mostrarError('add-correo', 'El correo no puede estar vacío');
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor)) {
+                mostrarError('add-correo', 'Escriba correctamente el correo');
+            } else {
+                ocultarError('add-correo');
+            }
+            break;
+        case 'contrasena':
+            if (!valor) {
+                mostrarError('add-contrasena', 'La contraseña no puede estar vacía');
+            } else if (/\s/.test(valor)) {
+                mostrarError('add-contrasena', 'La contraseña no puede tener espacios');
+            } else if (valor.length < 6) {
+                mostrarError('add-contrasena', 'La contraseña debe tener 6 caracteres');
+            } else if (!/\d/.test(valor)) {
+                mostrarError('add-contrasena', 'La contraseña debe contener 1 número');
+            } else if (!/[A-Z]/.test(valor)) {
+                mostrarError('add-contrasena', 'La contraseña debe contener 1 letra mayúscula');
+            } else if (!/[a-z]/.test(valor)) {
+                mostrarError('add-contrasena', 'La contraseña debe contener 1 letra minúscula');
+            } else {
+                ocultarError('add-contrasena');
+            }
+            break;
+        case 'telefono':
+            if (!valor) {
+                mostrarError('add-telefono', 'El teléfono no puede estar vacío');
+            } else if (!/^\d{9}$/.test(valor)) {
+                mostrarError('add-telefono', 'El teléfono debe tener 9 dígitos');
+            } else {
+                ocultarError('add-telefono');
+            }
+            break;
+    }
+}
+
+// Función para validar todo el formulario
+function validarFormularioAddMonitor() {
+    const campos = ['username', 'nombre', 'apellido', 'dni', 'telefono', 'correo', 'contrasena'];
+    let formularioValido = true;
+
+    campos.forEach(campo => {
+        validarCampoAddMonitor(campo);
+        const errorElement = document.getElementById(`${campo}-error`);
+        if (errorElement && errorElement.textContent !== '') {
+            formularioValido = false;
+        }
+    });
+
+    return formularioValido;
+}
+
+// Función para añadir un monitor
+function anadirMonitor(event) {
+    event.preventDefault();
+
+    if (!validarFormularioAddMonitor()) {
+        mostrarErrorGeneral('Complete todos los campos correctamente');
+        return;
+    }
+
+    const formAddMonitor = document.getElementById('form-add-monitor');
+    const formData = new FormData(formAddMonitor);
+    const data = {
+        username: formData.get('username'),
+        nombre: formData.get('nombre'),
+        apellido: formData.get('apellido'),
+        dni: formData.get('dni'),
+        telefono: formData.get('telefono'),
+        correo: formData.get('correo'),
+        contrasena: formData.get('contrasena')
+    };
+
+    fetch('../../mvc/controllers/administrator/anadir_monitor.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            mostrarPopupExito('Monitor añadido correctamente');
+            mntrsGrpObtenerMonitores(); // Actualizar la tabla de monitores
+            document.querySelector('.modal-overlay-add-monitor').classList.remove('active');
+            limpiarFormularioAddMonitor(); // Limpiar el formulario después de añadir el monitor
+        } else {
+            mostrarPopupError(data.message); // Mostrar el mensaje de error en el pop-up
+        }
+    })
+    .catch(error => {
+        console.error('Error al añadir el monitor:', error);
+        mostrarPopupError('Error al añadir el monitor'); // Mostrar un mensaje de error genérico en el pop-up
+    });
+}
+
+// Función para mostrar mensaje de error general
+function mostrarErrorGeneral(mensaje) {
+    const errorGeneralElement = document.getElementById('error-general');
+    if (errorGeneralElement) {
+        errorGeneralElement.textContent = mensaje;
+        errorGeneralElement.style.display = 'block';
+    }
+}
+
+// Añadir eventos blur a los campos del formulario
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('add-username').addEventListener('blur', () => validarCampoAddMonitor('username'));
+    document.getElementById('add-nombre').addEventListener('blur', () => validarCampoAddMonitor('nombre'));
+    document.getElementById('add-apellido').addEventListener('blur', () => validarCampoAddMonitor('apellido'));
+    document.getElementById('add-dni').addEventListener('blur', () => validarCampoAddMonitor('dni'));
+    document.getElementById('add-correo').addEventListener('blur', () => validarCampoAddMonitor('correo'));
+    document.getElementById('add-contrasena').addEventListener('blur', () => validarCampoAddMonitor('contrasena'));
+    document.getElementById('add-telefono').addEventListener('blur', () => validarCampoAddMonitor('telefono'));
+
+    // Añadir evento al formulario de añadir monitor
+    document.getElementById('form-add-monitor').addEventListener('submit', anadirMonitor);
 });
 
