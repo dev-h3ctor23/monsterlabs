@@ -89,7 +89,96 @@
             </div>
         </section>
         
-        <section id="actividades-content" class="content-section" style="display: none;">Contenido de Actividades</section>
+        <section id="actividades-content" class="content-section" style="display: none;">
+            <div class="grid-container-actividades-full-height">
+                <!-- Tabla de Actividades -->
+                <div class="grid-item-actividades-full-height">
+                    <h2>Actividades</h2>
+                    <table class="full-height-table-actividades">
+                        <tbody id="actvt-tbody">
+                            <!-- Aquí se llenarán los datos de las actividades -->
+                        </tbody>
+                    </table>
+                    <button id="add-activity-btn" class="activity-section-btn">Añadir Actividad</button>
+                </div>
+                <!-- Tabla de Cronograma -->
+                <div class="grid-item-actividades-full-height">
+                    <h2>Cronograma</h2>
+                    <table class="full-height-table-cronograma">
+                        <tbody>
+                            <!-- Aquí se llenarán los datos del cronograma -->
+                        </tbody>
+                    </table>
+                    <button id="add-schedule-btn" class="activity-section-btn">Añadir Cronograma</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal para añadir actividad -->
+        <div id="add-activity-modal" class="modal-overlay">
+            <div class="modal">
+                <h2>Añadir Actividad</h2>
+                <div class="form-group">
+                    <label for="activity-name">Nombre de la Actividad</label>
+                    <input type="text" id="activity-name" class="form-control">
+                    <span id="activity-name-error" class="error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="activity-description">Descripción</label>
+                    <textarea id="activity-description" class="form-control"></textarea>
+                    <span id="activity-description-error" class="error-message"></span>
+                </div>
+                <div class="btn-container">
+                    <button id="save-activity-btn" class="btn-save">Guardar</button>
+                    <button id="close-activity-modal-btn" class="btn-close">Cerrar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para confirmar eliminación de actividad -->
+        <div id="delete-activity-modal" class="modal-overlay">
+            <div class="modal">
+                <h2>Confirmar Eliminación</h2>
+                <p>¿Estás seguro de que deseas eliminar esta actividad?</p>
+                <div class="btn-container">
+                    <button id="confirm-delete-activity-btn" class="btn-save">Eliminar</button>
+                    <button id="close-delete-activity-modal-btn" class="btn-close">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para mostrar información de la actividad -->
+        <div id="info-activity-modal" class="modal-overlay">
+            <div class="modal">
+                <h2>Información de la Actividad</h2>
+                <p id="info-activity-name"><strong>Nombre:</strong> <span></span></p>
+                <p id="info-activity-description"><strong>Descripción:</strong> <span></span></p>
+                <div class="btn-container">
+                    <button id="close-info-activity-modal-btn" class="btn-close">Cerrar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para editar actividad -->
+        <div id="edit-activity-modal" class="modal-overlay">
+            <div class="modal">
+                <h2>Editar Actividad</h2>
+                <div class="form-group">
+                    <label for="edit-activity-name">Nombre de la Actividad</label>
+                    <input type="text" id="edit-activity-name" class="form-control">
+                    <span id="edit-activity-name-error" class="error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="edit-activity-description">Descripción</label>
+                    <textarea id="edit-activity-description" class="form-control"></textarea>
+                    <span id="edit-activity-description-error" class="error-message"></span>
+                </div>
+                <div class="btn-container">
+                    <button id="save-edit-activity-btn" class="btn-save">Guardar</button>
+                    <button id="close-edit-activity-modal-btn" class="btn-close">Cerrar</button>
+                </div>
+            </div>
+        </div>
 
         <section id="grupos-content" class="content-section" style="display: none;">
             <div class="grid-container-grupos-full-height">
@@ -145,6 +234,21 @@
                             <!-- Aquí se llenarán los datos de los niños inactivos -->
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="cronograma-content" class="content-section" style="display: none;">
+            <div class="grid-container-cronograma-full-height">
+                <!-- Tabla de Cronograma -->
+                <div class="grid-item-cronograma-full-height">
+                    <h2>Cronograma</h2>
+                    <table class="full-height-table-cronograma">
+                        <tbody id="cronograma-tbody" class="crngrm-tbody">
+                            <!-- Aquí se llenarán los datos del cronograma -->
+                        </tbody>
+                    </table>
+                    <button id="add-cronograma-btn" class="cronograma-section-btn">Añadir Cronograma</button>
                 </div>
             </div>
         </section>

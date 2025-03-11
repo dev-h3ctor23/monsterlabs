@@ -1965,3 +1965,294 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('form-add-monitor').addEventListener('submit', anadirMonitor);
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    cargarActividades();
+});
+
+function cargarActividades() {
+    fetch('../../mvc/controllers/administrator/get_actividades.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Error:', data.error);
+                return;
+            }
+            const tbody = document.getElementById('actvt-tbody');
+            tbody.innerHTML = ''; // Limpiar el tbody antes de llenarlo
+            data.forEach(actividad => {
+                const tr = document.createElement('tr');
+                tr.id = `actvt-row-${actividad.id_actividad}`;
+                const td = document.createElement('td');
+                td.innerHTML = `
+                    <div>${actividad.nombre_actividad}</div>
+                    <div class="actvt-btn-container">
+                        <button class="actvt-btn-editar" id="actvt-editar-${actividad.id_actividad}">Editar</button>
+                        <button class="actvt-btn-info" id="actvt-info-${actividad.id_actividad}">Información</button>
+                        <button class="actvt-btn-eliminar" id="actvt-eliminar-${actividad.id_actividad}">Eliminar</button>
+                    </div>
+                `;
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+
+                document.getElementById(`actvt-eliminar-${actividad.id_actividad}`).addEventListener('click', function() {
+                    activityToDelete = actividad.id_actividad;
+                    deleteActivityModal.classList.add('active');
+                });
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    cargarActividades();
+
+    const addActivityBtn = document.getElementById('add-activity-btn');
+    const addActivityModal = document.getElementById('add-activity-modal');
+    const closeActivityModalBtn = document.getElementById('close-activity-modal-btn');
+    const saveActivityBtn = document.getElementById('save-activity-btn');
+    const deleteActivityModal = document.getElementById('delete-activity-modal');
+    const confirmDeleteActivityBtn = document.getElementById('confirm-delete-activity-btn');
+    const closeDeleteActivityModalBtn = document.getElementById('close-delete-activity-modal-btn');
+    const infoActivityModal = document.getElementById('info-activity-modal');
+    const closeInfoActivityModalBtn = document.getElementById('close-info-activity-modal-btn');
+    const editActivityModal = document.getElementById('edit-activity-modal');
+    const closeEditActivityModalBtn = document.getElementById('close-edit-activity-modal-btn');
+    const saveEditActivityBtn = document.getElementById('save-edit-activity-btn');
+
+    let activityToDelete = null;
+    let activityToEdit = null;
+
+    addActivityBtn.addEventListener('click', function() {
+        addActivityModal.classList.add('active');
+    });
+
+    closeActivityModalBtn.addEventListener('click', function() {
+        addActivityModal.classList.remove('active');
+    });
+
+    closeDeleteActivityModalBtn.addEventListener('click', function() {
+        deleteActivityModal.classList.remove('active');
+    });
+
+    closeInfoActivityModalBtn.addEventListener('click', function() {
+        infoActivityModal.classList.remove('active');
+    });
+
+    closeEditActivityModalBtn.addEventListener('click', function() {
+        editActivityModal.classList.remove('active');
+    });
+
+    saveActivityBtn.addEventListener('click', function() {
+        const activityName = document.getElementById('activity-name').value.trim();
+        const activityDescription = document.getElementById('activity-description').value.trim();
+        const activityNameError = document.getElementById('activity-name-error');
+        const activityDescriptionError = document.getElementById('activity-description-error');
+
+        let valid = true;
+
+        if (activityName === '') {
+            activityNameError.textContent = 'El nombre de la actividad es obligatorio';
+            activityNameError.style.display = 'block';
+            valid = false;
+        } else {
+            activityNameError.style.display = 'none';
+        }
+
+        if (activityDescription === '') {
+            activityDescriptionError.textContent = 'La descripción es obligatoria';
+            activityDescriptionError.style.display = 'block';
+            valid = false;
+        } else {
+            activityDescriptionError.style.display = 'none';
+        }
+
+        if (valid) {
+            fetch('../../mvc/controllers/administrator/add_actividad.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nombre_actividad: activityName,
+                    descripcion: activityDescription
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const tbody = document.getElementById('actvt-tbody');
+                    const tr = document.createElement('tr');
+                    tr.id = `actvt-row-${data.id_actividad}`;
+                    const td = document.createElement('td');
+                    td.innerHTML = `
+                        <div>${activityName}</div>
+                        <div class="actvt-btn-container">
+                            <button class="actvt-btn-editar" id="actvt-editar-${data.id_actividad}">Editar</button>
+                            <button class="actvt-btn-info" id="actvt-info-${data.id_actividad}">Información</button>
+                            <button class="actvt-btn-eliminar" id="actvt-eliminar-${data.id_actividad}">Eliminar</button>
+                        </div>
+                    `;
+                    tr.appendChild(td);
+                    tbody.appendChild(tr);
+                    addActivityModal.classList.remove('active');
+
+                    // Añadir evento de clic para el botón de eliminar
+                    document.getElementById(`actvt-eliminar-${data.id_actividad}`).addEventListener('click', function() {
+                        activityToDelete = data.id_actividad;
+                        deleteActivityModal.classList.add('active');
+                    });
+
+                    // Añadir evento de clic para el botón de información
+                    document.getElementById(`actvt-info-${data.id_actividad}`).addEventListener('click', function() {
+                        document.getElementById('info-activity-name').querySelector('span').textContent = activityName;
+                        document.getElementById('info-activity-description').querySelector('span').textContent = activityDescription;
+                        infoActivityModal.classList.add('active');
+                    });
+
+                    // Añadir evento de clic para el botón de editar
+                    document.getElementById(`actvt-editar-${data.id_actividad}`).addEventListener('click', function() {
+                        document.getElementById('edit-activity-name').value = activityName;
+                        document.getElementById('edit-activity-description').value = activityDescription;
+                        activityToEdit = data.id_actividad;
+                        editActivityModal.classList.add('active');
+                    });
+                } else {
+                    console.error('Error:', data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+
+    saveEditActivityBtn.addEventListener('click', function() {
+        const activityName = document.getElementById('edit-activity-name').value.trim();
+        const activityDescription = document.getElementById('edit-activity-description').value.trim();
+        const activityNameError = document.getElementById('edit-activity-name-error');
+        const activityDescriptionError = document.getElementById('edit-activity-description-error');
+
+        let valid = true;
+
+        if (activityName === '') {
+            activityNameError.textContent = 'El nombre de la actividad es obligatorio';
+            activityNameError.style.display = 'block';
+            valid = false;
+        } else {
+            activityNameError.style.display = 'none';
+        }
+
+        if (activityDescription === '') {
+            activityDescriptionError.textContent = 'La descripción es obligatoria';
+            activityDescriptionError.style.display = 'block';
+            valid = false;
+        } else {
+            activityDescriptionError.style.display = 'none';
+        }
+
+        if (valid) {
+            fetch('../../mvc/controllers/administrator/update_actividad.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id_actividad: activityToEdit,
+                    nombre_actividad: activityName,
+                    descripcion: activityDescription
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const row = document.getElementById(`actvt-row-${activityToEdit}`);
+                    row.querySelector('div').textContent = activityName;
+                    row.querySelector('.actvt-btn-info').addEventListener('click', function() {
+                        document.getElementById('info-activity-name').querySelector('span').textContent = activityName;
+                        document.getElementById('info-activity-description').querySelector('span').textContent = activityDescription;
+                        infoActivityModal.classList.add('active');
+                    });
+                    row.querySelector('.actvt-btn-editar').addEventListener('click', function() {
+                        document.getElementById('edit-activity-name').value = activityName;
+                        document.getElementById('edit-activity-description').value = activityDescription;
+                        activityToEdit = activityToEdit;
+                        editActivityModal.classList.add('active');
+                    });
+                    editActivityModal.classList.remove('active');
+                } else {
+                    console.error('Error:', data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+
+    confirmDeleteActivityBtn.addEventListener('click', function() {
+        if (activityToDelete) {
+            fetch('../../mvc/controllers/administrator/delete_actividad.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id_actividad: activityToDelete })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById(`actvt-row-${activityToDelete}`).remove();
+                    deleteActivityModal.classList.remove('active');
+                } else {
+                    console.error('Error:', data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+
+    function cargarActividades() {
+        fetch('../../mvc/controllers/administrator/get_actividades.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Error:', data.error);
+                    return;
+                }
+                const tbody = document.getElementById('actvt-tbody');
+                tbody.innerHTML = ''; // Limpiar el tbody antes de llenarlo
+                data.forEach(actividad => {
+                    const tr = document.createElement('tr');
+                    tr.id = `actvt-row-${actividad.id_actividad}`;
+                    const td = document.createElement('td');
+                    td.innerHTML = `
+                        <div>${actividad.nombre_actividad}</div>
+                        <div class="actvt-btn-container">
+                            <button class="actvt-btn-editar" id="actvt-editar-${actividad.id_actividad}">Editar</button>
+                            <button class="actvt-btn-info" id="actvt-info-${actividad.id_actividad}">Información</button>
+                            <button class="actvt-btn-eliminar" id="actvt-eliminar-${actividad.id_actividad}">Eliminar</button>
+                        </div>
+                    `;
+                    tr.appendChild(td);
+                    tbody.appendChild(tr);
+
+                    document.getElementById(`actvt-eliminar-${actividad.id_actividad}`).addEventListener('click', function() {
+                        activityToDelete = actividad.id_actividad;
+                        deleteActivityModal.classList.add('active');
+                    });
+
+                    document.getElementById(`actvt-info-${actividad.id_actividad}`).addEventListener('click', function() {
+                        document.getElementById('info-activity-name').querySelector('span').textContent = actividad.nombre_actividad;
+                        document.getElementById('info-activity-description').querySelector('span').textContent = actividad.descripcion;
+                        infoActivityModal.classList.add('active');
+                    });
+
+                    document.getElementById(`actvt-editar-${actividad.id_actividad}`).addEventListener('click', function() {
+                        document.getElementById('edit-activity-name').value = actividad.nombre_actividad;
+                        document.getElementById('edit-activity-description').value = actividad.descripcion;
+                        activityToEdit = actividad.id_actividad;
+                        editActivityModal.classList.add('active');
+                    });
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+});

@@ -1956,3 +1956,289 @@ html, body {
 .popup-error.active {
     display: block;
 }
+
+.grid-container-actividades-full-height {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    height: 80vh; /* Ocupa el 80% de la altura de la ventana */
+}
+
+.grid-item-actividades-full-height {
+    background-color: #f0f0f0;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ocupa todo el alto del contenedor */
+}
+
+.grid-item-actividades-full-height h2 {
+    margin-bottom: 20px;
+}
+
+.full-height-table-actividades,
+.full-height-table-cronograma {
+    width: 100%;
+    border-collapse: collapse;
+    flex-grow: 1; /* Permite que la tabla crezca para ocupar el espacio disponible */
+}
+
+.full-height-table-actividades tbody,
+.full-height-table-cronograma tbody {
+    display: block;
+    height: 600px; /* Altura fija para el contenedor de la tabla */
+    overflow-y: auto; /* Añadir scroll vertical */
+}
+
+.full-height-table-actividades tbody::-webkit-scrollbar,
+.full-height-table-cronograma tbody::-webkit-scrollbar {
+    width: 12px;
+}
+
+.full-height-table-actividades tbody::-webkit-scrollbar-track,
+.full-height-table-cronograma tbody::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 8px;
+}
+
+.full-height-table-actividades tbody::-webkit-scrollbar-thumb,
+.full-height-table-cronograma tbody::-webkit-scrollbar-thumb {
+    background-color: #F89728; /* Color del scrollbar */
+    border-radius: 8px;
+    border: 3px solid #f1f1f1;
+}
+
+.full-height-table-actividades tbody::-webkit-scrollbar-thumb:hover,
+.full-height-table-cronograma tbody::-webkit-scrollbar-thumb:hover {
+    background-color: #e07a1f;
+}
+
+.full-height-table-actividades tbody tr,
+.full-height-table-cronograma tbody tr {
+    display: flex;
+    flex-direction: column; /* Alinear elementos en columna */
+    background-color: #E0E3E6;
+    border-radius: 8px;
+    margin-bottom: 10px; /* Espacio entre las filas */
+    align-items: center;
+    justify-content: center;
+    padding: 10px; /* Añadir padding para un mejor espaciado */
+}
+
+.full-height-table-actividades tbody tr td,
+.full-height-table-cronograma tbody tr td {
+    border: none; /* Eliminar bordes de las celdas */
+    padding: 10px; /* Añadir padding a las celdas */
+    width: 100%; /* Asegurar que el td ocupe todo el ancho */
+    text-align: center; /* Centrar el texto */
+    display: flex;
+    flex-direction: column; /* Alinear elementos en columna */
+    align-items: center; /* Centrar elementos horizontalmente */
+    justify-content: center; /* Centrar elementos verticalmente */
+}
+
+.actvt-btn-container {
+    display: flex;
+    gap: 10px; /* Espacio entre los botones */
+    margin-top: 10px; /* Espacio entre el nombre y los botones */
+}
+
+.actvt-btn-editar {
+    background-color: #56B848;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.actvt-btn-editar:hover {
+    background-color: #4ca03e;
+}
+
+.actvt-btn-info {
+    background-color: #F89728;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.actvt-btn-info:hover {
+    background-color: #e07a1f;
+}
+
+.actvt-btn-eliminar {
+    background-color: #EF5948;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.actvt-btn-eliminar:hover {
+    background-color: #d94a3e;
+}
+
+.activity-section-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #56B848; /* Color del botón */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.activity-section-btn:hover {
+    background-color: #4ca03e; /* Color del botón al pasar el ratón */
+}
+
+.activity-section-btn:active {
+    background-color: #3e8232; /* Color del botón al hacer clic */
+}
+
+.modal-overlay {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    display: none;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-save, .btn-close {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-save {
+    background-color: #56B848;
+    color: white;
+}
+
+.btn-close {
+    background-color: #EF5948;
+    color: white;
+}
+
+.modal-overlay.active {
+    display: flex; /* Mostrar el modal cuando se active */
+}
+
+.full-height-table-cronograma tbody tr.crngrm-row {
+    display: flex;
+    flex-direction: column; /* Alinear elementos en columna */
+    background-color: #E0E3E6;
+    border-radius: 8px;
+    margin-bottom: 10px; /* Espacio entre las filas */
+    align-items: center;
+    justify-content: center;
+    padding: 10px; /* Añadir padding para un mejor espaciado */
+}
+
+.full-height-table-cronograma tbody tr.crngrm-row td {
+    border: none; /* Eliminar bordes de las celdas */
+    padding: 10px; /* Añadir padding a las celdas */
+    width: 100%; /* Asegurar que el td ocupe todo el ancho */
+    text-align: center; /* Centrar el texto */
+    display: flex;
+    flex-direction: column; /* Alinear elementos en columna */
+    align-items: center; /* Centrar elementos horizontalmente */
+    justify-content: center; /* Centrar elementos verticalmente */
+}
+
+.crngrm-btn-container {
+    display: flex;
+    gap: 10px; /* Espacio entre los botones */
+    margin-top: 10px; /* Espacio entre el nombre y los botones */
+}
+
+.crngrm-btn-editar {
+    background-color: #56B848;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.crngrm-btn-editar:hover {
+    background-color: #4ca03e;
+}
+
+.crngrm-btn-info {
+    background-color: #F89728;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.crngrm-btn-info:hover {
+    background-color: #e07a1f;
+}
+
+.crngrm-btn-eliminar {
+    background-color: #EF5948;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.crngrm-btn-eliminar:hover {
+    background-color: #d94a3e;
+}
