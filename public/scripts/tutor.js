@@ -52,7 +52,6 @@ fetch('../../components/sidebar-tutor.html')
 
 // Función para eliminar un hijo
 function deleteChild(childId) {
-  if (confirm("¿Estás seguro de eliminar este hijo?")) {
     const deleteData = {
       id_nino: childId,
       action: "deleteChild"
@@ -76,7 +75,6 @@ function deleteChild(childId) {
     .catch(error => {
       console.error("Error:", error);
     });
-  }
 }
 
 
@@ -137,8 +135,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const childId = row.getAttribute('data-child-id');
         abrirModalEdicion(childId, row);
       }
-    });
-  }
+      if (target.classList.contains('btnEliminarHijo')) {
+        e.preventDefault();
+        const row = target.closest('tr[data-child-id]');
+        if (!row) return;
+        const childId = row.getAttribute('data-child-id');
+        deleteChild(childId);
+      }
+    });
+  }
+
   
   // Cerrar el modal al hacer clic en la cruz
   document.getElementById('btn-cerrar-modal').addEventListener('click', function() {
